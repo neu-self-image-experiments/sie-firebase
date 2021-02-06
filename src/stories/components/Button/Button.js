@@ -4,13 +4,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
- * Add two numbers.
+ * Component for button element.
+ *
+ * @component
  * @param {string} modifierClasses Class modifiers of the component.
  * @param {string} url URL of the component.
  * @param {string} text Text of the component.
- * @return null.
+ * @return {object} (
+ *   <Button modifierClasses={modifierClasses} url={url} text={text} />
+ * )
  */
-/* eslint-disable */
 export const Button = ({ modifierClasses, url, text }) => {
     return (
         <a
@@ -23,12 +26,20 @@ export const Button = ({ modifierClasses, url, text }) => {
 };
 
 Button.propTypes = {
+    /**
+   * Button's modifier classes
+   */
     modifierClasses: PropTypes.string,
+    /**
+   * Button's url
+   */
     url: PropTypes.string.isRequired,
+    /**
+   * Button's text
+   */
     text: PropTypes.string.isRequired,
 };
 
 Button.defaultProps = {
-    onClick: undefined,
     modifierClasses: '',
 };

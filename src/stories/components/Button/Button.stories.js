@@ -11,6 +11,7 @@ export default {
 
 const Template = (args) => <Button {...args} />;
 
+// Primary button
 export const Primary = Template.bind({});
 Primary.args = {
     modifierClasses: '',
@@ -18,6 +19,7 @@ Primary.args = {
     text: 'Primary Button',
 };
 
+// Secondary button
 export const Secondary = Template.bind({});
 Secondary.args = {
     modifierClasses: 'button--secondary',
@@ -25,6 +27,7 @@ Secondary.args = {
     text: 'Secondary Button',
 };
 
+// Tertiary button
 export const Tertiary = Template.bind({});
 Tertiary.args = {
     modifierClasses: 'button--tertiary',
