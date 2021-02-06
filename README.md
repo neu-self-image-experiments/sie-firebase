@@ -16,7 +16,7 @@ to install all dependecies. Once installation has completed, run
 ```
 npm run storybook
 ```
-to initiate Storybook. To preview your work, go to [http://localhost:6006](http://localhost:6006); here, you will find a preview of the entire interface. Storybook allows you to view and test each component, parameter and responsive behavior. To read more about it, checkout Storybook's documentation [here](https://storybook.js.org/docs/react/get-started/introduction).
+to initiate Storybook. To see your work, go to [http://localhost:6006](http://localhost:6006); here, you will find a preview of the entire interface. Storybook allows you to view and test each component, parameter and responsive behavior. To read more about it, you can check out Storybook's documentation [here](https://storybook.js.org/docs/react/get-started/introduction).
 
 After running the commands above, you should be all set to start working.
 
