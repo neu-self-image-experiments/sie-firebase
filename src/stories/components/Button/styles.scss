@@ -1,0 +1,78 @@
+@import '../../scss/variables.scss';
+
+// @file
+// Button
+
+.button {
+  background-color: $black;
+  border-bottom-right-radius: 50px;
+  border-top-left-radius: 50px;
+  color: $white;
+  display: inline-block;
+  font-family: $header-font-family;
+  font-size: $font-size-sm;
+  font-weight: 700;
+  padding: $spacing-2 $spacing-6;
+  text-decoration: none;
+  text-transform: capitalize;
+  transition: all 0.4s cubic-bezier(0.5,0.25,0,1);
+  
+  &:visited {
+    color: $teal-light;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: $teal-dark;
+    border-radius: 0;
+    border-bottom-left-radius: 50px;
+    border-top-right-radius: 50px;
+  }
+
+  &:active {
+    color: $white;
+  }
+
+  @include bp-tablet {
+    font-size: $font-size-md;
+  }
+}
+
+// Secondary button
+.button--secondary {
+  background-color: $teal-dark;
+  
+  &:visited {
+    color: $teal-light;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: $teal;
+    color: $black;
+  }
+
+  &:active {
+    color: $white;
+  }
+}
+
+// Tertiary button
+.button--tertiary {
+  background-color: $teal;
+  color: $black;
+  
+  &:visited {
+    color: $green;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: $black;
+    color: $teal;
+  }
+
+  &:active {
+    color: $black;
+  }
+}
