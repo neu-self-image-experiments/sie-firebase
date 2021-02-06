@@ -141,3 +141,5 @@ The `PROJECT` and `#` should match the project code and Jira ticket number you a
 When your work is ready, open a PR into `master` and select __<u>at least one teammate</u>__ to review your work; if you run into conflicts, resolve them before passing your work onto someone else for review. Once your PR has been approved, it can be merge into the `master` branch and be integrated into the code base.
 
 Reviewers are expected to actually take time to inspect the reviewee's work and flag any potential issue and/or oversight included in the branch; reviewees are expected to aknowledge any feedback and make adjustments accordingly.
+
+Whenever a PR is approved, make sure you delete your branch to keep the repo clean and organized.
