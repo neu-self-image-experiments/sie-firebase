@@ -1,0 +1,8 @@
+// @file
+// Functions
+
+// Convert pixels to rems
+@function rem($size) {
+  $remSize: $size / 20px;
+  @return #{$remSize}rem;
+}

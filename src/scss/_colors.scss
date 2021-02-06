@@ -1,0 +1,18 @@
+// @file
+// Colors
+
+$black: #212121;
+$white: #fffff7;
+$gray-1: #ececec;
+$gray-2: #F6F6F6;
+
+// Brand colors
+$teal: #30E3CA;
+$teal-dark: #008489;
+$teal-light: #E4F9F5;
+$green: #40514E;
+
+// Gradients
+$gradient-teal: linear-gradient(to top, #30E3CA, $teal);
+$gradient-teal-light: linear-gradient(to top, #DBF0EC, $teal-light);
+$gradient-teal-dark: linear-gradient(to top, #00676B, $teal-dark);
