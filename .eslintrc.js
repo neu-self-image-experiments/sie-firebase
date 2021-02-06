@@ -1,4 +1,12 @@
 module.exports = {
+    extends: ['google', 'plugin:react/recommended'],
+    parserOptions: {
+        sourceType: 'module',
+        ecmaFeatures: {
+            jsx: true,
+        },
+        ecmaVersion: 2020,
+    },
     plugins: ['react'],
     rules: {
         'indent': ['error', 4],
