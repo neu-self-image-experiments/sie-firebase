@@ -1,6 +1,7 @@
 # Self-Image Experiment
 [![Build Status](https://travis-ci.com/quanganhhoang/sie-firebase.svg?branch=master)](https://travis-ci.com/quanganhhoang/sie-firebase)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 1. __Owner__: [@quanganhhoang](https://github.com/quanganhhoang)
 2. __Contributors__: [@alecherryy](https://github.com/alecherryy), [@venjason](https://github.com/venjason), [@stenizwahyudi](https://github.com/stenizwahyudi), [@fernandowinfield](https://github.com/fernandowinfield), [@cmutuc25](https://github.com/cmutuc25), [@denglish7](https://github.com/denglish7), [@harmanwho](https://github.com/harmanwho)
 
