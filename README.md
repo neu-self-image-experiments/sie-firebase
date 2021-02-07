@@ -148,7 +148,7 @@ Reviewers are expected to actually take time to inspect the reviewee's work and 
 Whenever a PR is approved, make sure you delete your branch to keep the repo clean and organized.
 
 ## Testing
-Jest will be used for unit testing components. Tests are located in the same folder of the correponding component.
+[Jest](https://jestjs.io/docs/en/getting-started) along with [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) will be used for unit testing components. Tests are located in the same folder of the correponding component.
 
 Test files end with `.test.js`.
 
@@ -165,4 +165,8 @@ By default, tests that were changed since the last commit will be ran. Running s
 ```
 npm test -- App.test.js
 npm test -- src/App.test.js
+```
+Global setup for tests can be found in:
+```
+src/setupTests.js
 ```
