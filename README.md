@@ -146,3 +146,27 @@ When your work is ready, open a PR into `master` and select __<u>at least one te
 Reviewers are expected to actually take time to inspect the reviewee's work and flag any potential issue and/or oversight included in the branch; reviewees are expected to aknowledge any feedback and make adjustments accordingly.
 
 Whenever a PR is approved, make sure you delete your branch to keep the repo clean and organized.
+
+## Testing
+[Jest](https://jestjs.io/docs/en/getting-started) along with [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) will be used for unit testing components. Tests are located in the same folder of the correponding component.
+
+Test files end with `.test.js`.
+
+```
+src/
+    App.js
+    App.test.js
+```
+To run tests, use:
+```
+npm test
+```
+By default, tests that were changed since the last commit will be ran. Running specific tests can be achieved by writing the path to the test or by pattern matching.
+```
+npm test -- App.test.js
+npm test -- src/App.test.js
+```
+Global setup for tests can be found in:
+```
+src/setupTests.js
+```
