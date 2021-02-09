@@ -1,10 +1,10 @@
 // @file
 // Typography
 
-$base-font-size: rem(17px);
-$loose-line-height: 1.7;
-$base-line-height: 1.45;
-$tight-line-height: 1.1;
+$base-font-size: rem(16px);
+$line-height-loose: 1.7;
+$line-height-normal: 1.45;
+$line-height-tight: 1.1;
 $vertical-spacing: $base-font-size; // Used as the default spacing below most items such as paragraphs, lists, etc.
 
 // Fonts
