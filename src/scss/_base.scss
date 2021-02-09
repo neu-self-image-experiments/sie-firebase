@@ -4,7 +4,7 @@
 html {
   box-sizing: border-box;
   font-size: $base-font-size;
-  line-height: $base-line-height;
+  line-height: $line-height-normal;
   min-height: 100%;
   text-size-adjust: 100%;
 }
@@ -24,7 +24,7 @@ body {
   color: $black;
   font-weight: 700;
   hyphens: none;
-  line-height: $base-line-height;
+  line-height: $line-height-normal;
   margin: 0 0 rem($vertical-spacing);
   text-rendering: optimizeLegibility;
 
