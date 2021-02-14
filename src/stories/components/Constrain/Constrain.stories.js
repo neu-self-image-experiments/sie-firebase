@@ -37,7 +37,7 @@ Default.args = {
         quo no sanctus eloquentiam.</p></div>,
 };
 
-// Large Constrain
+// Wde Constrain
 export const Wide = Template.bind({});
 Wide.args = {
     modifierClasses: 'constrain--wide',

@@ -8,9 +8,9 @@ import PropTypes from 'prop-types';
  *
  * @component
  * @param {string} modifierClasses Class modifiers of the component.
- * @param {html} content Class modifiers of the component.
+ * @param {html} content Content of the component.
  * @return {object} (
- *   <Constrain modifierClasses={modifierClasses}/>
+ *   <Constrain modifierClasses={modifierClasses} />
  *      {content}
  *   </Constrain>
  * )
@@ -31,6 +31,9 @@ Constrain.propTypes = {
    * Constrain's modifier classes
    */
     modifierClasses: PropTypes.string,
+    /**
+   * Constrain's conttent
+   */
     content: PropTypes.string,
 };
 
