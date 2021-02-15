@@ -3,8 +3,15 @@
 // @file
 // Wizard
 
+.wizard {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: $spacing-5;
+}
+
 .wizard__controls {
   margin-top: $spacing-3;
+  text-align: right;
   
   @include bp-tablet {
     margin-top: $spacing-5;
@@ -42,11 +49,11 @@
 
     &:hover,
     &:focus {
-      background-color: $teal;
+      background-color: $black;
       border-radius: 0;
       border-bottom-left-radius: 50px;
       border-top-right-radius: 50px;
-      color: $black;
+      color: $teal;
     }
 
     &:active {

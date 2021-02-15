@@ -4,6 +4,7 @@ import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import StepWizard from 'react-step-wizard';
+import { Steps } from '../../components/Steps/Steps';
 import { Constrain } from '../../components/Constrain/Constrain';
 
 // import Nav from './nav';
@@ -43,7 +44,7 @@ export const Wizard = ({ children }) => {
             <StepWizard
                 className="wizard"
                 onStepChange={onStepChange}
-                // nav={<Nav />}
+                nav={<Steps />}
                 instance={setInstance}
             >
                 {children}

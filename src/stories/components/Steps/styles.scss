@@ -8,12 +8,9 @@ $step-size: 52px;
 .steps {
   @include list-clean;
   
-  display: grid;
   font-family: $header-font-family;
   font-size: $font-size-sm;
   font-weight: 700;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: $spacing-5;
 }
 
 .steps__item {
@@ -37,7 +34,7 @@ $step-size: 52px;
       border-radius: 3px;
       content: '';
       display: block !important;
-      height: 40px;
+      height: 46px;
       left: calc(( - 3px) / 2);
       position: absolute;
       top: 100%;
@@ -50,12 +47,27 @@ $step-size: 52px;
       height: 0;
       left: calc((100% - 3px) / 2);
       position: absolute;
+      transition: height 0.4s cubic-bezier(0.5,0.25,0,1)
     }
   }
 
   &:first-child {
     &::after {
-      height: 20px;
+      height: 23px;
+    }
+  }
+
+  &.has-been-visited {
+    &::after {
+      height: 40px;
+    }
+  }
+
+  &.is-active {
+    
+    &::after {
+      height: 23px;
+      transition-delay: 0.8s;
     }
   }
 }
@@ -77,7 +89,8 @@ $step-size: 52px;
     left: 0;
     position: absolute;
     top: 0;
-    transition: height 0.4s ease-in;
+    transition: all 0.4s cubic-bezier(0.5,0.25,0,1);
+    transition-delay: 0.4s;
     z-index: -1;
   }
   
@@ -105,11 +118,21 @@ $step-size: 52px;
       height: 52px;
     }
   }
+
+  .has-been-visited & {
+    &::before {
+      background-color: $teal-light;
+    }
+
+    &::after {
+      height: 52px;
+    }
+  }
 }
 
 .steps__label {
   line-height: 52px;
-  left: $spacing-6;
+  left: $spacing-8;
   position: absolute;
   top: 0;
   white-space: nowrap;
