@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
  *
  * @component
  * @param {string} modifierClasses Class modifiers of the component.
- * @param {html} content Content of the component.
+ * @param {node} children Class modifiers of the component.
  * @return {object} (
  *   <Constrain modifierClasses={modifierClasses} />
  *      {content}
@@ -16,12 +16,12 @@ import PropTypes from 'prop-types';
  * )
  */
 
-export const Constrain = ({ modifierClasses, content}) => {
+export const Constrain = ( { children, modifierClasses }) => {
     return (
         <div
             className={['constrain', `${modifierClasses}`].join(' ').trim()}
         >
-            {content}
+            {children}
         </div>
     );
 };
@@ -32,12 +32,12 @@ Constrain.propTypes = {
    */
     modifierClasses: PropTypes.string,
     /**
-   * Constrain's conttent
+   * Constrain's modifier classes
    */
-    content: PropTypes.string,
+    children: PropTypes.node,
 };
 
 Constrain.defaultProps = {
     modifierClasses: '',
-    content: '',
 };
+
