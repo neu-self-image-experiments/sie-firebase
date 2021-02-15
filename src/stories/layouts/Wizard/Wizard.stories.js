@@ -56,3 +56,13 @@ Default.args = {
         'Label 4',
     ],
 };
+
+// Wizard Warning
+export const Warning = Template.bind({});
+Warning.args = {
+    labels: [
+        'Label 1',
+        'Label 2',
+        'Label 3',
+    ],
+};

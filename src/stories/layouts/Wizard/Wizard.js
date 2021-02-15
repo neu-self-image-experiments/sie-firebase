@@ -35,20 +35,32 @@ export const Wizard = ({children, labels}) => {
 
     const { SW } = state;
 
+    function renderWizard() {
+        return (
+            <Constrain>
+                <StepWizard
+                    className="wizard"
+                    onStepChange={onStepChange}
+                    nav={
+                        <Steps labels={labels} />
+                    }
+                    instance={setInstance}
+                >
+                    {children}
+                </StepWizard>
+                { SW && <Controls SW={SW} /> }
+            </Constrain>
+        );
+    }
     return (
-        <Constrain>
-            <StepWizard
-                className="wizard"
-                onStepChange={onStepChange}
-                nav={
-                    <Steps labels={labels} />
-                }
-                instance={setInstance}
-            >
-                {children}
-            </StepWizard>
-            { SW && <Controls SW={SW} /> }
-        </Constrain>
+        <div>
+            { children.length === labels.length ?
+                renderWizard() :
+                <Constrain modifierClasses="constrain--small">
+                    <h3>Something went wrong</h3>
+                </Constrain>
+            }
+        </div>
     );
 };
 
