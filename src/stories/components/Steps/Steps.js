@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
- * Component for progress element.
+ * Component for step prgress element.
  *
  * @component
  * @param {number} props of the component.
@@ -14,7 +14,6 @@ import PropTypes from 'prop-types';
  *      labels={labels} />
  * )
  */
-/* eslint react/prop-types: 0 */
 
 export const Steps = (props) => {
     const steps = [];

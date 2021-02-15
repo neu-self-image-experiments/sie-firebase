@@ -7,29 +7,25 @@ import StepWizard from 'react-step-wizard';
 import { Steps } from '../../components/Steps/Steps';
 import { Constrain } from '../../components/Constrain/Constrain';
 
-// import Nav from './nav';
-
-import './styles.scss';
-
 /**
- * A basic demonstration of how to use the step wizard
+ * Component for Wizard layout element.
  * @param {node} children of the component
+ * @param {array} labels of steps
  * @return {object} (
- *   <Wizard>
+ *   <Wizard labels={labels}>
  *       {children}
  *   <Wizard />
  * )
  */
 /* eslint react/prop-types: 0 */
-export const Wizard = ({ children, labels}) => {
+export const Wizard = ({children, labels}) => {
     const [state, updateState] = useState({
         form: {},
-        // demo: true, // uncomment to see more
     });
 
     // Do something on step change
     const onStepChange = (stats) => {
-        // console.log(stats);
+        // might need later on
     };
 
     const setInstance = (SW) => updateState({
@@ -57,10 +53,10 @@ export const Wizard = ({ children, labels}) => {
 };
 
 /**
- * Component for loader element.
+ * Fragment for Wizard's controls.
  *
  * @return {object} (
- *   <Loader text={text} />
+ *   <Fragment SW={SW} />
  * )
  */
 const Controls = ({ SW }) => (
@@ -78,13 +74,13 @@ const Controls = ({ SW }) => (
 
 Wizard.propTypes = {
     /**
-   * Constrain's modifier classes
+   * Wizards's children
    */
     children: PropTypes.node,
     /**
      * Wizard's labels
      */
-    children: PropTypes.array,
+    labels: PropTypes.array,
 };
 
 Wizard.defaultProps = {

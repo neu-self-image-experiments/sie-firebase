@@ -4,9 +4,6 @@ module.exports = {
     "../src/stories/components/**/*.stories.@(js|jsx|ts|tsx)",
     "../src/stories/layouts/**/*.stories.@(js|jsx|ts|tsx)",
   ],
-  "styles": [
-    "../src/App.scss"
-  ],
   "addons": [
     "@storybook/addon-links",
     "@storybook/addon-essentials",

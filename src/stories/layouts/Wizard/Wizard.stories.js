@@ -1,5 +1,6 @@
-import React from 'react';
 import '../../../scss/styles.scss';
+
+import React from 'react';
 import { Wizard } from './Wizard';
 
 /**
@@ -45,13 +46,13 @@ const Template = (args) => {
     );
 };
 
-// Default Wizard
+// Wizard
 export const Default = Template.bind({});
 Default.args = {
     labels: [
-        'Step 1',
-        'Step 2',
-        'Step 3',
-        'Step 4',
+        'Label 1',
+        'Label 2',
+        'Label 3',
+        'Label 4',
     ],
 };
