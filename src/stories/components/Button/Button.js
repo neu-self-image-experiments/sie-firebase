@@ -18,7 +18,7 @@ export const Button = ({ modifierClasses, url, text }) => {
     return (
         <a
             href={url}
-            className={['button', `${modifierClasses}`].join(' ')}
+            className={['button', `${modifierClasses}`].join(' ').trim()}
         >
             {text}
         </a>
