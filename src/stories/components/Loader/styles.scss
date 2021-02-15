@@ -1,0 +1,89 @@
+@import '../../../scss/variables.scss';
+
+// @file
+// Loader
+
+$loader-size: rem(80px);
+$dot-size: rem(13px);
+
+.loader {
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+}
+
+.loader__icon {
+  display: inline-block;
+  height: $loader-size;
+  position: relative;
+  width: $loader-size;
+}
+
+.loader__dot {
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+  background: $teal;
+  border-radius: 50%;
+  height: $dot-size;
+  position: absolute;
+  top: 33px;
+  width: $dot-size;
+
+  &:first-child {
+    animation: animate-dot-1 0.6s infinite;
+    left: 8px;
+  }
+
+  &:nth-child(2) {
+    animation: animate-dot-2 0.6s infinite;
+    left: 8px;
+  }
+
+  &:nth-child(3) {
+    animation: animate-dot-2 0.6s infinite;
+    left: 32px;
+  }
+
+  &:last-child {
+    animation: animate-dot-3 0.6s infinite;
+    left: 56px;
+  }
+}
+
+.loader__text {
+  
+}
+
+// animations
+@keyframes animate-dot-1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes animate-dot-2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+
+@keyframes animate-dot-3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
