@@ -8,15 +8,17 @@ import PropTypes from 'prop-types';
  *
  * @component
  * @param {number} props of the component.
+ * @param {array} labels of each step.
  * @return {object} (
- *   <Steps totalSteps={totalSteps}
- *      currentStep={currentStep} goToStep={goToStep} />
+ *   <Steps props={props
+ *      labels={labels} />
  * )
  */
 /* eslint react/prop-types: 0 */
 
 export const Steps = (props) => {
     const steps = [];
+
     for (let i = 1; i <= props.totalSteps; i += 1) {
         const isActive = props.currentStep === i;
         steps.push((
@@ -29,10 +31,11 @@ export const Steps = (props) => {
                 onClick={() => props.goToStep(i)}
             >
                 <span className="steps__num">{i}</span>
-                <span className="steps__label">Label</span>
+                <span className="steps__label">{props.labels[i-1]}</span>
             </li>
         ));
     }
+
 
     return (
         <ul className="steps">{steps}</ul>
@@ -52,10 +55,20 @@ Steps.propTypes = {
    * Steps's got to steps
    */
     goToStep: PropTypes.number,
+    /**
+     * Steps's got to steps
+     */
+    labels: PropTypes.array,
 };
 
 Steps.defaultProps = {
     totalSteps: 4,
-    currentStep: 0,
-    goToStep: 1,
+    currentStep: 1,
+    goToStep: 2,
+    labels: [
+        'Label 1',
+        'Label 2',
+        'Label 3',
+        'Label 4',
+    ],
 };

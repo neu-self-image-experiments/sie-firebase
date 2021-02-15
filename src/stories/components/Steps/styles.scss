@@ -3,14 +3,21 @@
 // @file
 // Steps
 
+// using pixels to enforce fix size
 $step-size: 52px;
 
 .steps {
   @include list-clean;
   
+  display: none;
   font-family: $header-font-family;
   font-size: $font-size-sm;
   font-weight: 700;
+
+  @include bp-tablet-lg {
+    display: block;
+    align-self: center;
+  }
 }
 
 .steps__item {
@@ -50,24 +57,20 @@ $step-size: 52px;
       transition: height 0.4s cubic-bezier(0.5,0.25,0,1)
     }
   }
-
-  &:first-child {
-    &::after {
-      height: 23px;
-    }
-  }
-
-  &.has-been-visited {
-    &::after {
-      height: 40px;
-    }
-  }
-
+  
+  // apply active styles
   &.is-active {
     
     &::after {
       height: 23px;
       transition-delay: 0.8s;
+    }
+  }
+  
+  // style visited step
+  &.has-been-visited {
+    &::after {
+      height: 40px;
     }
   }
 }
@@ -109,6 +112,7 @@ $step-size: 52px;
     z-index: -99;
   }
   
+  // apply active styles
   .is-active & {
     &::before {
       background-color: $teal-light;
@@ -119,6 +123,7 @@ $step-size: 52px;
     }
   }
 
+  // style visited step
   .has-been-visited & {
     &::before {
       background-color: $teal-light;

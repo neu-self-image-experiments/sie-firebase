@@ -21,7 +21,7 @@ import './styles.scss';
  * )
  */
 /* eslint react/prop-types: 0 */
-export const Wizard = ({ children }) => {
+export const Wizard = ({ children, labels}) => {
     const [state, updateState] = useState({
         form: {},
         // demo: true, // uncomment to see more
@@ -44,7 +44,9 @@ export const Wizard = ({ children }) => {
             <StepWizard
                 className="wizard"
                 onStepChange={onStepChange}
-                nav={<Steps />}
+                nav={
+                    <Steps labels={labels} />
+                }
                 instance={setInstance}
             >
                 {children}
@@ -79,8 +81,18 @@ Wizard.propTypes = {
    * Constrain's modifier classes
    */
     children: PropTypes.node,
+    /**
+     * Wizard's labels
+     */
+    children: PropTypes.array,
 };
 
 Wizard.defaultProps = {
     children: '',
+    labels: [
+        'Step 1',
+        'Step 2',
+        'Step 3',
+        'Step 4',
+    ],
 };

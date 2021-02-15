@@ -17,4 +17,10 @@ Default.args = {
     totalSteps: 4,
     currentStep: 0,
     goToStep: 1,
+    labels: [
+        'Label 1',
+        'Label 2',
+        'Label 3',
+        'Label 4',
+    ],
 };

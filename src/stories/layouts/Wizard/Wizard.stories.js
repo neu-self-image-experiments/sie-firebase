@@ -34,10 +34,24 @@ const Template = (args) => {
                 nam idque explicari expetendis in. An mei adolescens mnesarchum,
                 ei periculis adipiscing per, probo populo nec ad.
             </div>
+            <div className="step-4">
+                <h3>Step 4</h3>
+                Lorem ipsum dolor sit amet, an has summo
+                riure epicuri, has illud rationibus et. Prima ridens sit te,
+                nam idque explicari expetendis in. An mei adolescens mnesarchum,
+                ei periculis adipiscing per, probo populo nec ad.
+            </div>
         </Wizard>
     );
 };
 
 // Default Wizard
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+    labels: [
+        'Step 1',
+        'Step 2',
+        'Step 3',
+        'Step 4',
+    ],
+};
