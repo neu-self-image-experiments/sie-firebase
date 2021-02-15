@@ -15,5 +15,5 @@ const Template = (args) => <Loader {...args} />;
 // Primary button
 export const Default = Template.bind({});
 Default.args = {
-    text: 'Primary Loader',
+    text: 'Your photo is being processed...',
 };

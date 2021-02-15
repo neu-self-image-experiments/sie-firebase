@@ -22,6 +22,7 @@ $dot-size: rem(13px);
 .loader__icon {
   display: inline-block;
   height: $loader-size;
+  margin: 0 0 $spacing-2;
   position: relative;
   width: $loader-size;
 }
@@ -57,7 +58,7 @@ $dot-size: rem(13px);
 }
 
 .loader__text {
-  
+
 }
 
 // animations
