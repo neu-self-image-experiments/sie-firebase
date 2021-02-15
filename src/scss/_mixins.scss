@@ -1,6 +1,7 @@
 // @file
 // Mixins
 
+// remove broswer default styles
 @mixin button-clear() {
   &[type='button'] {
     appearance: none;
@@ -15,5 +16,35 @@
 
   &:focus {
     outline: none;
+  }
+}
+
+// remove list default styles
+@mixin list-clean {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    padding-left: 0;
+
+    &::before {
+      display: none;
+    }
+  }
+}
+
+// display inline list
+@mixin list-inline {
+  list-style-type: none;
+  margin-left: 0;
+  padding-left: 0;
+
+  li {
+    padding-left: 0;
+  }
+
+  > li {
+    display: inline;
   }
 }

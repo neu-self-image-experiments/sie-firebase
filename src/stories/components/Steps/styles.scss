@@ -1,0 +1,116 @@
+@import '../../../scss/variables.scss';
+
+// @file
+// Steps
+
+$step-size: 52px;
+
+.steps {
+  @include list-clean;
+  
+  display: grid;
+  font-family: $header-font-family;
+  font-size: $font-size-sm;
+  font-weight: 700;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: $spacing-5;
+}
+
+.steps__item {
+  align-items: center;
+  background-color: $gray-3;
+  border-radius: 100%;
+  display: flex;
+  height: $step-size;
+  justify-content: center;
+  line-height: 49px;
+  margin: $spacing-4 0;
+  position: relative;
+  width: $step-size;
+  text-align: center;
+  z-index: -1;
+
+  &:not(:last-child) {
+    &::before,
+    &::after {
+      background-color: $gray-3;
+      border-radius: 3px;
+      content: '';
+      display: block !important;
+      height: 40px;
+      left: calc(( - 3px) / 2);
+      position: absolute;
+      top: 100%;
+      width: 3px;
+      z-index: -2;
+    }
+
+    &::after {
+      background-color: $teal-dark;
+      height: 0;
+      left: calc((100% - 3px) / 2);
+      position: absolute;
+    }
+  }
+
+  &:first-child {
+    &::after {
+      height: 20px;
+    }
+  }
+}
+
+.steps__num {
+  border-radius: 100%;
+  display: block;
+  height: $step-size;
+  overflow: hidden;
+  position: relative;
+  width: $step-size;
+
+  &::before,
+  &::after {
+    border-radius: 100%;
+    content: '';
+    display: block !important;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transition: height 0.4s ease-in;
+    z-index: -1;
+  }
+  
+  &::before {
+    background-color: $white;
+    height: 46px;
+    left: 3px;
+    top: 3px;
+    width: 46px;
+  }
+  
+  &::after {
+    background-color: $teal-dark;
+    height: 0;
+    width: 100%;
+    z-index: -99;
+  }
+  
+  .is-active & {
+    &::before {
+      background-color: $teal-light;
+    }
+  
+    &::after {
+      height: 52px;
+    }
+  }
+}
+
+.steps__label {
+  line-height: 52px;
+  left: $spacing-6;
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+}

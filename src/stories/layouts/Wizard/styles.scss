@@ -3,4 +3,58 @@
 // @file
 // Wizard
 
-.wizard {}
+.wizard__controls {
+  margin-top: $spacing-3;
+  
+  @include bp-tablet {
+    margin-top: $spacing-5;
+  }
+}
+
+.wizard__button {
+  @include button-clear();
+
+  color: $black;
+  font-family: $header-font-family;
+  font-size: $font-size-sm;
+  font-weight: 700;
+  padding: $spacing-1 0;
+  text-decoration: underline;
+
+  &:first-child {
+    margin-right: $spacing-5;
+  }
+
+  &.button--tertiary {
+    background-color: $teal;
+    border-bottom-right-radius: 50px;
+    border-top-left-radius: 50px;
+    display: inline-block;
+    line-height: $line-height-loose;
+    padding: $spacing-1 $spacing-4;
+    text-decoration: none;
+    text-transform: capitalize;
+    transition: all 0.4s cubic-bezier(0.5,0.25,0,1);
+    
+    &:visited {
+      color: $teal-light;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: $teal;
+      border-radius: 0;
+      border-bottom-left-radius: 50px;
+      border-top-right-radius: 50px;
+      color: $black;
+    }
+
+    &:active {
+      color: $white;
+    }
+
+    @include bp-tablet {
+      font-size: $font-size-md;
+    }
+  }
+}
