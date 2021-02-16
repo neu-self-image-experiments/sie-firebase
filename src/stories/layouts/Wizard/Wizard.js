@@ -57,7 +57,7 @@ export const Wizard = ({children, labels}) => {
             { children.length === labels.length ?
                 renderWizard() :
                 <Constrain modifierClasses="constrain--small">
-                    <h3>Something went wrong</h3>
+                    A message goes here.
                 </Constrain>
             }
         </div>
