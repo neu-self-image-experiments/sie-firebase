@@ -1,0 +1,78 @@
+@import '../../../scss/variables.scss';
+
+// @file
+// Sidebar
+
+.sidebar {
+    /* The sidebar menu */
+    .sidenav {
+        height: 100%; /* Full-height: remove this if you want "auto" height */
+        width: 160px; /* Set the width of the sidebar */
+        position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+        z-index: 1; /* Stay on top */
+        top: 0; /* Stay at the top */
+        left: 0; /* Stay on the left side of the page */
+        background-color: #fff;
+        overflow-x: hidden; /* Disable horizontal scroll */
+        padding-top: 50px;
+    }
+    /* The main content */
+    .main {
+        margin-left: 210px; /* Same as the width of the sidebar + 50px */
+        padding: 20px 0px;
+    }
+}
+
+.sidebar--right {
+    /* The sidebar menu */
+    .sidenav {
+        height: 100%; /* Full-height: remove this if you want "auto" height */
+        width: 160px; /* Set the width of the sidebar */
+        position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+        z-index: 1; /* Stay on top */
+        top: 0; /* Stay at the top */
+        left: calc(100% - 160px); /* Stay on the right side of the page */
+        background-color: #fff;
+        overflow-x: hidden; /* Disable horizontal scroll */
+        padding-top: 50px;
+    }
+    .main {
+        margin-left: 0px;
+        margin-right: 210px; /* Same as the width of the sidebar + 50px */
+        padding: 20px 0px;
+    }
+}
+
+/* The navigation menu links */
+a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #000;
+    display: block;
+}
+
+/* When you mouse over the navigation links, change their color */
+a:hover {
+    color: #f1f1f1;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidebar {
+        #sidenav {
+            padding-top: 50px;
+        }
+        #main {
+            margin-left: 185px;
+        }
+    }
+    .sidebar--right {
+        #sidenav {
+            padding-top: 50px;
+        }
+        #main {
+            margin-right: 185px;
+        }
+    }
+}
