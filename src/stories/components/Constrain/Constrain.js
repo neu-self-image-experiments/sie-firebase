@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
  *
  * @component
  * @param {string} modifierClasses Class modifiers of the component.
- * @param {node} children Class modifiers of the component.
+ * @param {node} children Children of the component.
  * @return {object} (
  *   <Constrain modifierClasses={modifierClasses} />
  *      {content}
@@ -32,7 +32,7 @@ Constrain.propTypes = {
    */
     modifierClasses: PropTypes.string,
     /**
-   * Constrain's modifier classes
+   * Constrain's children nodes
    */
     children: PropTypes.node,
 };

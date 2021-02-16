@@ -37,7 +37,7 @@ Default.args = {
     modifierClasses: '',
 };
 
-// Wde Constrain
+// Wide Constrain
 export const Wide = Template.bind({});
 Wide.args = {
     modifierClasses: 'constrain--wide',

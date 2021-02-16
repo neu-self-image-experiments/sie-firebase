@@ -4,13 +4,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
- * Component for step prgress element.
+ * Component for step progress element.
  *
  * @component
  * @param {number} props of the component.
  * @param {array} labels of each step.
  * @return {object} (
- *   <Steps props={props
+ *   <Steps props={props}
  *      labels={labels} />
  * )
  */
@@ -51,11 +51,11 @@ Steps.propTypes = {
    */
     currentStep: PropTypes.number,
     /**
-   * Steps's got to steps
+   * Steps's go to steps
    */
     goToStep: PropTypes.number,
     /**
-     * Steps's got to steps
+     * Steps's labels
      */
     labels: PropTypes.array,
 };
