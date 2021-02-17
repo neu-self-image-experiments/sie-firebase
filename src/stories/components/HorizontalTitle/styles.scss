@@ -4,7 +4,6 @@
 // HorizontalTitle
 
 .horizontal-title {
-    font-family: 'Work Sans';
 
     @include bp-tablet-lg {
         grid-gap: $spacing-3;
