@@ -6,7 +6,7 @@
 .wizard {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  grid-gap: $spacing-5;
+  gap: $spacing-5;
   
   @include bp-tablet-lg {
     grid-template-columns: repeat(2, 1fr);
