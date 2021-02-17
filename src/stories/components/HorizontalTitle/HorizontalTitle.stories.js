@@ -21,7 +21,7 @@ export const Default = Template.bind({});
 Default.args = {
     modifierClasses: '',
     eyebrow: 'Eyebrow',
-    title: 'This is a default paragraph',
+    title: 'Default',
     content:
         <p>Lorem ipsum dolor sit amet, an has summo iriure epicuri,
         has illud rationibus et. Prima ridens sit te, nam idque explicari
@@ -37,7 +37,7 @@ export const Medium = Template.bind({});
 Medium.args = {
     modifierClasses: 'horizontal-title--medium',
     eyebrow: 'Eyebrow',
-    title: 'This is a medium paragraph',
+    title: 'Medium',
     content:
         <p>Lorem ipsum dolor sit amet, an has summo iriure epicuri,
         has illud rationibus et. Prima ridens sit te, nam idque explicari
@@ -53,7 +53,7 @@ export const Large = Template.bind({});
 Large.args = {
     modifierClasses: 'horizontal-title--large',
     eyebrow: 'Eyebrow',
-    title: 'This is a large paragraph',
+    title: 'Large',
     content:
         <p>Lorem ipsum dolor sit amet, an has summo iriure epicuri,
         has illud rationibus et. Prima ridens sit te, nam idque explicari

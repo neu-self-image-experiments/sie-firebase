@@ -21,11 +21,14 @@ export const HorizontalTitle = (
                 ['horizontal-title', `${modifierClasses}`].join(' ').trim()
             }
         >
-            {eyebrow ?
-                <div className="horizontal-title__eyebrow">{eyebrow}</div> : ''
-            }
-            <h1 className="horizontal-title__title">{title}</h1>
-            <p className="horizontal-title__content">{content}</p>
+            <div className="horizontal-title__title-container">
+                {eyebrow ?
+                    <div className="horizontal-title__eyebrow">{eyebrow}</div> :
+                    ''
+                }
+                <h1 className="horizontal-title__title">{title}</h1>
+            </div>
+            <div className="horizontal-title__content">{content}</div>
         </div>
     );
 };
