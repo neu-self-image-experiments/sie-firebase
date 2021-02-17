@@ -18,9 +18,11 @@ import { Button } from '../Button/Button';
 export const Card = ({ modifierClasses, title, body }) => {
     return (
         <div className={['card', `${modifierClasses}`].join(' ').trim()}>
-            <h1>{title}</h1>
-            <p>{body}</p>
-            <Button></Button>
+            <div className="card-container">
+                <h3 className="card-title">{title}</h3>
+                <p className="card-body">{body}</p>
+                <Button className="card-button"></Button>
+            </div>
         </div>
     );
 };
