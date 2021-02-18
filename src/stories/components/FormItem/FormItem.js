@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
  * @param {string} label of the form item.
  * @param {boolean} showLabel of the form item.
  * @param {string} placeholder of the input.
- * @param {string} type of the input.
+ * @param {enum} type of the input.
  * @param {string} value of the input.
  * @return {object} (
  *   <FormItem modifierClasses={modifierClasses} text={text} />
@@ -20,23 +20,20 @@ import PropTypes from 'prop-types';
 export const FormItem = (
     { modifierClasses, label, showLabel, placeholder, type, value },
 ) => {
+    // dynamically render Form Item Input
     function returnFormItem(type) {
-        let formItem;
-
-        if (type === 'textarea') {
-            formItem = <Textarea />;
-        } else if (type === 'select') {
-            formItem = null;
-        } else {
-            formItem = <Input
-                placeholder={placeholder}
+        // switch statement to check value of type
+        switch (type) {
+        case 'textarea':
+            return <Textarea />;
+        case 'select':
+            return <Textarea />;
+        default:
+            return <Input placeholder={placeholder}
                 label={showLabel ? label : false}
                 type={type}
-                value={value}
-            />;
-        };
-
-        return formItem;
+                value={value}/>;
+        }
     }
 
     return (
@@ -90,7 +87,7 @@ FormItem.defaultProps = {
 /**
  * Fragment for Wizard's controls.
  * @param {string} placeholder of the input.
- * @param {string} type of the input.
+ * @param {enum} type of the input.
  * @param {string} value of the input.
  * @param {string} label of the input.
  * @return {object} (
@@ -106,8 +103,8 @@ const Input = ({type, placeholder, value, label}) => (
             `form-item__input--${type}`].join(' ').trim()}
         placeholder={placeholder}
         type={type}
+        aria-label={label}
         {...value ? `value="${value}"` : ''}
-        {...label ? `aria-label="${label}"` : ''}
     />
 );
 
@@ -115,15 +112,22 @@ Input.propTypes = {
     /**
    * Input's label
    */
-    label: PropTypes.string,
+    label: PropTypes.string.isRequired,
     /**
    * Input's placeholder
    */
     placeholder: PropTypes.string,
     /**
-   * Input's type
+   * Input's type values
    */
-    type: PropTypes.string.isRequired,
+    type: PropTypes.oneOf([
+        'text',
+        'email',
+        'password',
+        'date',
+        'textarea',
+        'select',
+    ]).isRequired,
     /**
    * Input's value
    */
