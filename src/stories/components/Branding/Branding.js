@@ -17,9 +17,11 @@ import Logo from '../../../images/Polygon.png';
  * )
  */
 export const Branding = ({ modifierClasses, logo, text }) => {
+    // TODO: replace below <a> with <Link> once routing is set up OR modify
+    //       href of below <a> once page navigation is established.
     return (
         <a
-            href="*/"
+            href="/"
             className={['branding', `${modifierClasses}`].join(' ').trim()}
         >
             <img src={Logo}
