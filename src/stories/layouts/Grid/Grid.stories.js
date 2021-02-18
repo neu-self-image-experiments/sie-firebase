@@ -14,28 +14,44 @@ export default {
 const Template = (args) => (
     <Grid numColumns={args.numColumns}>
         <div className="grid__item">
-            <h1>Test</h1>
+            <h3>Test</h3>
+            <p>Lorem ipsum dolor sit amet, aliquip pertinax intellegebat vel ad.
+            Quo diceret comprehensam id, mazim labore instructior et mea.</p>
         </div>
         <div className="grid__item">
-            <h1>Test</h1>
+            <h3>Test</h3>
+            <p>Lorem ipsum dolor sit amet, aliquip pertinax intellegebat vel ad.
+            Quo diceret comprehensam id, mazim labore instructior et mea.</p>
         </div>
         <div className="grid__item">
-            <h1>Test</h1>
+            <h3>Test</h3>
+            <p>Lorem ipsum dolor sit amet, aliquip pertinax intellegebat vel ad.
+            Quo diceret comprehensam id, mazim labore instructior et mea.</p>
         </div>
         <div className="grid__item">
-            <h1>Test</h1>
+            <h3>Test</h3>
+            <p>Lorem ipsum dolor sit amet, aliquip pertinax intellegebat vel ad.
+            Quo diceret comprehensam id, mazim labore instructior et mea.</p>
         </div>
         <div className="grid__item">
-            <h1>Test</h1>
+            <h3>Test</h3>
+            <p>Lorem ipsum dolor sit amet, aliquip pertinax intellegebat vel ad.
+            Quo diceret comprehensam id, mazim labore instructior et mea.</p>
         </div>
         <div className="grid__item">
-            <h1>Test</h1>
+            <h3>Test</h3>
+            <p>Lorem ipsum dolor sit amet, aliquip pertinax intellegebat vel ad.
+            Quo diceret comprehensam id, mazim labore instructior et mea.</p>
         </div>
         <div className="grid__item">
-            <h1>Test</h1>
+            <h3>Test</h3>
+            <p>Lorem ipsum dolor sit amet, aliquip pertinax intellegebat vel ad.
+            Quo diceret comprehensam id, mazim labore instructior et mea.</p>
         </div>
         <div className="grid__item">
-            <h1>Test</h1>
+            <h3>Test</h3>
+            <p>Lorem ipsum dolor sit amet, aliquip pertinax intellegebat vel ad.
+            Quo diceret comprehensam id, mazim labore instructior et mea.</p>
         </div>
     </Grid>
 );
@@ -46,23 +62,23 @@ export const NoColumnInput = Template.bind({});
 // Grid Layout one column
 export const OneColumn = Template.bind({});
 OneColumn.args = {
-    numColumns: 'grid--one',
+    numColumns: 1,
 };
 
 // Grid Layout two columns
 export const TwoColumn = Template.bind({});
 TwoColumn.args = {
-    numColumns: 'grid--two',
+    numColumns: 2,
 };
 
 // Grid Layout three columns
 export const ThreeColumn = Template.bind({});
 ThreeColumn.args = {
-    numColumns: 'grid--three',
+    numColumns: 3,
 };
 
 // Grid Layout four columns
 export const FourColumn = Template.bind({});
 FourColumn.args = {
-    numColumns: 'grid--four',
+    numColumns: 4,
 };
