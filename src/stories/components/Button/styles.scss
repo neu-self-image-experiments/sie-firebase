@@ -13,7 +13,9 @@
   font-size: $font-size-sm;
   font-weight: 700;
   line-height: $line-height-loose;
+  min-width: rem(180px);
   padding: $spacing-1 $spacing-4;
+  text-align: center;
   text-decoration: none;
   text-transform: capitalize;
   transition: all 0.4s cubic-bezier(0.5,0.25,0,1);
