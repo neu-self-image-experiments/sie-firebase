@@ -4,7 +4,7 @@
 html {
   box-sizing: border-box;
   font-size: $base-font-size;
-  line-height: $line-height-normal;
+  line-height: $line-height-loose;
   min-height: 100%;
   text-size-adjust: 100%;
 }
@@ -25,7 +25,7 @@ body {
   font-weight: 700;
   hyphens: none;
   line-height: $line-height-normal;
-  margin: 0 0 rem($vertical-spacing);
+  margin: 0 0 1rem;
   text-rendering: optimizeLegibility;
 
   @media print {
@@ -101,6 +101,7 @@ h6,
 %h6 {
   @extend %hN;
   font-size: $font-size-h6;
+  text-transform: uppercase;
 }
 
 p {
