@@ -39,6 +39,10 @@
   }
 }
 
+.button--small {
+  font-size: $font-size-sm
+}
+
 // Secondary button
 .button--secondary {
   background-color: $teal-dark;
@@ -71,6 +75,26 @@
   &:focus {
     background-color: $black;
     color: $teal;
+  }
+
+  &:active {
+    color: $black;
+  }
+}
+
+// Quaternary button
+.button--quaternary {
+  background-color: $teal-light;
+  color: $black;
+  
+  &:visited {
+    color: $green;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: $teal-dark;
+    color: $teal-light;
   }
 
   &:active {
