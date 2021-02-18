@@ -1,0 +1,14 @@
+@import '../../../scss/variables.scss';
+
+// @file
+// Branding
+
+.branding {
+  font-size: $font-size-xl;
+  font-weight: bold;
+  font-family: $header-font-family;
+}
+
+.logo {
+  margin-right: 5px;
+}
