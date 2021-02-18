@@ -23,8 +23,8 @@ export const Sidebar = ({ modifierClasses, leftContent, rightContent}) => {
         <div
             className={['sidebar', `${modifierClasses}`].join(' ').trim()}
         >
-            <div className='left__content'>{leftContent}</div>
-            <div className='right__content'>{rightContent}</div>
+            <div className='sidebar--left-content'>{leftContent}</div>
+            <div className='sidebar--right-content'>{rightContent}</div>
         </div>
     );
 };
