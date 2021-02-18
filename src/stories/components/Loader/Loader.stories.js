@@ -1,4 +1,3 @@
-import '../../../scss/styles.scss';
 import React from 'react';
 import { Loader } from './Loader';
 
