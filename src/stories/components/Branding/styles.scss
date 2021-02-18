@@ -7,8 +7,10 @@
   font-size: $font-size-xl;
   font-weight: bold;
   font-family: $header-font-family;
+  align-items: center;
+  display: inline-flex;
 }
 
-.logo {
+.branding__logo {
   margin-right: 5px;
 }

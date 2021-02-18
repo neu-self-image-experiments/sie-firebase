@@ -15,6 +15,5 @@ const Template = (args) => <Branding {...args} />;
 export const Default = Template.bind({});
 Default.args = {
     modifierClasses: '',
-    url: 'src/images/Polygon.png',
     text: 'SIE.',
 };

@@ -3,7 +3,7 @@ import './styles.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 // TODO: replace the import below with the actual logo once it's chosen
-import Logo from '../../../images/Polygon.png';
+import Logo from '../../../images/polygon.svg';
 
 /**
  * Component for branding element.
@@ -13,10 +13,11 @@ import Logo from '../../../images/Polygon.png';
  * @param {string} text Text of the brand.
  * @return {object} (
  *   <Branding modifierClasses={modifierClasses}
- *             text={text} />
+ *             text={text}
+ *   />
  * )
  */
-export const Branding = ({ modifierClasses, logo, text }) => {
+export const Branding = ({ modifierClasses, text }) => {
     // TODO: replace below <a> with <Link> once routing is set up OR modify
     //       href of below <a> once page navigation is established.
     return (
@@ -26,7 +27,8 @@ export const Branding = ({ modifierClasses, logo, text }) => {
         >
             <img src={Logo}
                 alt={`${text} website logo`}
-                className="logo"/>
+                className="branding__logo"
+            />
             {text}
         </a>
     );
@@ -37,10 +39,6 @@ Branding.propTypes = {
    * Branding's modifier classes
    */
     modifierClasses: PropTypes.string,
-    /**
-   * Branding's logo URL
-   */
-    logo: PropTypes.string.isRequired,
     /**
    * Branding's text
    */
