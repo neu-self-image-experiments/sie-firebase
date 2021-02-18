@@ -4,75 +4,42 @@
 // Sidebar
 
 .sidebar {
-    /* The sidebar menu */
-    .sidenav {
-        height: 100%; /* Full-height: remove this if you want "auto" height */
-        width: 160px; /* Set the width of the sidebar */
-        position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-        z-index: 1; /* Stay on top */
-        top: 0; /* Stay at the top */
-        left: 0; /* Stay on the left side of the page */
-        background-color: #fff;
-        overflow-x: hidden; /* Disable horizontal scroll */
-        padding-top: 50px;
+    @include bp-tablet-lg {
+        display: flex;
     }
-    /* The main content */
-    .main {
-        margin-left: 210px; /* Same as the width of the sidebar + 50px */
-        padding: 20px 0px;
+}
+
+.left__content {
+    background-color: $teal;
+    padding: $spacing-2  0;
+    flex: 15%;
+    text-align: left;
+}
+
+.right__content {
+    background-color: $teal-light;
+    padding: $spacing-2  0;
+    flex: 85%;
+    text-align: center;
+
+    @include bp-tablet-lg {
+        margin-left: $spacing-3;
+    }
+
+    @include bp-desktop {
+        margin-left: $spacing-5;
     }
 }
 
 .sidebar--right {
-    /* The sidebar menu */
-    .sidenav {
-        height: 100%; /* Full-height: remove this if you want "auto" height */
-        width: 160px; /* Set the width of the sidebar */
-        position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-        z-index: 1; /* Stay on top */
-        top: 0; /* Stay at the top */
-        left: calc(100% - 160px); /* Stay on the right side of the page */
-        background-color: #fff;
-        overflow-x: hidden; /* Disable horizontal scroll */
-        padding-top: 50px;
+    .left__content {
+        background-color: $teal-light;
+        flex: 85%;
+        text-align: center;
     }
-    .main {
-        margin-left: 0px;
-        margin-right: 210px; /* Same as the width of the sidebar + 50px */
-        padding: 20px 0px;
-    }
-}
-
-/* The navigation menu links */
-a {
-    padding: 6px 8px 6px 16px;
-    text-decoration: none;
-    font-size: 18px;
-    color: #000;
-    display: block;
-}
-
-/* When you mouse over the navigation links, change their color */
-a:hover {
-    color: #f1f1f1;
-}
-
-/* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
-@media screen and (max-height: 450px) {
-    .sidebar {
-        #sidenav {
-            padding-top: 50px;
-        }
-        #main {
-            margin-left: 185px;
-        }
-    }
-    .sidebar--right {
-        #sidenav {
-            padding-top: 50px;
-        }
-        #main {
-            margin-right: 185px;
-        }
+    .right__content {
+        background-color: $teal;
+        flex: 15%;
+        text-align: left;
     }
 }

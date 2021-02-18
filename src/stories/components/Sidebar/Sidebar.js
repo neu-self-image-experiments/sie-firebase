@@ -8,23 +8,23 @@ import PropTypes from 'prop-types';
  *
  * @component
  * @param {string} modifierClasses Class modifiers of the component.
- * @param {html} sidebarContent Sidebar content of the component.
- * @param {html} mainContent Main content of the component.
+ * @param {node} leftContent Left content of the component.
+ * @param {node} rightContent Right content of the component.
  * @return {object} (
  *   <Sidebar modifierClasses={modifierClasses} />
- *      {sidebarContent}
- *      {mainContent}
+ *      {leftContent}
+ *      {rightContent}
  *   </Sidebar>
  * )
  */
 
-export const Sidebar = ({ modifierClasses, sidebarContent, mainContent}) => {
+export const Sidebar = ({ modifierClasses, leftContent, rightContent}) => {
     return (
         <div
             className={['sidebar', `${modifierClasses}`].join(' ').trim()}
         >
-            <div>{sidebarContent}</div>
-            <div>{mainContent}</div>
+            <div className='left__content'>{leftContent}</div>
+            <div className='right__content'>{rightContent}</div>
         </div>
     );
 };
@@ -35,17 +35,17 @@ Sidebar.propTypes = {
    */
     modifierClasses: PropTypes.string,
     /**
-   * Sidebar's sidebar content
+   * Sidebar's left content
    */
-    sidebarContent: PropTypes.string,
+    leftContent: PropTypes.node,
     /**
-   * Sidebar's main content
+   * Sidebar's right content
    */
-    mainContent: PropTypes.string,
+    rightContent: PropTypes.node,
 };
 
 Sidebar.defaultProps = {
     modifierClasses: '',
-    sidebarContent: '',
-    mainContent: '',
+    leftContent: '',
+    rightContent: '',
 };
