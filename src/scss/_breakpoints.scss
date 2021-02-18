@@ -10,8 +10,8 @@ $screen-widescreen: rem(1400px);
 
 
 // Mixins
-@mixin bp-moobile { @media (min-width: #{$screen-mobile}) {@content;} } // Tiny devices
-@mixin bp-mobille-lg { @media (min-width: #{$screen-mobile-lg}) {@content;} } // Small devices
+@mixin bp-mobile { @media (min-width: #{$screen-mobile}) {@content;} } // Tiny devices
+@mixin bp-mobile-lg { @media (min-width: #{$screen-mobile-lg}) {@content;} } // Small devices
 @mixin bp-tablet { @media (min-width: #{$screen-tablet}) {@content;} } // Medium devices
 @mixin bp-tablet-lg { @media (min-width: #{$screen-tablet-lg}) {@content;} } // Large devices
 @mixin bp-desktop { @media (min-width: #{$screen-desktop}) {@content;} } // Extra large devices

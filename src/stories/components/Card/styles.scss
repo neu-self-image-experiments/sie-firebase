@@ -5,27 +5,68 @@
 
 .card
 {
-    background-color: $teal-light;
     border-radius: 5px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-bottom-style: solid;
+    border-color: $teal-dark;
+    border-width: $spacing-1;
+
+    @include bp-mobile {
+        width: $screen-mobile
+    }
 }
 
-.card-container
+.card__container
 {
-    padding: 10px;
+    padding: $spacing-3;
+}
+
+.card__details {
+    h3 {
+        margin: 0px;
+    }
+    p {
+        font-family: $font-size-md;;
+    }
+}
+
+.card__extra {
+    margin-bottom: $spacing-3;
+    font-size: $font-size-sm;
+    p {
+        margin: 0px
+    }
 }
 
 .card--active
 {
-
+    &:hover,
+    &:focus,
+    &:active {
+        border-color: $teal;
+    }
 }
 
 .card--inactive
 {
+    background-color: $gray-1;
+    border-color: black;
 
+    &:hover,
+    &:focus,
+    &:active {
+        border-color: black;
+    }
 }
 
 .card--teaser
 {
+    border-width: 0px;
+    .card__extra {
+        display: none;
+    }
 
+    Button {
+        display: none;
+    }
 }
