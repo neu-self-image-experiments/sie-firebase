@@ -1,0 +1,43 @@
+@import '../../../scss/variables.scss';
+
+// @file
+// Grid
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: rem(#{$spacing-3 / 2});
+}
+
+.grid--2-col {
+    @include bp-tablet {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.grid--3-col {
+    @include bp-tablet {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include bp-tablet-lg {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.grid--4-col {
+    @include bp-tablet {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include bp-tablet-lg {
+        grid-template-columns: repeat(3, 1fr);
+        gap: $spacing-3;
+    }
+
+    @include bp-desktop {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+
