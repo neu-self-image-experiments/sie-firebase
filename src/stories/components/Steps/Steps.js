@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
  * Component for step progress element.
  *
  * @component
- * @param {number} props of the component.
+ * @param {prop} props of the component.
  * @param {array} labels of each step.
  * @return {object} (
  *   <Steps props={props}

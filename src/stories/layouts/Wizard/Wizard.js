@@ -28,12 +28,12 @@ export const Wizard = ({children, labels}) => {
         // might need later on
     };
 
-    const setInstance = (SW) => updateState({
+    const setInstance = (WizInstance) => updateState({
         ...state,
-        SW,
+        WizInstance,
     });
 
-    const { SW } = state;
+    const { WizInstance } = state;
 
     function renderWizard() {
         return (
@@ -48,7 +48,9 @@ export const Wizard = ({children, labels}) => {
                 >
                     {children}
                 </StepWizard>
-                { SW && <Controls SW={SW} /> }
+                {
+                    WizInstance && <Controls WizInstance={WizInstance} />
+                }
             </Constrain>
         );
     }
@@ -68,17 +70,17 @@ export const Wizard = ({children, labels}) => {
  * Fragment for Wizard's controls.
  *
  * @return {object} (
- *   <Fragment SW={SW} />
+ *   <Fragment WizInstance={WizInstance} />
  * )
  */
-const Controls = ({ SW }) => (
+const Controls = ({ WizInstance }) => (
     <Fragment>
         <div className="wizard__controls">
             <button className={'wizard__button button--link'}
-                onClick={SW.previousStep}
+                onClick={WizInstance.previousStep}
             >Go Back</button>
             <button className={'wizard__button button button--tertiary'}
-                onClick={SW.nextStep}
+                onClick={WizInstance.nextStep}
             >Next</button>
         </div>
     </Fragment>
