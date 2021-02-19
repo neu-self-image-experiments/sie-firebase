@@ -46,8 +46,10 @@
   }
 }
 
+// global form input styles
 %form-item-styles {
   appearance: none;
+  background-color: transparent;
   border: solid 1px $black;
   box-shadow: 0;
   font-size: $base-font-size;

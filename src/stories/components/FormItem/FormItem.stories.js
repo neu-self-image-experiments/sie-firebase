@@ -53,3 +53,16 @@ TextArea.args = {
     label: 'Textarea',
     type: 'textarea',
 };
+
+// TextArea Form Item
+export const Select = Template.bind({});
+Select.args = {
+    label: 'Select Dropdown',
+    type: 'select',
+    options: [
+        'Option 1',
+        'Option 2',
+        'Option 3',
+        'Option 4',
+    ],
+};

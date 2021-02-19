@@ -13,12 +13,13 @@ import PropTypes from 'prop-types';
  * @param {string} placeholder of the input.
  * @param {enum} type of the input.
  * @param {string} value of the input.
+ * @param {array} options of the select input.
  * @return {object} (
  *   <FormItem modifierClasses={modifierClasses} text={text} />
  * )
  */
 export const FormItem = (
-    { modifierClasses, label, showLabel, placeholder, type, value },
+    { modifierClasses, label, showLabel, placeholder, type, value, options },
 ) => {
     // dynamically render Form Item Input
     function returnFormItem(type) {
@@ -27,7 +28,7 @@ export const FormItem = (
         case 'textarea':
             return <Textarea />;
         case 'select':
-            return <Textarea />;
+            return <DropdownSelect options={options} />;
         default:
             return <Input placeholder={placeholder}
                 label={showLabel ? label : false}
@@ -73,6 +74,10 @@ FormItem.propTypes = {
    * FormItem's value
    */
     value: PropTypes.string,
+    /**
+   * FormItem's options
+   */
+    options: PropTypes.array,
 };
 
 FormItem.defaultProps = {
@@ -143,7 +148,6 @@ Input.defaultProps = {
 
 /**
  * Fragment for Textarea's controls.
- *
  * @return {object} (
  *   <Textarea />
  * )
@@ -155,3 +159,33 @@ const Textarea = () => (
             'form-item__input--textarea'].join(' ').trim()}
     ></textarea>
 );
+
+/**
+ * Fragment for DropdownSelect's controls.
+ * @param {array} options of the input.
+ * @return {object} (
+ *   <DropdownSelect options={options />
+ * )
+ */
+const DropdownSelect = ({options}) => (
+    <select
+        className={[
+            'form-item__input',
+            'form-item__input--select'].join(' ').trim()}
+    >
+        {options.map((item, key) =>
+            <option key={key} value={item}>{item}</option> )
+        }
+    </select>
+);
+
+DropdownSelect.propTypes = {
+    /**
+   * DropdownSelect's type values
+   */
+    options: PropTypes.array,
+};
+
+DropdownSelect.defaultProps = {
+    options: [],
+};
