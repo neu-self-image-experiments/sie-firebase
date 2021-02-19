@@ -14,7 +14,7 @@ const Template = (args) => <Card {...args} />;
 // Deafult Card
 export const Primary = Template.bind({});
 Primary.args = {
-    modifierClasses: '',
+    modifierClasses: 'card--active',
     title: 'Mental Representations of Self',
     body:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, ' +

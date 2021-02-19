@@ -43,11 +43,11 @@ export const Card = ({
                     <p>Opened: {opened}</p>
                     <p>Admin: {admin}</p>
                     <p>Researchers: {researchers}</p>
-                    <Button
-                        text="View Details"
-                        className="card__button"
-                    ></Button>
                 </div>
+                <Button
+                    text="View Details"
+                    modifierClasses="card__button"
+                ></Button>
             </div>
         </div>
     );

@@ -9,11 +9,6 @@
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     border-bottom-style: solid;
     border-color: $teal-dark;
-    border-width: $spacing-1;
-
-    @include bp-mobile {
-        width: $screen-mobile
-    }
 }
 
 .card__container
@@ -66,7 +61,7 @@
         display: none;
     }
 
-    Button {
-        display: none;
+    .card__button {
+        display: none!important;
     }
 }
