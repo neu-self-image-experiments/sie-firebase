@@ -15,7 +15,10 @@ import PropTypes from 'prop-types';
  * @param {string} value of the input.
  * @param {array} options of the select input.
  * @return {object} (
- *   <FormItem modifierClasses={modifierClasses} text={text} />
+ *   <FormItem modifierClasses={modifierClasses}
+ *      label={label} showLabel={showLabel}
+ *      placeholder={placeholder} type={type} value={value} options={options}
+ *   />
  * )
  */
 export const FormItem = (
@@ -28,7 +31,7 @@ export const FormItem = (
         case 'textarea':
             return <Textarea />;
         case 'select':
-            return <DropdownSelect options={options} />;
+            return <Select options={options} />;
         default:
             return <Input placeholder={placeholder}
                 label={showLabel ? label : false}
@@ -55,7 +58,7 @@ FormItem.propTypes = {
    */
     modifierClasses: PropTypes.string,
     /**
-   * FormItem's label
+   * FormItem's showLabel
    */
     showLabel: PropTypes.bool,
     /**
@@ -90,7 +93,7 @@ FormItem.defaultProps = {
 };
 
 /**
- * Fragment for Wizard's controls.
+ * Render <input /> HTML
  * @param {string} placeholder of the input.
  * @param {enum} type of the input.
  * @param {string} value of the input.
@@ -98,7 +101,7 @@ FormItem.defaultProps = {
  * @return {object} (
  *   <Input
  *      placeholder={placeholder} label={label}
-        type={type} value={value}/>
+        type={type} value={value} />
  * )
  */
 const Input = ({type, placeholder, value, label}) => (
@@ -123,7 +126,7 @@ Input.propTypes = {
    */
     placeholder: PropTypes.string,
     /**
-   * Input's type values
+   * Input's allowed types
    */
     type: PropTypes.oneOf([
         'text',
@@ -147,7 +150,7 @@ Input.defaultProps = {
 };
 
 /**
- * Fragment for Textarea's controls.
+ * Render <textarea></textarea> HTML
  * @return {object} (
  *   <Textarea />
  * )
@@ -161,13 +164,13 @@ const Textarea = () => (
 );
 
 /**
- * Fragment for DropdownSelect's controls.
+ * Render <textarea></textarea> HTML
  * @param {array} options of the input.
  * @return {object} (
- *   <DropdownSelect options={options />
+ *   <Select options={options />
  * )
  */
-const DropdownSelect = ({options}) => (
+const Select = ({options}) => (
     <select
         className={[
             'form-item__input',
@@ -179,13 +182,13 @@ const DropdownSelect = ({options}) => (
     </select>
 );
 
-DropdownSelect.propTypes = {
+Select.propTypes = {
     /**
-   * DropdownSelect's type values
+   * Select's options
    */
     options: PropTypes.array,
 };
 
-DropdownSelect.defaultProps = {
+Select.defaultProps = {
     options: [],
 };

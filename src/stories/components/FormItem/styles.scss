@@ -82,7 +82,6 @@
   }
 }
 
-
 .form-item__input--password {
   &[type='password'] {
     appearance: none;
@@ -102,5 +101,17 @@
 
   &[type='textarea'] {
     appearance: none;
+  }
+}
+
+.form-item__input--select {
+  background-image: url('../../../images/icon-down-black.svg');
+  background-position: center right $spacing-2;
+  background-repeat: no-repeat;
+  background-size: auto;
+  padding-right: $spacing-2;
+  
+  .form-item--light & {
+    background-image: url('../../../images/icon-down-white.svg');
   }
 }

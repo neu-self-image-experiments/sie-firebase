@@ -2,7 +2,7 @@ import React from 'react';
 import { FormItem } from './FormItem';
 
 /**
- * Example Component: FormItem
+ * Example Component: Form Item
  */
 export default {
     title: 'Example/FormItem',
@@ -47,14 +47,14 @@ Date.args = {
     value: '1992-06-20',
 };
 
-// TextArea Form Item
-export const TextArea = Template.bind({});
-TextArea.args = {
+// Textarea Form Item
+export const Textarea = Template.bind({});
+Textarea.args = {
     label: 'Textarea',
     type: 'textarea',
 };
 
-// TextArea Form Item
+// Select Form Item
 export const Select = Template.bind({});
 Select.args = {
     label: 'Select Dropdown',
