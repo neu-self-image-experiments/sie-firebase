@@ -26,6 +26,7 @@
 }
 
 .card__extra {
+    opacity: 0.7;
     margin-bottom: $spacing-3;
     font-size: $font-size-sm;
     p {
@@ -51,6 +52,18 @@
     &:focus,
     &:active {
         border-color: black;
+    }
+
+    .card__button {
+        &:hover,
+        &:focus,
+        &:active,
+        &:visited {
+            background-color: $black;
+            border-radius:0;
+            border-bottom-right-radius: 50px;
+            border-top-left-radius: 50px;
+        }
     }
 }
 
