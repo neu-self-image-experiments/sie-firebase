@@ -4,6 +4,8 @@
 // Button
 
 .button {
+  @include button-clear;
+
   background-color: $black;
   border-bottom-right-radius: 50px;
   border-top-left-radius: 50px;
@@ -19,7 +21,7 @@
   text-decoration: none;
   text-transform: capitalize;
   transition: all 0.4s cubic-bezier(0.5,0.25,0,1);
-  
+
   &:visited {
     color: $teal-light;
   }
@@ -41,10 +43,14 @@
   }
 }
 
+.button--small {
+  font-size: $font-size-sm
+}
+
 // Secondary button
 .button--secondary {
   background-color: $teal-dark;
-  
+
   &:visited {
     color: $teal-light;
   }
@@ -64,7 +70,7 @@
 .button--tertiary {
   background-color: $teal;
   color: $black;
-  
+
   &:visited {
     color: $green;
   }
@@ -73,6 +79,26 @@
   &:focus {
     background-color: $black;
     color: $teal;
+  }
+
+  &:active {
+    color: $black;
+  }
+}
+
+// Quaternary button
+.button--quaternary {
+  background-color: $teal-light;
+  color: $black;
+
+  &:visited {
+    color: $green;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: $teal-dark;
+    color: $teal-light;
   }
 
   &:active {
