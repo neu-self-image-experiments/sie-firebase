@@ -65,7 +65,7 @@ Card.propTypes = {
     /**
      * Card's body
      */
-    body: PropTypes.string.isRequired,
+    body: PropTypes.string,
     /**
      * The open date
      */
