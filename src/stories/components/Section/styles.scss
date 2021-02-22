@@ -1,9 +1,9 @@
 @import '../../../scss/variables.scss';
 
 .section--medium {
-    font-size: $font-size-lg
+    font-size: $font-size-lg;
 }
 
 .section--large {
-    font-size: $font-size-xl
+    font-size: rem(24px);
 }
