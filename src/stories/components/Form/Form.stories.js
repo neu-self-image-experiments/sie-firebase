@@ -51,7 +51,6 @@ CustomForm.args = {
             value: 'Value 1',
         },
     ],
-    type: 'default',
     buttonText: 'Submit Form',
 };
 

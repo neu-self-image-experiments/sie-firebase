@@ -74,7 +74,7 @@ Form.propTypes = {
     /**
      * Form's button action
      */
-    handleSubmit: PropTypes.function,
+    handleSubmit: PropTypes.func,
 };
 
 Form.defaultProps = {
@@ -105,6 +105,7 @@ const CustomForm = ({ elements }) => (
                         options = {element.options}
                         value={element.value}
                         label={element.label}
+                        modifierClasses={element.modifierClasses}
                     />
                 </div>
             ))
@@ -117,13 +118,14 @@ CustomForm.propTypes = {
     * CustomForm's allowed types
    */
     elements: PropTypes.arrayOf(PropTypes.shape({
-        type: PropTypes.string,
+        type: PropTypes.string.isRequired,
         label: PropTypes.string,
         placeholder: PropTypes.string,
         value: PropTypes.string,
         options: PropTypes.array,
         showLabel: PropTypes.bool,
-    })),
+        modifierClasses: PropTypes.string,
+    })).isRequired,
     /**
    * CustomForm's type
    */
