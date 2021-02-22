@@ -1,0 +1,20 @@
+@import '../../../scss/variables.scss';
+
+// @file
+// Form
+
+.form__container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    padding: 0 0 $spacing-1;
+}
+
+.form__item {
+    flex-basis: 100%;
+    margin: 0 0 $spacing-2;
+}
+
+.form__button {
+    margin: 0 0 $spacing-2;
+}
