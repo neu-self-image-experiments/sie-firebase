@@ -1,0 +1,56 @@
+@import '../../../scss/variables.scss';
+
+// @file
+// Teaser
+
+.teaser {
+    width: 100%;
+    border: solid lightgrey;
+    border-width: 0 0 rem(1px) 0;
+    color: $black;
+    display: inline-block;
+    font-family: $header-font-family;
+    line-height: $line-height-loose;
+    padding: $spacing-2 $spacing-4;
+    text-decoration: none;
+    text-transform: capitalize;
+    .arrow__logo {
+        position: absolute;
+        right: 0;
+        height: $spacing-5
+    }
+    .line {
+        position: absolute;
+        top: $spacing-3;
+        left: rem(15px);
+        width: rem(1px);
+        height: $spacing-6;
+        border: solid $teal-dark;
+        border-radius: rem(5px);
+    }
+    .title {
+        font-size: $font-size-lg;
+        font-weight: 900;
+    }
+    .text {
+        font-size: $font-size-sm;
+        font-weight: 500;
+        color: grey;
+    }
+}
+
+.teaser--light {
+    .line {
+        border: solid $teal;
+    }
+}
+
+.teaser--disabled {
+    color: grey;
+    .arrow__logo {
+        visibility: hidden;
+    }
+    .line {
+        border: solid grey;
+    }
+}
