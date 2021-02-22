@@ -81,7 +81,7 @@ Form.defaultProps = {
     formItems: [],
     type: 'text',
     buttonText: 'Submit',
-    default: null,
+    handleSubmit: null,
 };
 
 /**
@@ -99,9 +99,12 @@ const CustomForm = ({ elements }) => (
                     className="form__item"
                     key={index}>
                     <FormItem
-                        placeholder={capitalize(element)}
-                        type={element}
-                        showLabel
+                        type={element.type}
+                        placeholder={element.placeholder}
+                        showLabel = {element.showLabel}
+                        options = {element.options}
+                        value={element.value}
+                        label={element.label}
                     />
                 </div>
             ))
@@ -113,14 +116,14 @@ CustomForm.propTypes = {
     /**
     * CustomForm's allowed types
    */
-    elements: PropTypes.oneOf([
-        'text',
-        'email',
-        'password',
-        'date',
-        'textarea',
-        'select',
-    ]).isRequired,
+    elements: PropTypes.arrayOf(PropTypes.shape({
+        type: PropTypes.string,
+        label: PropTypes.string,
+        placeholder: PropTypes.string,
+        value: PropTypes.string,
+        options: PropTypes.array,
+        showLabel: PropTypes.bool,
+    })),
     /**
    * CustomForm's type
    */
@@ -198,9 +201,9 @@ const SignUp = () => (
     </React.Fragment>
 );
 
-const capitalize = function(str) {
-    return str.replace(/(^|\s)([a-z])/g,
-        function(m, p1, p2) {
-            return p1 + p2.toUpperCase();
-        });
-};
+// const capitalize = function(str) {
+//     return str.replace(/(^|\s)([a-z])/g,
+//         function(m, p1, p2) {
+//             return p1 + p2.toUpperCase();
+//         });
+// };
