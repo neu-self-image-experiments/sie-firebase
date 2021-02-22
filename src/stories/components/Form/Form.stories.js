@@ -11,24 +11,31 @@ export default {
 
 const Template = (args) => <Form {...args} />;
 
+
+// Custom Form
+export const CustomForm = Template.bind({});
+CustomForm.args = {
+    formItems: [
+        'text',
+        'email',
+        'password',
+        'date',
+        'textarea',
+    ],
+    type: 'default',
+    buttonText: 'Submit Form',
+};
+
 // Login Form
 export const Login = Template.bind({});
 Login.args = {
-    formItems: [],
     type: 'login',
 };
 
-// SignUp Form
+// Sign Up Form
 export const SignUp = Template.bind({});
 SignUp.args = {
-    formItems: [],
     type: 'signup',
 };
 
-// Custom Form
-export const Custom = Template.bind({});
-Custom.args = {
-    formItems: [],
-    type: 'default',
-};
 

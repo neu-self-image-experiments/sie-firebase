@@ -10,8 +10,10 @@ import { Button } from '../Button/Button';
  * Component for Form element.
  *
  * @component
- * @param {string} formItems list of form items to include in the form.
- * @param {enum} type of the input.
+ * @param {array} formItems list of form items to include in the form.
+ * @param {string} type of the form.
+ * @param {string} buttonText text to be display on the submit button.
+ * @param {function} handleSubmit action to be executed on submit
  * @return {object} (
  *   <Form
  *      formItems={formItems}
@@ -20,7 +22,7 @@ import { Button } from '../Button/Button';
  * )
  */
 export const Form = (
-    { formItems, type },
+    { formItems, type, buttonText, handleSubmit },
 ) => {
     // dynamically render Form Item Input
     function returnForm(type) {
@@ -31,14 +33,26 @@ export const Form = (
         case 'signup':
             return <SignUp />;
         default:
-            return <p>Custom</p>;
+            return <CustomForm elements={formItems}/>;
         }
     }
-    // className={['form-item', `${modifierClasses}`].join(' ').trim()}
     return (
         <form>
             <div className="form__container">
                 {returnForm(type)}
+                <div className="form__button">
+                    <Button
+                        modifierClasses="button--quaternary button--small"
+                        text={(buttonText) ?
+                            buttonText :
+                            (type=='login') ?
+                                'Login':
+                                (type=='signup') ?
+                                    'Sign Up':
+                                    'Submit'}
+                        onClick={handleSubmit}
+                    />
+                </div>
             </div>
         </form>
     );
@@ -53,11 +67,68 @@ Form.propTypes = {
    * Form's type
    */
     type: PropTypes.string.isRequired,
+    /**
+     * Form's button text
+     */
+    buttonText: PropTypes.string,
+    /**
+     * Form's button action
+     */
+    handleSubmit: PropTypes.function,
 };
 
 Form.defaultProps = {
     formItems: [],
     type: 'text',
+    buttonText: 'Submit',
+    default: null,
+};
+
+/**
+ * Render <CustomForm /> HTML
+ * @param {array} elements list of form items to render.
+ * @return {object} (
+ *   <Login />
+ * )
+ */
+const CustomForm = ({ elements }) => (
+    <React.Fragment>
+        {
+            elements.map((element, index)=> (
+                <div
+                    className="form__item"
+                    key={index}>
+                    <FormItem
+                        placeholder={capitalize(element)}
+                        type={element}
+                        showLabel
+                    />
+                </div>
+            ))
+        }
+    </React.Fragment>
+);
+
+CustomForm.propTypes = {
+    /**
+    * CustomForm's allowed types
+   */
+    elements: PropTypes.oneOf([
+        'text',
+        'email',
+        'password',
+        'date',
+        'textarea',
+        'select',
+    ]).isRequired,
+    /**
+   * CustomForm's type
+   */
+    type: PropTypes.string,
+};
+
+CustomForm.defaultProps = {
+    type: 'custom',
 };
 
 /**
@@ -80,12 +151,6 @@ const Login = () => (
                 placeholder="Password"
                 type="password"
                 showLabel
-            />
-        </div>
-        <div className="form__button">
-            <Button
-                modifierClasses="button--quaternary button--small"
-                text="Login"
             />
         </div>
     </React.Fragment>
@@ -123,87 +188,19 @@ const SignUp = () => (
             <FormItem
                 label="Role"
                 options={[
-                    'Option 1',
-                    'Option 2',
-                    'Option 3',
-                    'Option 4',
+                    'Administrator',
+                    'Researcher',
+                    'Participant',
                 ]}
                 type="select"
-            />
-        </div>
-        <div className="form__button">
-            <Button
-                modifierClasses="button--quaternary button--small"
-                text="Sign Up"
             />
         </div>
     </React.Fragment>
 );
 
-// /**
-//  * Render <input /> HTML
-//  * @param {string} placeholder of the input.
-//  * @param {enum} type of the input.
-//  * @param {string} value of the input.
-//  * @param {string} label of the input.
-//  * @return {object} (
-//  *   <Input
-//  *      placeholder={placeholder} label={label}
-//         type={type} value={value} />
-//  * )
-//  */
-// const Input = ({type, placeholder, value, label}) => (
-//     <input
-//         className={[
-//             'form-item__input',
-//             `form-item__input--${type}`].join(' ').trim()}
-//         placeholder={placeholder}
-//         type={type}
-//         aria-label={label}
-//         {...value ? `value="${value}"` : ''}
-//     />
-// );
-
-// Input.propTypes = {
-//     /**
-//    * Input's label
-//    */
-//     label: PropTypes.string.isRequired,
-//     /**
-//    * Input's placeholder
-//    */
-//     placeholder: PropTypes.string,
-//     /**
-//    * Input's allowed types
-//    */
-//     type: PropTypes.oneOf([
-//         'text',
-//         'email',
-//         'password',
-//         'date',
-//         'textarea',
-//         'select',
-//     ]).isRequired,
-//     /**
-//    * Input's value
-//    */
-//     value: PropTypes.string,
-// };
-
-// Input.defaultProps = {
-//     label: 'Form Item Label',
-//     type: 'text',
-//     placeholder: 'Placeholder',
-//     value: '',
-// };
-
-Select.propTypes = {
-    /**
-   * Select's options
-   */
-    options: PropTypes.array,
-};
-
-Select.defaultProps = {
-    options: [],
+const capitalize = function(str) {
+    return str.replace(/(^|\s)([a-z])/g,
+        function(m, p1, p2) {
+            return p1 + p2.toUpperCase();
+        });
 };
