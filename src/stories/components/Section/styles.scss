@@ -1,0 +1,9 @@
+@import '../../../scss/variables.scss';
+
+.section--medium {
+    font-size: $font-size-lg;
+}
+
+.section--large {
+    font-size: rem(24px);
+}
