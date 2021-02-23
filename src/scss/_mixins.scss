@@ -48,3 +48,9 @@
     display: inline;
   }
 }
+
+// SVG background
+@mixin svg-background($image-name, $image-location: '/images/') {
+  $url: $image-location + $image-name + '.svg';
+  background-image: url($url);
+}
