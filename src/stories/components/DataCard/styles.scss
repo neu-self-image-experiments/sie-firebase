@@ -5,6 +5,7 @@
 
 .data-card {
     border-radius: 20px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     line-height: $line-height-tight;
 }
 
@@ -23,12 +24,12 @@
 }
 
 .data-card__teal {
-    background-image: $gradient-teal;  
+    background-image: $gradient-teal;
 }
 
 .data-card__teal-dark {
     h6 {
-        color: white;
+        color: $white;
     }
     background-image: $gradient-teal-dark;
     color: $white;

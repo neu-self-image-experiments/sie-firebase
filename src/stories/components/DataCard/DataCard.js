@@ -27,7 +27,7 @@ export const DataCard = (
             <div className="data-card__container">
                 <div className="data-card__details">
                     <h6>{title}</h6>
-                    <p>{description}</p>
+                    {description}
                 </div>
                 <div className="data-card__content">
                     {children}
