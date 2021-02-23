@@ -20,7 +20,7 @@ body {
 }
 
 %hN {
-  @extend %header-font-family !optional;
+  font-family: $header-font-family;;
   color: $black;
   font-weight: 700;
   hyphens: none;
