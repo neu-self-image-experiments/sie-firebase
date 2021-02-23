@@ -46,6 +46,7 @@
 }
 
 .teaser--disabled {
+    pointer-events:none;
     color: grey;
     .arrow__logo {
         visibility: hidden;
