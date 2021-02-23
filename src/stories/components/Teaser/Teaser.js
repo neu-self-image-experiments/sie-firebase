@@ -23,9 +23,7 @@ export const Teaser = ({ modifierClasses, url, title, text }) => {
             href={url}
             className={['teaser', `${modifierClasses}`].join(' ').trim()}
         >
-            <span className='teaser__title'>
-                {title}
-            </span>
+            <span className='teaser__title'>{title}</span>
             {text}
         </a>
     );
