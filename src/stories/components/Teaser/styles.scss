@@ -5,9 +5,8 @@
 
 .teaser {
     width: 100%;
-    border: solid lightgrey;
+    border: solid $gray-1;
     border-width: 0 0 rem(1px) 0;
-    color: $black;
     display: inline-block;
     font-family: $header-font-family;
     line-height: $line-height-loose;
@@ -20,9 +19,11 @@
     right: 0;
     height: $spacing-5
 }
+
 .teaser__title {
     font-size: $font-size-lg;
     font-weight: 900;
+    color: $black;
 }
 .teaser__title::before {
     content: '';
@@ -35,7 +36,7 @@
     border-radius: rem(5px);
   }
 .teaser__text {
-    font-size: $font-size-sm;
+    font-size: $font-size-md;
     font-weight: 500;
     color: grey;
 }
@@ -48,11 +49,13 @@
 
 .teaser--disabled {
     pointer-events:none;
-    color: grey;
     .teaser__logo {
         visibility: hidden;
     }
+    .teaser__title {
+        color: grey;
+    }
     .teaser__title::before {
-        border: solid grey;
+        border: solid $gray-3;
     }
 }
