@@ -42,17 +42,6 @@
         width: rem(10px);
     }
 
-    &:hover {
-
-        &::after {
-            animation: escape-right .8s,ease-in-out 0s 1 fowards;
-        }
-
-        .teaser__title {
-            color: $teal-dark;
-        }
-    }
-
     @include bp-tablet {
         padding: $spacing-2 $spacing-7 $spacing-2 $spacing-4;
 
@@ -62,11 +51,18 @@
         }
 
         &::after {
-            background-size: 13px 20px;
-            height: rem(20px);
             right: $spacing-4;
-            top: calc((100% - #{rem(20px)}) / 2);
-            width: rem(13px);
+        }
+
+        &:hover {
+
+            &::after {
+                animation: escape-right .8s,ease-in-out 0s 1 fowards;
+            }
+
+            .teaser__title {
+                color: $teal-dark;
+            }
         }
     }
 }
