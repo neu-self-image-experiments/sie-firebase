@@ -6,12 +6,17 @@
 .form-item {
   display: flex;
   flex-direction: column;
+  margin: 0 0 $spacing-2;
 
   ::placeholder {
     color: $black;
     font-family: $base-font-family;
     font-size: $base-font-size;
     opacity: 1;
+  }
+
+  @include bp-tablet {
+    margin: 0 0 $spacing-3;
   }
 }
 
@@ -55,12 +60,12 @@
   font-size: $base-font-size;
   height: rem(44px);
   padding: 0 $spacing-2;
-  
+
   &:focus {
     border-color: $teal-dark;
     outline: none;
   }
-  
+
   @include bp-tablet {
     height: rem(54px);
   }
@@ -110,7 +115,7 @@
   background-repeat: no-repeat;
   background-size: auto;
   padding-right: $spacing-2;
-  
+
   .form-item--light & {
     background-image: url('../../../images/icon-down-white.svg');
   }

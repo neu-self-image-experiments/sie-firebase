@@ -100,19 +100,16 @@ const CustomForm = ({ elements, isDarkTheme }) => (
     <React.Fragment>
         {
             elements.map((element, index)=> (
-                <div
-                    className="form__item"
-                    key={index}>
-                    <FormItem
-                        modifierClasses={isDarkTheme && 'form-item--light'}
-                        type={element.type}
-                        placeholder={element.placeholder}
-                        showLabel = {element.showLabel}
-                        options = {element.options}
-                        value={element.value}
-                        label={element.label}
-                    />
-                </div>
+                <FormItem
+                    key={index}
+                    modifierClasses={isDarkTheme ? 'form-item--light' : ''}
+                    type={element.type}
+                    placeholder={element.placeholder}
+                    showLabel = {element.showLabel}
+                    options = {element.options}
+                    value={element.value}
+                    label={element.label}
+                />
             ))
         }
     </React.Fragment>
@@ -154,22 +151,18 @@ CustomForm.defaultProps = {
  */
 const Login = ({ isDarkTheme }) => (
     <React.Fragment>
-        <div className="form__item">
-            <FormItem
-                modifierClasses={isDarkTheme && 'form-item--light'}
-                placeholder="Email"
-                type="email"
-                showLabel
-            />
-        </div>
-        <div className="form__item">
-            <FormItem
-                modifierClasses={isDarkTheme && 'form-item--light'}
-                placeholder="Password"
-                type="password"
-                showLabel
-            />
-        </div>
+        <FormItem
+            modifierClasses={isDarkTheme ? 'form-item--light' : ''}
+            placeholder="Email"
+            type="email"
+            showLabel
+        />
+        <FormItem
+            modifierClasses={isDarkTheme ? 'form-item--light' : ''}
+            placeholder="Password"
+            type="password"
+            showLabel
+        />
     </React.Fragment>
 );
 
@@ -192,41 +185,35 @@ Login.defaultProps = {
  */
 const SignUp = ({ isDarkTheme }) => (
     <React.Fragment>
-        <div className="form__item">
-            <FormItem
-                modifierClasses={isDarkTheme && 'form-item--light'}
-                placeholder="Full Name"
-                showLabel
-            />
-        </div>
-        <div className="form__item">
-            <FormItem
-                modifierClasses={isDarkTheme && 'form-item--light'}
-                placeholder="Email"
-                type="email"
-                showLabel
-            />
-        </div>
-        <div className="form__item">
-            <FormItem
-                modifierClasses={isDarkTheme && 'form-item--light'}
-                placeholder="Password"
-                type="password"
-                showLabel
-            />
-        </div>
-        <div className="form__item">
-            <FormItem
-                modifierClasses={isDarkTheme && 'form-item--light'}
-                label="Role"
-                options={[
-                    'Administrator',
-                    'Researcher',
-                    'Participant',
-                ]}
-                type="select"
-            />
-        </div>
+        <FormItem
+            modifierClasses={isDarkTheme ? 'form-item--light' : ''}
+            placeholder="Full Name"
+            showLabel
+        />
+        <FormItem
+            modifierClasses={isDarkTheme ? 'form-item--light' : ''}
+            placeholder="Email"
+            type="email"
+            showLabel
+        />
+        <FormItem
+            modifierClasses={isDarkTheme ? 'form-item--light' : ''}
+            placeholder="Password"
+            type="password"
+            showLabel
+        />
+        <FormItem
+            modifierClasses={isDarkTheme ? 'form-item--light' : ''}
+            showLabel
+            label="Role"
+            options={[
+                '-- User Role --',
+                'Administrator',
+                'Researcher',
+                'Participant',
+            ]}
+            type="select"
+        />
     </React.Fragment>
 );
 
