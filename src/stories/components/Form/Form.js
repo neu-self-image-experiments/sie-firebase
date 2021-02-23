@@ -13,6 +13,7 @@ import { Button } from '../Button/Button';
  * @param {array} formItems list of form items to include in the form.
  * @param {string} type of the form.
  * @param {string} buttonText text to be display on the submit button.
+ * @param {boolean} isDarkTheme theme of the component the form is included in.
  * @param {function} handleSubmit action to be executed on submit
  * @return {object} (
  *   <Form
@@ -22,37 +23,36 @@ import { Button } from '../Button/Button';
  * )
  */
 export const Form = (
-    { formItems, type, buttonText, handleSubmit },
+    { formItems, type, buttonText, handleSubmit, isDarkTheme },
 ) => {
     // dynamically render Form Item Input
     function returnForm(type) {
         // switch statement to check value of type
         switch (type) {
         case 'login':
-            return <Login />;
+            return <Login isDarkTheme={isDarkTheme}/>;
         case 'signup':
-            return <SignUp />;
+            return <SignUp isDarkTheme={isDarkTheme}/>;
         default:
-            return <CustomForm elements={formItems}/>;
+            return <CustomForm elements={formItems} isDarkTheme={isDarkTheme}/>;
         }
     }
     return (
-        <form>
-            <div className="form__container">
-                {returnForm(type)}
-                <div className="form__button">
-                    <Button
-                        modifierClasses="button--quaternary button--small"
-                        text={(buttonText) ?
-                            buttonText :
-                            (type=='login') ?
-                                'Login':
-                                (type=='signup') ?
-                                    'Sign Up':
-                                    'Submit'}
-                        onClick={handleSubmit}
-                    />
-                </div>
+        <form id="customForm">
+            {returnForm(type)}
+            <div className="form__button">
+                <Button
+                    modifierClasses={[
+                        'button--small',
+                        `${isDarkTheme ?
+                            'button--quaternary' :
+                            'button--secondary'}`].join(' ').trim()}
+                    text={(buttonText) ?
+                        buttonText :
+                        (type==='login') ?
+                            'Login':'Sign Up'}
+                    onClick={handleSubmit}
+                />
             </div>
         </form>
     );
@@ -75,13 +75,18 @@ Form.propTypes = {
      * Form's button action
      */
     handleSubmit: PropTypes.func,
+    /**
+     * Form's outer container theme
+     */
+    isDarkTheme: PropTypes.bool,
 };
 
 Form.defaultProps = {
     formItems: [],
     type: 'text',
-    buttonText: 'Submit',
+    buttonText: null,
     handleSubmit: null,
+    isDarkTheme: false,
 };
 
 /**
@@ -91,7 +96,7 @@ Form.defaultProps = {
  *   <Login />
  * )
  */
-const CustomForm = ({ elements }) => (
+const CustomForm = ({ elements, isDarkTheme }) => (
     <React.Fragment>
         {
             elements.map((element, index)=> (
@@ -99,13 +104,13 @@ const CustomForm = ({ elements }) => (
                     className="form__item"
                     key={index}>
                     <FormItem
+                        modifierClasses={isDarkTheme && 'form-item--light'}
                         type={element.type}
                         placeholder={element.placeholder}
                         showLabel = {element.showLabel}
                         options = {element.options}
                         value={element.value}
                         label={element.label}
-                        modifierClasses={element.modifierClasses}
                     />
                 </div>
             ))
@@ -130,10 +135,15 @@ CustomForm.propTypes = {
    * CustomForm's type
    */
     type: PropTypes.string,
+    /**
+   * CustomForm's outer theme
+   */
+    isDarkTheme: PropTypes.bool,
 };
 
 CustomForm.defaultProps = {
     type: 'custom',
+    isDarkTheme: false,
 };
 
 /**
@@ -142,10 +152,11 @@ CustomForm.defaultProps = {
  *   <Login />
  * )
  */
-const Login = () => (
+const Login = ({ isDarkTheme }) => (
     <React.Fragment>
         <div className="form__item">
             <FormItem
+                modifierClasses={isDarkTheme && 'form-item--light'}
                 placeholder="Email"
                 type="email"
                 showLabel
@@ -153,6 +164,7 @@ const Login = () => (
         </div>
         <div className="form__item">
             <FormItem
+                modifierClasses={isDarkTheme && 'form-item--light'}
                 placeholder="Password"
                 type="password"
                 showLabel
@@ -161,22 +173,35 @@ const Login = () => (
     </React.Fragment>
 );
 
+Login.propTypes = {
+    /**
+   * Login's outer theme
+   */
+    isDarkTheme: PropTypes.bool,
+};
+
+Login.defaultProps = {
+    isDarkTheme: false,
+};
+
 /**
  * Render <SignUp /> HTML
  * @return {object} (
  *   <SignUp />
  * )
  */
-const SignUp = () => (
+const SignUp = ({ isDarkTheme }) => (
     <React.Fragment>
         <div className="form__item">
             <FormItem
+                modifierClasses={isDarkTheme && 'form-item--light'}
                 placeholder="Full Name"
                 showLabel
             />
         </div>
         <div className="form__item">
             <FormItem
+                modifierClasses={isDarkTheme && 'form-item--light'}
                 placeholder="Email"
                 type="email"
                 showLabel
@@ -184,6 +209,7 @@ const SignUp = () => (
         </div>
         <div className="form__item">
             <FormItem
+                modifierClasses={isDarkTheme && 'form-item--light'}
                 placeholder="Password"
                 type="password"
                 showLabel
@@ -191,6 +217,7 @@ const SignUp = () => (
         </div>
         <div className="form__item">
             <FormItem
+                modifierClasses={isDarkTheme && 'form-item--light'}
                 label="Role"
                 options={[
                     'Administrator',
@@ -203,9 +230,13 @@ const SignUp = () => (
     </React.Fragment>
 );
 
-// const capitalize = function(str) {
-//     return str.replace(/(^|\s)([a-z])/g,
-//         function(m, p1, p2) {
-//             return p1 + p2.toUpperCase();
-//         });
-// };
+SignUp.propTypes = {
+    /**
+   * SignUp's outer theme
+   */
+    isDarkTheme: PropTypes.bool,
+};
+
+SignUp.defaultProps = {
+    isDarkTheme: false,
+};
