@@ -7,30 +7,30 @@ import PropTypes from 'prop-types';
  * Component for data card element.
  *
  * @component
- * @param {string} modifierClasses Class modifiers of the component
+ * @param {string} modifierClasses of the data card
  * @param {sting} title the data card
  * @param {string} description of the data card
- * @param {node} content of the data card
+ * @param {node} children of the data card
  * @return {object}
  *   <DataCard
  *      modifierClasses={modifierClasses}
- *      title={text}
+ *      title={title}
  *      description={description}
- *      content={content} />
+ *      children={children} />
  * )
  */
 export const DataCard = (
-    { modifierClasses, title, description, content },
+    { modifierClasses, title, description, children },
 ) => {
     return (
-        <div className={['data_card', `${modifierClasses}`].join(' ').trim()}>
-            <div className="data_card__container">
-                <div className="data_card__details">
-                    <h3>{title}</h3>
+        <div className={['data-card', `${modifierClasses}`].join(' ').trim()}>
+            <div className="data-card__container">
+                <div className="data-card__details">
+                    <p className="data-card__title">{title}</p>
                     <p>{description}</p>
                 </div>
-                <div className="data_card__content">
-                    {content}
+                <div className="data-card__content">
+                    {children}
                 </div>
             </div>
         </div>
@@ -51,9 +51,9 @@ DataCard.propTypes = {
      */
     description: PropTypes.string,
     /**
-     * Data Card's content
+     * Data Card's children
      */
-    content: PropTypes.node.isRequired,
+    children: PropTypes.node.isRequired,
 };
 
 DataCard.defaultProps = {

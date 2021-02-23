@@ -1,0 +1,45 @@
+@import '../../../scss/variables.scss';
+
+// @file
+// Data Card
+
+.data-card {
+    border-radius: 5px;
+}
+
+.data-card__container {
+    padding: $spacing-3;
+}
+
+.data-card__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.data-card__title {
+    font-weight: 700;
+}
+
+.data-card__details {
+    margin-bottom: $spacing-5;
+    p {
+        margin-bottom: $spacing-1;
+        font-size: $font-size-md;
+        font-family: $header-font-family;
+        line-height: $line-height-tight;
+    }
+}
+
+.data-card__teal {
+    background-image: $gradient-teal;  
+}
+
+.data-card__teal-dark {
+    background-image: $gradient-teal-dark;
+    color: $white;
+}
+
+.data-card__teal-light {
+    background-image: $gradient-teal-light;
+}
