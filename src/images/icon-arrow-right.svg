@@ -1,1 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="16px" viewBox="0 0 10 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Arrow</title>
+    <g id="Designs" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Dashboard" transform="translate(-641.000000, -602.000000)" fill="#333333" fill-rule="nonzero">
+            <g id="Rerport-item" transform="translate(281.000000, 578.000000)">
+                <path d="M361.882106,24.2339962 L361.969739,24.3056277 L369.662046,31.2621494 C370.084488,31.6441841 370.110891,32.2487492 369.741254,32.6586002 L369.662046,32.7378506 L361.969739,39.6943723 C361.519134,40.1018759 360.788559,40.1018759 360.337954,39.6943723 C359.915512,39.3123377 359.889109,38.7077725 360.258746,38.2979216 L360.337954,38.2186712 L367.214615,32 L360.337954,25.7813288 C359.887349,25.3738252 359.887349,24.7131313 360.337954,24.3056277 C360.732233,23.949062 361.340864,23.9044913 361.788732,24.1719156 L361.882106,24.2339962 Z" id="Arrow"></path>
+            </g>
+        </g>
+    </g>
+</svg>

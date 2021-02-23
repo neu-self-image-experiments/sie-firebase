@@ -4,54 +4,121 @@
 // Teaser
 
 .teaser {
-    width: 100%;
     border: solid lightgrey;
     border-width: 0 0 rem(1px) 0;
     color: $black;
-    display: inline-block;
-    font-family: $header-font-family;
+    display: block;
+    font-size: $font-size-sm;
+    font-family: $base-font-family;
     line-height: $line-height-loose;
-    padding: $spacing-2 $spacing-4;
+    padding: $spacing-1 $spacing-5 $spacing-1 $spacing-2;
+    position: relative;
     text-decoration: none;
-    text-transform: capitalize;
-    .arrow__logo {
+
+    &::before {
+        background-color: $teal-dark;
+        border-radius: 15px;
+        content: '';
+        display: block;
+        height: calc(100% - #{$spacing-2});
+        top: $spacing-1;
+        left: 0;
         position: absolute;
-        right: 0;
-        height: $spacing-5
+        width: rem(5px);
     }
-    .line {
+
+    &::after {
+        @include svg-background(icon-arrow-right);
+
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 10px 16px;
+        content: '';
+        display: block;
+        height: rem(16px);
         position: absolute;
-        top: $spacing-3;
-        left: rem(15px);
-        width: rem(1px);
-        height: $spacing-6;
-        border: solid $teal-dark;
-        border-radius: rem(5px);
+        right: $spacing-2;
+        top: calc((100% - #{rem(16px)}) / 2);
+        width: rem(10px);
     }
-    .title {
-        font-size: $font-size-lg;
-        font-weight: 900;
+
+    &:hover {
+
+        &::after {
+            animation: escape-right .8s,ease-in-out 0s 1 fowards;
+        }
+
+        .teaser__title {
+            color: $teal-dark;
+        }
     }
-    .text {
-        font-size: $font-size-sm;
-        font-weight: 500;
-        color: grey;
+
+    @include bp-tablet {
+        padding: $spacing-2 $spacing-7 $spacing-2 $spacing-4;
+
+        &::before {
+            height: calc(100% - #{$spacing-4});
+            top: $spacing-2;
+        }
+
+        &::after {
+            background-size: 13px 20px;
+            height: rem(20px);
+            right: $spacing-4;
+            top: calc((100% - #{rem(20px)}) / 2);
+            width: rem(13px);
+        }
     }
 }
 
+.teaser__title {
+    color: $black;
+    font-weight: 700;
+    display: block;
+    font-size: $font-size-md;
+}
+
 .teaser--light {
-    .line {
-        border: solid $teal;
+    &::before {
+        background-color: $teal;
     }
 }
 
 .teaser--disabled {
-    pointer-events:none;
-    color: grey;
-    .arrow__logo {
-        visibility: hidden;
+    color: $gray-4;
+    pointer-events: none;
+
+    &::before {
+        background-color: $gray-3;
     }
-    .line {
-        border: solid grey;
+
+    &::after {
+        display: none;
+    }
+
+    .teaser__title {
+        color: $gray-4;
+    }
+}
+
+@keyframes escape-right {
+    25% {
+        transform:translateX(20px);
+    }
+    50% {
+        opacity:0;
+        transform:translateX(20px);
+    }
+    60% {
+        opacity:0;
+        transform:translateX(-20px);
+    }
+    90% {
+        opacity:1;
+        transform:translateX(0);
+    }
+    90% {
+        opacity:1;
+        transform:translateX(0);
     }
 }

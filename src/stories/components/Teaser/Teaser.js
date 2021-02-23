@@ -2,7 +2,6 @@ import './styles.scss';
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Logo from '../../../images/icon-arrow-right.svg';
 
 /**
  * Component for teaser element.
@@ -24,17 +23,10 @@ export const Teaser = ({ modifierClasses, url, title, text }) => {
             href={url}
             className={['teaser', `${modifierClasses}`].join(' ').trim()}
         >
-            <img src={Logo}
-                alt={`${text} arrow logo`}
-                className="arrow__logo"
-            />
-            <div className='line'></div>
-            <div className='title'>
+            <span className='teaser__title'>
                 {title}
-            </div>
-            <div className='text'>
-                {text}
-            </div>
+            </span>
+            {text}
         </a>
     );
 };
