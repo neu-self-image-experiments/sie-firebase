@@ -25,14 +25,13 @@ export const Teaser = ({ modifierClasses, url, title, text }) => {
             className={['teaser', `${modifierClasses}`].join(' ').trim()}
         >
             <img src={Logo}
-                alt={`${text} arrow logo`}
-                className="arrow__logo"
+                alt={`${text} teaser logo`}
+                className="teaser__logo"
             />
-            <div className='line'></div>
-            <div className='title'>
+            <div className='teaser__title'>
                 {title}
             </div>
-            <div className='text'>
+            <div className='teaser__text'>
                 {text}
             </div>
         </a>
