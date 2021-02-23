@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import StepWizard from 'react-step-wizard';
 import { Steps } from '../../components/Steps/Steps';
-import { Constrain } from '../../components/Constrain/Constrain';
+import { Constrain } from '../Constrain/Constrain';
 
 /**
  * Component for Wizard layout element.
