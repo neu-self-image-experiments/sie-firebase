@@ -1,0 +1,19 @@
+@import '../../../scss/variables.scss';
+
+// @file
+// Header
+
+.header {
+    border-bottom: solid 1px $gray-1;
+    padding: $spacing-1 0;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.header__inner {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
