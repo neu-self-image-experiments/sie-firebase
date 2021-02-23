@@ -4,7 +4,8 @@
 // Data Card
 
 .data-card {
-    border-radius: 5px;
+    border-radius: 20px;
+    line-height: $line-height-tight;
 }
 
 .data-card__container {
@@ -17,18 +18,8 @@
     justify-content: center;
 }
 
-.data-card__title {
-    font-weight: 700;
-}
-
 .data-card__details {
     margin-bottom: $spacing-5;
-    p {
-        margin-bottom: $spacing-1;
-        font-size: $font-size-md;
-        font-family: $header-font-family;
-        line-height: $line-height-tight;
-    }
 }
 
 .data-card__teal {
@@ -36,6 +27,9 @@
 }
 
 .data-card__teal-dark {
+    h6 {
+        color: white;
+    }
     background-image: $gradient-teal-dark;
     color: $white;
 }

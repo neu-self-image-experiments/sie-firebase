@@ -26,7 +26,7 @@ export const DataCard = (
         <div className={['data-card', `${modifierClasses}`].join(' ').trim()}>
             <div className="data-card__container">
                 <div className="data-card__details">
-                    <p className="data-card__title">{title}</p>
+                    <h6>{title}</h6>
                     <p>{description}</p>
                 </div>
                 <div className="data-card__content">
