@@ -1,14 +1,14 @@
 @import '../../../scss/variables.scss';
 
 // @file
-// Button
+// Constrain
 
 .constrain {
   margin-left: auto;
   margin-right: auto;
   max-width: rem(1200px);
   padding: 0 1rem;
-  
+
   @include bp-tablet {
     padding: 0 2rem;
   }
@@ -20,6 +20,6 @@
 }
 
 // small constrain
-.constrain--small {
+.constrain--narrow {
   max-width: rem(600px);
 }

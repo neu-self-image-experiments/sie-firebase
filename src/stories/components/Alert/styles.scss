@@ -1,0 +1,27 @@
+@import '../../../scss/variables.scss';
+
+// @file
+// Alert
+
+.alert {
+  background-color: $green;
+  border: solid 1px $green-dark;
+  border-radius: 20px;
+  font-size: $font-size-sm;
+  max-width: rem(400px);
+  padding: $spacing-2;
+
+  @include bp-tablet {
+    padding: $spacing-3;
+  }
+
+  &--warning {
+    background-color: $yellow;
+    border: solid 1px $yellow-dark;
+  }
+
+  &--error {
+    background-color: $red;
+    border: solid 1px $red-dark;
+  }
+}
