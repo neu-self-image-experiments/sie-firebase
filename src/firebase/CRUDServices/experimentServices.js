@@ -38,7 +38,7 @@ export default class ExperimentServices {
 
     /**
      * Get all exsisting experiments.
-     * @return {Experiment} experiment object.
+     * @return {Experiment[]} array of experiment object.
      */
     getExperiments = async () => {
         try {
@@ -90,8 +90,10 @@ export default class ExperimentServices {
             const experimentRef = db.collection('Experiments')
                 .doc(experimentId);
             await experimentRef.update(experiment);
+            return true;
         } catch (err) {
             console.error(err);
+            return false;
         }
     }
 
@@ -110,18 +112,4 @@ export default class ExperimentServices {
             return false;
         }
     }
-
-    // for testing purposes.
-    // test = () => {
-    //     const sieExperiment = ExperimentServices.getInstance();
-    //     // sieExperiment.postExperiment({name: 'testing'}, 'testPost');
-    //     sieExperiment.getExperimentById('get');
-    //     // sieExperiment.getExperiments();
-    //     sieExperiment.updateExperimentById('proto'
-    //         , {name: 'c', photo: 'null'});
-    //     sieExperiment.deleteExperimentById('testPost');
-    //     console.log('testing run');
-    // };
-
-    // test();
 }
