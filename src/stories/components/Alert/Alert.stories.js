@@ -1,7 +1,6 @@
 import '../../../scss/styles.scss';
 
 import React from 'react';
-import { Constrain } from '../../layouts/Constrain/Constrain';
 import { Alert } from './Alert';
 
 /**
@@ -12,9 +11,7 @@ export default {
     component: Alert,
 };
 
-const Template = (args) => <Constrain modifierClasses="constrain--small">
-    <Alert {...args} />
-</Constrain>;
+const Template = (args) => <Alert {...args} />;
 
 // Success alert
 export const Success = Template.bind({});
