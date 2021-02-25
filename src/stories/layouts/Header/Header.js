@@ -19,7 +19,7 @@ import { Constrain } from '../../layouts/Constrain/Constrain';
  * )
  */
 
-export const Header = ({ modifierClasses, leftContent, rightContent}) => {
+export const Header = ({ modifierClasses, leftContent, rightContent }) => {
     return (
         <div
             className={['header', `${modifierClasses}`].join(' ').trim()}

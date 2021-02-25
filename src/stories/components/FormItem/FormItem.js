@@ -104,7 +104,7 @@ FormItem.defaultProps = {
         type={type} value={value} />
  * )
  */
-const Input = ({type, placeholder, value, label}) => (
+const Input = ({ type, placeholder, value, label }) => (
     <input
         className={[
             'form-item__input',
@@ -170,7 +170,7 @@ const Textarea = () => (
  *   <Select options={options />
  * )
  */
-const Select = ({options}) => (
+const Select = ({ options }) => (
     <select
         className={[
             'form-item__input',

@@ -18,7 +18,7 @@ import PropTypes from 'prop-types';
  * )
  */
 
-export const Sidebar = ({ modifierClasses, leftContent, rightContent}) => {
+export const Sidebar = ({ modifierClasses, leftContent, rightContent }) => {
     return (
         <div
             className={['sidebar', `${modifierClasses}`].join(' ').trim()}

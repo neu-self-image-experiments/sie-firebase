@@ -18,7 +18,7 @@ import { Constrain } from '../Constrain/Constrain';
  * )
  */
 /* eslint react/prop-types: 0 */
-export const Wizard = ({children, labels}) => {
+export const Wizard = ({ children, labels }) => {
     const [state, updateState] = useState({
         form: {},
     });
