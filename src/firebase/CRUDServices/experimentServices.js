@@ -31,7 +31,6 @@ export default class ExperimentServices {
                 .set(experiment);
             return true;
         } catch (err) {
-            console.error(err);
             return false;
         }
     }
@@ -44,16 +43,17 @@ export default class ExperimentServices {
         try {
             const experimentRef = db.collection('Experiments');
             const snapshot = await experimentRef.get();
+            const res = [];
             if (snapshot.empty) {
-                console.log('No matching documents.');
-                return;
+                return res;
             }
 
             snapshot.forEach( (doc) => {
-                console.log(doc.data());
+                res.push(doc.data());
             });
+            return res;
         } catch (err) {
-            console.error(err);
+            return [];
         }
     }
 
@@ -69,13 +69,10 @@ export default class ExperimentServices {
                 .doc(experimentId);
             const doc = await experimentRef.get();
             if (!doc.exists) {
-                console.log('No such document!');
+                return doc.data();
             } else {
-                console.log('Document data:', doc.data());
             }
-            return doc;
         } catch (err) {
-            console.error(err);
         }
     }
 
@@ -92,7 +89,6 @@ export default class ExperimentServices {
             await experimentRef.update(experiment);
             return true;
         } catch (err) {
-            console.error(err);
             return false;
         }
     }
@@ -108,7 +104,6 @@ export default class ExperimentServices {
                 .doc(experimentId).delete();
             return true;
         } catch (err) {
-            console.error(err);
             return false;
         }
     }
