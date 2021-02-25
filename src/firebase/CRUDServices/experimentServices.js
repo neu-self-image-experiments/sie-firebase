@@ -27,8 +27,7 @@ export default class ExperimentServices {
      */
     postExperiment = async (experimentId, experiment) => {
         try {
-            await db.collection('Experiments').doc(experimentId)
-                .set(experiment);
+            await db.collection('Experiments').doc(experimentId).set(experiment);
             return true;
         } catch (err) {
             return false;
