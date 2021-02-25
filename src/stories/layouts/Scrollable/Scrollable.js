@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
- * Component for grid layout element.
+ * Component for scrollable div element.
  *
  * @param {node} children Elements inside this Scrollable
  * @return {object} (
