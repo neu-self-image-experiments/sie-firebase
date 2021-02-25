@@ -5,8 +5,25 @@
 
 .scrollable {
     overflow-y: scroll;
-    
-    ::-webkit-scrollbar-thumb {
-        background-color: $teal-dark;
+    border-width: 1px;
+    border-color: $gray-3;
+    border-style: solid;
+    padding: $spacing-2;
+    height: 100%;
+
+    &::-webkit-scrollbar {
+        visibility: hidden;
+        width: 6px;
     }
+    
+
+    &::-webkit-scrollbar-thumb {
+        background: $teal-dark;
+        border-radius: 5px;
+    }
+}
+
+// only used for the stories to set a height to the parent
+.test__parent {
+    height:200px
 }
