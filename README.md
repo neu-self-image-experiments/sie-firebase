@@ -1,5 +1,5 @@
 # Self-Image Experiment
-[![Build Status](https://travis-ci.com/quanganhhoang/sie-firebase.svg?branch=master)](https://travis-ci.com/quanganhhoang/sie-firebase)
+[![Build Status](https://travis-ci.com/neu-self-image-experiments/sie-firebase.svg?branch=master)](https://github.com/neu-self-image-experiments/sie-firebase)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 1. __Owner__: [@quanganhhoang](https://github.com/quanganhhoang)

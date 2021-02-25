@@ -7,22 +7,22 @@ import { Header } from './Header';
  * Example Component: Sidebar
  */
 export default {
-    title: 'Example/Header',
-    component: Header,
+  title: 'Example/Header',
+  component: Header,
 };
 
 const Template = (args) => {
-    return (
-        <Header {...args} />
-    );
+  return (
+    <Header {...args} />
+  );
 };
 
 // Default Header
 export const Default = Template.bind({});
 Default.args = {
-    modifierClasses: '',
-    leftContent: <Branding text="SIE" />,
-    rightContent:
+  modifierClasses: '',
+  leftContent: <Branding text="SIE" />,
+  rightContent:
         <a href="#">
             Some Link
         </a>,

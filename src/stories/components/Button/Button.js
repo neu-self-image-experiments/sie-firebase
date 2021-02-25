@@ -17,38 +17,38 @@ import { Fragment } from 'react';
  * )
  */
 export const Button = ({ modifierClasses, url, text, isButton }) => {
-    const classes = ['button', `${modifierClasses}`].join(' ').trim();
+  const classes = ['button', `${modifierClasses}`].join(' ').trim();
 
-    return (
-        <Fragment>
-            {isButton ?
-                <button role="button" className={classes}>{text}</button> :
-                <a href={url} className={classes}>{text}</a>
-            }
-        </Fragment>
-    );
+  return (
+    <Fragment>
+      {isButton ?
+        <button role="button" className={classes}>{text}</button> :
+        <a href={url} className={classes}>{text}</a>
+      }
+    </Fragment>
+  );
 };
 
 Button.propTypes = {
-    /**
+  /**
    * Button's modifier classes
    */
-    modifierClasses: PropTypes.string,
-    /**
+  modifierClasses: PropTypes.string,
+  /**
    * Button's url
    */
-    url: PropTypes.string,
-    /**
+  url: PropTypes.string,
+  /**
    * Button's text
    */
-    text: PropTypes.string.isRequired,
-    /**
+  text: PropTypes.string.isRequired,
+  /**
      * Button's isButton
      */
-    isButton: PropTypes.bool,
+  isButton: PropTypes.bool,
 };
 
 Button.defaultProps = {
-    modifierClasses: '',
-    isButton: false,
+  modifierClasses: '',
+  isButton: false,
 };

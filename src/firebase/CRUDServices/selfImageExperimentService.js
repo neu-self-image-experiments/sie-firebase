@@ -1,9 +1,9 @@
 import firebase from '../firebase';
 
 export default class SelfImageExperimentService {
-    constructor() {
-        self.db = firebase.firestore();
-    }
+  constructor() {
+    self.db = firebase.firestore();
+  }
 
     // singleton instance.
     static sieInstance = null;
@@ -13,10 +13,10 @@ export default class SelfImageExperimentService {
      * @return {SelfImageExperimentService} instance
      */
     static getInstance = () => {
-        if (self.sieInstance == null) {
-            self.sieInstance = new SelfImageExperimentService();
-        }
-        return self.sieInstance;
+      if (self.sieInstance == null) {
+        self.sieInstance = new SelfImageExperimentService();
+      }
+      return self.sieInstance;
     }
 
     /**
@@ -27,14 +27,14 @@ export default class SelfImageExperimentService {
      * @return {Boolean} succeed or not.
      */
     postExperiment = async (experimentId, selfImageExperiment) => {
-        try {
-            await db.collection('Experiments').doc(experimentId)
-                .set(selfImageExperiment);
-            return true;
-        } catch (err) {
-            // TODO: add logic here
-            return false;
-        }
+      try {
+        await db.collection('Experiments').doc(experimentId)
+          .set(selfImageExperiment);
+        return true;
+      } catch (err) {
+        // TODO: add logic here
+        return false;
+      }
     }
 
     /**
@@ -42,19 +42,19 @@ export default class SelfImageExperimentService {
      * @return {SelfImageExperiment[]} array of self image experiment object.
      */
     getExperiments = async () => {
-        try {
-            const experimentRef = db.collection('SelfImageExperiments');
-            const snapshot = await experimentRef.get();
-            if (snapshot.empty) {
-                return;
-            }
-
-            snapshot.forEach( (doc) => {
-                // TODO: add logic here
-            });
-        } catch (err) {
-            // TODO: add logic here
+      try {
+        const experimentRef = db.collection('SelfImageExperiments');
+        const snapshot = await experimentRef.get();
+        if (snapshot.empty) {
+          return;
         }
+
+        snapshot.forEach( (doc) => {
+          // TODO: add logic here
+        });
+      } catch (err) {
+        // TODO: add logic here
+      }
     }
 
 
@@ -64,19 +64,19 @@ export default class SelfImageExperimentService {
      * @return {SelfImageExperiment} self image experiment object.
      */
     getExperimentById = async (experimentId) => {
-        try {
-            const experimentRef = db.collection('SelfImageExperiments')
-                .doc(experimentId);
-            const doc = await experimentRef.get();
-            if (!doc.exists) {
-                // TODO: add logic here
-            } else {
-                // TODO: add logic here
-            }
-            return doc;
-        } catch (err) {
-            // TODO: add logic here
+      try {
+        const experimentRef = db.collection('SelfImageExperiments')
+          .doc(experimentId);
+        const doc = await experimentRef.get();
+        if (!doc.exists) {
+          // TODO: add logic here
+        } else {
+          // TODO: add logic here
         }
+        return doc;
+      } catch (err) {
+        // TODO: add logic here
+      }
     }
 
     /**
@@ -87,15 +87,15 @@ export default class SelfImageExperimentService {
      * @return {Boolean} succeed or not.
      */
     updateExperimentById = async (experimentId, selfImageExperiment) => {
-        try {
-            const experimentRef = db.collection('SelfImageExperiments')
-                .doc(experimentId);
-            await experimentRef.update(selfImageExperiment);
-            return true;
-        } catch (err) {
-            // TODO: add logic here
-            return false;
-        }
+      try {
+        const experimentRef = db.collection('SelfImageExperiments')
+          .doc(experimentId);
+        await experimentRef.update(selfImageExperiment);
+        return true;
+      } catch (err) {
+        // TODO: add logic here
+        return false;
+      }
     }
 
     /**
@@ -104,14 +104,13 @@ export default class SelfImageExperimentService {
      * @return {Boolean} succeed or not.
      */
     deleteExperimentById = async (experimentId) => {
-        try {
-            await db.collection('SelfImageExperiments')
-                .doc(experimentId).delete();
-            return true;
-        } catch (err) {
-            // TODO: add logic here
-            return false;
-        }
+      try {
+        await db.collection('SelfImageExperiments')
+          .doc(experimentId).delete();
+        return true;
+      } catch (err) {
+        // TODO: add logic here
+        return false;
+      }
     }
-    
 }

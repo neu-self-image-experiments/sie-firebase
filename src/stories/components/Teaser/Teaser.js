@@ -18,36 +18,36 @@ import PropTypes from 'prop-types';
  * )
  */
 export const Teaser = ({ modifierClasses, url, title, text }) => {
-    return (
-        <a
-            href={url}
-            className={['teaser', `${modifierClasses}`].join(' ').trim()}
-        >
-            <span className='teaser__title'>{title}</span>
-            {text}
-        </a>
-    );
+  return (
+    <a
+      href={url}
+      className={['teaser', `${modifierClasses}`].join(' ').trim()}
+    >
+      <span className='teaser__title'>{title}</span>
+      {text}
+    </a>
+  );
 };
 
 Teaser.propTypes = {
-    /**
+  /**
    * Teaser's modifier classes
    */
-    modifierClasses: PropTypes.string,
-    /**
+  modifierClasses: PropTypes.string,
+  /**
    * Teaser's url
    */
-    url: PropTypes.string.isRequired,
-    /**
+  url: PropTypes.string.isRequired,
+  /**
    * Teaser's title
    */
-    title: PropTypes.string.isRequired,
-    /**
+  title: PropTypes.string.isRequired,
+  /**
    * Teaser's text
    */
-    text: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
 };
 
 Teaser.defaultProps = {
-    modifierClasses: '',
+  modifierClasses: '',
 };

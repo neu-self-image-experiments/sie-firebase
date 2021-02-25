@@ -19,38 +19,38 @@ import { Constrain } from '../../layouts/Constrain/Constrain';
  * )
  */
 
-export const Header = ({ modifierClasses, leftContent, rightContent}) => {
-    return (
-        <div
-            className={['header', `${modifierClasses}`].join(' ').trim()}
-        >
-            <Constrain modifierClasses="constrain--wide">
-                <div className="header__inner">
-                    <div className='header__left'>{leftContent}</div>
-                    <div className='header__right'>{rightContent}</div>
-                </div>
-            </Constrain>
+export const Header = ({ modifierClasses, leftContent, rightContent }) => {
+  return (
+    <div
+      className={['header', `${modifierClasses}`].join(' ').trim()}
+    >
+      <Constrain modifierClasses="constrain--wide">
+        <div className="header__inner">
+          <div className='header__left'>{leftContent}</div>
+          <div className='header__right'>{rightContent}</div>
         </div>
-    );
+      </Constrain>
+    </div>
+  );
 };
 
 Header.propTypes = {
-    /**
+  /**
    * Header's modifier classes
    */
-    modifierClasses: PropTypes.string,
-    /**
+  modifierClasses: PropTypes.string,
+  /**
    * Header's left content
    */
-    leftContent: PropTypes.node,
-    /**
+  leftContent: PropTypes.node,
+  /**
    * Header's right content
    */
-    rightContent: PropTypes.node,
+  rightContent: PropTypes.node,
 };
 
 Header.defaultProps = {
-    modifierClasses: '',
-    leftContent: '',
-    rightContent: '',
+  modifierClasses: '',
+  leftContent: '',
+  rightContent: '',
 };

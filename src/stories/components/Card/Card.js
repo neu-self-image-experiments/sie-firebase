@@ -25,61 +25,61 @@ import { Button } from '../Button/Button';
  * )
  */
 export const Card = ({
-    modifierClasses,
-    title,
-    body,
-    opened,
-    admin,
-    researchers,
+  modifierClasses,
+  title,
+  body,
+  opened,
+  admin,
+  researchers,
 }) => {
-    return (
-        <div className={['card', `${modifierClasses}`].join(' ').trim()}>
-            <div className="card__container">
-                <div className="card__details">
-                    <h3>{title}</h3>
-                    <p>{body}</p>
-                </div>
-                <div className="card__extra">
-                    <p>Opened: {opened}</p>
-                    <p>Admin: {admin}</p>
-                    <p>Researchers: {researchers}</p>
-                </div>
-                <Button
-                    text="View Details"
-                    modifierClasses="card__button"
-                ></Button>
-            </div>
+  return (
+    <div className={['card', `${modifierClasses}`].join(' ').trim()}>
+      <div className="card__container">
+        <div className="card__details">
+          <h3>{title}</h3>
+          <p>{body}</p>
         </div>
-    );
+        <div className="card__extra">
+          <p>Opened: {opened}</p>
+          <p>Admin: {admin}</p>
+          <p>Researchers: {researchers}</p>
+        </div>
+        <Button
+          text="View Details"
+          modifierClasses="card__button"
+        ></Button>
+      </div>
+    </div>
+  );
 };
 
 Card.propTypes = {
-    /**
+  /**
      * Card's modifier classes
      */
-    modifierClasses: PropTypes.string,
-    /**
+  modifierClasses: PropTypes.string,
+  /**
      * Card's title
      */
-    title: PropTypes.string.isRequired,
-    /**
+  title: PropTypes.string.isRequired,
+  /**
      * Card's body
      */
-    body: PropTypes.string,
-    /**
+  body: PropTypes.string,
+  /**
      * The open date
      */
-    opened: PropTypes.string.isRequired,
-    /**
+  opened: PropTypes.string.isRequired,
+  /**
      * The admin
      */
-    admin: PropTypes.string.isRequired,
-    /**
+  admin: PropTypes.string.isRequired,
+  /**
      * The researchers
      */
-    researchers: PropTypes.string.isRequired,
+  researchers: PropTypes.string.isRequired,
 };
 
 Card.defaultProps = {
-    modifierClasses: '',
+  modifierClasses: '',
 };
