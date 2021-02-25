@@ -19,51 +19,51 @@ import { Constrain } from '../Constrain/Constrain';
  */
 /* eslint react/prop-types: 0 */
 export const Wizard = ({ children, labels }) => {
-    const [state, updateState] = useState({
-        form: {},
-    });
+  const [state, updateState] = useState({
+    form: {},
+  });
 
-    // Do something on step change
-    const onStepChange = (stats) => {
-        // might need later on
-    };
+  // Do something on step change
+  const onStepChange = (stats) => {
+    // might need later on
+  };
 
-    const setInstance = (WizInstance) => updateState({
-        ...state,
-        WizInstance,
-    });
+  const setInstance = (WizInstance) => updateState({
+    ...state,
+    WizInstance,
+  });
 
-    const { WizInstance } = state;
+  const { WizInstance } = state;
 
-    function renderWizard() {
-        return (
-            <Constrain>
-                <StepWizard
-                    className="wizard"
-                    onStepChange={onStepChange}
-                    nav={
-                        <Steps labels={labels} />
-                    }
-                    instance={setInstance}
-                >
-                    {children}
-                </StepWizard>
-                {
-                    WizInstance && <Controls WizInstance={WizInstance} />
-                }
-            </Constrain>
-        );
-    }
+  function renderWizard() {
     return (
-        <div>
-            { children.length === labels.length ?
-                renderWizard() :
-                <Constrain modifierClasses="constrain--small">
-                    A message goes here.
-                </Constrain>
-            }
-        </div>
+      <Constrain>
+        <StepWizard
+          className="wizard"
+          onStepChange={onStepChange}
+          nav={
+            <Steps labels={labels} />
+          }
+          instance={setInstance}
+        >
+          {children}
+        </StepWizard>
+        {
+          WizInstance && <Controls WizInstance={WizInstance} />
+        }
+      </Constrain>
     );
+  }
+  return (
+    <div>
+      { children.length === labels.length ?
+        renderWizard() :
+        <Constrain modifierClasses="constrain--small">
+                    A message goes here.
+        </Constrain>
+      }
+    </div>
+  );
 };
 
 /**
@@ -74,35 +74,35 @@ export const Wizard = ({ children, labels }) => {
  * )
  */
 const Controls = ({ WizInstance }) => (
-    <Fragment>
-        <div className="wizard__controls">
-            <button className={'wizard__button button--link'}
-                onClick={WizInstance.previousStep}
-            >Go Back</button>
-            <button className={'wizard__button button button--tertiary'}
-                onClick={WizInstance.nextStep}
-            >Next</button>
-        </div>
-    </Fragment>
+  <Fragment>
+    <div className="wizard__controls">
+      <button className={'wizard__button button--link'}
+        onClick={WizInstance.previousStep}
+      >Go Back</button>
+      <button className={'wizard__button button button--tertiary'}
+        onClick={WizInstance.nextStep}
+      >Next</button>
+    </div>
+  </Fragment>
 );
 
 Wizard.propTypes = {
-    /**
+  /**
    * Wizards's children
    */
-    children: PropTypes.node,
-    /**
+  children: PropTypes.node,
+  /**
      * Wizard's labels
      */
-    labels: PropTypes.array,
+  labels: PropTypes.array,
 };
 
 Wizard.defaultProps = {
-    children: '',
-    labels: [
-        'Step 1',
-        'Step 2',
-        'Step 3',
-        'Step 4',
-    ],
+  children: '',
+  labels: [
+    'Step 1',
+    'Step 2',
+    'Step 3',
+    'Step 4',
+  ],
 };

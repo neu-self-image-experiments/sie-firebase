@@ -16,26 +16,26 @@ import PropTypes from 'prop-types';
  */
 
 export const Grid = ({ children, numColumns }) => {
-    const modifierClass = numColumns ? `grid--${numColumns}-col` : '';
+  const modifierClass = numColumns ? `grid--${numColumns}-col` : '';
 
-    return (
-        <div className={['grid', modifierClass].join(' ').trim()}>
-            {children}
-        </div>
-    );
+  return (
+    <div className={['grid', modifierClass].join(' ').trim()}>
+      {children}
+    </div>
+  );
 };
 
 Grid.propTypes = {
-    /**
+  /**
    * Grid's children
    */
-    children: PropTypes.node,
-    /**
+  children: PropTypes.node,
+  /**
    * Grid's number of columns
    */
-    numColumns: PropTypes.number,
+  numColumns: PropTypes.number,
 };
 
 Grid.defaultProps = {
-    children: '',
+  children: '',
 };

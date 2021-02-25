@@ -12,27 +12,27 @@ import React from 'react';
  * )
  */
 export const Loader = ({ text }) => {
-    return (
-        <div className="loader">
-            <div className="loader__icon">
-                <span className="loader__dot"></span>
-                <span className="loader__dot"></span>
-                <span className="loader__dot"></span>
-                <span className="loader__dot"></span>
-            </div>
-            <p>{text}</p>
-        </div>
-    );
+  return (
+    <div className="loader">
+      <div className="loader__icon">
+        <span className="loader__dot"></span>
+        <span className="loader__dot"></span>
+        <span className="loader__dot"></span>
+        <span className="loader__dot"></span>
+      </div>
+      <p>{text}</p>
+    </div>
+  );
 };
 
 Loader.propTypes = {
-    /**
+  /**
    * Loader's text
    */
-    text: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
 };
 
 Loader.defaultProps = {
-    text: 'Loading...',
+  text: 'Loading...',
 };
 
