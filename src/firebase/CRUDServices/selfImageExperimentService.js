@@ -46,14 +46,16 @@ export default class SelfImageExperimentService {
         const experimentRef = db.collection('SelfImageExperiments');
         const snapshot = await experimentRef.get();
         if (snapshot.empty) {
-          return;
+          return [];
         }
-
+        const experiments = [];
         snapshot.forEach( (doc) => {
-          // TODO: add logic here
+          experiments.push(doc);
         });
+        return experiments;
       } catch (err) {
         // TODO: add logic here
+        return [];
       }
     }
 
@@ -69,13 +71,13 @@ export default class SelfImageExperimentService {
           .doc(experimentId);
         const doc = await experimentRef.get();
         if (!doc.exists) {
-          // TODO: add logic here
+          return {};
         } else {
-          // TODO: add logic here
+          return doc.data();
         }
-        return doc;
       } catch (err) {
         // TODO: add logic here
+        return {};
       }
     }
 
