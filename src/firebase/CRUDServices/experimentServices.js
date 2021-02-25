@@ -43,13 +43,16 @@ export default class ExperimentServices {
       try {
         const experimentRef = db.collection('Experiments');
         const snapshot = await experimentRef.get();
+        const res = [];
         if (snapshot.empty) {
-          return;
+          // TODO: add logic here
+          return [];
         }
 
         snapshot.forEach( (doc) => {
-          // TODO: add logic here
+          res.push(doc.data());
         });
+        return res;
       } catch (err) {
         // TODO: add logic here
       }
@@ -68,10 +71,11 @@ export default class ExperimentServices {
         const doc = await experimentRef.get();
         if (!doc.exists) {
           // TODO: add logic here
+          return {};
         } else {
           // TODO: add logic here
         }
-        return doc;
+        return doc.data();
       } catch (err) {
         // TODO: add logic here
       }
