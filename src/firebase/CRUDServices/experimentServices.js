@@ -73,9 +73,8 @@ export default class ExperimentServices {
           // TODO: add logic here
           return {};
         } else {
-          // TODO: add logic here
+          return doc.data();
         }
-        return doc.data();
       } catch (err) {
         // TODO: add logic here
       }
