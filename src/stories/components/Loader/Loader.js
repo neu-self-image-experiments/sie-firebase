@@ -3,7 +3,7 @@ import './styles.scss';
 import React from 'react';
 
 /**
- * Component for loader element.
+ * Component for Loader element.
  *
  * @component
  * @param {string} text of the component.
@@ -11,7 +11,7 @@ import React from 'react';
  *   <Loader text={text} />
  * )
  */
-export const Loader = ({text}) => {
+export const Loader = ({ text }) => {
     return (
         <div className="loader">
             <div className="loader__icon">
@@ -20,7 +20,7 @@ export const Loader = ({text}) => {
                 <span className="loader__dot"></span>
                 <span className="loader__dot"></span>
             </div>
-            <p className="loader__text">{text}</p>
+            <p>{text}</p>
         </div>
     );
 };
@@ -29,7 +29,7 @@ Loader.propTypes = {
     /**
    * Loader's text
    */
-    text: PropTypes.string,
+    text: PropTypes.string.isRequired,
 };
 
 Loader.defaultProps = {

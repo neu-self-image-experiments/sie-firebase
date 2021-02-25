@@ -4,47 +4,52 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
- * Component for sidebar element.
+ * Component for split-gradient element.
  *
  * @component
  * @param {string} modifierClasses Class modifiers of the component.
  * @param {node} leftContent Left content of the component.
  * @param {node} rightContent Right content of the component.
  * @return {object} (
- *   <Sidebar modifierClasses={modifierClasses} />
+ *   <SplitGradient modifierClasses={modifierClasses} />
  *      {leftContent}
  *      {rightContent}
- *   </Sidebar>
+ *   </SplitGradient>
  * )
  */
 
-export const Sidebar = ({ modifierClasses, leftContent, rightContent}) => {
+export const SplitGradient = ({
+    modifierClasses, leftContent, rightContent,
+}) => {
     return (
         <div
-            className={['sidebar', `${modifierClasses}`].join(' ').trim()}
+            className={[
+                'split-gradient',
+                `${modifierClasses}`,
+            ].join(' ').trim()}
         >
-            <div className="sidebar__left">{leftContent}</div>
-            <div className="sidebar__right">{rightContent}</div>
+            <div className="split-gradient__left">{leftContent}</div>
+            <div className="split-gradient__right">{rightContent}</div>
         </div>
     );
 };
 
-Sidebar.propTypes = {
+SplitGradient.propTypes = {
     /**
-   * Sidebar's modifier classes
+   * SplitGradient's modifier classes
    */
     modifierClasses: PropTypes.string,
     /**
-   * Sidebar's left content
+   * SplitGradient's left content
    */
     leftContent: PropTypes.node,
     /**
-   * Sidebar's right content
+   * SplitGradient's right content
    */
     rightContent: PropTypes.node,
 };
 
-Sidebar.defaultProps = {
+SplitGradient.defaultProps = {
     modifierClasses: '',
     leftContent: '',
     rightContent: '',
