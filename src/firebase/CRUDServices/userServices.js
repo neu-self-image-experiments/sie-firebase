@@ -1,9 +1,9 @@
 import firebase from '../firebase';
 
 export default class UserServices {
-    constructor() {
-        self.db = firebase.firestore();
-    }
+  constructor() {
+    self.db = firebase.firestore();
+  }
 
     // singleton instance.
     static sieInstance = null;
@@ -13,10 +13,10 @@ export default class UserServices {
      * @return {UserServices} instance
      */
     static getInstance = () => {
-        if (self.sieInstance == null) {
-            self.sieInstance = new UserServices();
-        }
-        return self.sieInstance;
+      if (self.sieInstance == null) {
+        self.sieInstance = new UserServices();
+      }
+      return self.sieInstance;
     }
 
     /**
@@ -26,35 +26,36 @@ export default class UserServices {
      * @return {Boolean} succeed or not.
      */
     postUser = async (userId, user) => {
-        try {
-            await db.collection('Users').doc(userId)
-                .set(user);
-            return true;
-        } catch (err) {
-            console.error(err);
-            return false;
-        }
+      try {
+        await db.collection('Users').doc(userId)
+          .set(user);
+        return true;
+      } catch (err) {
+        return false;
+      }
     }
 
     /**
      * Get all exsisting users.
-     * @return {User} user object.
+     * @return {User[]} array of user object.
      */
     getUsers = async () => {
-        try {
-            const userRef = db.collection('Users');
-            const snapshot = await userRef.get();
-            if (snapshot.empty) {
-                console.log('No matching documents.');
-                return;
-            }
-
-            snapshot.forEach( (doc) => {
-                console.log(doc.data());
-            });
-        } catch (err) {
-            console.error(err);
+      try {
+        const userRef = db.collection('Users');
+        const snapshot = await userRef.get();
+        const res = [];
+        if (snapshot.empty) {
+          // TODO: add logic here
+          return [];
         }
+
+        snapshot.forEach( (doc) => {
+          res.push(doc.data());
+        });
+        return res;
+      } catch (err) {
+        // TODO: add logic here
+      }
     }
 
 
@@ -64,19 +65,19 @@ export default class UserServices {
      * @return {User} user object.
      */
     getUserById = async (userId) => {
-        try {
-            const userRef = db.collection('Users')
-                .doc(userId);
-            const doc = await userRef.get();
-            if (!doc.exists) {
-                console.log('No such User!');
-            } else {
-                console.log('User data:', doc.data());
-            }
-            return doc;
-        } catch (err) {
-            console.error(err);
+      try {
+        const userRef = db.collection('Users')
+          .doc(userId);
+        const doc = await userRef.get();
+        if (!doc.exists) {
+          // TODO: add logic here
+          return {};
+        } else {
+          return doc.data();
         }
+      } catch (err) {
+        // TODO: add logic here
+      }
     }
 
     /**
@@ -86,13 +87,15 @@ export default class UserServices {
      * @return {Boolean} succeed or not.
      */
     updateUserById = async (userId, user) => {
-        try {
-            const userRef = db.collection('Users')
-                .doc(userId);
-            await userRef.update(user);
-        } catch (err) {
-            console.error(err);
-        }
+      try {
+        const userRef = db.collection('Users')
+          .doc(userId);
+        await userRef.update(user);
+        return true;
+      } catch (err) {
+        // TODO: add logic here
+        return false;
+      }
     }
 
     /**
@@ -101,13 +104,13 @@ export default class UserServices {
      * @return {Boolean} succeed or not.
      */
     deleteUserById = async (userId) => {
-        try {
-            await db.collection('Users')
-                .doc(userId).delete();
-            return true;
-        } catch (err) {
-            console.error(err);
-            return false;
-        }
+      try {
+        await db.collection('Users')
+          .doc(userId).delete();
+        return true;
+      } catch (err) {
+        // TODO: add logic here
+        return false;
+      }
     }
 }
