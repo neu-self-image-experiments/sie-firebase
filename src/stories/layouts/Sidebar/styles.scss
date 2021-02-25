@@ -10,13 +10,13 @@ $sidebar-width: rem(300px);
         grid-template-columns: repeat(2, $sidebar-width auto);
         gap: calc(#{$spacing-5} / 2);
     }
-    
+
     @include bp-desktop {
         gap: $spacing-5;
     }
 }
 
-.sidebar--right {
+.sidebar__right {
     @include bp-tablet-lg {
         grid-template-columns: repeat(2, auto $sidebar-width);
     }

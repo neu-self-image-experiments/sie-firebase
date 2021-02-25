@@ -1,0 +1,121 @@
+@import '../../../scss/variables.scss';
+
+// @file
+// Teaser
+
+.teaser {
+    border: solid lightgrey;
+    border-width: 0 0 rem(1px) 0;
+    color: $black;
+    display: block;
+    font-family: $base-font-family;
+    font-size: $font-size-sm;
+    font-weight: 400;
+    line-height: $line-height-loose;
+    padding: $spacing-1 $spacing-5 $spacing-1 $spacing-2;
+    position: relative;
+    text-decoration: none;
+
+    &::before {
+        background-color: $teal-dark;
+        border-radius: 15px;
+        content: '';
+        display: block;
+        height: calc(100% - #{$spacing-2});
+        top: $spacing-1;
+        left: 0;
+        position: absolute;
+        width: rem(5px);
+    }
+
+    &::after {
+        @include svg-background(icon-arrow-right);
+
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 10px 16px;
+        content: '';
+        display: block;
+        height: rem(16px);
+        position: absolute;
+        right: $spacing-2;
+        top: calc((100% - #{rem(16px)}) / 2);
+        width: rem(10px);
+    }
+
+    @include bp-tablet {
+        padding: $spacing-2 $spacing-7 $spacing-2 $spacing-4;
+
+        &::before {
+            height: calc(100% - #{$spacing-4});
+            top: $spacing-2;
+        }
+
+        &::after {
+            right: $spacing-4;
+        }
+
+        &:hover {
+
+            &::after {
+                animation: escape-right .8s,ease-in-out 0s 1 fowards;
+            }
+
+            .teaser__title {
+                color: $teal-dark;
+            }
+        }
+    }
+}
+
+.teaser__title {
+    color: $black;
+    font-weight: 700;
+    display: block;
+    font-size: $font-size-md;
+}
+
+.teaser--light {
+    &::before {
+        background-color: $teal;
+    }
+}
+
+.teaser--disabled {
+    color: $gray-4;
+    pointer-events: none;
+
+    &::before {
+        background-color: $gray-3;
+    }
+
+    &::after {
+        display: none;
+    }
+
+    .teaser__title {
+        color: $gray-4;
+    }
+}
+
+@keyframes escape-right {
+    25% {
+        transform:translateX(20px);
+    }
+    50% {
+        opacity:0;
+        transform:translateX(20px);
+    }
+    60% {
+        opacity:0;
+        transform:translateX(-20px);
+    }
+    90% {
+        opacity:1;
+        transform:translateX(0);
+    }
+    90% {
+        opacity:1;
+        transform:translateX(0);
+    }
+}

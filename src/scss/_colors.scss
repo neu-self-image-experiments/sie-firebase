@@ -6,12 +6,27 @@ $white: #ffffff;
 $gray-1: #ececec;
 $gray-2: #F6F6F6;
 $gray-3: #CCCCCC;
+$gray-4: #666;
+$gray-5: #333;
 
 // Brand colors
 $teal: #5EF3E7;
 $teal-dark: #008489;
 $teal-light: #E4F9F5;
 $green: #40514E;
+
+// Utility colors
+// error
+$red: #FFE2E2;
+$red-dark: #FF4141;
+
+// warning
+$yellow: #FFFADF;
+$yellow-dark: #FFB641;
+
+// success
+$green: $teal-light;
+$green-dark: $teal-dark;
 
 // Gradients
 $gradient-teal: linear-gradient(to top, #30E3CA, $teal);

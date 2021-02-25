@@ -46,5 +46,5 @@ Wide.args = {
 // Small Constrain
 export const Small = Template.bind({});
 Small.args = {
-    modifierClasses: 'constrain--small',
+    modifierClasses: 'constrain--narrow',
 };

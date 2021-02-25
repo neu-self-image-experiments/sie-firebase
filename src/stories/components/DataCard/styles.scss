@@ -1,0 +1,40 @@
+@import '../../../scss/variables.scss';
+
+// @file
+// Data Card
+
+.data-card {
+    border-radius: 20px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    line-height: $line-height-tight;
+}
+
+.data-card__container {
+    padding: $spacing-3;
+}
+
+.data-card__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.data-card__details {
+    margin-bottom: $spacing-5;
+}
+
+.data-card__teal {
+    background-image: $gradient-teal;
+}
+
+.data-card__teal-dark {
+    h6 {
+        color: $white;
+    }
+    background-image: $gradient-teal-dark;
+    color: $white;
+}
+
+.data-card__teal-light {
+    background-image: $gradient-teal-light;
+}

@@ -20,7 +20,7 @@ body {
 }
 
 %hN {
-  @extend %header-font-family !optional;
+  font-family: $header-font-family;;
   color: $black;
   font-weight: 700;
   hyphens: none;
@@ -123,17 +123,17 @@ hr {
 
 a {
   color: $black;
-  text-decoration: none;
-  
+  font-weight: 700;
+
   &:visited {
-    color: $green;
+    color: $black;
   }
 
   &:hover,
   &:focus {
     text-decoration: none;
   }
-  
+
   &:active {
     color: $black;
   }
