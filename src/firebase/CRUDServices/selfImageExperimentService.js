@@ -32,7 +32,7 @@ export default class SelfImageExperimentService {
                 .set(selfImageExperiment);
             return true;
         } catch (err) {
-            console.error(err);
+            // TODO: add logic here
             return false;
         }
     }
@@ -46,15 +46,14 @@ export default class SelfImageExperimentService {
             const experimentRef = db.collection('SelfImageExperiments');
             const snapshot = await experimentRef.get();
             if (snapshot.empty) {
-                console.log('No matching documents.');
                 return;
             }
 
             snapshot.forEach( (doc) => {
-                console.log(doc.data());
+                // TODO: add logic here
             });
         } catch (err) {
-            console.error(err);
+            // TODO: add logic here
         }
     }
 
@@ -70,13 +69,13 @@ export default class SelfImageExperimentService {
                 .doc(experimentId);
             const doc = await experimentRef.get();
             if (!doc.exists) {
-                console.log('No such document!');
+                // TODO: add logic here
             } else {
-                console.log('Document data:', doc.data());
+                // TODO: add logic here
             }
             return doc;
         } catch (err) {
-            console.error(err);
+            // TODO: add logic here
         }
     }
 
@@ -94,7 +93,7 @@ export default class SelfImageExperimentService {
             await experimentRef.update(selfImageExperiment);
             return true;
         } catch (err) {
-            console.error(err);
+            // TODO: add logic here
             return false;
         }
     }
@@ -110,7 +109,7 @@ export default class SelfImageExperimentService {
                 .doc(experimentId).delete();
             return true;
         } catch (err) {
-            console.error(err);
+            // TODO: add logic here
             return false;
         }
     }
