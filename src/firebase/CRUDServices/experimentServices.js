@@ -71,8 +71,10 @@ export default class ExperimentServices {
             if (!doc.exists) {
                 return doc.data();
             } else {
+                return {};
             }
         } catch (err) {
+            return {};
         }
     }
 
