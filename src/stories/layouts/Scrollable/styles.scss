@@ -1,0 +1,28 @@
+@import '../../../scss/variables.scss';
+
+// @file
+// Scrollable
+
+.scrollable {
+    overflow-y: scroll;
+    border-width: 1px;
+    border-color: $gray-3;
+    border-style: solid;
+    padding: $spacing-2;
+    height: rem(400px);
+
+    &::-webkit-scrollbar {
+        visibility: hidden;
+        width: 6px;
+    }
+
+
+    &::-webkit-scrollbar-thumb {
+        background: $teal;
+        border-radius: 5px;
+    }
+
+    @include bp-tablet {
+        height: rem(600px);
+    }
+}
