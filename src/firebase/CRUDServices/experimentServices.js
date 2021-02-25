@@ -1,9 +1,9 @@
 import firebase from '../firebase';
 
 export default class ExperimentServices {
-    constructor() {
-        self.db = firebase.firestore();
-    }
+  constructor() {
+    self.db = firebase.firestore();
+  }
 
     // singleton instance.
     static sieInstance = null;
@@ -13,10 +13,10 @@ export default class ExperimentServices {
      * @return {ExperimentServices} instance
      */
     static getInstance = () => {
-        if (self.sieInstance == null) {
-            self.sieInstance = new ExperimentServices();
-        }
-        return self.sieInstance;
+      if (self.sieInstance == null) {
+        self.sieInstance = new ExperimentServices();
+      }
+      return self.sieInstance;
     }
 
     /**
@@ -26,14 +26,13 @@ export default class ExperimentServices {
      * @return {Boolean} succeed or not.
      */
     postExperiment = async (experimentId, experiment) => {
-        try {
-            await db.collection('Experiments').doc(experimentId)
-                .set(experiment);
-            return true;
-        } catch (err) {
-            console.error(err);
-            return false;
-        }
+      try {
+        await db.collection('Experiments').doc(experimentId)
+          .set(experiment);
+        return true;
+      } catch (err) {
+        return false;
+      }
     }
 
     /**
@@ -41,20 +40,19 @@ export default class ExperimentServices {
      * @return {Experiment[]} array of experiment object.
      */
     getExperiments = async () => {
-        try {
-            const experimentRef = db.collection('Experiments');
-            const snapshot = await experimentRef.get();
-            if (snapshot.empty) {
-                console.log('No matching documents.');
-                return;
-            }
-
-            snapshot.forEach( (doc) => {
-                console.log(doc.data());
-            });
-        } catch (err) {
-            console.error(err);
+      try {
+        const experimentRef = db.collection('Experiments');
+        const snapshot = await experimentRef.get();
+        if (snapshot.empty) {
+          return;
         }
+
+        snapshot.forEach( (doc) => {
+          // TODO: add logic here
+        });
+      } catch (err) {
+        // TODO: add logic here
+      }
     }
 
 
@@ -64,19 +62,19 @@ export default class ExperimentServices {
      * @return {Experiment} experiment object.
      */
     getExperimentById = async (experimentId) => {
-        try {
-            const experimentRef = db.collection('Experiments')
-                .doc(experimentId);
-            const doc = await experimentRef.get();
-            if (!doc.exists) {
-                console.log('No such document!');
-            } else {
-                console.log('Document data:', doc.data());
-            }
-            return doc;
-        } catch (err) {
-            console.error(err);
+      try {
+        const experimentRef = db.collection('Experiments')
+          .doc(experimentId);
+        const doc = await experimentRef.get();
+        if (!doc.exists) {
+          // TODO: add logic here
+        } else {
+          // TODO: add logic here
         }
+        return doc;
+      } catch (err) {
+        // TODO: add logic here
+      }
     }
 
     /**
@@ -86,15 +84,15 @@ export default class ExperimentServices {
      * @return {Boolean} succeed or not.
      */
     updateExperimentById = async (experimentId, experiment) => {
-        try {
-            const experimentRef = db.collection('Experiments')
-                .doc(experimentId);
-            await experimentRef.update(experiment);
-            return true;
-        } catch (err) {
-            console.error(err);
-            return false;
-        }
+      try {
+        const experimentRef = db.collection('Experiments')
+          .doc(experimentId);
+        await experimentRef.update(experiment);
+        return true;
+      } catch (err) {
+        // TODO: add logic here
+        return false;
+      }
     }
 
     /**
@@ -103,13 +101,13 @@ export default class ExperimentServices {
      * @return {Boolean} succeed or not.
      */
     deleteExperimentById = async (experimentId) => {
-        try {
-            await db.collection('Experiments')
-                .doc(experimentId).delete();
-            return true;
-        } catch (err) {
-            console.error(err);
-            return false;
-        }
+      try {
+        await db.collection('Experiments')
+          .doc(experimentId).delete();
+        return true;
+      } catch (err) {
+        // TODO: add logic here
+        return false;
+      }
     }
 }
