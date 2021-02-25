@@ -6,23 +6,23 @@ import { HorizontalTitle } from './HorizontalTitle';
  * Example Component: HorizontalTitle
  */
 export default {
-    title: 'Example/HorizontalTitle',
-    component: HorizontalTitle,
+  title: 'Example/HorizontalTitle',
+  component: HorizontalTitle,
 };
 
 const Template = (args) => {
-    return (
-        <HorizontalTitle {...args} />
-    );
+  return (
+    <HorizontalTitle {...args} />
+  );
 };
 
 // Default HorizontalTitle
 export const Default = Template.bind({});
 Default.args = {
-    modifierClasses: '',
-    eyebrow: 'Eyebrow',
-    title: 'Default',
-    content:
+  modifierClasses: '',
+  eyebrow: 'Eyebrow',
+  title: 'Default',
+  content:
         <p>Lorem ipsum dolor sit amet, an has summo iriure epicuri,
         has illud rationibus et. Prima ridens sit te, nam idque explicari
         expetendis in. An mei adolescens mnesarchum, ei periculis adipiscing
@@ -35,10 +35,10 @@ Default.args = {
 // Medium paragraph
 export const Medium = Template.bind({});
 Medium.args = {
-    modifierClasses: 'horizontal-title--medium',
-    eyebrow: 'Eyebrow',
-    title: 'Medium',
-    content:
+  modifierClasses: 'horizontal-title--medium',
+  eyebrow: 'Eyebrow',
+  title: 'Medium',
+  content:
         <p>Lorem ipsum dolor sit amet, an has summo iriure epicuri,
         has illud rationibus et. Prima ridens sit te, nam idque explicari
         expetendis in. An mei adolescens mnesarchum, ei periculis adipiscing
@@ -51,10 +51,10 @@ Medium.args = {
 // Large paragraph
 export const Large = Template.bind({});
 Large.args = {
-    modifierClasses: 'horizontal-title--large',
-    eyebrow: 'Eyebrow',
-    title: 'Large',
-    content:
+  modifierClasses: 'horizontal-title--large',
+  eyebrow: 'Eyebrow',
+  title: 'Large',
+  content:
         <p>Lorem ipsum dolor sit amet, an has summo iriure epicuri,
         has illud rationibus et. Prima ridens sit te, nam idque explicari
         expetendis in. An mei adolescens mnesarchum, ei periculis adipiscing

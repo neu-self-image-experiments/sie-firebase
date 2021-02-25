@@ -17,33 +17,33 @@ import PropTypes from 'prop-types';
  * )
  */
 export const Alert = ({ modifierClasses, title, content }) => {
-    return (
-        <div
-            className={['alert', `alert--${modifierClasses}`].join(' ').trim()}
-        >
-            { title && <h4>{title}</h4> }
-            {content}
-        </div>
-    );
+  return (
+    <div
+      className={['alert', `alert--${modifierClasses}`].join(' ').trim()}
+    >
+      { title && <h4>{title}</h4> }
+      {content}
+    </div>
+  );
 };
 
 Alert.propTypes = {
-    /**
+  /**
    * Alert's modifierClasses
    */
-    modifierClasses: PropTypes.string,
-    /**
+  modifierClasses: PropTypes.string,
+  /**
    * Alert's title
    */
-    title: PropTypes.string,
-    /**
+  title: PropTypes.string,
+  /**
    * Alert's content
    */
-    content: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
 };
 
 Alert.defaultProps = {
-    modifierClasses: 'success',
-    title: '',
-    content: 'This is an alert message.',
+  modifierClasses: 'success',
+  title: '',
+  content: 'This is an alert message.',
 };

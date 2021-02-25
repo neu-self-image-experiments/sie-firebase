@@ -18,33 +18,33 @@ import Logo from '../../../images/polygon.svg';
  * )
  */
 export const Branding = ({ modifierClasses, text }) => {
-    // TODO: replace below <a> with <Link> once routing is set up OR modify
-    //       href of below <a> once page navigation is established.
-    return (
-        <a
-            href="/"
-            className={['branding', `${modifierClasses}`].join(' ').trim()}
-        >
-            <img src={Logo}
-                alt={`${text} website logo`}
-                className="branding__logo"
-            />
-            {text}
-        </a>
-    );
+  // TODO: replace below <a> with <Link> once routing is set up OR modify
+  //       href of below <a> once page navigation is established.
+  return (
+    <a
+      href="/"
+      className={['branding', `${modifierClasses}`].join(' ').trim()}
+    >
+      <img src={Logo}
+        alt={`${text} website logo`}
+        className="branding__logo"
+      />
+      {text}
+    </a>
+  );
 };
 
 Branding.propTypes = {
-    /**
+  /**
    * Branding's modifier classes
    */
-    modifierClasses: PropTypes.string,
-    /**
+  modifierClasses: PropTypes.string,
+  /**
    * Branding's text
    */
-    text: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
 };
 
 Branding.defaultProps = {
-    modifierClasses: '',
+  modifierClasses: '',
 };
