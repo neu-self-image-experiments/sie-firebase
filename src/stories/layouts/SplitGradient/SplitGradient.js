@@ -19,38 +19,38 @@ import PropTypes from 'prop-types';
  */
 
 export const SplitGradient = ({
-    modifierClasses, leftContent, rightContent,
+  modifierClasses, leftContent, rightContent,
 }) => {
-    return (
-        <div
-            className={[
-                'split-gradient',
-                `${modifierClasses}`,
-            ].join(' ').trim()}
-        >
-            <div className="split-gradient__left">{leftContent}</div>
-            <div className="split-gradient__right">{rightContent}</div>
-        </div>
-    );
+  return (
+    <div
+      className={[
+        'split-gradient',
+        `${modifierClasses}`,
+      ].join(' ').trim()}
+    >
+      <div className="split-gradient__left">{leftContent}</div>
+      <div className="split-gradient__right">{rightContent}</div>
+    </div>
+  );
 };
 
 SplitGradient.propTypes = {
-    /**
+  /**
    * SplitGradient's modifier classes
    */
-    modifierClasses: PropTypes.string,
-    /**
+  modifierClasses: PropTypes.string,
+  /**
    * SplitGradient's left content
    */
-    leftContent: PropTypes.node,
-    /**
+  leftContent: PropTypes.node,
+  /**
    * SplitGradient's right content
    */
-    rightContent: PropTypes.node,
+  rightContent: PropTypes.node,
 };
 
 SplitGradient.defaultProps = {
-    modifierClasses: '',
-    leftContent: '',
-    rightContent: '',
+  modifierClasses: '',
+  leftContent: '',
+  rightContent: '',
 };

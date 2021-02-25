@@ -18,34 +18,34 @@ import PropTypes from 'prop-types';
  * )
  */
 
-export const Sidebar = ({ modifierClasses, leftContent, rightContent}) => {
-    return (
-        <div
-            className={['sidebar', `${modifierClasses}`].join(' ').trim()}
-        >
-            <div className="sidebar__left">{leftContent}</div>
-            <div className="sidebar__right">{rightContent}</div>
-        </div>
-    );
+export const Sidebar = ({ modifierClasses, leftContent, rightContent }) => {
+  return (
+    <div
+      className={['sidebar', `${modifierClasses}`].join(' ').trim()}
+    >
+      <div className="sidebar__left">{leftContent}</div>
+      <div className="sidebar__right">{rightContent}</div>
+    </div>
+  );
 };
 
 Sidebar.propTypes = {
-    /**
+  /**
    * Sidebar's modifier classes
    */
-    modifierClasses: PropTypes.string,
-    /**
+  modifierClasses: PropTypes.string,
+  /**
    * Sidebar's left content
    */
-    leftContent: PropTypes.node,
-    /**
+  leftContent: PropTypes.node,
+  /**
    * Sidebar's right content
    */
-    rightContent: PropTypes.node,
+  rightContent: PropTypes.node,
 };
 
 Sidebar.defaultProps = {
-    modifierClasses: '',
-    leftContent: '',
-    rightContent: '',
+  modifierClasses: '',
+  leftContent: '',
+  rightContent: '',
 };

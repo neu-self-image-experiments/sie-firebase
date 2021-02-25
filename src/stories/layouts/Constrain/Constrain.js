@@ -17,27 +17,27 @@ import PropTypes from 'prop-types';
  */
 
 export const Constrain = ( { children, modifierClasses }) => {
-    return (
-        <div
-            className={['constrain', `${modifierClasses}`].join(' ').trim()}
-        >
-            {children}
-        </div>
-    );
+  return (
+    <div
+      className={['constrain', `${modifierClasses}`].join(' ').trim()}
+    >
+      {children}
+    </div>
+  );
 };
 
 Constrain.propTypes = {
-    /**
+  /**
    * Constrain's modifier classes
    */
-    modifierClasses: PropTypes.string,
-    /**
+  modifierClasses: PropTypes.string,
+  /**
    * Constrain's children nodes
    */
-    children: PropTypes.node,
+  children: PropTypes.node,
 };
 
 Constrain.defaultProps = {
-    modifierClasses: '',
+  modifierClasses: '',
 };
 
