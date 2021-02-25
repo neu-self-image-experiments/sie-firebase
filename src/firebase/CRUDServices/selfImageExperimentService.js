@@ -22,7 +22,7 @@ export default class SelfImageExperimentService {
     /**
      * Create self image experiment in database.
      * @param {String} experimentId id of the new self image experiment.
-     * @param {SelfImageExperiment} selfImageExperiment 
+     * @param {SelfImageExperiment} selfImageExperiment
      * self image experiment object.
      * @return {Boolean} succeed or not.
      */
@@ -82,7 +82,7 @@ export default class SelfImageExperimentService {
     /**
      * Update specific attributes of self image experiment by id.
      * @param {String} experimentId id of self image experiment.
-     * @param {SelfImageExperiment} 
+     * @param {SelfImageExperiment}
      * selfImageExperiment updating attributes and values.
      * @return {Boolean} succeed or not.
      */
