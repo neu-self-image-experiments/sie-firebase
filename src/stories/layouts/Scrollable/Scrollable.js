@@ -15,16 +15,16 @@ import PropTypes from 'prop-types';
  */
 
 export const Scrollable = ({ children }) => {
-    return <div className={'scrollable'}>{children}</div>;
+  return <div className={'scrollable'}>{children}</div>;
 };
 
 Scrollable.propTypes = {
-    /**
+  /**
      * The content inside the scrollable
      */
-    children: PropTypes.node,
+  children: PropTypes.node,
 };
 
 Scrollable.defaultProps = {
-    children: '',
+  children: '',
 };
