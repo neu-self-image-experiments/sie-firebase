@@ -2,7 +2,6 @@ import './styles.scss';
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Constrain } from '../Constrain/Constrain';
 
 /**
  * Component for footer element.
@@ -24,12 +23,10 @@ export const Footer = ({ modifierClasses, leftContent, rightContent }) => {
     <div
       className={['footer', `${modifierClasses}`].join(' ').trim()}
     >
-      <Constrain modifierClasses="constrain--wide">
-        <div className="footer__inner">
-          <div className='footer__left'>{leftContent}</div>
-          <div className='footer__right'>{rightContent}</div>
-        </div>
-      </Constrain>
+      <div className="footer__inner">
+        <div className='footer__left'>{leftContent}</div>
+        <div className='footer__right'>{rightContent}</div>
+      </div>
     </div>
   );
 };

@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { SplitGradient } from '../../layouts/SplitGradient/SplitGradient';
 import { Header } from '../../layouts/Header/Header';
+import { Footer } from '../../layouts/Footer/Footer';
 import { Branding } from '../../components/Branding/Branding';
 import { Main } from '../../layouts/Main/Main';
 import { Section } from '../../components/Section/Section';
@@ -20,13 +21,6 @@ import { Form } from '../../components/Form/Form';
  */
 
 export const Login = ({ isDarkTheme }) => {
-  function renderContent() {
-    return <SplitGradient
-      modifierClasses={ !isDarkTheme ? 'split-gradient--light' : '' }
-      leftContent={Content}
-    />;
-  }
-
   return (
     <Main>
       <div
@@ -41,7 +35,13 @@ export const Login = ({ isDarkTheme }) => {
           leftContent={<Content />}
           rightContent={<LoginForm isDarkTheme={isDarkTheme} />}
         />
-        {renderContent()}
+        <Footer
+          modifierClasses={ !isDarkTheme ? 'footer--light' : '' }
+          leftContent={<p>Need Help? <a href="#">Contact us</a>.</p>}
+          rightContent={
+            <p>Don’t have an account yet? <a href="#">Sign up</a>.</p>
+          }
+        />
       </div>
     </Main>
   );

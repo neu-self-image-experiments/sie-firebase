@@ -15,10 +15,18 @@ const Template = (args) => {
   );
 };
 
-// Default Footer
-export const Default = Template.bind({});
-Default.args = {
+// Dark Footer
+export const Dark = Template.bind({});
+Dark.args = {
   modifierClasses: '',
+  leftContent: 'Footer left content',
+  rightContent: 'Footer right content',
+};
+
+// Light Footer
+export const Light = Template.bind({});
+Light.args = {
+  modifierClasses: 'footer--light',
   leftContent: 'Footer left content',
   rightContent: 'Footer right content',
 };

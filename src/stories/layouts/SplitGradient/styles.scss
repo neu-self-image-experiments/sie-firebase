@@ -5,7 +5,6 @@
 
 .split-gradient {
   background-image: $gradient-teal-dark;
-  min-height: 100vh;
 
   @include bp-tablet-lg {
     display: flex;
@@ -18,9 +17,11 @@
   align-items: center;
   display: flex;
   justify-content: center;
+  min-height: 50vh;
   padding: $spacing-4 $spacing-2;
 
   @include bp-tablet-lg {
+    min-height: auto;
     padding: $spacing-6 $spacing-4;
 
     > * {
@@ -52,6 +53,7 @@
 
 .split-gradient__right {
   color: $white;
+  padding: $spacing-8 0;
 
   @include bp-tablet-lg {
     flex-basis: 50%;

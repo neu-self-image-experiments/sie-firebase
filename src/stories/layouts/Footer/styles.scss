@@ -1,23 +1,97 @@
 @import '../../../scss/variables.scss';
 
 // @file
-// Header
+// Footer
 
-.header {
-  border-bottom: solid 1px $gray-1;
+.footer {
+  bottom: 0;
+  font-size: $font-size-sm;
   padding: $spacing-2 0;
   left: 0;
   position: fixed;
-  top: 0;
   width: 100%;
+
+  @include bp-tablet-lg {
+    font-size: $font-size-md;
+  }
 }
 
-.header__inner {
+.footer__inner {
+  @include bp-tablet-lg {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.footer__right,
+.footer__left {
   align-items: center;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  padding: 0 $spacing-2;
+
+  > * {
+    margin: 0;
+  }
+
+  @include bp-tablet-lg {
+    padding: 0 $spacing-4;
+
+    > * {
+      flex-basis: rem(400px);
+    }
+  }
+
+  @include bp-desktop {
+
+    > * {
+      flex-basis: 300px;
+    }
+  }
 }
 
-.header--no-border {
-  border: 0;
+.footer__left {
+  color: $white;
+
+  a {
+    color: $white;
+  }
+
+  @include bp-tablet-lg {
+    color: $black;
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+    flex-basis: 50%;
+
+    a {
+      color: $black;
+    }
+  }
+
+  @include bp-desktop {
+    flex-basis: 60%;
+  }
+}
+
+.footer__right {
+  color: $white;
+
+  @include bp-tablet-lg {
+    flex-basis: 50%;
+  }
+
+  @include bp-desktop {
+    flex-basis: 40%;
+  }
+
+  a {
+    color: $white;
+  }
+}
+
+.footer--light {
+  .footer__right {
+    color: $black;
+  }
 }

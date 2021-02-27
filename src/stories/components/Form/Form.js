@@ -153,8 +153,8 @@ const Login = ({ isDarkTheme }) => (
   <React.Fragment>
     <FormItem
       modifierClasses={isDarkTheme ? 'form-item--light' : ''}
-      placeholder="Email"
-      type="email"
+      placeholder="Username or Email"
+      type="text"
       showLabel
     />
     <FormItem
