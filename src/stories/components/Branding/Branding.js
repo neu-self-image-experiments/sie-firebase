@@ -3,7 +3,7 @@ import './styles.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 // TODO: replace the import below with the actual logo once it's chosen
-import Logo from '../../../images/polygon.svg';
+import Logo from '../../../images/icon-logo.svg';
 
 /**
  * Component for branding element.
@@ -26,7 +26,7 @@ export const Branding = ({ modifierClasses, text }) => {
       className={['branding', `${modifierClasses}`].join(' ').trim()}
     >
       <img src={Logo}
-        alt={`${text} website logo`}
+        alt="SIE Logo"
         className="branding__logo"
       />
       {text}
