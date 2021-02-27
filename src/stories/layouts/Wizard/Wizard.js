@@ -59,7 +59,7 @@ export const Wizard = ({ children, labels }) => {
       { children.length === labels.length ?
         renderWizard() :
         <Constrain modifierClasses="constrain--small">
-                    A message goes here.
+          A message goes here.
         </Constrain>
       }
     </div>

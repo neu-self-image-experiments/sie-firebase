@@ -46,7 +46,7 @@
     }
 
     @include bp-desktop {
-        flex-basis: calc((100% / 3) * 2);
+        flex-basis: 60%;
     }
 }
 
@@ -58,7 +58,7 @@
     }
 
     @include bp-desktop {
-        flex-basis: calc(100% / 3);
+        flex-basis: 40%;
     }
 }
 

@@ -6,34 +6,42 @@ import { SplitGradient } from '../../layouts/SplitGradient/SplitGradient';
 import { Header } from '../../layouts/Header/Header';
 import { Branding } from '../../components/Branding/Branding';
 import { Main } from '../../layouts/Main/Main';
+import { Section } from '../../components/Section/Section';
+import { Form } from '../../components/Form/Form';
 
 /**
  * Component for login page.
  *
  * @component
- * @param {string} modifierClasses Class modifiers of the page.
+ * @param {boolean} isDarkTheme theme color of the page.
  * @return {object} (
- *   <Login modifierClasses={modifierClasses}>
+ *   <Login isDarkTheme={isDarkTheme}>
  * )
  */
 
-export const Login = ({
-  modifierClasses, leftContent, rightContent,
-}) => {
+export const Login = ({ isDarkTheme }) => {
+  function renderContent() {
+    return <SplitGradient
+      modifierClasses={ !isDarkTheme ? 'split-gradient--light' : '' }
+      leftContent={Content}
+    />;
+  }
+
   return (
     <Main>
       <div
-        className={[
-          'login',
-          `${modifierClasses}`,
-        ].join(' ').trim()}
+        className="login"
       >
         <Header
           modifierClasses="header--no-border"
           leftContent={<Branding text="SIE" />}
         />
-        <SplitGradient>
-        </SplitGradient>
+        <SplitGradient
+          modifierClasses={ !isDarkTheme ? 'split-gradient--light' : '' }
+          leftContent={<Content />}
+          rightContent={<LoginForm isDarkTheme={isDarkTheme} />}
+        />
+        {renderContent()}
       </div>
     </Main>
   );
@@ -41,21 +49,49 @@ export const Login = ({
 
 Login.propTypes = {
   /**
-   * Login's modifier classes
+   * Login's isDarkTheme
    */
-  modifierClasses: PropTypes.string,
-  /**
-   * Login's left content
-   */
-  leftContent: PropTypes.node,
-  /**
-   * Login's right content
-   */
-  rightContent: PropTypes.node,
+  isDarkTheme: PropTypes.bool,
 };
 
 Login.defaultProps = {
-  modifierClasses: '',
-  leftContent: '',
-  rightContent: '',
+  isDarkTheme: true,
+};
+
+// Page content
+const Content = () => {
+  return (
+    <Section
+      title="Welcome back."
+      content="Login into your account to access your user dashboard."
+    />
+  );
+};
+
+// Login Form
+const LoginForm = ({ isDarkTheme, handleSubmit }) => {
+  return (
+    <Form
+      isDarkTheme={isDarkTheme}
+      type="login"
+      buttonText="Login"
+      handleSubmit={handleSubmit}
+    />
+  );
+};
+
+LoginForm.propTypes = {
+  /**
+   * Login's isDarkTheme
+   */
+  isDarkTheme: PropTypes.bool,
+  /**
+   * Login's handleSubmit
+   */
+  handleSubmit: PropTypes.func.isRequired,
+};
+
+LoginForm.defaultProps = {
+  isDarkTheme: true,
+  handleSubmit: null,
 };
