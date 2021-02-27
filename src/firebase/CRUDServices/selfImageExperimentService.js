@@ -3,6 +3,8 @@ import firebase from '../firebase';
 export default class SelfImageExperimentService {
   constructor() {
     self.db = firebase.firestore();
+    self.experiments = 'Experiments';
+    self.selfImageExperiments = 'SelfImageExperiments';
   }
 
     // singleton instance.
@@ -13,7 +15,7 @@ export default class SelfImageExperimentService {
      * @return {SelfImageExperimentService} instance
      */
     static getInstance = () => {
-      if (self.sieInstance == null) {
+      if (self.sieInstance === null) {
         self.sieInstance = new SelfImageExperimentService();
       }
       return self.sieInstance;
@@ -28,7 +30,7 @@ export default class SelfImageExperimentService {
      */
     postExperiment = async (experimentId, selfImageExperiment) => {
       try {
-        await db.collection('Experiments').doc(experimentId)
+        await db.collection(self.experiments).doc(experimentId)
           .set(selfImageExperiment);
         return true;
       } catch (err) {
@@ -43,7 +45,7 @@ export default class SelfImageExperimentService {
      */
     getExperiments = async () => {
       try {
-        const experimentRef = db.collection('SelfImageExperiments');
+        const experimentRef = db.collection(self.selfImageExperiments);
         const snapshot = await experimentRef.get();
         if (snapshot.empty) {
           return [];
@@ -67,7 +69,7 @@ export default class SelfImageExperimentService {
      */
     getExperimentById = async (experimentId) => {
       try {
-        const experimentRef = db.collection('SelfImageExperiments')
+        const experimentRef = db.collection(self.selfImageExperiments)
           .doc(experimentId);
         const doc = await experimentRef.get();
         if (!doc.exists) {
@@ -90,7 +92,7 @@ export default class SelfImageExperimentService {
      */
     updateExperimentById = async (experimentId, selfImageExperiment) => {
       try {
-        const experimentRef = db.collection('SelfImageExperiments')
+        const experimentRef = db.collection(self.selfImageExperiments)
           .doc(experimentId);
         await experimentRef.update(selfImageExperiment);
         return true;
@@ -107,7 +109,7 @@ export default class SelfImageExperimentService {
      */
     deleteExperimentById = async (experimentId) => {
       try {
-        await db.collection('SelfImageExperiments')
+        await db.collection(self.selfImageExperiments)
           .doc(experimentId).delete();
         return true;
       } catch (err) {
