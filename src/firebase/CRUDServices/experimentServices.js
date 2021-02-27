@@ -3,6 +3,7 @@ import firebase from '../firebase';
 export default class ExperimentServices {
   constructor() {
     self.db = firebase.firestore();
+    self.experiments = 'Experiments';
   }
 
     // singleton instance.
@@ -13,7 +14,7 @@ export default class ExperimentServices {
      * @return {ExperimentServices} instance
      */
     static getInstance = () => {
-      if (self.sieInstance == null) {
+      if (self.sieInstance === null) {
         self.sieInstance = new ExperimentServices();
       }
       return self.sieInstance;
@@ -27,7 +28,7 @@ export default class ExperimentServices {
      */
     postExperiment = async (experimentId, experiment) => {
       try {
-        await db.collection('Experiments').doc(experimentId)
+        await db.collection(self.experiments).doc(experimentId)
           .set(experiment);
         return true;
       } catch (err) {
@@ -41,7 +42,7 @@ export default class ExperimentServices {
      */
     getExperiments = async () => {
       try {
-        const experimentRef = db.collection('Experiments');
+        const experimentRef = db.collection(self.experiments);
         const snapshot = await experimentRef.get();
         const res = [];
         if (snapshot.empty) {
@@ -66,7 +67,7 @@ export default class ExperimentServices {
      */
     getExperimentById = async (experimentId) => {
       try {
-        const experimentRef = db.collection('Experiments')
+        const experimentRef = db.collection(self.experiments)
           .doc(experimentId);
         const doc = await experimentRef.get();
         if (!doc.exists) {
@@ -88,7 +89,7 @@ export default class ExperimentServices {
      */
     updateExperimentById = async (experimentId, experiment) => {
       try {
-        const experimentRef = db.collection('Experiments')
+        const experimentRef = db.collection(self.experiments)
           .doc(experimentId);
         await experimentRef.update(experiment);
         return true;
@@ -105,7 +106,7 @@ export default class ExperimentServices {
      */
     deleteExperimentById = async (experimentId) => {
       try {
-        await db.collection('Experiments')
+        await db.collection(self.experiments)
           .doc(experimentId).delete();
         return true;
       } catch (err) {
