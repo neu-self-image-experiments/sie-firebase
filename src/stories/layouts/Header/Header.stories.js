@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../../scss/styles.scss';
+
 import { Branding } from '../../components/Branding/Branding';
 import { Header } from './Header';
 

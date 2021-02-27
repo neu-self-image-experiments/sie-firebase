@@ -4,68 +4,68 @@
 // Split Gradient
 
 .split-gradient {
-    background-image: $gradient-teal-dark;
-    min-height: 100vh;
+  background-image: $gradient-teal-dark;
+  min-height: 100vh;
 
-    @include bp-tablet-lg {
-        display: flex;
-        height: 100vh;
-    }
+  @include bp-tablet-lg {
+    display: flex;
+    height: 100vh;
+  }
 }
 
 .split-gradient__right,
 .split-gradient__left {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    padding: $spacing-4 $spacing-2;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: $spacing-4 $spacing-2;
 
-    @include bp-tablet-lg {
-        padding: $spacing-6 $spacing-4;
+  @include bp-tablet-lg {
+    padding: $spacing-6 $spacing-4;
 
-        > * {
-            flex-basis: rem(400px);
-        }
+    > * {
+      flex-basis: rem(400px);
     }
+  }
 
-    @include bp-desktop {
+  @include bp-desktop {
 
-        > * {
-            flex-basis: rem(300px);
-        }
+    > * {
+      flex-basis: rem(300px);
     }
+  }
 }
 
 .split-gradient__left {
-    background-color: $white;
+  background-color: $white;
 
-    @include bp-tablet-lg {
-        border-top-right-radius: 100px;
-        border-bottom-right-radius: 100px;
-        flex-basis: 50%;
-    }
+  @include bp-tablet-lg {
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+    flex-basis: 50%;
+  }
 
-    @include bp-desktop {
-        flex-basis: 60%;
-    }
+  @include bp-desktop {
+    flex-basis: 60%;
+  }
 }
 
 .split-gradient__right {
-    color: $white;
+  color: $white;
 
-    @include bp-tablet-lg {
-        flex-basis: 50%;
-    }
+  @include bp-tablet-lg {
+    flex-basis: 50%;
+  }
 
-    @include bp-desktop {
-        flex-basis: 40%;
-    }
+  @include bp-desktop {
+    flex-basis: 40%;
+  }
 }
 
 .split-gradient--light {
-    background-image: $gradient-teal;
+  background-image: $gradient-teal;
 
-    .split-gradient__right {
-        color: $black;
-    }
+  .split-gradient__right {
+    color: $black;
+  }
 }

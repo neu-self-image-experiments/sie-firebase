@@ -1,23 +1,75 @@
 @import '../../../scss/variables.scss';
 
 // @file
-// Header
+// Footer
 
-.header {
-  border-bottom: solid 1px $gray-1;
+.footer {
   padding: $spacing-2 0;
   left: 0;
   position: fixed;
-  top: 0;
+  bottom: 0;
   width: 100%;
 }
 
-.header__inner {
+.footer__inner {
   align-items: center;
   display: flex;
   justify-content: space-between;
 }
 
-.header--no-border {
-  border: 0;
+.footer__right,
+.footer__left {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 0 $spacing-2;
+
+  @include bp-tablet-lg {
+    padding: 0 $spacing-4;
+
+    > * {
+      flex-basis: rem(400px);
+    }
+  }
+
+  @include bp-desktop {
+
+    > * {
+      flex-basis: rem(300px);
+    }
+  }
+}
+
+.footer__left {
+  background-color: $white;
+
+  @include bp-tablet-lg {
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+    flex-basis: 50%;
+  }
+
+  @include bp-desktop {
+    flex-basis: 60%;
+  }
+}
+
+.footer__right {
+  color: $white;
+
+  @include bp-tablet-lg {
+    flex-basis: 50%;
+  }
+
+  @include bp-desktop {
+    flex-basis: 40%;
+  }
+}
+
+.footer--light {
+  background-image: $gradient-teal;
+
+  .footer__right {
+    color: $black;
+  }
 }
