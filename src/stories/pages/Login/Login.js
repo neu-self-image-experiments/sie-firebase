@@ -1,6 +1,6 @@
 import './styles.scss';
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { SplitGradient } from '../../layouts/SplitGradient/SplitGradient';
 import { Header } from '../../layouts/Header/Header';
@@ -8,7 +8,10 @@ import { Footer } from '../../layouts/Footer/Footer';
 import { Branding } from '../../components/Branding/Branding';
 import { Main } from '../../layouts/Main/Main';
 import { Section } from '../../components/Section/Section';
+import { FormItem } from '../../components/FormItem/FormItem';
 import { Form } from '../../components/Form/Form';
+import { Button } from '../../components/Button/Button';
+// import UserServices from '../../../firebase/CRUDServices/userServices';
 
 /**
  * Component for login page.
@@ -21,6 +24,21 @@ import { Form } from '../../components/Form/Form';
  */
 
 export const Login = ({ isDarkTheme }) => {
+  const [user] = useState({});
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const newUser = {
+    ...user,
+    username,
+    password,
+  };
+
+  const getUser = (e) => {
+    e.preventDefault();
+    console.log(newUser); // eslint-disable-line no-console
+  };
+  // UserServices.getUsers();
   return (
     <Main>
       <div
@@ -32,8 +50,35 @@ export const Login = ({ isDarkTheme }) => {
         />
         <SplitGradient
           modifierClasses={ !isDarkTheme ? 'split-gradient--light' : '' }
-          leftContent={<Content />}
-          rightContent={<LoginForm isDarkTheme={isDarkTheme} />}
+          leftContent={
+            <Section titleEl="h1" title="Welcome back."
+              content="Login into your account to access your user dashboard."
+            />
+          }
+          rightContent={
+            <Form type="login">
+              <FormItem
+                modifierClasses={isDarkTheme ? 'form-item--light' : ''}
+                placeholder="Username or Email"
+                type="text"
+                showLabel={false}
+                label="Username"
+                handleChange={(e) => setUsername(e.target.value)}
+              />
+              <FormItem
+                modifierClasses={isDarkTheme ? 'form-item--light' : ''}
+                placeholder="Password"
+                type="password"
+                showLabel={false}
+                label="Password"
+                handleChange={(e) => setPassword(e.target.value)}
+              />
+              <Button
+                modifierClasses="button--small button--quaternary"
+                isButton={true} text="Login" onClick={(e) => getUser(e)}
+              />
+            </Form>
+          }
         />
         <Footer
           modifierClasses={ !isDarkTheme ? 'footer--light' : '' }
@@ -56,42 +101,4 @@ Login.propTypes = {
 
 Login.defaultProps = {
   isDarkTheme: true,
-};
-
-// Page content
-const Content = () => {
-  return (
-    <Section
-      title="Welcome back."
-      content="Login into your account to access your user dashboard."
-    />
-  );
-};
-
-// Login Form
-const LoginForm = ({ isDarkTheme, handleSubmit }) => {
-  return (
-    <Form
-      isDarkTheme={isDarkTheme}
-      type="login"
-      buttonText="Login"
-      handleSubmit={handleSubmit}
-    />
-  );
-};
-
-LoginForm.propTypes = {
-  /**
-   * Login's isDarkTheme
-   */
-  isDarkTheme: PropTypes.bool,
-  /**
-   * Login's handleSubmit
-   */
-  handleSubmit: PropTypes.func.isRequired,
-};
-
-LoginForm.defaultProps = {
-  isDarkTheme: true,
-  handleSubmit: null,
 };

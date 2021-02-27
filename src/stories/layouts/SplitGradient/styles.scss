@@ -53,7 +53,6 @@
 
 .split-gradient__right {
   color: $white;
-  padding: $spacing-8 0;
 
   @include bp-tablet-lg {
     flex-basis: 50%;

@@ -13,7 +13,7 @@ export default {
 
 const Template = (args) => <Loader {...args} />;
 
-// Primary button
+// Default loader
 export const Default = Template.bind({});
 Default.args = {
   text: 'Your photo is being processed...',
