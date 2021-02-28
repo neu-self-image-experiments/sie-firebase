@@ -7,17 +7,18 @@ export default class UserServices {
   }
 
     // singleton instance.
-    static sieInstance = null;
+    static userServiceInstance = null;
 
     /**
      * Creating singleton instance.
      * @return {UserServices} instance
      */
     static getInstance = () => {
-      if (self.sieInstance === null) {
-        self.sieInstance = new UserServices();
+      if (self.userServiceInstance === null ||
+          self.userServiceInstance === undefined) {
+        self.userServiceInstance = new UserServices();
       }
-      return self.sieInstance;
+      return self.userServiceInstance;
     }
 
     /**

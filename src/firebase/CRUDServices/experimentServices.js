@@ -7,17 +7,18 @@ export default class ExperimentServices {
   }
 
     // singleton instance.
-    static sieInstance = null;
+    static experimentServiceInstance = null;
 
     /**
      * creating singleton instance.
      * @return {ExperimentServices} instance
      */
     static getInstance = () => {
-      if (self.sieInstance === null) {
-        self.sieInstance = new ExperimentServices();
+      if (self.experimentServiceInstance === null ||
+          self.experimentServiceInstance === undefined) {
+        self.experimentServiceInstance = new ExperimentServices();
       }
-      return self.sieInstance;
+      return self.experimentServiceInstance;
     }
 
     /**
