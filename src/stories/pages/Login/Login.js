@@ -93,7 +93,11 @@ export const Login = ({ isDarkTheme }) => {
                 </div>
               }
               <Button
-                modifierClasses="button--small button--quaternary"
+                modifierClasses={
+                  isDarkTheme ?
+                    'button--small button--quaternary' :
+                    'button--small'
+                }
                 disabled={true}
                 isButton={true} text="Login" onClick={(e) => getUser(e)}
               />
