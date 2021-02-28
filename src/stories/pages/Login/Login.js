@@ -1,5 +1,3 @@
-import './styles.scss';
-
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { SplitGradient } from '../../layouts/SplitGradient/SplitGradient';
@@ -11,7 +9,8 @@ import { Section } from '../../components/Section/Section';
 import { FormItem } from '../../components/FormItem/FormItem';
 import { Form } from '../../components/Form/Form';
 import { Button } from '../../components/Button/Button';
-// import UserServices from '../../../firebase/CRUDServices/userServices';
+import UserServices from '../../../firebase/CRUDServices/userServices';
+import '../../../firebase/firebase';
 
 /**
  * Component for login page.
@@ -24,21 +23,33 @@ import { Button } from '../../components/Button/Button';
  */
 
 export const Login = ({ isDarkTheme }) => {
-  const [user] = useState({});
+  const [error, setError] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const newUser = {
-    ...user,
-    username,
-    password,
-  };
 
   const getUser = (e) => {
     e.preventDefault();
-    console.log(newUser); // eslint-disable-line no-console
+
+    const userService = new UserServices();
+    userService.getUsers().then((response) => {
+      try {
+        response.forEach((item) => {
+          if (item.username === username &&
+            item.password === password) {
+            setError(false);
+            // REDIRECT TO DASHBOARD
+            window.alert('USER  EXISTS!'); // remove eventually
+          } else {
+            setError(true);
+          }
+        });
+      } catch (err) {
+        // ERROR HANDLING
+      }
+    });
   };
-  // UserServices.getUsers();
+
   return (
     <Main>
       <div
@@ -73,8 +84,14 @@ export const Login = ({ isDarkTheme }) => {
                 label="Password"
                 handleChange={(e) => setPassword(e.target.value)}
               />
+              { error &&
+                <div className="form__msg">
+                  <p>Sorry, the login credentials you entered are incorrect.</p>
+                </div>
+              }
               <Button
                 modifierClasses="button--small button--quaternary"
+                disabled={true}
                 isButton={true} text="Login" onClick={(e) => getUser(e)}
               />
             </Form>
