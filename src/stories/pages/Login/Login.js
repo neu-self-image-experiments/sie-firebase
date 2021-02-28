@@ -31,7 +31,7 @@ export const Login = ({ isDarkTheme }) => {
   const getUser = (e) => {
     e.preventDefault();
 
-    const userService = new UserServices();
+    const userService = UserServices.getInstance();
     userService.getUsers().then((response) => {
       try {
         response.forEach((item) => {
