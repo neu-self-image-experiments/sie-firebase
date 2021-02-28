@@ -1,28 +1,42 @@
 @import '../../../scss/variables.scss';
 
 // @file
-// Split Gradient
+// Footer
 
-.split-gradient {
-  background-image: $gradient-teal-dark;
+.footer {
+  bottom: 0;
+  font-size: $font-size-sm;
+  padding: $spacing-2 0;
+  left: 0;
+  position: fixed;
+  width: 100%;
 
   @include bp-tablet-lg {
-    display: flex;
-    height: 100vh;
+    font-size: $font-size-md;
   }
 }
 
-.split-gradient__right,
-.split-gradient__left {
+.footer__inner {
+  @include bp-tablet-lg {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.footer__right,
+.footer__left {
   align-items: center;
   display: flex;
   justify-content: center;
-  min-height: 50vh;
-  padding: $spacing-4 $spacing-2;
+  padding: 0 $spacing-2;
+
+  > * {
+    margin: 0;
+  }
 
   @include bp-tablet-lg {
-    min-height: auto;
-    padding: $spacing-6 $spacing-4;
+    padding: 0 $spacing-4;
 
     > * {
       flex-basis: rem(400px);
@@ -32,18 +46,27 @@
   @include bp-desktop {
 
     > * {
-      flex-basis: rem(300px);
+      flex-basis: 300px;
     }
   }
 }
 
-.split-gradient__left {
-  background-color: $white;
+.footer__left {
+  color: $white;
+
+  a {
+    color: $white;
+  }
 
   @include bp-tablet-lg {
+    color: $black;
     border-top-right-radius: 100px;
     border-bottom-right-radius: 100px;
     flex-basis: 50%;
+
+    a {
+      color: $black;
+    }
   }
 
   @include bp-desktop {
@@ -51,7 +74,7 @@
   }
 }
 
-.split-gradient__right {
+.footer__right {
   color: $white;
 
   @include bp-tablet-lg {
@@ -61,12 +84,14 @@
   @include bp-desktop {
     flex-basis: 40%;
   }
+
+  a {
+    color: $white;
+  }
 }
 
-.split-gradient--light {
-  background-image: $gradient-teal;
-
-  .split-gradient__right {
+.footer--light {
+  .footer__right {
     color: $black;
   }
 }

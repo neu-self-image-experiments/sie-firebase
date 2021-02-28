@@ -12,17 +12,20 @@ import { Fragment } from 'react';
  * @param {string} url URL of the component.
  * @param {string} text Text of the component.
  * @param {boolean} isButton Boolean in case markup should be <button>.
+ * @param {func} onClick Button click function.
  * @return {object} (
  *   <Button modifierClasses={modifierClasses} url={url} text={text} />
  * )
  */
-export const Button = ({ modifierClasses, url, text, isButton }) => {
+export const Button = ({ modifierClasses, url, text, isButton, onClick }) => {
   const classes = ['button', `${modifierClasses}`].join(' ').trim();
 
   return (
     <Fragment>
       {isButton ?
-        <button role="button" className={classes}>{text}</button> :
+        <button role="button" className={classes} onClick={onClick}>
+          {text}
+        </button> :
         <a href={url} className={classes}>{text}</a>
       }
     </Fragment>
@@ -46,9 +49,14 @@ Button.propTypes = {
      * Button's isButton
      */
   isButton: PropTypes.bool,
+  /**
+     * Button's onClick
+     */
+  onClick: PropTypes.func,
 };
 
 Button.defaultProps = {
   modifierClasses: '',
   isButton: false,
+  onClick: null,
 };
