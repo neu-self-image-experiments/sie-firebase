@@ -12,3 +12,15 @@
   font-size: $font-size-sm;
   text-align: left;
 }
+
+.form--login {
+  > * {
+    @include fade-in-up;
+
+    @for $i from 1 through 3 {
+      &:nth-child(#{$i}n) {
+        animation-delay: #{$i * .1}s;
+      }
+    }
+  }
+}

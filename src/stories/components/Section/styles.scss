@@ -1,9 +1,21 @@
 @import '../../../scss/variables.scss';
 
+.section {
+  .login & {
+    @include fade-in-up;
+
+    @for $i from 1 through 3 {
+      &:nth-child(#{$i}n) {
+        animation-delay: #{$i * .1}s;
+      }
+    }
+  }
+}
+
 .section--medium {
-    font-size: $font-size-lg;
+  font-size: $font-size-lg;
 }
 
 .section--large {
-    font-size: rem(24px);
+  font-size: rem(24px);
 }

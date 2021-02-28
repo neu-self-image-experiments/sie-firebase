@@ -32,22 +32,25 @@ export const Login = ({ isDarkTheme }) => {
     e.preventDefault();
 
     const userService = UserServices.getInstance();
+
     userService.getUsers().then((response) => {
       try {
         response.forEach((item) => {
-          if (item.username === username &&
-            item.password === password) {
-            setError(false);
+          if (
+            item.username === username &&
+            item.password === password
+          ) {
             // REDIRECT TO DASHBOARD
+            setError(false);
             window.alert('USER  EXISTS!'); // remove eventually
-          } else {
-            setError(true);
+            return;
           }
         });
       } catch (err) {
         // ERROR HANDLING
       }
     });
+    setError(true);
   };
 
   return (

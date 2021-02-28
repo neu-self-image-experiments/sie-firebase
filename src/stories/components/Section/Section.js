@@ -29,10 +29,10 @@ export const Section = ({
   const classes = ['section', `${modifierClasses}`].join(' ').trim();
   const CustomTitleTag = titleEl ? titleEl : 'h3';
   return (
-    <div className="section_container">
+    <div className={classes}>
       <CustomTitleTag>{title}</CustomTitleTag>
-      <div className={classes}>
-        <p>{content}</p>
+      <div className="section__content">
+        {content}
       </div>
     </div>
   );

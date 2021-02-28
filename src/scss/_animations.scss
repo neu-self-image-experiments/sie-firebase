@@ -1,0 +1,28 @@
+// @file
+// Animations
+
+// Fade in
+@mixin fade-in {
+  animation: 1s fadeIn cubic-bezier(0.51, 0.92, 0.24, 1.15) 0.4s forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1
+  }
+}
+
+// Fade in and up
+@mixin fade-in-up {
+  animation: 1s fadeInUp cubic-bezier(0.51, 0.92, 0.24, 1.15) 0.4s forwards;
+  opacity: 0;
+  transform: translate3d(0, 50px, 0)
+}
+
+@keyframes fadeInUp {
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1
+  }
+}
