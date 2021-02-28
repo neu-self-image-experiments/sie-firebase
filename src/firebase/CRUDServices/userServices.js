@@ -3,6 +3,7 @@ import firebase from '../firebase';
 export default class UserServices {
   constructor() {
     self.db = firebase.firestore();
+    self.users = 'Users';
   }
 
     // singleton instance.
@@ -13,7 +14,7 @@ export default class UserServices {
      * @return {UserServices} instance
      */
     static getInstance = () => {
-      if (self.sieInstance == null) {
+      if (self.sieInstance === null) {
         self.sieInstance = new UserServices();
       }
       return self.sieInstance;
@@ -27,7 +28,7 @@ export default class UserServices {
      */
     postUser = async (userId, user) => {
       try {
-        await db.collection('Users').doc(userId)
+        await db.collection(self.users).doc(userId)
           .set(user);
         return true;
       } catch (err) {
@@ -41,20 +42,18 @@ export default class UserServices {
      */
     getUsers = async () => {
       try {
-        const userRef = db.collection('Users');
+        const userRef = db.collection(self.users);
         const snapshot = await userRef.get();
-        const response = [];
+        const res = [];
         if (snapshot.empty) {
           // TODO: add logic here
-          return response;
+          return [];
         }
 
-        // add documents to response array
         snapshot.forEach( (doc) => {
-          response.push(doc.data());
+          res.push(doc.data());
         });
-
-        return response;
+        return res;
       } catch (err) {
         // TODO: add logic here
       }
@@ -68,7 +67,7 @@ export default class UserServices {
      */
     getUserById = async (userId) => {
       try {
-        const userRef = db.collection('Users')
+        const userRef = db.collection(self.users)
           .doc(userId);
         const doc = await userRef.get();
         if (!doc.exists) {
@@ -90,7 +89,7 @@ export default class UserServices {
      */
     updateUserById = async (userId, user) => {
       try {
-        const userRef = db.collection('Users')
+        const userRef = db.collection(self.users)
           .doc(userId);
         await userRef.update(user);
         return true;
@@ -107,7 +106,7 @@ export default class UserServices {
      */
     deleteUserById = async (userId) => {
       try {
-        await db.collection('Users')
+        await db.collection(self.users)
           .doc(userId).delete();
         return true;
       } catch (err) {
