@@ -4,7 +4,7 @@ import { Branding } from '../../components/Branding/Branding';
 import { Header } from './Header';
 
 /**
- * Example Component: Sidebar
+ * Example Component: Header
  */
 export default {
   title: 'Example/Header',

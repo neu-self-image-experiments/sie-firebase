@@ -2,7 +2,7 @@ import React from 'react';
 import { Footer } from './Footer';
 
 /**
- * Example Component: Sidebar
+ * Example Component: Footer
  */
 export default {
   title: 'Example/Footer',

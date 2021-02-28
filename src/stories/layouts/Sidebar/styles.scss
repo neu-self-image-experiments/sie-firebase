@@ -7,7 +7,7 @@ $sidebar-width: rem(300px);
 .sidebar {
   @include bp-tablet-lg {
     display: grid;
-    grid-template-columns: repeat(2, $sidebar-width auto);
+    grid-template-columns: $sidebar-width auto;
     gap: calc(#{$spacing-5} / 2);
   }
 
@@ -16,14 +16,8 @@ $sidebar-width: rem(300px);
   }
 }
 
-.sidebar__right {
-  @include bp-tablet-lg {
-    grid-template-columns: repeat(2, auto $sidebar-width);
-  }
-}
-
 .sidebar--reverse {
   @include bp-tablet-lg {
-    grid-template-columns: repeat(2, auto $sidebar-width);
+    grid-template-columns: auto $sidebar-width;
   }
 }
