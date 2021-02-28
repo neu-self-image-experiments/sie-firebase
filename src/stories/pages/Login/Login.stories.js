@@ -18,5 +18,11 @@ const Template = (args) => {
 // Dark Login
 export const Dark = Template.bind({});
 Dark.args = {
-  modifierClasses: '',
+  isDarkTheme: true,
+};
+
+// Light Login
+export const Light = Template.bind({});
+Light.args = {
+  isDarkTheme: false,
 };
