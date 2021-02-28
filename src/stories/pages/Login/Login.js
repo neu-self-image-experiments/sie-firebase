@@ -1,5 +1,8 @@
+
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+
+import UserServices from '../../../firebase/CRUDServices/UserServices';
 import { SplitGradient } from '../../layouts/SplitGradient/SplitGradient';
 import { Header } from '../../layouts/Header/Header';
 import { Footer } from '../../layouts/Footer/Footer';
@@ -9,8 +12,6 @@ import { Section } from '../../components/Section/Section';
 import { FormItem } from '../../components/FormItem/FormItem';
 import { Form } from '../../components/Form/Form';
 import { Button } from '../../components/Button/Button';
-import UserServices from '../../../firebase/CRUDServices/userServices';
-import '../../../firebase/firebase';
 
 /**
  * Component for login page.
@@ -27,23 +28,27 @@ export const Login = ({ isDarkTheme }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-
   const getUser = (e) => {
     e.preventDefault();
 
-    const userService = UserServices.getInstance();
+    const service = new UserServices();
 
-    userService.getUsers().then((response) => {
+    service.getUsers().then((users) => {
       try {
         response.forEach((item) => {
           if (
-            item.username === username &&
+            (item.username === username ||
+            item.email === username) &&
             item.password === password
           ) {
             // REDIRECT TO DASHBOARD
             setError(false);
-            window.alert('USER  EXISTS!'); // remove eventually
-            return;
+            window.alert(`
+              Full Name: ${item.first_name} ${item.last_name}
+              Email: ${item.email}
+              Username: ${item.username}
+              Role: ${item.role}
+            `); // remove eventually
           }
         });
       } catch (err) {
