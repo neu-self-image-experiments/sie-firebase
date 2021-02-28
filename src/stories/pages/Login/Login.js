@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import UserServices from '../../../firebase/CRUDServices/userServices1';
+import UserServices from '../../../firebase/CRUDServices/userServices';
 import { SplitGradient } from '../../layouts/SplitGradient/SplitGradient';
 import { Header } from '../../layouts/Header/Header';
 import { Footer } from '../../layouts/Footer/Footer';
