@@ -71,7 +71,8 @@ export const Signup = ({isDarkTheme}) => {
                   'button--small'
                 }
                 disabled={true}
-                isButton={true} text="Login" onClick={(e) => getUser(e)}
+                isButton={true} text="Create an account"
+                onClick={(e) => getUser(e)}
               />
             </Form>
           }
