@@ -2,7 +2,6 @@ import firebase from '../firebase';
 
 export default class UserServices {
   constructor() {
-    this.users = 'Users';
   }
 
   // singleton instance.
@@ -36,7 +35,11 @@ export default class UserServices {
     }
   }
 
-  sendEmailVerification = async (user) => {
+  /**
+   * Send new user email verification when they register.
+   * @return {Boolean} success or not.
+   */
+  sendEmailVerification = async () => {
     try {
       self.user = firebase.auth().currentUser;
       await self.user.sendEmailVerification();
@@ -48,16 +51,25 @@ export default class UserServices {
     }
   }
 
+  /**
+   * Sign in user.
+   * @param {User} user user object with email and password.
+   * @return {user} authenticated user object.
+   */
   signIn = async (user) => {
     try {
       const userCredential = await firebase.auth()
         .signInWithEmailAndPassword(user.email, user.password);
-      return userCredential;
+      return userCredential.user;
     } catch (error) {
       return error;
     }
   }
 
+  /**
+   * Observer function which calls callback function.
+   * @param {Function} callback listener function.
+   */
   getCurrentUser = async (callback) => {
     try {
       firebase.auth().onAuthStateChanged((user)=>{
@@ -72,11 +84,16 @@ export default class UserServices {
     }
   }
 
-  deleteUser = async (user) => {
+  /**
+   * Delete current signed-in user.
+   * @return {Boolean} sucess or not.
+   */
+  deleteUser = async () => {
     try {
       firebase.auth().onAuthStateChanged((user)=>{
         if (user) {
           user.delete();
+          return true;
         } else {
           return 'no user';
         }

@@ -4,9 +4,9 @@ import userS from './firebase/CRUDServices/UserServices';
 function App() {
   const es = userS.getInstance();
   // es.postUser({email: 'qin.ha@northeastern.edu', password: '123456'}).then(res => console.log(res));
-  // es.signIn({email: 'qin.ha@northeastern.edu', password: '123456'}).then(res => console.log(res));
+  es.signIn({email: 'qin.ha@northeastern.edu', password: '123456'}).then(res => console.log(res));
   // es.getCurrentUser((user) => console.log(user));
-  es.deleteUser().then(res => console.log(res));
+  // es.deleteUser().then(res => console.log(res));
 
   return (
     <div className="App">
