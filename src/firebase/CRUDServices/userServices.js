@@ -2,8 +2,7 @@ import firebase from '../firebase';
 
 export default class UserServices {
   constructor() {
-    self.db = firebase.firestore();
-    self.users = 'Users';
+    this.users = 'Users';
   }
 
   // singleton instance.
@@ -21,97 +20,69 @@ export default class UserServices {
   }
 
   /**
-   * Create user in database.
-   * @param {String} userId id of the new user.
-   * @param {User} user user object.
-   * @return {Boolean} succeed or not.
+   * post new user to authentication.
+   * @param {User} user user object contains email and password.
+   * @return {User} return user credential object.
    */
-  postUser = async (userId, user) => {
+  postUser = async (user) => {
     try {
-      await db.collection(self.users).doc(userId)
-        .set(user);
-      return true;
-    } catch (err) {
-      return false;
-    }
-  }
-
-  /**
-   * Get all exsisting users.
-   * @return {User[]} array of user object.
-   */
-  getUsers = async () => {
-    try {
-      const userRef = db.collection(self.users);
-      const snapshot = await userRef.get();
-      const res = [];
-      if (snapshot.empty) {
-        // TODO: add logic here
-        return [];
-      }
-
-      snapshot.forEach( (doc) => {
-        res.push(doc.data());
-      });
+      const res = await firebase.auth().
+        createUserWithEmailAndPassword(user.email, user.password);
       return res;
-    } catch (err) {
-      // TODO: add logic here
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      return {errorCode, errorMessage};
     }
   }
 
-
-  /**
-   * Get user by specific id.
-   * @param {String} userId id of user.
-   * @return {User} user object.
-   */
-  getUserById = async (userId) => {
+  sendEmailVerification = async (user) => {
     try {
-      const userRef = db.collection(self.users)
-        .doc(userId);
-      const doc = await userRef.get();
-      if (!doc.exists) {
-        // TODO: add logic here
-        return {};
-      } else {
-        return doc.data();
-      }
-    } catch (err) {
-      // TODO: add logic here
-    }
-  }
-
-  /**
-   * Update specific attributs of user by id.
-   * @param {String} userId id of user.
-   * @param {User} user updating attributes and values.
-   * @return {Boolean} succeed or not.
-   */
-  updateUserById = async (userId, user) => {
-    try {
-      const userRef = db.collection(self.users)
-        .doc(userId);
-      await userRef.update(user);
+      self.user = firebase.auth().currentUser;
+      await self.user.sendEmailVerification();
       return true;
-    } catch (err) {
-      // TODO: add logic here
-      return false;
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      return {errorCode, errorMessage};
     }
   }
 
-  /**
-   * Delete users by id.
-   * @param {String} userId id of user.
-   * @return {Boolean} succeed or not.
-   */
-  deleteUserById = async (userId) => {
+  signIn = async (user) => {
     try {
-      await db.collection(self.users)
-        .doc(userId).delete();
-      return true;
-    } catch (err) {
-      // TODO: add logic here
-      return false;
+      const userCredential = await firebase.auth()
+        .signInWithEmailAndPassword(user.email, user.password);
+      return userCredential;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  getCurrentUser = async (callback) => {
+    try {
+      firebase.auth().onAuthStateChanged((user)=>{
+        if (user) {
+          callback(user);
+        } else {
+          return 'no user';
+        }
+      });
+    } catch (error) {
+      return error;
+    }
+  }
+
+  deleteUser = async (user) => {
+    try {
+      firebase.auth().onAuthStateChanged((user)=>{
+        if (user) {
+          user.delete();
+        } else {
+          return 'no user';
+        }
+      });
+    } catch (error) {
+      return error;
     }
   }
 }
