@@ -6,10 +6,10 @@ import { Header } from '../../layouts/Header/Header';
 import { Branding } from '../../components/Branding/Branding';
 import { Form } from '../../components/Form/Form';
 import { FormItem } from '../../components/FormItem/FormItem';
-// import { Button } from '../../components/Button/Button';
+import { Button } from '../../components/Button/Button';
 import { Section } from '../../components/Section/Section';
 import { SplitGradient } from '../../layouts/SplitGradient/SplitGradient';
-// import { Footer } from '../../layouts/Footer/Footer';
+import { Footer } from '../../layouts/Footer/Footer';
 
 /**
  * Component for signup page.
@@ -63,9 +63,24 @@ export const Signup = ({isDarkTheme}) => {
                 modifierClasses={isDarkTheme ? 'form-item--light' : ''}
                 label='Role'
                 type='select'
-                options={['Role']}
+                options={['Researcher', 'Participant']}
+              />
+              <Button
+                modifierClasses={isDarkTheme ?
+                  'button--small button--quaternary' :
+                  'button--small'
+                }
+                disabled={true}
+                isButton={true} text="Login" onClick={(e) => getUser(e)}
               />
             </Form>
+          }
+        />
+        <Footer
+          modifierClasses={ !isDarkTheme ? 'footer--light' : '' }
+          leftContent={<p>Need Help? <a href="#">Contact us</a>.</p>}
+          rightContent={
+            <p>Already have an account? <a href="#">Login</a>.</p>
           }
         />
       </div>
