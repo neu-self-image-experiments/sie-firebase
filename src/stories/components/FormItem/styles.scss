@@ -73,6 +73,15 @@
 
 .form-item__input {
   @extend %form-item-styles;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:invalid {
+    border-color: $red-dark;
+    box-shadow: none;
+  }
 }
 
 .form-item__input--text {

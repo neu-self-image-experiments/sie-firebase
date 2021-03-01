@@ -47,7 +47,7 @@ LeftSidebar.args = {
 // Right Sidebar
 export const RightSidebar = Template.bind({});
 RightSidebar.args = {
-  modifierClasses: 'sidebar--right',
+  modifierClasses: 'sidebar--reverse',
   leftContent:
         <div>
           <h3>Main Content</h3>

@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
  * @param {enum} type of the input.
  * @param {string} value of the input.
  * @param {array} options of the select input.
+ * @param {func} handleChange of the input.
  * @return {object} (
  *   <FormItem modifierClasses={modifierClasses}
  *      label={label} showLabel={showLabel}
@@ -21,8 +22,18 @@ import PropTypes from 'prop-types';
  *   />
  * )
  */
+/* eslint-disable react/prop-types */
 export const FormItem = (
-  { modifierClasses, label, showLabel, placeholder, type, value, options },
+  {
+    modifierClasses,
+    label,
+    showLabel,
+    placeholder,
+    type,
+    value,
+    handleChange,
+    options,
+  },
 ) => {
   // dynamically render Form Item Input
   function returnFormItem(type) {
@@ -34,9 +45,11 @@ export const FormItem = (
       return <Select options={options} />;
     default:
       return <Input placeholder={placeholder}
-        label={showLabel ? label : false}
+        label={showLabel ? '' : label}
         type={type}
-        value={value}/>;
+        value={value}
+        handleChange={handleChange}
+      />;
     }
   }
 
@@ -46,7 +59,7 @@ export const FormItem = (
       <label
         className={[
           'form-item__label',
-          `${showLabel ? 'is-hidden' : ''}`].join(' ').trim()}
+          `${showLabel ? '' : 'is-hidden'}`].join(' ').trim()}
       >{label}</label>
     </div>
   );
@@ -90,10 +103,12 @@ FormItem.defaultProps = {
   type: 'text',
   placeholder: 'Placeholder',
   value: '',
+  handleChange: null,
 };
 
 /**
  * Render <input /> HTML
+ * @param {func} handleChange of the input.
  * @param {string} placeholder of the input.
  * @param {enum} type of the input.
  * @param {string} value of the input.
@@ -104,17 +119,21 @@ FormItem.defaultProps = {
         type={type} value={value} />
  * )
  */
-const Input = ({ type, placeholder, value, label }) => (
-  <input
-    className={[
-      'form-item__input',
-      `form-item__input--${type}`].join(' ').trim()}
-    placeholder={placeholder}
-    type={type}
-    aria-label={label}
-    {...value ? `value="${value}"` : ''}
-  />
-);
+
+const Input = ( { type, placeholder, value, label, handleChange }) => {
+  return (
+    <input
+      className={[
+        'form-item__input',
+        `form-item__input--${type}`].join(' ').trim()}
+      placeholder={placeholder}
+      type={type}
+      onChange={handleChange}
+      aria-label={label}
+      {...value ? `value="${value}"` : ''}
+    />
+  );
+};
 
 Input.propTypes = {
   /**
@@ -140,6 +159,10 @@ Input.propTypes = {
    * Input's value
    */
   value: PropTypes.string,
+  /**
+   * Input's handleChange
+   */
+  handleChange: PropTypes.func,
 };
 
 Input.defaultProps = {
