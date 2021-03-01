@@ -31,11 +31,12 @@ export const Login = ({ isDarkTheme }) => {
   const getUser = (e) => {
     e.preventDefault();
 
-    const service = new UserServices();
+    const service = UserServices.getInstance();
+    console.log(service.getUsers()); // eslint-disable-line no-console
 
     service.getUsers().then((users) => {
       try {
-        response.forEach((item) => {
+        users.forEach((item) => {
           if (
             (item.username === username ||
             item.email === username) &&
