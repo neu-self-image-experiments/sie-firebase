@@ -2,7 +2,6 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import { mount, configure } from 'enzyme';
-import { Button } from '../../components/Button/Button';
 import { Login } from './Login';
 
 configure({ adapter: new Adapter() });
@@ -20,7 +19,7 @@ describe('<Login />', () => {
     const changeState = jest.fn();
     const wrapper = mount(<Login onChange={changeState} />);
     const handleClick = jest.spyOn(React, 'useState');
-    handleClick.mockImplementation(username => [username, setUsername]);
+    handleClick.mockImplementation((username) => [username, setUsername]);
     wrapper.find('.form-item__input--text').simulate('change');
     expect(changeState).toBeTruthy();
   });
@@ -30,7 +29,7 @@ describe('<Login />', () => {
     const changeState = jest.fn();
     const wrapper = mount(<Login onChange={changeState} />);
     const handleClick = jest.spyOn(React, 'useState');
-    handleClick.mockImplementation(password => [password, setPassword]);
+    handleClick.mockImplementation((password) => [password, setPassword]);
     wrapper.find('.form-item__input--password').simulate('change');
     expect(changeState).toBeTruthy();
   });

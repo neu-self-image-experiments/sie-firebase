@@ -34,20 +34,15 @@ export const Login = ({ isDarkTheme }) => {
     const service = UserServices.getInstance();
 
     try {
-      service.getUsers().then((users) => {
-        const found = users.find((user) => (user.username === username ||
-          user.email === username) &&
-          user.password === password);
-
-        if (found) {
-          // REDIRECT TO DASHBOARD
-          window.alert('Success!'); // remove eventually
-        } else {
-          setError(true);
-        }
-      });
+      const user = {
+        username,
+        password,
+      };
+      // REDIRECT TO DASHBOARD
+      service.postUser(user).then((response) => window.alert('Success!'));
     } catch (err) {
       // ERROR HANDLING
+      setError(true);
     }
   };
 
