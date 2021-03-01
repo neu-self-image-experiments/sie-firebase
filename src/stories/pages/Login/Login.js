@@ -32,31 +32,23 @@ export const Login = ({ isDarkTheme }) => {
     e.preventDefault();
 
     const service = UserServices.getInstance();
-    console.log(service.getUsers()); // eslint-disable-line no-console
 
-    service.getUsers().then((users) => {
-      try {
-        users.forEach((item) => {
-          if (
-            (item.username === username ||
-            item.email === username) &&
-            item.password === password
-          ) {
-            // REDIRECT TO DASHBOARD
-            setError(false);
-            window.alert(`
-              Full Name: ${item.first_name} ${item.last_name}
-              Email: ${item.email}
-              Username: ${item.username}
-              Role: ${item.role}
-            `); // remove eventually
-          }
-        });
-      } catch (err) {
-        // ERROR HANDLING
-      }
-    });
-    setError(true);
+    try {
+      service.getUsers().then((users) => {
+        const found = users.find((user) => (user.username === username ||
+          user.email === username) &&
+          user.password === password);
+
+        if (found) {
+          // REDIRECT TO DASHBOARD
+          window.alert('Success!'); // remove eventually
+        } else {
+          setError(true);
+        }
+      });
+    } catch (err) {
+      // ERROR HANDLING
+    }
   };
 
   return (
