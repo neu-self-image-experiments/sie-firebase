@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.6.3",
     "babel-eslint": "^10.1.0",
@@ -47,7 +48,6 @@
     "@storybook/node-logger": "^6.1.17",
     "@storybook/preset-create-react-app": "^3.1.5",
     "@storybook/react": "^6.1.17",
-    "@testing-library/jest-dom": "^5.11.9",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.4.1",
     "enzyme": "^3.11.0",
     "eslint-config-google": "^0.14.0",
