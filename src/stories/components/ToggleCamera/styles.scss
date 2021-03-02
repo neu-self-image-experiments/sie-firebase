@@ -3,4 +3,54 @@
 // @file
 // Toggle Camera
 
-// .toggle-camera {}
+.toggle-camera {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: $spacing-3;
+  margin: $spacing-3 0;
+}
+
+.toggle-camera__half {
+  &:first-child {
+    @include svg-background(icon-camera);
+
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-size: rem(55px);
+    padding: $spacing-1 0  0 $spacing-7;
+  }
+}
+
+.toggle-camera__title {
+  margin: 0;
+}
+
+.toggle-camera__icon {
+  @include button-clear();
+
+  background-color: $gray-3;
+  border-radius: 32px;
+  height: 32px;
+  position: relative;
+  width: 62px;
+
+  &::before {
+    background-color: $white;
+    border-radius: 100%;
+    content: '';
+    display: block;
+    height: 30px;
+    left: 1px;
+    position: absolute;
+    top: 1px;
+    transition: all 0.4s cubic-bezier(0.5, 0.25, 0, 1);
+    width: 30px;
+  }
+
+  &.is-on {
+    background-color: $teal-dark;
+    &::before {
+      transform: translateX(30px);
+    }
+  }
+}

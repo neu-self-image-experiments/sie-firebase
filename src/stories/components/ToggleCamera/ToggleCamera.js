@@ -54,10 +54,10 @@ ToggleCamera.defaultProps = {
  */
 export const Toggle = ({ on }) => {
   return (
-    <div className={
+    <button className={
       ['toggle-camera__icon', `${on && 'is-on'}`].join(' ').trim()
     }>
-    </div>
+    </button>
   );
 };
 
