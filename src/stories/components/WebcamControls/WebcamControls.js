@@ -1,6 +1,7 @@
 import './styles.scss';
 
 import React, { useState } from 'react';
+import Webcam from 'react-webcam';
 
 import { Button } from '../../components/Button/Button';
 import { Fragment } from 'react';
@@ -48,11 +49,20 @@ export const WebcamControls = () => {
           text="Turn Camera Off"
           onClick={() => turnCameraOff()}
         />
+        { webcamOn && <Webcam /> }
       </div>
     </div>
   );
 };
 
+/**
+ * Component for instructions element.
+ *
+ * @component
+ * @return {object} (
+ *   <Instructions />
+ * )
+ */
 const Instructions = () =>
   <Fragment>
     <p>Please upload or use your webcam to take and submit a picture of your

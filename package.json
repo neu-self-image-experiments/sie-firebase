@@ -50,6 +50,7 @@
     "@storybook/react": "^6.1.17",
     "eslint-config-google": "^0.14.0",
     "react-router-dom": "^5.2.0",
-    "react-step-wizard": "^5.3.5"
+    "react-step-wizard": "^5.3.5",
+    "react-webcam": "^5.2.3"
   }
 }
