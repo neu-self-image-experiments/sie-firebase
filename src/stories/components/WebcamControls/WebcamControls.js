@@ -20,7 +20,7 @@ export const WebcamControls = ({ handleCameraOn, handleCameraOff }) => {
     <div className="webcam-controls">
       <p>Please upload or use your webcam to take and submit a picture of your
         face that meets the following requirements:</p>
-      <ol>
+      <ol className="webcam-controls__instructions">
         <li>Well-lit with face clearly visible</li>
         <li>Face centered in the middle of the frame</li>
         <li>Facing forward, eyes looking into camera</li>

@@ -4,3 +4,7 @@
 // Webcam Controls
 
 // .webcam-controls {}
+
+.webcam-controls__instructions {
+  @include list-styled-ordered-list();
+}
