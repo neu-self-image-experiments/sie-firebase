@@ -29,7 +29,7 @@ export default class UserServices {
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
-      return {errorCode, errorMessage};
+      return { errorCode, errorMessage };
     }
   }
 
@@ -44,14 +44,14 @@ export default class UserServices {
           const res = await user.sendEmailVerification();
           return res;
         } else {
-          return {errorCode: 'auth/no user',
-            errorMessage: 'did not find user'};
+          return { errorCode: 'auth/no user',
+            errorMessage: 'did not find user' };
         }
       });
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
-      return {errorCode, errorMessage};
+      return { errorCode, errorMessage };
     }
   }
 
@@ -65,12 +65,12 @@ export default class UserServices {
       const res = await this.postUser(user);
       if (res) {
         // this.sendEmailVerification();
-        return {status: 200, message: 'created'};
+        return { status: 200, message: 'created' };
       }
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
-      return {errorCode, errorMessage};
+      return { errorCode, errorMessage };
     }
   }
 
@@ -87,7 +87,7 @@ export default class UserServices {
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
-      return {errorCode, errorMessage};
+      return { errorCode, errorMessage };
     }
   }
 
@@ -101,14 +101,14 @@ export default class UserServices {
         if (user) {
           callback(user);
         } else {
-          return {errorCode: 'auth/no user',
-            errorMessage: 'did not find user'};
+          return { errorCode: 'auth/no user',
+            errorMessage: 'did not find user' };
         }
       });
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
-      return {errorCode, errorMessage};
+      return { errorCode, errorMessage };
     }
   }
 
@@ -121,16 +121,16 @@ export default class UserServices {
       firebase.auth().onAuthStateChanged((user)=>{
         if (user) {
           user.delete();
-          return {status: 200, message: 'deleted'};
+          return { status: 200, message: 'deleted' };
         } else {
-          return {errorCode: 'auth/no user',
-            errorMessage: 'did not find user'};
+          return { errorCode: 'auth/no user',
+            errorMessage: 'did not find user' };
         }
       });
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
-      return {errorCode, errorMessage};
+      return { errorCode, errorMessage };
     }
   }
 }
