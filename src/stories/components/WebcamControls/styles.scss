@@ -8,3 +8,26 @@
 .webcam-controls__instructions {
   @include list-styled-ordered-list();
 }
+
+.webcam-controls__buttons {
+  margin-top: $spacing-3;
+
+  .button {
+    &:last-child {
+      float: right;
+    }
+
+    &.is-disabled {
+      color: $gray-4;
+      background-color: $gray-3;
+      cursor: text;
+
+      &:hover,
+      &:focus {
+        border-radius: 0;
+        border-bottom-right-radius: 50px;
+        border-top-left-radius: 50px;
+      }
+    }
+  }
+}

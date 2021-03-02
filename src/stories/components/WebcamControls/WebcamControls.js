@@ -1,21 +1,32 @@
 import './styles.scss';
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+
+import { Button } from '../../components/Button/Button';
 
 /**
  * Component for webcam controls element.
  *
  * @component
- * @param {funct} handleCameraOn turn webcam on.
- * @param {funct} handleCameraOff turn webcam off.
  * @return {object} (
  *   <WebcamControls handleCameraOn={handleCameraOn}
  *             handleCameraOff={handleCameraOff}
  *   />
  * )
  */
-export const WebcamControls = ({ handleCameraOn, handleCameraOff }) => {
+export const WebcamControls = () => {
+  const [webcamOn, setWebcamOn] = useState(false);
+
+  const turnCameraOn = () => {
+    // do something
+    setWebcamOn(true);
+  };
+
+  const turnCameraOff = () => {
+    // do something
+    setWebcamOn(false);
+  };
+
   return (
     <div className="webcam-controls">
       <p>Please upload or use your webcam to take and submit a picture of your
@@ -29,18 +40,25 @@ export const WebcamControls = ({ handleCameraOn, handleCameraOff }) => {
           hair (including bangs) pulled away from face; hands not
           touching face; large earrings removed)</li>
       </ol>
+      <div className="webcam-controls__buttons">
+        <Button
+          modifierClasses={
+            `button--small button--secondary ${webcamOn && 'is-disabled'} `
+          }
+          isButton={true}
+          text="Turn Camera On"
+          onClick={() => turnCameraOn()}
+        />
+        <Button
+          modifierClasses={
+            `button--small button--quaternary ${!webcamOn && 'is-disabled'} `
+          }
+          isButton={true}
+          text="Turn Camera Off"
+          onClick={() => turnCameraOff()}
+        />
+      </div>
     </div>
   );
-};
-
-WebcamControls.propTypes = {
-  /**
-   * WebcamControls's handleCameraOn
-   */
-  handleCameraOn: PropTypes.func,
-  /**
-   * WebcamControls's handleCameraOff
-   */
-  handleCameraOff: PropTypes.func,
 };
 
