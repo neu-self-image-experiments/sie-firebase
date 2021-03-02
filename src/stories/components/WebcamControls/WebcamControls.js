@@ -11,9 +11,7 @@ import { Fragment } from 'react';
  *
  * @component
  * @return {object} (
- *   <WebcamControls handleCameraOn={handleCameraOn}
- *             handleCameraOff={handleCameraOff}
- *   />
+ *   <WebcamControls />
  * )
  */
 export const WebcamControls = () => {
