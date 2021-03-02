@@ -56,6 +56,7 @@ ToggleCamera.defaultProps = {
 const ToggleIcon = ({ onClick, on }) => {
   return (
     <button
+      role='button'
       className={['toggle-camera__icon', `${on && 'is-on'}`].join(' ').trim()}
       onClick={onClick}
     >{ on ? 'On' : 'Off' }
