@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { Constrain } from '../../layouts/Constrain/Constrain';
 import { WebcamControls } from './WebcamControls';
 
 /**
@@ -11,9 +10,7 @@ export default {
   component: WebcamControls,
 };
 
-const Template = (args) => <Constrain modifierClasses="constrain--narrow">
-  <WebcamControls {...args} />
-</Constrain>;
+const Template = (args) => <WebcamControls {...args} />;
 
 // Default web controls
 export const Default = Template.bind({});
