@@ -21,7 +21,7 @@ export const ToggleCamera = ({ onClick, toggleOn }) => {
         <p>Turn on your webcam.</p>
       </div>
       <div className="toggle-camera__half">
-        <Toggle on={toggleOn} />
+        <Toggle onClick={onClick} on={toggleOn} />
       </div>
     </div>
   );
@@ -47,21 +47,27 @@ ToggleCamera.defaultProps = {
  * Component for toggle icon element.
  *
  * @component
+ * @param {func} onClick on click function.
  * @param {boolean} on define on/off toggle.
  * @return {object} (
  *   <Toggle on={on} />
  * )
  */
-export const Toggle = ({ on }) => {
+export const Toggle = ({ onClick, on }) => {
   return (
-    <button className={
-      ['toggle-camera__icon', `${on && 'is-on'}`].join(' ').trim()
-    }>
+    <button
+      className={['toggle-camera__icon', `${on && 'is-on'}`].join(' ').trim()}
+      onClick={onClick}
+    >{ on ? 'On' : 'Off' }
     </button>
   );
 };
 
 Toggle.propTypes = {
+  /**
+   * ToggleCamera's onClick
+   */
+  onClick: PropTypes.func,
   /**
    * ToggleCamera's on
    */
@@ -69,5 +75,6 @@ Toggle.propTypes = {
 };
 
 Toggle.defaultProps = {
+  onClick: null,
   on: false,
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Constrain } from '../../layouts/Constrain/Constrain';
 import { ToggleCamera } from './ToggleCamera';
 
 /**
@@ -11,7 +12,9 @@ export default {
 };
 
 const Template = (args) =>
-  <ToggleCamera {...args} />;
+  <Constrain modifierClasses="constrain--narrow">
+    <ToggleCamera {...args} />
+  </Constrain>;
 
-// Default image guidelines
+// Default toggle camera
 export const Default = Template.bind({});

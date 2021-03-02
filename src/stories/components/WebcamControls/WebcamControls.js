@@ -7,6 +7,7 @@ import Webcam from 'react-webcam';
 import { Constrain } from '../../layouts/Constrain/Constrain';
 import { Button } from '../Button/Button';
 import { ImageGuidelines } from '../ImageGuidelines/ImageGuidelines';
+import { ToggleCamera } from '../ToggleCamera/ToggleCamera';
 
 /**
  * Component for webcam controls element.
@@ -17,31 +18,52 @@ import { ImageGuidelines } from '../ImageGuidelines/ImageGuidelines';
  * )
  */
 export const WebcamControls = () => {
-  const [webcamOn, setWebcamOn] = useState(false);
+  const [cameraIsOn, setWebcamOn] = useState(false);
+  const [snapshot, setSnapshot] = useState('');
+  const webcamRef = React.useRef(null);
 
   const toggleCamera = () => {
     // do something
-    setWebcamOn(!webcamOn);
+    setWebcamOn(!cameraIsOn);
   };
+
+
+  const capturePhoto = React.useCallback(
+    () => {
+      setSnapshot(webcamRef.current.getScreenshot());
+    },
+    [webcamRef],
+  );
 
   return (
     <div className="webcam-controls">
       <Constrain modifierClasses="constrain--narrow">
-        <InstructionsAndControls webcamOn={webcamOn}
-          toggleCamera={() => toggleCamera()}
+        <InstructionsAndControls cameraIsOn={cameraIsOn}
+          onClick={() => toggleCamera()}
         />
       </Constrain>
       <div className="webcam-controls__images">
         <div className="webcam-controls__item">
-          <ImageGuidelines content={ webcamOn &&
-            <Webcam screenshotFormat='image/jpeg' height={240} width={320} />
+          <ImageGuidelines content={ cameraIsOn &&
+            <Webcam screenshotFormat='image/jpeg'
+              height={240} width={320} ref={webcamRef}
+            />
           } />
           <p>Align your face with the guiding lines.</p>
-          <Button
-            modifierClasses="button--small button--tertiary"
-            isButton={true}
-            text="Take a photo"
-          />
+          { cameraIsOn &&
+            <Button
+              modifierClasses="button--small button--secondary"
+              isButton={true}
+              text="Take a photo"
+              onClick={() => capturePhoto()}
+            />
+          }
+        </div>
+        <div className="webcam-controls__item">
+          <ImageGuidelines content={ <img src={snapshot} /> } />
+          <p>Your photo will appear here. If you are satisfied with it,
+            you can submit it.
+          </p>
         </div>
       </div>
     </div>
@@ -52,15 +74,15 @@ export const WebcamControls = () => {
  * Component for instructions and webcam controls element.
  *
  * @component
- * @param {boolean} webcamOn whether the webcam is on or off.
- * @param {func} toggleCamera function to toggle camera on/off.
+ * @param {boolean} cameraIsOn whether the webcam is on or off.
+ * @param {func} onClick function to toggle camera on/off.
  * @return {object} (
  *   <InstructionsAndControls turnCameraOn={turnCameraOn}
- *      turnCameraOff={turnCameraOff} webcamOn={webcamOn}
+ *      turnCameraOff={turnCameraOff} cameraIsOn={cameraIsOn}
  *    />
  * )
  */
-const InstructionsAndControls = ({ webcamOn, toggleCamera }) =>
+const InstructionsAndControls = ({ cameraIsOn, onClick }) =>
   <Fragment>
     <h3>Photo Instructions and Upload</h3>
     <p>Please upload or use your webcam to take and submit a picture of your
@@ -74,31 +96,21 @@ const InstructionsAndControls = ({ webcamOn, toggleCamera }) =>
         hair (including bangs) pulled away from face; hands not
         touching face; large earrings removed).</li>
     </ol>
-    <div className="webcam-controls__buttons">
-      <h4>Ready to take a photo?</h4>
-      <Button
-        modifierClasses={
-          `button--small button--secondary ${webcamOn && 'is-disabled'} `
-        }
-        isButton={true}
-        text="Turn Camera On"
-        onClick={toggleCamera}
-      />
-    </div>
+    <ToggleCamera onClick={onClick} toggleOn={cameraIsOn} />
   </Fragment>;
 
 InstructionsAndControls.propTypes = {
   /**
-   * InstructionsAndControls's toggleCamera
+   * InstructionsAndControls's onClick
    */
-  toggleCamera: PropTypes.func,
+  onClick: PropTypes.func,
   /**
-   * InstructionsAndControls's webcamOn
+   * InstructionsAndControls's cameraIsOn
    */
-  webcamOn: PropTypes.bool,
+  cameraIsOn: PropTypes.bool,
 };
 
 InstructionsAndControls.defaultProps = {
-  toggleCamera: null,
-  webcamOn: false,
+  onClick: null,
+  cameraIsOn: false,
 };
