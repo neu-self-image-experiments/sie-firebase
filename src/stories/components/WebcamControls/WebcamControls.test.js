@@ -20,6 +20,6 @@ describe('<WebcamControls />', () => {
 
   it('should not include webcam on initial rendering', () => {
     const wrapper = mount(<WebcamControls />);
-    !expect(wrapper.find(<Webcam />)).toBeTruthy();
+    expect(wrapper.contains(<Webcam />)).toBe(false);
   });
 });
