@@ -15,12 +15,12 @@ describe('<Login />', () => {
   });
 
   // test state change
-  it('should update username state on change', () => {
+  it('should update email state on change', () => {
     const changeState = jest.fn();
     const wrapper = mount(<Login onChange={changeState} />);
     const handleClick = jest.spyOn(React, 'useState');
-    handleClick.mockImplementation((username) => [username, setUsername]);
-    wrapper.find('.form-item__input--text').simulate('change');
+    handleClick.mockImplementation((email) => [email, setPassword]);
+    wrapper.find('.form-item__input--email').simulate('change');
     expect(changeState).toBeTruthy();
   });
 
