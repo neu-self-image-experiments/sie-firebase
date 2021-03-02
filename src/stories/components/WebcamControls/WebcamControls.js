@@ -3,6 +3,7 @@ import './styles.scss';
 import React, { useState } from 'react';
 
 import { Button } from '../../components/Button/Button';
+import { Fragment } from 'react';
 
 /**
  * Component for webcam controls element.
@@ -29,17 +30,7 @@ export const WebcamControls = () => {
 
   return (
     <div className="webcam-controls">
-      <p>Please upload or use your webcam to take and submit a picture of your
-        face that meets the following requirements:</p>
-      <ol className="webcam-controls__instructions">
-        <li>Well-lit with face clearly visible</li>
-        <li>Face centered in the middle of the frame</li>
-        <li>Facing forward, eyes looking into camera</li>
-        <li>Neutral facial expression</li>
-        <li>Nothing in front of face (e.g., no hats; glasses removed;
-          hair (including bangs) pulled away from face; hands not
-          touching face; large earrings removed)</li>
-      </ol>
+      <Instructions />
       <div className="webcam-controls__buttons">
         <Button
           modifierClasses={
@@ -61,4 +52,19 @@ export const WebcamControls = () => {
     </div>
   );
 };
+
+const Instructions = () =>
+  <Fragment>
+    <p>Please upload or use your webcam to take and submit a picture of your
+      face that meets the following requirements:</p>
+    <ol className="webcam-controls__instructions">
+      <li>Well-lit with face clearly visible;</li>
+      <li>Face centered in the middle of the frame;</li>
+      <li>Facing forward, eyes looking into camera;</li>
+      <li>Neutral facial expression;</li>
+      <li>Nothing in front of face (e.g., no hats; glasses removed;
+        hair (including bangs) pulled away from face; hands not
+        touching face; large earrings removed).</li>
+    </ol>
+  </Fragment>;
 
