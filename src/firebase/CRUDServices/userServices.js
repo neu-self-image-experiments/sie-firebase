@@ -1,9 +1,7 @@
 import firebase from '../firebase';
 
+/* eslint-disable no-invalid-this */
 export default class UserServices {
-  constructor() {
-  }
-
   // singleton instance.
   static userServiceInstance = null;
 
@@ -37,13 +35,38 @@ export default class UserServices {
 
   /**
    * Send new user email verification when they register.
-   * @return {Boolean} success or not.
+   * @return {Response} result.
    */
   sendEmailVerification = async () => {
     try {
-      self.user = firebase.auth().currentUser;
-      await self.user.sendEmailVerification();
-      return true;
+      firebase.auth().onAuthStateChanged(async (user)=>{
+        if (user) {
+          const res = await user.sendEmailVerification();
+          return res;
+        } else {
+          return {errorCode: 'auth/no user',
+            errorMessage: 'did not find user'};
+        }
+      });
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      return {errorCode, errorMessage};
+    }
+  }
+
+  /**
+   *
+   * @param {User} user user object contains email and password.
+   * @return {Response} result.
+   */
+  signUp = async (user) => {
+    try {
+      const res = await this.postUser(user);
+      if (res) {
+        // this.sendEmailVerification();
+        return {status: 200, message: 'created'};
+      }
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
@@ -62,7 +85,9 @@ export default class UserServices {
         .signInWithEmailAndPassword(user.email, user.password);
       return userCredential.user;
     } catch (error) {
-      return error;
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      return {errorCode, errorMessage};
     }
   }
 
@@ -76,30 +101,36 @@ export default class UserServices {
         if (user) {
           callback(user);
         } else {
-          return 'no user';
+          return {errorCode: 'auth/no user',
+            errorMessage: 'did not find user'};
         }
       });
     } catch (error) {
-      return error;
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      return {errorCode, errorMessage};
     }
   }
 
   /**
    * Delete current signed-in user.
-   * @return {Boolean} sucess or not.
+   * @return {Response} result.
    */
   deleteUser = async () => {
     try {
       firebase.auth().onAuthStateChanged((user)=>{
         if (user) {
           user.delete();
-          return true;
+          return {status: 200, message: 'deleted'};
         } else {
-          return 'no user';
+          return {errorCode: 'auth/no user',
+            errorMessage: 'did not find user'};
         }
       });
     } catch (error) {
-      return error;
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      return {errorCode, errorMessage};
     }
   }
 }
