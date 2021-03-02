@@ -24,8 +24,8 @@ import { Button } from '../../components/Button/Button';
  */
 
 export const Login = ({ isDarkTheme }) => {
-  const [error, setError] = useState(false);
-  const [username, setUsername] = useState('');
+  const [error, setError] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const getUser = (e) => {
@@ -33,17 +33,20 @@ export const Login = ({ isDarkTheme }) => {
 
     const service = UserServices.getInstance();
 
-    try {
-      const user = {
-        username,
-        password,
-      };
-      // REDIRECT TO DASHBOARD
-      service.postUser(user).then((response) => window.alert('Success!'));
-    } catch (err) {
-      // ERROR HANDLING
-      setError(true);
-    }
+    const user = {
+      email,
+      password,
+    };
+    service.signIn(user).then((response) => {
+      if (response.errorCode) {
+        // REDIRECT TO DASHBOARD
+        // ERROR HANDLING
+        setError(response.errorMessage);
+      } else {
+        setError('');
+        window.alert(response.email);
+      }
+    });
   };
 
   return (
@@ -66,11 +69,11 @@ export const Login = ({ isDarkTheme }) => {
             <Form type="login">
               <FormItem
                 modifierClasses={isDarkTheme ? 'form-item--light' : ''}
-                placeholder="Username or Email"
-                type="text"
+                placeholder="Email"
+                type="email"
                 showLabel={false}
                 label="Username"
-                handleChange={(e) => setUsername(e.target.value)}
+                handleChange={(e) => setEmail(e.target.value)}
               />
               <FormItem
                 modifierClasses={isDarkTheme ? 'form-item--light' : ''}
@@ -82,7 +85,7 @@ export const Login = ({ isDarkTheme }) => {
               />
               { error &&
                 <div className="form__msg">
-                  <p>Sorry, the login credentials you entered are incorrect.</p>
+                  <p>{error}</p>
                 </div>
               }
               <Button
