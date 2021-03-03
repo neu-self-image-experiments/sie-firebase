@@ -8,10 +8,34 @@
   flex-direction: column;
 }
 
+.file-upload {
+  p {
+    display: inline-block;
+    margin-right: $spacing-1;
+  }
+}
+
 .upload-icon {
   p {
     margin-bottom: 0;
     display: flex;
     justify-content: center;
   }
+  img {
+    margin-left: calc(#{$spacing-1} / 3);
+  }
 }
+
+input[type="file"] {
+  display: none;
+}
+
+.file-upload__label {
+  width: rem(120px);
+  border: rem(1px) solid $black;
+  display: inline-block;
+  padding: $spacing-1 $spacing-1;
+  cursor: pointer;
+  margin-right: $spacing-1;
+}
+
