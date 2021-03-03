@@ -6,20 +6,46 @@ import { Form } from '../../components/Form/Form';
 import { FormItem } from '../../components/FormItem/FormItem';
 
 export const AccountInfoPage = ({ user }) => {
+  const [username, setUsername] = userState('');
+  const [password, setPassword] = userState('');
+  const [firstName, setFirstName] = userState('');
+  const [lastName, setLastName] = userState('');
+  const [email, setEmail] = userState('');
+  const [role, setRole] = userState('');
+
   return (
     <div>
       <Form>
         <FormItem
           label={'First Name'}
-          value={user.firstName}
+          showLabel={true}
+          value={firstName}
         ></FormItem>
         <FormItem
-          modifierClasses="account__form-item"
           label={'Last Name'}
-          value={user.lastName}
+          showLabel={true}
+          value={lastName}
         ></FormItem>
-        <FormItem label={'Email Address'} value={user.email}></FormItem>
-        <FormItem label={'Role'} value={user.role}></FormItem>
+        <FormItem
+          label={'Email Address'}
+          showLabel={true}
+          value={email}
+        ></FormItem>
+        <FormItem
+          label={'Role'}
+          showLabel={true}
+          value={role}
+        ></FormItem>
+        <FormItem
+          label={'Username'}
+          showLabel={true}
+          value={username}
+        ></FormItem>
+        <FormItem
+          label={'Password'}
+          showLabel={true}
+          value={password}
+        ></FormItem>
       </Form>
     </div>
   );
