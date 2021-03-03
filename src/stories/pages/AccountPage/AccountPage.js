@@ -7,14 +7,13 @@ import { Button } from '../../components/Button/Button';
 import { HorizontalTitle } from '../../components/HorizontalTitle/HorizontalTitle';
 import UserServices from '../../../firebase/CRUDServices/userServices';
 
-export const AccountPage = () => {
-  const [user, setUser] = useState();
-  const [error, setError] = useState();
-  const userService = UserServices.getInstance();
+export const UserContext = React.createContext();
 
-  useEffect(() => {
-    userService.getCurrentUser(setUser).then(setError).catch(setError);
-  }, []);
+export const AccountPage = () => {
+  const [logInState, setLogInState] = useState({ isLoggedIn: false });
+  const [error, setError] = useState();
+
+  const userService = UserServices.getInstance();
 
   const deleteUser = async () => {
     const result = await userService.deleteUserById(user.id);
@@ -25,17 +24,25 @@ export const AccountPage = () => {
     }
   };
 
+  useEffect(async () => {
+    userService.getCurrentUser(setLogInState).catch((e) => setError(e));
+  }, []);
+
   return error ? (
-    <div>
-      <HorizontalTitle
-        eyebrow={'Account'}
-        title={'Personal Information'}
-        content={'Content goes here'}
-      ></HorizontalTitle>
-      <AccountInfoPage user={user}></AccountInfoPage>
-      <Button text="Delete my account" onClick={deleteUser}></Button>
-    </div>
+    <div>{error.errorCode + ': ' + error.errorMessage}</div>
+  ) : logInState.isLoggedIn ? (
+    <UserContext.Provider value={logInState.user}>
+      <div>
+        <HorizontalTitle
+          eyebrow={'Account'}
+          title={'Personal Information'}
+          content={'Content goes here'}
+        ></HorizontalTitle>
+        <AccountInfoPage></AccountInfoPage>
+        <Button text="Delete my account" onClick={deleteUser}></Button>
+      </div>
+    </UserContext.Provider>
   ) : (
-    <div>{'No logged in user'}</div>
+    <div>{'No user'}</div>
   );
 };

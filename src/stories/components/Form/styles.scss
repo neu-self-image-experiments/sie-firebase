@@ -19,7 +19,7 @@
 
     @for $i from 1 through 3 {
       &:nth-child(#{$i}n) {
-        animation-delay: #{$i * .1}s;
+        animation-delay: #{$i * 0.1}s;
       }
     }
   }
@@ -29,4 +29,8 @@
     opacity: 1;
     transform: none;
   }
+}
+
+.form--account {
+  text-align: left;
 }

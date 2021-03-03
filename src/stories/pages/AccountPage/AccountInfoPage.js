@@ -1,11 +1,13 @@
 import './styles.scss';
 
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext, useState } from 'react';
 import { Form } from '../../components/Form/Form';
 import { FormItem } from '../../components/FormItem/FormItem';
+import { UserContext } from './AccountPage';
 
-export const AccountInfoPage = ({ user }) => {
+export const AccountInfoPage = () => {
+  const user = useContext(UserContext);
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -15,7 +17,7 @@ export const AccountInfoPage = ({ user }) => {
 
   return (
     <div>
-      <Form>
+      <Form type="account">
         <FormItem
           modifierClasses="form-item--inline"
           label={'First Name'}
@@ -49,6 +51,8 @@ export const AccountInfoPage = ({ user }) => {
           value={role}
           handleChange={(e) => setRole(e.target.value)}
         ></FormItem>
+      </Form>
+      <Form type="account">
         <FormItem
           modifierClasses="form-item--inline"
           label={'Username'}
@@ -69,15 +73,4 @@ export const AccountInfoPage = ({ user }) => {
       </Form>
     </div>
   );
-};
-
-AccountInfoPage.propTypes = {
-  user: {
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    email: PropTypes.string,
-    role: PropTypes.string,
-    username: PropTypes.string,
-    password: PropTypes.string,
-  },
 };

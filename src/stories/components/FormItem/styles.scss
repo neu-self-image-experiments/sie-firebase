@@ -41,6 +41,20 @@
   }
 }
 
+.form-item--inline {
+  flex-direction: row;
+
+  label {
+    flex-basis: 0;
+    flex-grow: 1;
+  }
+
+  input {
+    flex-basis: 0;
+    flex-grow: 1;
+  }
+}
+
 .form-item__label {
   font-weight: 700;
   margin: 0 0 $spacing-1;
