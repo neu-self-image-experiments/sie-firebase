@@ -1,6 +1,7 @@
 import React from 'react';
-import '../../../scss/styles.scss';
+
 import { Sidebar } from './Sidebar';
+import { Constrain } from '../../layouts/Constrain/Constrain';
 
 /**
  * Example Component: Sidebar
@@ -12,7 +13,9 @@ export default {
 
 const Template = (args) => {
   return (
-    <Sidebar {...args} />
+    <Constrain>
+      <Sidebar {...args} />
+    </Constrain>
   );
 };
 
