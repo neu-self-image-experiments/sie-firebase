@@ -1,10 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { AccountInfoPage } from './AccountInfoPage';
-import { Button } from '../../components/Button';
-import { HorizontalTitle } from '../../components/HorizontalTitle';
+import { Button } from '../../components/Button/Button';
+// eslint-disable-next-line max-len
+import { HorizontalTitle } from '../../components/HorizontalTitle/HorizontalTitle';
 import UserServices from '../../../firebase/CRUDServices/userServices';
 
-export const AccountPage = () => {
+export const AccountPage = ({ editing }) => {
   const deleteUser = async (id) => {
     const userService = UserServices.getInstance();
     const result = await userService.deleteUserById(id);
@@ -32,8 +34,12 @@ export const AccountPage = () => {
         title={'Personal Information'}
         content={'Content goes here'}
       ></HorizontalTitle>
-      <AccountInfoPage user={user}></AccountInfoPage>
+      <AccountInfoPage user={user} editing={editing}></AccountInfoPage>
       <Button onClick={deleteUser}></Button>
     </div>
   );
+};
+
+AccountPage.propTypes = {
+  editing: PropTypes.bool.isRequired,
 };
