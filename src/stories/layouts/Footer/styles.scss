@@ -93,5 +93,9 @@
 .footer--light {
   .footer__right {
     color: $black;
+
+    a {
+      color: $black;
+    }
   }
 }
