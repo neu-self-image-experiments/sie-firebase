@@ -1,3 +1,6 @@
+import './styles.scss';
+
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Form } from '../../components/Form/Form';
@@ -11,7 +14,11 @@ export const AccountInfoPage = ({ user }) => {
           label={'First Name'}
           value={user.firstName}
         ></FormItem>
-        <FormItem label={'Last Name'} value={user.lastName}></FormItem>
+        <FormItem
+          modifierClasses="account__form-item"
+          label={'Last Name'}
+          value={user.lastName}
+        ></FormItem>
         <FormItem label={'Email Address'} value={user.email}></FormItem>
         <FormItem label={'Role'} value={user.role}></FormItem>
       </Form>

@@ -1,4 +1,6 @@
-import React from 'react';
+import './styles.scss';
+
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { AccountInfoPage } from './AccountInfoPage';
 import { Button } from '../../components/Button/Button';
@@ -7,25 +9,34 @@ import { HorizontalTitle } from '../../components/HorizontalTitle/HorizontalTitl
 import UserServices from '../../../firebase/CRUDServices/userServices';
 
 export const AccountPage = ({ editing }) => {
+  const [user, setUser] = useState({ loggedIn: false });
+  const userService = UserServices.getInstance();
+
+  useEffect(() => {
+    const unsubscribe = userService.getCurrentUser(setUser);
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   const deleteUser = async (id) => {
-    const userService = UserServices.getInstance();
     const result = await userService.deleteUserById(id);
     if (result) {
-      // redirect
+      // TODO: redirect
     } else {
-      // show error
+      // TODO: show error
     }
   };
 
   // TODO: delete this
-  const user = {
-    firstName: 'Carlo',
-    lastName: 'Mutuc',
-    email: 'cmutuc25@gmail.com',
-    role: 'Administrator',
-    username: 'cjay747',
-    password: 'mypassword',
-  };
+  // const userTest = {
+  //   firstName: 'Carlo',
+  //   lastName: 'Mutuc',
+  //   email: 'cmutuc25@gmail.com',
+  //   role: 'Administrator',
+  //   username: 'cjay747',
+  //   password: 'mypassword',
+  // };
 
   return (
     <div>
@@ -35,7 +46,7 @@ export const AccountPage = ({ editing }) => {
         content={'Content goes here'}
       ></HorizontalTitle>
       <AccountInfoPage user={user} editing={editing}></AccountInfoPage>
-      <Button onClick={deleteUser}></Button>
+      <Button text="Delete my account" onClick={deleteUser}></Button>
     </div>
   );
 };
