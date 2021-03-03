@@ -12,15 +12,18 @@
   width: 100%;
   height: 100%;
   overflow: auto;
-  // background-color: rgba(0,0,0,0.4);
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 /* Modal Content/Box */
-.modal--content {
-  margin-top: $spacing-5;
-  padding-top: $spacing-8;
+.modal__content {
+  align-items: center;
   border-top-right-radius: $spacing-2;
   border-top-left-radius: $spacing-2;
+  display: flex;
+  justify-content: center;
+  margin-top: $spacing-5;
+  padding-top: $spacing-8;
   width: 100%;
   min-height: -webkit-calc(100% - #{rem(50px)});
   min-height: -moz-calc(100% - #{rem(50px)});
@@ -30,21 +33,18 @@
 }
 
 /* The Close Button */
-.modal--content--close::after {
-  @include svg-background(close-24px);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: rem(24px) rem(24px);
-  content: '';
-  display: block;
-  height: $spacing-3;
-  position: absolute;
-  right: $spacing-3;
-  top: $spacing-8;
-  width: $spacing-2;
-}
+.modal__content--close {
+  @include button-clear();
 
-.modal--content--close:hover,
-.modal--content--close:focus {
-  cursor: pointer;
+  @include svg-background(close-24px);
+  float: right;
+  display: block;
+  color: transparent;
+  font: 0/0 a;
+  height: 24px;
+  right: $spacing-5;
+  text-shadow: none;
+  position: absolute;
+  top: $spacing-9;
+  width: 24px;
 }

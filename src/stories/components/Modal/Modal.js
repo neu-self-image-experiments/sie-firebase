@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import { Fragment } from 'react';
 import { Button } from '../Button/Button';
+import { Constrain } from '../../layouts/Constrain/Constrain';
 
 /**
  * Component for Modal element.
@@ -47,14 +48,16 @@ export const Modal = ({ children, theme, buttonText }) => {
         <div
           className={
             (modalOpen) ?
-              'modal--content modal--open' :
-              'modal--content'}
+              'modal__content modal--open' :
+              'modal__content'}
         >
-          <span
+          <button
+            className='modal__content--close'
             onClick={toggleModal}
-            className='modal--content--close'
           />
-          {children}
+          <Constrain modifierClasses="constrain--narrow">
+            {children}
+          </Constrain>
         </div>
       </div>
     </Fragment>
