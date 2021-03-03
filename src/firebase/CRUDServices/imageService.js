@@ -29,18 +29,17 @@ export default class ImageService {
      * @param {String} userName user name.
      * @param {String} experimentId experiment id.
      * @param {File} image self image file.
+     * @return {Boolean} succeed or not.
      */
     postImage = async (userName, experimentId, image) => {
       const folderPath = userName + '-' + experimentId + '/';
       const imagePath = folderPath + image.name;
       const rawImageRef = self.sieRawImagesBucketRef.child(imagePath);
-      try {
-        await rawImageRef.put(image).then(() => {
-          return true;
-        });
-      } catch (err) {
+      rawImageRef.put(image).then(() => {
+        return true;
+      }).catch((error) => {
         return false;
-      }
+      });
     }
 
     /**
@@ -81,15 +80,13 @@ export default class ImageService {
             const folderPath = userName + '-' + experimentId + '/';
             const processedImagesRef =
             self.sieProcessedImagesBucketRef.child(folderPath);
+            // TODO: download directly in the browser for all processed images
             processedImagesRef.getDownloadURL().then((url) => {
               const xhr = new XMLHttpRequest();
               xhr.responseType = 'blob';
-
-              // TODO: download directly in the browser for all processed images
               // xhr.onload = (event) => {
               //   const blob = xhr.response;
               // };
-
               xhr.open('GET', url);
               xhr.send();
             });
@@ -111,12 +108,10 @@ export default class ImageService {
       const folderPath = userName + '-' + experimentId + '/';
       const imagePath = folderPath + image.name;
       const rawImageRef = self.sieRawImagesBucketRef.child(imagePath);
-      try {
-        await rawImageRef.delete().then(() => {
-          return true;
-        });
-      } catch (err) {
+      rawImageRef.delete().then(() => {
+        return true;
+      }).catch((error) => {
         return false;
-      }
+      });
     }
 }
