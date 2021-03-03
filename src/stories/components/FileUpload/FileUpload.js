@@ -2,7 +2,7 @@ import './styles.scss';
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import UploadLogo from '../../../images/file_upload-white-18dp.svg';
+// import UploadLogo from '../../../images/file_upload-white-18dp.svg';
 import { Button } from '../Button/Button';
 
 /**
@@ -17,7 +17,7 @@ import { Button } from '../Button/Button';
 export const FileUpload = ({ onClick }) => {
   const buttonText = (
     <div className="upload-icon">
-      <p>Upload <img src={UploadLogo} /></p>
+      <p>Upload</p>
     </div>
   );
 
@@ -30,14 +30,17 @@ export const FileUpload = ({ onClick }) => {
   };
 
   return (
-    <div className="file-upload-container">
+    <div className="file-upload">
       <h3>Upload a photo instead</h3>
-      <div className="file-upload">
+      <div className="file-upload__inner">
         <label htmlFor="file-upload__input" className="file-upload__label">
             Browse...
         </label>
         <p id="file-upload__selected">No file selected.</p>
-        <input id="file-upload__input" type="file" onChange={showFileName} />
+        <input
+          id="file-upload__input"
+          type="file"
+          onChange={showFileName} />
         <Button
           modifierClasses='button--small'
           text={buttonText}
