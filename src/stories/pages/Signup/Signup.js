@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { Main } from '../../layouts/Main/Main';
@@ -10,6 +10,7 @@ import { Button } from '../../components/Button/Button';
 import { Section } from '../../components/Section/Section';
 import { SplitGradient } from '../../layouts/SplitGradient/SplitGradient';
 import { Footer } from '../../layouts/Footer/Footer';
+import UserServices from '../../../firebase/CRUDServices/userServices';
 
 /**
  * Component for signup page.
@@ -22,6 +23,31 @@ import { Footer } from '../../layouts/Footer/Footer';
  */
 
 export const Signup = ({isDarkTheme}) => {
+  const [error, setError] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const postUser = (e) => {
+    e.preventDefault();
+
+    const service = UserServices.getInstance();
+
+    const user = {
+      email,
+      password,
+    };
+    service.signUp(user).then((response) => {
+      if (response.errorCode) {
+        // REDIRECT TO DASHBOARD
+        // ERROR HANDLING
+        setError(response.errorMessage);
+      } else {
+        setError('');
+        window.alert(response.email);
+      }
+    });
+  };
+
   return (
     <Main>
       <div className='signup'>
@@ -52,12 +78,14 @@ export const Signup = ({isDarkTheme}) => {
                 label='Email'
                 type='email'
                 placeholder='Email'
+                handleChange={(e) => setEmail(e.target.value)}
               />
               <FormItem
                 modifierClasses={isDarkTheme ? 'form-item--light' : ''}
                 label='Password'
                 type='password'
                 placeholder='Password'
+                handleChange={(e) => setPassword(e.target.value)}
               />
               <FormItem
                 modifierClasses={isDarkTheme ? 'form-item--light' : ''}
@@ -65,6 +93,11 @@ export const Signup = ({isDarkTheme}) => {
                 type='select'
                 options={['Researcher', 'Participant']}
               />
+              { error &&
+                <div className="form__msg">
+                  <p>{error}</p>
+                </div>
+              }
               <Button
                 modifierClasses={isDarkTheme ?
                   'button--small button--quaternary' :
@@ -72,7 +105,7 @@ export const Signup = ({isDarkTheme}) => {
                 }
                 disabled={true}
                 isButton={true} text="Create an account"
-                onClick={(e) => getUser(e)}
+                onClick={(e) => postUser(e)}
               />
             </Form>
           }
