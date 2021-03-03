@@ -5,7 +5,6 @@
 
 /* The Modal (background) */
 .modal {
-  // display: none;
   position: fixed;
   z-index: 1;
   left: 0;
@@ -13,34 +12,40 @@
   width: 100%;
   height: 100%;
   overflow: auto;
-  // background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
+  // background-color: rgba(0,0,0,0.4);
 }
 
 /* Modal Content/Box */
 .modal--content {
   background-color: #fefefe;
   margin-top: $spacing-5;
-  padding-top: $spacing-5;
+  padding-top: $spacing-8;
   border-top-right-radius: $spacing-2;
   border-top-left-radius: $spacing-2;
   width: 100%;
-  height: 100%;
+  height: -webkit-calc(100% - #{rem(50px)});
+  height: -moz-calc(100% - #{rem(50px)});
+  height: calc(100% - #{rem(50px)});
+  box-shadow: 0 -5px 20px -5px lightgrey;
+  transition: opacity 1s ease;
 }
 
 /* The Close Button */
-.modal--content--close {
+.modal--content--close::after {
+  @include svg-background(close-24px);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: rem(24px) rem(24px);
+  content: '';
+  display: block;
+  height: $spacing-3;
   position: absolute;
+  right: $spacing-3;
   top: $spacing-8;
-  color: #aaa;
-  float: right;
-  font-size: 24px;
-  right: $spacing-4;
+  width: $spacing-2;
 }
 
 .modal--content--close:hover,
 .modal--content--close:focus {
-  color: black;
-  text-decoration: none;
   cursor: pointer;
 }

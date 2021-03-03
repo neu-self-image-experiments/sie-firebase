@@ -11,15 +11,16 @@ import { Button } from '../Button/Button';
  *
  * @component
  * @param {node} children items of the Modal.
- * @param {string} theme of the Modal.
+ * @param {string} theme of the Modal Button's parent.
  * @return {object} (
  *   <Modal>
  *      {children}
  *   </Modal>
  * )
  */
-export const Modal = ({ children, theme }) => {
+export const Modal = ({ children, theme, buttonText }) => {
   const [modalOpen, setModalOpen] = useState(false);
+  // const [modalClasses, setModalClasses] = useState('modal--content');
   const toggleModal = () => {
     setModalOpen(!modalOpen);
   };
@@ -27,22 +28,32 @@ export const Modal = ({ children, theme }) => {
   return (
     <Fragment>
       <Button
-        modifierClasses="button--secondary button--small"
+        modifierClasses={[
+          'button--small',
+          `button--${
+            (theme === 'light')?
+              'secondary':
+              'quaternary'
+          }`].join(' ').trim()
+        }
         onClick={toggleModal}
-        text="Open Modal"
+        text={buttonText}
         isButton={true}/>
       <div
         hidden={!modalOpen}
-        id="modalPop"
+        id='modalPop'
         className={['modal', `modal--${theme}`].join(' ').trim()}
       >
-        <div className="modal--content">
+        <div
+          className={
+            (modalOpen) ?
+              'modal--content modal--open' :
+              'modal--content'}
+        >
           <span
             onClick={toggleModal}
-            className="modal--content--close"
-          >
-            x
-          </span>
+            className='modal--content--close'
+          />
           {children}
         </div>
       </div>
@@ -59,10 +70,15 @@ Modal.propTypes = {
      * Modal's theme
      */
   theme: PropTypes.string.isRequired,
+  /**
+    * Button's Text
+    */
+  buttonText: PropTypes.string.isRequired,
 };
 
 Modal.defaultProps = {
   theme: 'light',
+  buttonText: 'Open Modal',
 };
 
 
