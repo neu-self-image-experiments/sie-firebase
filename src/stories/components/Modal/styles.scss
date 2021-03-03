@@ -22,9 +22,9 @@
   border-top-right-radius: $spacing-2;
   border-top-left-radius: $spacing-2;
   width: 100%;
-  height: -webkit-calc(100% - #{rem(50px)});
-  height: -moz-calc(100% - #{rem(50px)});
-  height: calc(100% - #{rem(50px)});
+  min-height: -webkit-calc(100% - #{rem(50px)});
+  min-height: -moz-calc(100% - #{rem(50px)});
+  min-height: calc(100% - #{rem(50px)});
   box-shadow: 0 -5px 20px -5px lightgrey;
   transition: opacity 1s ease;
 }
