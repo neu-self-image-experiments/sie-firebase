@@ -2,7 +2,6 @@ import './styles.scss';
 
 import React from 'react';
 import PropTypes from 'prop-types';
-// import UploadLogo from '../../../images/file_upload-white-18dp.svg';
 import { Button } from '../Button/Button';
 
 /**
