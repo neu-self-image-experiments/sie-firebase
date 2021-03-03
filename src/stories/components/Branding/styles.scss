@@ -4,6 +4,8 @@
 // Branding
 
 .branding {
+  @include fade-in;
+
   font-size: $font-size-xl;
   font-weight: bold;
   font-family: $header-font-family;
