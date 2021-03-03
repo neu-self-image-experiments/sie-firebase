@@ -1,9 +1,15 @@
 @import '../../../scss/variables.scss';
 
+.section {
+  .login & {
+    @include fade-in;
+  }
+}
+
 .section--medium {
-    font-size: $font-size-lg;
+  font-size: $font-size-lg;
 }
 
 .section--large {
-    font-size: rem(24px);
+  font-size: rem(24px);
 }

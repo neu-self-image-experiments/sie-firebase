@@ -29,9 +29,9 @@ export const Section = ({
   const classes = ['section', `${modifierClasses}`].join(' ').trim();
   const CustomTitleTag = titleEl ? titleEl : 'h3';
   return (
-    <div className="section_container">
-      <CustomTitleTag>{title}</CustomTitleTag>
-      <div className={classes}>
+    <div className={classes}>
+      <CustomTitleTag className="section__title">{title}</CustomTitleTag>
+      <div className="section__content">
         <p>{content}</p>
       </div>
     </div>
