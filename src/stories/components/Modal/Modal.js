@@ -47,12 +47,16 @@ export const Modal = ({ children, theme, buttonText }) => {
         <div
           className={
             (modalOpen) ?
-              'modal--content modal--open' :
-              'modal--content'}
+              'modal__content modal--open' :
+              'modal__content'}
         >
-          <span
+          {/* <span
             onClick={toggleModal}
-            className='modal--content--close'
+            className='modal__content--close'
+          /> */}
+          <button
+            className='modal__content--close'
+            onClick={toggleModal}
           />
           {children}
         </div>
