@@ -1,0 +1,17 @@
+@import '../../../scss/variables.scss';
+
+// @file
+// FileUpload
+
+.file-upload-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.upload-icon {
+  p {
+    margin-bottom: 0;
+    display: flex;
+    justify-content: center;
+  }
+}
