@@ -3,6 +3,8 @@ import './styles.scss';
 import React from 'react';
 import { Grid } from './Grid';
 
+import { Constrain } from '../../layouts/Constrain/Constrain';
+
 /**
  * Example Layout: Grid
  */
@@ -12,48 +14,50 @@ export default {
 };
 
 const Template = (args) => (
-  <Grid numColumns={args.numColumns}>
-    <div className="grid__item">
-      <h3>Test</h3>
-      <p>Lorem ipsum dolor sit amet, aliquip pertinax intellegebat vel ad.
-            Quo diceret comprehensam id, mazim labore instructior et mea.</p>
-    </div>
-    <div className="grid__item">
-      <h3>Test</h3>
-      <p>Lorem ipsum dolor sit amet, aliquip pertinax intellegebat vel ad.
-            Quo diceret comprehensam id, mazim labore instructior et mea.</p>
-    </div>
-    <div className="grid__item">
-      <h3>Test</h3>
-      <p>Lorem ipsum dolor sit amet, aliquip pertinax intellegebat vel ad.
-            Quo diceret comprehensam id, mazim labore instructior et mea.</p>
-    </div>
-    <div className="grid__item">
-      <h3>Test</h3>
-      <p>Lorem ipsum dolor sit amet, aliquip pertinax intellegebat vel ad.
-            Quo diceret comprehensam id, mazim labore instructior et mea.</p>
-    </div>
-    <div className="grid__item">
-      <h3>Test</h3>
-      <p>Lorem ipsum dolor sit amet, aliquip pertinax intellegebat vel ad.
-            Quo diceret comprehensam id, mazim labore instructior et mea.</p>
-    </div>
-    <div className="grid__item">
-      <h3>Test</h3>
-      <p>Lorem ipsum dolor sit amet, aliquip pertinax intellegebat vel ad.
-            Quo diceret comprehensam id, mazim labore instructior et mea.</p>
-    </div>
-    <div className="grid__item">
-      <h3>Test</h3>
-      <p>Lorem ipsum dolor sit amet, aliquip pertinax intellegebat vel ad.
-            Quo diceret comprehensam id, mazim labore instructior et mea.</p>
-    </div>
-    <div className="grid__item">
-      <h3>Test</h3>
-      <p>Lorem ipsum dolor sit amet, aliquip pertinax intellegebat vel ad.
-            Quo diceret comprehensam id, mazim labore instructior et mea.</p>
-    </div>
-  </Grid>
+  <Constrain>
+    <Grid numColumns={args.numColumns}>
+      <div className="grid__item">
+        <h3>Test</h3>
+        <p>Lorem ipsum dolor sit amet, aliquip pertinax intellegebat vel ad.
+              Quo diceret comprehensam id, mazim labore instructior et mea.</p>
+      </div>
+      <div className="grid__item">
+        <h3>Test</h3>
+        <p>Lorem ipsum dolor sit amet, aliquip pertinax intellegebat vel ad.
+              Quo diceret comprehensam id, mazim labore instructior et mea.</p>
+      </div>
+      <div className="grid__item">
+        <h3>Test</h3>
+        <p>Lorem ipsum dolor sit amet, aliquip pertinax intellegebat vel ad.
+              Quo diceret comprehensam id, mazim labore instructior et mea.</p>
+      </div>
+      <div className="grid__item">
+        <h3>Test</h3>
+        <p>Lorem ipsum dolor sit amet, aliquip pertinax intellegebat vel ad.
+              Quo diceret comprehensam id, mazim labore instructior et mea.</p>
+      </div>
+      <div className="grid__item">
+        <h3>Test</h3>
+        <p>Lorem ipsum dolor sit amet, aliquip pertinax intellegebat vel ad.
+              Quo diceret comprehensam id, mazim labore instructior et mea.</p>
+      </div>
+      <div className="grid__item">
+        <h3>Test</h3>
+        <p>Lorem ipsum dolor sit amet, aliquip pertinax intellegebat vel ad.
+              Quo diceret comprehensam id, mazim labore instructior et mea.</p>
+      </div>
+      <div className="grid__item">
+        <h3>Test</h3>
+        <p>Lorem ipsum dolor sit amet, aliquip pertinax intellegebat vel ad.
+              Quo diceret comprehensam id, mazim labore instructior et mea.</p>
+      </div>
+      <div className="grid__item">
+        <h3>Test</h3>
+        <p>Lorem ipsum dolor sit amet, aliquip pertinax intellegebat vel ad.
+              Quo diceret comprehensam id, mazim labore instructior et mea.</p>
+      </div>
+    </Grid>
+  </Constrain>
 );
 
 // Grid Layout no column input

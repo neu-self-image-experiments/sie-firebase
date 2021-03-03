@@ -1,0 +1,61 @@
+@import '../../../scss/variables.scss';
+
+// @file
+// Image Guidelines
+
+.image-guidelines {
+  background-color: $teal-light;
+  height: 240px;
+  margin-bottom: $spacing-1;
+  position: relative;
+  width: 320px;
+
+  &::before,
+  &::after {
+    color: $teal-dark;
+    display: block;
+    font-family: $header-font-family;
+    font-size: $font-size-sm;
+    font-weight: 700;
+    height: 27px;
+    position: absolute;
+    text-align: center;
+    text-transform: uppercase;
+    width: 100%;
+    z-index: 999;
+  }
+
+  &::before {
+    border-bottom: solid 1px $teal-dark;
+    content: 'Top of head';
+    top: 20px;
+  }
+
+  &::after {
+    border-top: solid 1px $teal-dark;
+    bottom: 20px;
+    content: 'Chin level';
+  }
+}
+
+.image-guidelines__lines {
+  &::before,
+  &::after {
+    background-color: $teal-dark;
+    content: '';
+    display: block;
+    font-weight: 700;
+    height: 100%;
+    position: absolute;
+    width: 1px;
+    z-index: 999;
+  }
+
+  &::before {
+    left: 80px;
+  }
+
+  &::after {
+    right: 80px;
+  }
+}
