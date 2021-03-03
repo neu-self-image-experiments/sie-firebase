@@ -14,12 +14,6 @@ import { Button } from '../Button/Button';
  * )
  */
 export const FileUpload = ({ onClick }) => {
-  const buttonText = (
-    <div className="upload-icon">
-      <p>Upload</p>
-    </div>
-  );
-
   const showFileName = () => {
     if (document.getElementById('file-upload__input')) {
       const name = document.getElementById('file-upload__input');
@@ -30,7 +24,7 @@ export const FileUpload = ({ onClick }) => {
 
   return (
     <div className="file-upload">
-      <h3>Upload a photo instead</h3>
+      <h4>Upload a photo instead</h4>
       <div className="file-upload__inner">
         <label htmlFor="file-upload__input" className="file-upload__label">
             Browse...
@@ -41,8 +35,9 @@ export const FileUpload = ({ onClick }) => {
           type="file"
           onChange={showFileName} />
         <Button
-          modifierClasses='button--small'
-          text={buttonText}
+          isButton="true"
+          modifierClasses="file-upload__btn button--small"
+          text="Upload"
           onClick={onClick} />
       </div>
     </div>

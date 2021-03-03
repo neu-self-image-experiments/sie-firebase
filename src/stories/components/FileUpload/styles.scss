@@ -1,29 +1,26 @@
 @import '../../../scss/variables.scss';
 
 // @file
-// FileUpload
+// File Upload
 
-.file-upload {
-  display: flex;
-  flex-direction: column;
-}
+// .file-upload {}
 
 .file-upload__inner {
+  margin-top: $spacing-3;
+
   p {
     display: inline-block;
     margin-right: $spacing-1;
   }
 }
 
-.upload-icon {
-  p {
-    margin-bottom: 0;
-    display: flex;
-    justify-content: center;
-    background-image: url('../../../images/file_upload-white-18dp.svg');
-    background-repeat:no-repeat;
-    background-position:right center;
-  }
+.file-upload__btn {
+  @include svg-background(icon-file-upload);
+
+  background-repeat: no-repeat;
+  background-position: right 50px center;
+  padding-right: $spacing-5;
+  margin-bottom: 0;
 }
 
 #file-upload__input {
