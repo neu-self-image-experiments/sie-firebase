@@ -1,22 +1,20 @@
 import './App.scss';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Login } from './stories/pages/Login/Login';
+import { Signup } from './stories/pages/Signup/Signup';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-                    Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-                    Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/signup">
+          <Signup isDarkTheme={false} />
+        </Route>
+      </Switch>
+    </BrowserRouter>
   );
 }
 

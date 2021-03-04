@@ -1,6 +1,7 @@
 @import '../../../scss/variables.scss';
 
 .section {
+  .signup &,
   .login & {
     @include fade-in;
   }
