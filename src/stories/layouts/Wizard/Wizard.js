@@ -35,7 +35,7 @@ export const Wizard = ({ children, labels }) => {
 
   const { WizInstance } = state;
 
-  function renderWizard() {
+  const renderWizard = () => {
     return (
       <Constrain>
         <StepWizard
@@ -53,7 +53,8 @@ export const Wizard = ({ children, labels }) => {
         }
       </Constrain>
     );
-  }
+  };
+
   return (
     <div>
       { children.length === labels.length ?

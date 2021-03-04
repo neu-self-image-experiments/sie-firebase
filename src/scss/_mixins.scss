@@ -49,6 +49,30 @@
   }
 }
 
+// display styled ordered list
+@mixin list-styled-ordered-list {
+  counter-reset: custom-counter;
+  margin-left: 0;
+  padding-left: 0;
+  list-style: none;
+
+  li {
+    counter-increment: custom-counter;
+    padding-left: $spacing-3;
+    margin-bottom: $spacing-1;
+    position: relative;
+
+    &::before {
+      color: $teal-dark;
+      content: counter(custom-counter) '.';
+      font-family: $header-font-family;
+      font-weight: 700;
+      left: 0;
+      position: absolute;
+    }
+  }
+}
+
 // SVG background
 @mixin svg-background($image-name, $image-location: '/images/') {
   $url: $image-location + $image-name + '.svg';
