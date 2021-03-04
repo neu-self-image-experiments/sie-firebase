@@ -41,7 +41,9 @@ export const UploadPhoto = () => {
   const uploadPhoto = () => {
     const service = ImageService.getInstance();
     console.log(image);
-    service.postImage(image).then(res => {
+    const userId = 'test';
+    const experimentId = '001';
+    service.postRawImage(userId, experimentId, image).then(res => {
       console.log(res);
     });
   };
