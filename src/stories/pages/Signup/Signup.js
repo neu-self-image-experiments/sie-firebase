@@ -33,6 +33,13 @@ export const Signup = ({ isDarkTheme }) => {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
 
+  const userRoles =[
+    'Select a role',
+    'Administrator',
+    'Researcher',
+    'Participant',
+  ];
+
   const postUser = (e) => {
     e.preventDefault();
     // call user service
@@ -107,8 +114,8 @@ export const Signup = ({ isDarkTheme }) => {
                 modifierClasses={isDarkTheme ? 'form-item--light' : ''}
                 label='Role'
                 type='select'
-                options={['Administrator', 'Researcher', 'Participant']}
-                handleChange={(e) => setRole(e.target.value)}
+                options={userRoles}
+                handleChange={(e) => setRole({value: e.target.value})}
               />
               { error &&
                 <div className="form__msg">

@@ -199,8 +199,8 @@ const Select = ({ options }) => (
       'form-item__input',
       'form-item__input--select'].join(' ').trim()}
   >
-    <option disabled value="Select a role">Select a role</option>
-    {options.map((item, key) =>
+    <option selected disabled value={options[0]}>{options[0]}</option>
+    {options.slice(1).map((item, key) =>
       <option key={key} value={item}>{item}</option> )
     }
   </select>
