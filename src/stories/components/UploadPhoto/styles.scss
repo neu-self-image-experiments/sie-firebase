@@ -3,9 +3,9 @@
 // @file
 // Webcam Controls
 
-// .webcam-controls {}
+// .upload-photo {}
 
-.webcam-controls__images {
+.upload-photo__images {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: $spacing-5;
@@ -13,4 +13,17 @@
   margin: $spacing-3 auto 0;
   max-width: rem(690px);
   text-align: center;
+}
+
+.upload-photo__submit {
+  margin: $spacing-6 0 0;
+}
+
+.upload-photo__btn {
+  @include svg-background(icon-file-upload);
+
+  background-repeat: no-repeat;
+  background-position: right 50px center;
+  padding-right: $spacing-5;
+  margin-bottom: 0;
 }
