@@ -28,16 +28,16 @@ export default class ImageService {
      * @param {String} userId user id.
      * @param {String} experimentId experiment id.
      * @param {File} image self image file.
-     * @return {Boolean} succeed or not.
+     * @return {String} succeed or not.
      */
     postRawImage = async (userId, experimentId, image) => {
       const folderPath = userId + '-' + experimentId + '/';
       const imagePath = folderPath + image.name;
       const rawImageRef = self.storageRef.child(imagePath);
-      rawImageRef.put(image).then(() => {
-        return true;
+      return await rawImageRef.put(image).then(() => {
+        return 'uploaded';
       }).catch((error) => {
-        return false;
+        return 'error';
       });
     }
 
