@@ -24,8 +24,16 @@ import UserServices from '../../../firebase/CRUDServices/userServices';
 
 export const Signup = ({isDarkTheme}) => {
   const [error, setError] = useState('');
+  const [fullname, setFullname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('');
+
+  const [selectItems] = useState([
+    '--Select User Role--',
+    'Researcher',
+    'Participant',
+  ]);
 
   const postUser = (e) => {
     e.preventDefault();
@@ -33,9 +41,12 @@ export const Signup = ({isDarkTheme}) => {
     const service = UserServices.getInstance();
 
     const user = {
+      fullname,
       email,
       password,
+      role,
     };
+
     service.signUp(user).then((response) => {
       if (response.errorCode) {
         // REDIRECT TO DASHBOARD
@@ -72,6 +83,7 @@ export const Signup = ({isDarkTheme}) => {
                 label='FullName'
                 type='text'
                 placeholder='Full Name'
+                handleChange={(e) => setFullname(e.target.value)}
               />
               <FormItem
                 modifierClasses={isDarkTheme ? 'form-item--light' : ''}
@@ -91,7 +103,8 @@ export const Signup = ({isDarkTheme}) => {
                 modifierClasses={isDarkTheme ? 'form-item--light' : ''}
                 label='Role'
                 type='select'
-                options={['Researcher', 'Participant']}
+                options={selectItems}
+                handleChange={(e) => setRole({value: e.target.value})}
               />
               { error &&
                 <div className="form__msg">
