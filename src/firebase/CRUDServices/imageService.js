@@ -30,10 +30,10 @@ export default class ImageService {
      * @param {File} image self image file.
      * @return {Boolean} succeed or not.
      */
-    postImage = async (userId, experimentId, image) => {
-      const folderPath = userId + '-' + experimentId + '/';
-      const imagePath = folderPath + image.name;
-      const rawImageRef = self.sieRawImagesBucketRef.child(imagePath);
+    postRawImage = async (userId, experimentId, image) => {
+      // const folderPath = userId + '-' + experimentId + '/';
+      // const imagePath = folderPath + image.name;
+      const rawImageRef = self.storageRef.child(image.name);
       rawImageRef.put(image).then(() => {
         return true;
       }).catch((error) => {
