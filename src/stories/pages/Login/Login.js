@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import UserServices from '../../../firebase/CRUDServices/userServices';
 import { SplitGradient } from '../../layouts/SplitGradient/SplitGradient';
@@ -104,7 +105,7 @@ export const Login = ({ isDarkTheme }) => {
           modifierClasses={ !isDarkTheme ? 'footer--light' : '' }
           leftContent={<p>Need Help? <a href="#">Contact us</a>.</p>}
           rightContent={
-            <p>Don’t have an account yet? <a href="#">Sign up</a>.</p>
+            <p>Don’t have an account yet? <Link to="/signup">Sign up</Link>.</p>
           }
         />
       </div>

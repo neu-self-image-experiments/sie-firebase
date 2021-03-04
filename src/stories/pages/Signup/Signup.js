@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { Main } from '../../layouts/Main/Main';
@@ -22,35 +23,42 @@ import UserServices from '../../../firebase/CRUDServices/userServices';
  * )
  */
 
-export const Signup = ({isDarkTheme}) => {
+export const Signup = ({ isDarkTheme }) => {
+  const history = useHistory();
+  // define user fields
   const [error, setError] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('');
 
   const postUser = (e) => {
     e.preventDefault();
-
+    // call user service
     const service = UserServices.getInstance();
-
+    // define new user object
     const user = {
+      firstName,
+      lastName,
       email,
       password,
+      role,
     };
+
     service.signUp(user).then((response) => {
-      if (response.errorCode) {
-        // REDIRECT TO DASHBOARD
-        // ERROR HANDLING
-        setError(response.errorMessage);
+      if (response.status === 200) {
+        // redirect to login page
+        history.push('/login');
       } else {
-        setError('');
-        window.alert(response.email);
+        setError(response.errorMessage);
       }
     });
   };
 
   return (
     <Main>
-      <div className='signup'>
+      <div className="signup">
         <Header
           modifierClasses='header--no-border'
           leftContent={<Branding text="SIE" />}
@@ -58,7 +66,7 @@ export const Signup = ({isDarkTheme}) => {
         <SplitGradient
           modifierClasses={!isDarkTheme ? 'split-gradient--light' : ''}
           leftContent={
-            <Section titleEl=''
+            <Section titleEl='h1'
               title='Welcome'
               content={'To participate to an experiment, ' +
                 'create an account and login onto the ' +
@@ -66,12 +74,20 @@ export const Signup = ({isDarkTheme}) => {
             />
           }
           rightContent={
-            <Form type='default'>
+            <Form type='signup'>
               <FormItem
                 modifierClasses={isDarkTheme ? 'form-item--light' : ''}
-                label='FullName'
+                label='First Name'
                 type='text'
-                placeholder='Full Name'
+                placeholder='First Name'
+                handleChange={(e) => setFirstName(e.target.value)}
+              />
+              <FormItem
+                modifierClasses={isDarkTheme ? 'form-item--light' : ''}
+                label='Last Name'
+                type='text'
+                placeholder='Last Name'
+                handleChange={(e) => setLastName(e.target.value)}
               />
               <FormItem
                 modifierClasses={isDarkTheme ? 'form-item--light' : ''}
@@ -91,7 +107,8 @@ export const Signup = ({isDarkTheme}) => {
                 modifierClasses={isDarkTheme ? 'form-item--light' : ''}
                 label='Role'
                 type='select'
-                options={['Researcher', 'Participant']}
+                options={['Administrator', 'Researcher', 'Participant']}
+                handleChange={(e) => setRole(e.target.value)}
               />
               { error &&
                 <div className="form__msg">
@@ -114,7 +131,7 @@ export const Signup = ({isDarkTheme}) => {
           modifierClasses={ !isDarkTheme ? 'footer--light' : '' }
           leftContent={<p>Need Help? <a href="#">Contact us</a>.</p>}
           rightContent={
-            <p>Already have an account? <a href="#">Login</a>.</p>
+            <p>Already have an account? <Link to="/login">Login</Link>.</p>
           }
         />
       </div>
