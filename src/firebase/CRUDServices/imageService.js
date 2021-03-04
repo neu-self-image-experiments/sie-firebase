@@ -1,12 +1,12 @@
 import firebase from '../firebase';
+import 'firebase/storage';
 
 export default class ImageService {
   constructor() {
-    self.storageRef = firebase.storage().ref();
-    self.sieRawImagesBucketRef = storageRef.child('sie-raw-images');
-    self.sieProcessedImagesBucketRef = storageRef.child('sie-stimuli-images');
-    self.topicName =
-    'projects/cs6510-spr2021/topics/sie-image-processing-result-test';
+    self.db = firebase.firestore();
+    self.images = 'Images';
+    self.storageRef = firebase.app()
+      .storage(process.env.STORAGE_RAW_IMAGES_BUCKET).ref();
   }
 
     // singleton instance.
@@ -30,10 +30,10 @@ export default class ImageService {
      * @param {File} image self image file.
      * @return {Boolean} succeed or not.
      */
-    postImage = async (userId, experimentId, image) => {
+    postRawImage = async (userId, experimentId, image) => {
       const folderPath = userId + '-' + experimentId + '/';
       const imagePath = folderPath + image.name;
-      const rawImageRef = self.sieRawImagesBucketRef.child(imagePath);
+      const rawImageRef = self.storageRef.child(imagePath);
       rawImageRef.put(image).then(() => {
         return true;
       }).catch((error) => {
@@ -42,54 +42,25 @@ export default class ImageService {
     }
 
     /**
-     * Get all existing self images in the messaging queue.
+     * Get all processed self images urls.
      * @param {String} userId user id.
      * @param {String} experimentId experiment id.
-     * @return {File[]} array of self image files.
+     * @return {String[]} array of processed self image urls.
      */
-    getImages = async (userId, experimentId) => {
-      const resultImages = [];
-
-      firebase.functions.pubsub.topic(self.topicName).onPublish((message) => {
-        // Decode the PubSub Message body.
-        const messageBody = message.data ?
-          Buffer.from(message.data, 'base64').toString() : null;
-
-        if (!messageBody) {
+    getProcessedImages = async (userId, experimentId) => {
+      const documentId = userId + '-' + experimentId;
+      try {
+        const imageRef = db.collection(self.images)
+          .doc(documentId);
+        const doc = await imageRef.get();
+        if (!doc.exists) {
           return [];
+        } else {
+          return doc.data();
         }
-
-        const [msgUserId, msgExperimentId, status] = messageBody.split('-');
-        if (msgUserId === userId && msgExperimentId === experimentId) {
-          if (status === 'complete') {
-            // get all processed images from cloud storage
-            const folderPath = userId + '-' + experimentId + '/';
-            const processedImagesRef =
-            self.sieProcessedImagesBucketRef.child(folderPath);
-
-            processedImagesRef.getFiles((err, images) => {
-              if (!err) {
-                // files is an array of File objects.
-                images.forEach((image) => {
-                  image.getDownloadURL().then((url) => {
-                    const xhr = new XMLHttpRequest();
-                    xhr.responseType = 'blob';
-                    xhr.onload = (event) => {
-                      const blob = xhr.response;
-                      // xhr.response will be a Blob ready to save
-                      resultImages.push(blob);
-                    };
-                    xhr.open('GET', url);
-                    xhr.send();
-                  });
-                });
-              }
-            });
-          }
-        }
-      });
-
-      return resultImages;
+      } catch (err) {
+        return [];
+      }
     }
 
     /**
@@ -98,7 +69,7 @@ export default class ImageService {
      * @param {String} experimentId experiment id.
      * @return {Boolean} succeed or not.
      */
-    deleteImage = async (userId, experimentId) => {
+    deleteRawImage = async (userId, experimentId) => {
       const folderPath = userId + '-' + experimentId + '/';
       const imagePath = folderPath + image.name;
       const rawImageRef = self.sieRawImagesBucketRef.child(imagePath);
