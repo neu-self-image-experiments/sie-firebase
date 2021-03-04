@@ -40,7 +40,6 @@ export const UploadPhoto = () => {
 
   const uploadPhoto = () => {
     const service = ImageService.getInstance();
-
     console.log(image);
     service.postImage(image).then(res => {
       console.log(res);

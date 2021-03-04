@@ -26,6 +26,7 @@ export const FileUpload = ({ onChange, onClick }) => {
         <input
           id="file-upload__input"
           type="file"
+          accept="image/png, image/jpeg"
           onChange={onChange} />
         <Button
           isButton={true}

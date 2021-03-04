@@ -23,21 +23,30 @@ export default class ImageService {
       return self.sieInstance;
     }
 
-    /**
-     * Put a self image into the cloud storage.
-     * @param {String} userId user id.
-     * @param {String} experimentId experiment id.
-     * @param {File} image self image file.
-     * @return {Boolean} succeed or not.
-     */
-    postImage = async (userId, experimentId, image) => {
-      const folderPath = userId + '-' + experimentId + '/';
-      const imagePath = folderPath + image.name;
-      const rawImageRef = self.sieRawImagesBucketRef.child(imagePath);
-      rawImageRef.put(image).then(() => {
-        return true;
-      }).catch((error) => {
-        return false;
+    // /**
+    //  * Put a self image into the cloud storage.
+    //  * @param {String} userId user id.
+    //  * @param {String} experimentId experiment id.
+    //  * @param {File} image self image file.
+    //  * @return {Boolean} succeed or not.
+    //  */
+    // postImage = async (userId, experimentId, image) => {
+    //   const folderPath = userId + '-' + experimentId + '/';
+    //   const imagePath = folderPath + image.name;
+    //   const rawImageRef = self.sieRawImagesBucketRef.child(imagePath);
+    //   rawImageRef.put(image).then(() => {
+    //     return true;
+    //   }).catch((error) => {
+    //     return false;
+    //   });
+    // }
+
+    /* eslint-disable */
+    postImage = async (image) => {
+      // [START storage_upload_blob]
+      // 'file' comes from the Blob or File API
+      self.sieRawImagesBucketRef.put(image).then((snapshot) => {
+        console.log('Uploaded a blob or file!');
       });
     }
 
