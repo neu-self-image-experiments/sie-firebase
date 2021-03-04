@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { Signup } from './Signup';
 
 /**
@@ -11,7 +12,9 @@ export default {
 
 const Template = (args) => {
   return (
-    <Signup {...args} />
+    <Router>
+      <Signup {...args} />
+    </Router>
   );
 };
 

@@ -14,5 +14,5 @@ const Template = (args) => <FileUpload {...args} />;
 // Default FileUpload
 export const Default = Template.bind({});
 Default.args = {
-  onClick: null,
+  onChange: null,
 };
