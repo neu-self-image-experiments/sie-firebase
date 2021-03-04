@@ -195,11 +195,12 @@ const Textarea = () => (
  */
 const Select = ({ options }) => (
   <select
+    defaultValue={options[0]}
     className={[
       'form-item__input',
       'form-item__input--select'].join(' ').trim()}
   >
-    <option selected disabled value={options[0]}>{options[0]}</option>
+    <option disabled value={options[0]}>{options[0]}</option>
     {options.slice(1).map((item, key) =>
       <option key={key} value={item}>{item}</option> )
     }
