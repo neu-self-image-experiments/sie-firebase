@@ -1,4 +1,5 @@
 import firebase from '../firebase';
+import 'firebase/storage';
 
 export default class ImageService {
   constructor() {

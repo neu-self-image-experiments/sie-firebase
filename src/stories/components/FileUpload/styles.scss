@@ -4,7 +4,7 @@
 // File Upload
 
 .file-upload {
-  margin: $spacing-3 0;
+  margin: $spacing-3 0 0;
 }
 
 .file-upload__inner {
@@ -16,16 +16,7 @@
   }
 }
 
-.file-upload__btn {
-  @include svg-background(icon-file-upload);
-
-  background-repeat: no-repeat;
-  background-position: right 50px center;
-  padding-right: $spacing-5;
-  margin-bottom: 0;
-}
-
-#file-upload__input {
+.file-upload__input {
   display: none;
 }
 
