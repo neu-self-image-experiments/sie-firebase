@@ -1,0 +1,13 @@
+@import '../../../scss/variables.scss';
+
+// @file
+// Account Page
+
+.account-info__section-header {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.account-info__header-text {
+  margin-right: rem(8px);
+}
