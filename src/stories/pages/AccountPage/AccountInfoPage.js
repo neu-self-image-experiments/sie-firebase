@@ -1,10 +1,22 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-empty-function */
 import './styles.scss';
 
 import React, { useContext, useState } from 'react';
 import { Form } from '../../components/Form/Form';
 import { FormItem } from '../../components/FormItem/FormItem';
 import { UserContext } from './AccountPage';
+import Edit from '../../../images/icon-edit.svg';
+import HorizontalRule from '../../../images/icon-horizontal-rule.svg';
 
+/**
+ * Component for Account Information page.
+ *
+ * @component
+ * @return {object} (
+ *   <AccountPage>
+ * )
+ */
 export const AccountInfoPage = () => {
   const user = useContext(UserContext);
 
@@ -17,6 +29,11 @@ export const AccountInfoPage = () => {
 
   return (
     <div>
+      <div className="account-info__section-header">
+        <img className="personal__horizontal-rule" src={HorizontalRule}></img>
+        <span className="account-info__header-text">PERSONAL INFO</span>
+        <img className="account-info__edit"src={Edit}></img>
+      </div>
       <Form type="account">
         <FormItem
           modifierClasses="form-item--inline"
@@ -52,6 +69,11 @@ export const AccountInfoPage = () => {
           handleChange={(e) => setRole(e.target.value)}
         ></FormItem>
       </Form>
+      <div className="account-info__section-header">
+        <img className="login__horizontal-rule"src={HorizontalRule}></img>
+        <span className="account-info__header-text">LOGIN</span>
+        <img className="account-info__edit" src={Edit}></img>
+      </div>
       <Form type="account">
         <FormItem
           modifierClasses="form-item--inline"

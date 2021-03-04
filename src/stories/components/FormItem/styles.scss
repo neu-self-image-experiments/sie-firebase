@@ -43,15 +43,23 @@
 
 .form-item--inline {
   flex-direction: row;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-color: $gray-3;
 
-  label {
+  > * {
     flex-basis: 0;
     flex-grow: 1;
   }
 
-  input {
-    flex-basis: 0;
-    flex-grow: 1;
+  .form-item__input {
+    border-width: 0;
+  }
+  
+  .form-item__label {
+    margin: 0;
+    display: flex;
+    align-items: center;
   }
 }
 

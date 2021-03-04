@@ -7,8 +7,17 @@ import { Button } from '../../components/Button/Button';
 import { HorizontalTitle } from '../../components/HorizontalTitle/HorizontalTitle';
 import UserServices from '../../../firebase/CRUDServices/userServices';
 
+// This probably needs to be moved to the App level/higher level component
 export const UserContext = React.createContext();
 
+/**
+ * Component for Account page.
+ *
+ * @component
+ * @return {object} (
+ *   <AccountPage>
+ * )
+ */
 export const AccountPage = () => {
   const [logInState, setLogInState] = useState({ isLoggedIn: false });
   const [error, setError] = useState();
@@ -16,7 +25,7 @@ export const AccountPage = () => {
   const userService = UserServices.getInstance();
 
   const deleteUser = async () => {
-    const result = await userService.deleteUserById(user.id);
+    const result = await userService.deleteUserById(logInState.user.uid);
     if (result) {
       // TODO: redirect
     } else {
@@ -36,7 +45,11 @@ export const AccountPage = () => {
         <HorizontalTitle
           eyebrow={'Account'}
           title={'Personal Information'}
-          content={'Content goes here'}
+          content={
+            'Here\'s an overview of what\'s going on your application. ' +
+            'You can review your active experiments, ' +
+            'check reports and analyze real-time data.'
+          }
         ></HorizontalTitle>
         <AccountInfoPage></AccountInfoPage>
         <Button text="Delete my account" onClick={deleteUser}></Button>
