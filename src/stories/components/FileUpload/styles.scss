@@ -3,7 +3,9 @@
 // @file
 // File Upload
 
-// .file-upload {}
+.file-upload {
+  margin: $spacing-3 0;
+}
 
 .file-upload__inner {
   margin-top: $spacing-3;

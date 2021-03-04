@@ -8,34 +8,27 @@ import { Button } from '../Button/Button';
  * Component for File Upload element.
  *
  * @component
+ * @param {func} onChange File upload value change
  * @param {func} onClick File Upload click function
  * @return {object} (
  *   <FileUpload onClick={onClick} />
  * )
  */
-export const FileUpload = ({ onClick }) => {
-  const showFileName = () => {
-    if (document.getElementById('file-upload__input')) {
-      const name = document.getElementById('file-upload__input');
-      const selectedFile = name.files.item(0).name;
-      document.getElementById('file-upload__selected').innerHTML = selectedFile;
-    }
-  };
-
+export const FileUpload = ({ onChange, onClick }) => {
   return (
     <div className="file-upload">
-      <h4>Upload a photo instead</h4>
+      <h4>Or upload a photo instead</h4>
       <div className="file-upload__inner">
         <label htmlFor="file-upload__input" className="file-upload__label">
-            Browse...
+          Browse...
         </label>
         <p id="file-upload__selected">No file selected.</p>
         <input
           id="file-upload__input"
           type="file"
-          onChange={showFileName} />
+          onChange={onChange} />
         <Button
-          isButton="true"
+          isButton={true}
           modifierClasses="file-upload__btn button--small"
           text="Upload"
           onClick={onClick} />
@@ -46,11 +39,16 @@ export const FileUpload = ({ onClick }) => {
 
 FileUpload.propTypes = {
   /**
+   * FileUpload's onChange function
+   */
+  onChange: PropTypes.func,
+  /**
    * FileUpload's onClick function
    */
   onClick: PropTypes.func,
 };
 
 FileUpload.defaultProps = {
+  onChange: null,
   onClick: null,
 };
