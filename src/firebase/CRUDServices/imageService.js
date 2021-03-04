@@ -4,8 +4,8 @@ export default class ImageService {
   constructor() {
     self.db = firebase.firestore();
     self.images = 'Images';
-    self.sieRawImagesBucketRef =
-      firebase.storage().ref().child('sie-raw-images');
+    self.storageRef = firebase.app()
+      .storage(process.env.STORAGE_RAW_IMAGES_BUCKET).ref();
   }
 
     // singleton instance.
@@ -32,7 +32,7 @@ export default class ImageService {
     postRawImage = async (userId, experimentId, image) => {
       const folderPath = userId + '-' + experimentId + '/';
       const imagePath = folderPath + image.name;
-      const rawImageRef = self.sieRawImagesBucketRef.child(imagePath);
+      const rawImageRef = self.storageRef.child(imagePath);
       rawImageRef.put(image).then(() => {
         return true;
       }).catch((error) => {

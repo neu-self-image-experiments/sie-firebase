@@ -1,13 +1,14 @@
-import firebase from '../firebase';
+import firebase from './firebase';
 
+// initiate another app to get ref of another bucket
 const topicName = process.env.TOPIC_NAME;
-const storageRef = firebase.storage().ref();
-const sieProcessedImagesBucketRef = storageRef.child('sie-stimuli-images');
+const storageRef = firebase.app()
+  .storage(process.env.STORAGE_PROCESSED_IMAGES_BUCKET).ref();
 
 // subscribe to the pub/sub topic for image process status
 firebase.functions.pubsub.topic(topicName).onPublish((message) => {
   const { userId, experimentId, resultImages } =
-    handelMessage(message, sieProcessedImagesBucketRef);
+    handelMessage(message, storageRef);
   if (resultImages.length > 0) {
     // store into firestore.
     const documentId = userId + '-' + experimentId;
@@ -51,5 +52,3 @@ const handelMessage = (message, bucketRef) => {
   }
   return { userId, experimentId, resultImages };
 };
-
-export default subscribe;
