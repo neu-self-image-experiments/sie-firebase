@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 import UserServices from '../../../firebase/CRUDServices/userServices';
 import { SplitGradient } from '../../layouts/SplitGradient/SplitGradient';
@@ -25,6 +25,7 @@ import { Button } from '../../components/Button/Button';
  */
 
 export const Login = ({ isDarkTheme }) => {
+  const history = useHistory();
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -45,7 +46,8 @@ export const Login = ({ isDarkTheme }) => {
         setError(response.errorMessage);
       } else {
         setError('');
-        window.alert(response.email);
+        // redirect to login page
+        history.push('/account');
       }
     });
   };

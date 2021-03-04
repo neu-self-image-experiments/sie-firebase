@@ -5,40 +5,42 @@
 
 .horizontal-title {
 
-    @include bp-tablet-lg {
-        grid-gap: $spacing-3;
-        display: flex;
-        flex-direction: row;
-    }
+  @include bp-desktop {
+    gap: $spacing-5;
+  }
 
-    @include bp-desktop {
-        gap: $spacing-5;
+  &--medium {
+    .horizontal-title__content {
+      font-size: $font-size-lg;
     }
+  }
 
-    &--medium {
-        .horizontal-title__content {
-            font-size: $font-size-lg;
-        }
+  &--large {
+    .horizontal-title__content {
+      font-size: rem(24px);
     }
+  }
+}
 
-    &--large {
-        .horizontal-title__content {
-            font-size: rem(24px);
-        }
-    }
+.horizontal-title__inner {
+  @include bp-tablet-lg {
+    grid-gap: $spacing-3;
+    display: flex;
+    flex-direction: row;
+  }
 }
 
 .horizontal-title__title {
-    padding-top: 0;
-    margin-top: 0;
-    padding-right: $spacing-1;
-    margin-right: $spacing-3;
+  padding-top: 0;
+  margin-top: 0;
+  padding-right: $spacing-1;
+  margin-right: $spacing-3;
 }
 
 .horizontal-title__eyebrow {
-    font-size: rem(13px);
-    text-transform: uppercase;
-    letter-spacing: 1px;
+  font-size: rem(13px);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 
