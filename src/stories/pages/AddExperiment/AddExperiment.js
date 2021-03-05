@@ -11,11 +11,13 @@ import { Modal } from '../../components/Modal/Modal';
 
 /**
  * Component for AddExperiment page.
- * @param {string} theme theme of the parent component.
- * @param {string} buttonText text to appear on the open button.
+ * @param {string} theme Theme of the parent component.
+ * @param {string} buttonText Text to appear on the open button.
  * @component
  * @return {object} (
- *   <AddExperiment isDarkTheme={isDarkTheme}>
+ *   <AddExperiment theme={theme}
+ *                  buttonText={buttonText}
+ *   />
  * )
  */
 
@@ -24,20 +26,20 @@ export const AddExperiment = ({ theme, buttonText }) => {
   const [title, setTitle] = useState('');
   const [shortDesc, setShortDesc] = useState('');
   const [longDesc, setLongDesc] = useState('');
-  const [qualtrics, setQualtrics] = useState('');
-  const [spych, setSpych] = useState('');
+  const [qualtrics, setQualtricsEmbed] = useState('');
+  const [psychUrl, setPsychUrl] = useState('');
 
-  const postEx = (e) => {
+  const postExperiment = (e) => {
     e.preventDefault();
 
-    const service = ExperimentServices.postExperiment();
+    const service = ExperimentServices.getInstance();
 
     const experiment = {
       title,
       shortDesc,
       longDesc,
       qualtrics,
-      spych,
+      psychUrl,
     };
 
     // To be removed as firebase ID should be automatically generated
@@ -67,7 +69,7 @@ export const AddExperiment = ({ theme, buttonText }) => {
         <FormItem
           modifierClasses={'form-item--dark'}
           placeholder="Title"
-          type="email"
+          type="text"
           showLabel={false}
           label="Title"
           handleChange={(e) => setTitle(e.target.value)}
@@ -94,15 +96,15 @@ export const AddExperiment = ({ theme, buttonText }) => {
           type="text"
           showLabel={false}
           label="Qualtrics Embeds"
-          handleChange={(e) => setQualtrics(e.target.value)}
+          handleChange={(e) => setQualtricsEmbed(e.target.value)}
         />
         <FormItem
           modifierClasses={'form-item--dark'}
-          placeholder="SpychJS URL"
+          placeholder="PsychJS URL"
           type="text"
           showLabel={false}
-          label="SpychJS URL"
-          handleChange={(e) => setSpych(e.target.value)}
+          label="PsychJS URL"
+          handleChange={(e) => setPsychUrl(e.target.value)}
         />
         { error &&
                 <div className="form__msg">
@@ -112,7 +114,7 @@ export const AddExperiment = ({ theme, buttonText }) => {
         <Button
           text="Add Experiment"
           modifierClasses="button--small button--secondary"
-          onClick={postEx}
+          onClick={postExperiment}
         />
       </Form>
     </Modal>
