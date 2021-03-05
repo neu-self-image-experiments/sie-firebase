@@ -13,11 +13,12 @@
   text-align: left;
 }
 
+.form--signup,
 .form--login {
   > * {
     @include fade-in-up;
 
-    @for $i from 1 through 3 {
+    @for $i from 1 through 10 {
       &:nth-child(#{$i}n) {
         animation-delay: #{$i * 0.1}s;
       }
