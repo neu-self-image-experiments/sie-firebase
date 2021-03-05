@@ -12,7 +12,7 @@ import { Modal } from '../../components/Modal/Modal';
 /**
  * Component for AddExperiment page.
  * @param {string} theme Theme of the parent component.
- * @param {string} buttonText Text to appear on the open button.
+ * @param {string} buttonText Text to appear on the modal's open button.
  * @component
  * @return {object} (
  *   <AddExperiment theme={theme}
@@ -42,16 +42,23 @@ export const AddExperiment = ({ theme, buttonText }) => {
       psychUrl,
     };
 
-    // To be removed as firebase ID should be automatically generated
-    const experimentId = Math.random();
+    // Experiment ID currently is the title of the experiment as a single
+    // string without white spaces.
+    const experimentId = title.replace(/\s+/g, ''); // Strip out white spaces
 
     service.postExperiment(experimentId, experiment).then((response) => {
-      if (response.errorCode) {
+      if (!response) {
         // ERROR HANDLING
-        setError(response.errorMessage);
+        setError(`Looks like something is missing. Please make sure that all \
+                  of the fields in the form are complete and then try again`);
       } else {
-        // CLOSE MODAL
+        // SUCCESS CREATING EXPERIMENT
         setError('');
+        setTitle('');
+        setShortDesc('');
+        setLongDesc('');
+        setQualtricsEmbed('');
+        setPsychUrl('');
         window.alert('Experiment successfully added!');
       }
     });
@@ -114,6 +121,7 @@ export const AddExperiment = ({ theme, buttonText }) => {
         <Button
           text="Add Experiment"
           modifierClasses="button--small button--secondary"
+          isButton={true}
           onClick={postExperiment}
         />
       </Form>
