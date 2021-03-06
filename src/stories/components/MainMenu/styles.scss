@@ -1,0 +1,33 @@
+@import '../../../scss/variables.scss';
+
+// @file
+// Main Menu
+
+// .main-menu {}
+
+.menu-item {
+    min-width: 200px;
+    max-width: 200px;
+	padding: 12px 0 12px 35px;
+	display: flex;
+	align-items: center;
+    cursor: pointer;
+    font-weight:normal!important; 
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.menu-item:hover {
+    background: linear-gradient(to right, $teal-dark 35%, white 42%);
+    fill: white;
+
+}
+.menu-item:active, .active {
+    background: linear-gradient(to right, $teal 35%, white 42%);
+    fill: white;
+    color: $teal-dark;
+}
+
+.menu-icon {
+    margin-right: 35px;
+}
