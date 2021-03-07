@@ -7,16 +7,22 @@
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: $spacing-5;
-  
+
   @include bp-tablet-lg {
     grid-template-columns: repeat(2, 1fr);
+
+    > * {
+      &:last-child {
+        grid-column-start: 2;
+      }
+    }
   }
 }
 
 .wizard__controls {
   margin-top: $spacing-3;
   text-align: right;
-  
+
   @include bp-tablet {
     margin-top: $spacing-5;
   }
@@ -46,7 +52,7 @@
     text-decoration: none;
     text-transform: capitalize;
     transition: all 0.4s cubic-bezier(0.5,0.25,0,1);
-    
+
     &:visited {
       color: $teal-light;
     }
