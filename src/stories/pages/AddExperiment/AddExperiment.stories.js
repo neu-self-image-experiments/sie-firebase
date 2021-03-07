@@ -15,16 +15,8 @@ const Template = (args) => {
   );
 };
 
-// Parent Light Theme
-export const ParentLightTheme = Template.bind({});
-ParentLightTheme.args = {
-  theme: 'light',
-  buttonText: 'Add Experiment',
-};
-
-// Parent Dark Theme
-export const ParentDarkTheme = Template.bind({});
-ParentDarkTheme.args = {
-  theme: 'dark',
-  buttonText: 'Add Experiment',
+// Default Add Experiment
+export const Default = Template.bind({});
+Default.args = {
+  buttonText: 'Add New Experiment',
 };

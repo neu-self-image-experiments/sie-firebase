@@ -11,17 +11,14 @@ import { Modal } from '../../components/Modal/Modal';
 
 /**
  * Component for AddExperiment page.
- * @param {string} theme Theme of the parent component.
  * @param {string} buttonText Text to appear on the modal's open button.
  * @component
  * @return {object} (
- *   <AddExperiment theme={theme}
- *                  buttonText={buttonText}
- *   />
+ *   <AddExperiment buttonText={buttonText} />
  * )
  */
 
-export const AddExperiment = ({ theme, buttonText }) => {
+export const AddExperiment = ({ buttonText }) => {
   const [error, setError] = useState('');
   const [title, setTitle] = useState('');
   const [shortDesc, setShortDesc] = useState('');
@@ -66,7 +63,6 @@ export const AddExperiment = ({ theme, buttonText }) => {
 
   return (
     <Modal
-      theme={theme}
       buttonText={buttonText}
     >
       <h3>Add New Experiment</h3>
@@ -114,13 +110,13 @@ export const AddExperiment = ({ theme, buttonText }) => {
           handleChange={(e) => setPsychUrl(e.target.value)}
         />
         { error &&
-                <div className="form__msg">
-                  <p>{error}</p>
-                </div>
+          <div className="form__msg">
+            <p>{error}</p>
+          </div>
         }
         <Button
           text="Add Experiment"
-          modifierClasses="button--small button--secondary"
+          modifierClasses="button--tertiary"
           isButton={true}
           onClick={postExperiment}
         />
@@ -132,16 +128,11 @@ export const AddExperiment = ({ theme, buttonText }) => {
 
 AddExperiment.propTypes = {
   /**
-     * Parent element's theme
-     */
-  theme: PropTypes.string.isRequired,
-  /**
     * Button's Text
     */
   buttonText: PropTypes.string.isRequired,
 };
 
 AddExperiment.defaultProps = {
-  theme: 'light',
   buttonText: 'Add New Experiment',
 };
