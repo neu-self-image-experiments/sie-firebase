@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import firebase from '../firebase';
 
 /* eslint-disable no-invalid-this */
@@ -14,7 +15,7 @@ export default class UserServices {
       self.userServiceInstance = new UserServices();
     }
     return self.userServiceInstance;
-  }
+  };
 
   /**
    * post new user to authentication.
@@ -23,15 +24,16 @@ export default class UserServices {
    */
   postUser = async (user) => {
     try {
-      const res = await firebase.auth().
-        createUserWithEmailAndPassword(user.email, user.password);
+      const res = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(user.email, user.password);
       return res;
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
       return { errorCode, errorMessage };
     }
-  }
+  };
 
   /**
    * Send new user email verification when they register.
@@ -39,13 +41,15 @@ export default class UserServices {
    */
   sendEmailVerification = async () => {
     try {
-      firebase.auth().onAuthStateChanged(async (user)=>{
+      firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
           const res = await user.sendEmailVerification();
           return res;
         } else {
-          return { errorCode: 'auth/no user',
-            errorMessage: 'did not find user' };
+          return {
+            errorCode: 'auth/no user',
+            errorMessage: 'did not find user',
+          };
         }
       });
     } catch (error) {
@@ -53,7 +57,7 @@ export default class UserServices {
       const errorMessage = error.message;
       return { errorCode, errorMessage };
     }
-  }
+  };
 
   /**
    *
@@ -72,7 +76,7 @@ export default class UserServices {
       const errorMessage = error.message;
       return { errorCode, errorMessage };
     }
-  }
+  };
 
   /**
    * Sign in user.
@@ -81,7 +85,8 @@ export default class UserServices {
    */
   signIn = async (user) => {
     try {
-      const userCredential = await firebase.auth()
+      const userCredential = await firebase
+        .auth()
         .signInWithEmailAndPassword(user.email, user.password);
       return userCredential.user;
     } catch (error) {
@@ -89,7 +94,7 @@ export default class UserServices {
       const errorMessage = error.message;
       return { errorCode, errorMessage };
     }
-  }
+  };
 
   /**
    * Observer function which calls callback function.
@@ -97,7 +102,7 @@ export default class UserServices {
    */
   getCurrentUser = async (callback) => {
     try {
-      firebase.auth().onAuthStateChanged((user)=>{
+      firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           callback({ isLoggedIn: true, user });
         } else {
@@ -109,7 +114,7 @@ export default class UserServices {
       const errorMessage = error.message;
       return { errorCode, errorMessage };
     }
-  }
+  };
 
   /**
    * Delete current signed-in user.
@@ -117,13 +122,15 @@ export default class UserServices {
    */
   deleteUser = async () => {
     try {
-      firebase.auth().onAuthStateChanged((user)=>{
+      firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           user.delete();
           return { status: 200, message: 'deleted' };
         } else {
-          return { errorCode: 'auth/no user',
-            errorMessage: 'did not find user' };
+          return {
+            errorCode: 'auth/no user',
+            errorMessage: 'did not find user',
+          };
         }
       });
     } catch (error) {
@@ -131,5 +138,5 @@ export default class UserServices {
       const errorMessage = error.message;
       return { errorCode, errorMessage };
     }
-  }
+  };
 }

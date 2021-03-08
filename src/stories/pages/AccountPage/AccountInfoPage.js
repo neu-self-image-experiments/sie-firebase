@@ -32,7 +32,7 @@ export const AccountInfoPage = () => {
       <div className="account-info__section-header">
         <img className="personal__horizontal-rule" src={HorizontalRule}></img>
         <span className="account-info__header-text">PERSONAL INFO</span>
-        <img className="account-info__edit"src={Edit}></img>
+        <img className="account-info__edit" src={Edit}></img>
       </div>
       <Form type="account">
         <FormItem
@@ -70,7 +70,7 @@ export const AccountInfoPage = () => {
         ></FormItem>
       </Form>
       <div className="account-info__section-header">
-        <img className="login__horizontal-rule"src={HorizontalRule}></img>
+        <img className="login__horizontal-rule" src={HorizontalRule}></img>
         <span className="account-info__header-text">LOGIN</span>
         <img className="account-info__edit" src={Edit}></img>
       </div>

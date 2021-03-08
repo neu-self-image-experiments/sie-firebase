@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import './styles.scss';
 
 import React, { useEffect, useState } from 'react';
@@ -34,7 +35,11 @@ export const AccountPage = () => {
   };
 
   useEffect(async () => {
-    userService.getCurrentUser(setLogInState).catch((e) => setError(e));
+    userService.getCurrentUser(setLogInState).catch((e) => {
+      console.log(e);
+      setError(e);
+    });
+    console.log(logInState);
   }, []);
 
   return error ? (
