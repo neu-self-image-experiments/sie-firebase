@@ -27,7 +27,6 @@ export const Steps = (props) => {
           'steps__item',
           `${i < props.currentStep ? 'has-been-visited' : ''}`,
           `${isActive ? 'is-active' : ''}`].join(' ').trim()}
-        onClick={() => props.goToStep(i)}
       >
         <span className="steps__num">{i}</span>
         <span className="steps__label">{props.labels[i-1]}</span>
