@@ -38,7 +38,7 @@ export const Experiment = ({ title }) => {
         leftContent={<h5>{title}</h5>}
       />
       <div className="experiment">
-        <Constrain modifierClasses="constrain--wide">
+        <Constrain>
           <Wizard labels={steps}>
             <div className="step-1">
               <h3>Introduction</h3>

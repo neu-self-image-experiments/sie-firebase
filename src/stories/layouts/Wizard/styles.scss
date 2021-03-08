@@ -5,13 +5,13 @@
 
 .wizard {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  grid-template-columns: 1fr;
   gap: $spacing-5;
-  margin: $spacing-10 0 $spacing-4;
+  margin: $spacing-10 0 0;
 
   @include bp-tablet-lg {
-    grid-template-columns: repeat(2, 1fr);
-    margin: $spacing-12 0 $spacing-6;
+    grid-template-columns: auto rem(600px);
+    margin: $spacing-12 0 0;
 
     > * {
       &:last-child {
@@ -22,12 +22,8 @@
 }
 
 .wizard__controls {
-  margin-top: $spacing-3;
+  margin: $spacing-3 0 $spacing-6;
   text-align: right;
-
-  @include bp-tablet {
-    margin-top: $spacing-5;
-  }
 }
 
 .wizard__button {

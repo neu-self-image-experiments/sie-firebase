@@ -76,8 +76,7 @@ export const Signup = ({ isDarkTheme }) => {
             <Section titleEl='h1'
               title='Welcome'
               content={'To participate to an experiment, ' +
-                'create an account and login onto the ' +
-                'platform.'}
+                'create an account and login onto the platform.'}
             />
           }
           rightContent={
