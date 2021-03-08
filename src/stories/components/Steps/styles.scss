@@ -8,7 +8,7 @@ $step-size: 52px;
 
 .steps {
   @include list-clean;
-  
+
   display: none;
   font-family: $header-font-family;
   font-size: $font-size-sm;
@@ -16,7 +16,8 @@ $step-size: 52px;
 
   @include bp-tablet-lg {
     display: block;
-    align-self: center;
+    position: fixed;
+
   }
 }
 
@@ -33,6 +34,10 @@ $step-size: 52px;
   width: $step-size;
   text-align: center;
   z-index: -1;
+
+  &:first-child {
+    margin-top: 0;
+  }
 
   &:not(:last-child) {
     &::before,
@@ -57,16 +62,16 @@ $step-size: 52px;
       transition: height 0.4s cubic-bezier(0.5,0.25,0,1)
     }
   }
-  
+
   // apply active styles
   &.is-active {
-    
+
     &::after {
       height: 25px;
       transition-delay: 0.8s;
     }
   }
-  
+
   // style visited step
   &.has-been-visited {
     &::after {
@@ -97,7 +102,7 @@ $step-size: 52px;
     transition-delay: 0.4s;
     z-index: -1;
   }
-  
+
   &::before {
     background-color: $white;
     height: 46px;
@@ -105,20 +110,20 @@ $step-size: 52px;
     top: 3px;
     width: 46px;
   }
-  
+
   &::after {
     background-color: $teal-dark;
     height: 0;
     width: 100%;
     z-index: -99;
   }
-  
+
   // apply active styles
   .is-active & {
     &::before {
       background-color: $teal-light;
     }
-  
+
     &::after {
       height: 52px;
     }

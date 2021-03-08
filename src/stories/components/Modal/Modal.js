@@ -12,14 +12,13 @@ import { Constrain } from '../../layouts/Constrain/Constrain';
  *
  * @component
  * @param {node} children items of the Modal.
- * @param {string} theme of the Modal Button's parent.
  * @return {object} (
  *   <Modal>
  *      {children}
  *   </Modal>
  * )
  */
-export const Modal = ({ children, theme, buttonText }) => {
+export const Modal = ({ children, buttonText }) => {
   const [modalOpen, setModalOpen] = useState(false);
   // const [modalClasses, setModalClasses] = useState('modal--content');
   const toggleModal = () => {
@@ -31,11 +30,7 @@ export const Modal = ({ children, theme, buttonText }) => {
       <Button
         modifierClasses={[
           'button--small',
-          `button--${
-            (theme === 'light')?
-              'secondary':
-              'quaternary'
-          }`].join(' ').trim()
+          'button--tertiary'].join(' ').trim()
         }
         onClick={toggleModal}
         text={buttonText}
@@ -43,7 +38,7 @@ export const Modal = ({ children, theme, buttonText }) => {
       <div
         hidden={!modalOpen}
         id='modalPop'
-        className={['modal', `modal--${theme}`].join(' ').trim()}
+        className="modal"
       >
         <div
           className={
@@ -70,17 +65,12 @@ Modal.propTypes = {
      */
   children: PropTypes.node,
   /**
-     * Modal's theme
-     */
-  theme: PropTypes.string.isRequired,
-  /**
     * Button's Text
     */
   buttonText: PropTypes.string.isRequired,
 };
 
 Modal.defaultProps = {
-  theme: 'light',
   buttonText: 'Open Modal',
 };
 
