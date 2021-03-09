@@ -1,20 +1,23 @@
 import firebase from './firebase';
 
-// initiate another app to get ref of another bucket
-const topicName = process.env.TOPIC_NAME;
-const storageRef = firebase.app()
-  .storage(process.env.STORAGE_PROCESSED_IMAGES_BUCKET).ref();
+const subscribe = () => {
+  // get ref to custom storage bucket
+  const topicName = process.env.TOPIC_NAME;
+  const storageRef = firebase.app()
+    .storage(process.env.STORAGE_PROCESSED_IMAGES_BUCKET).ref();
 
-// subscribe to the pub/sub topic for image process status
-firebase.functions.pubsub.topic(topicName).onPublish((message) => {
-  const { userId, experimentId, resultImages } =
-    handelMessage(message, storageRef);
-  if (resultImages.length > 0) {
-    // store into firestore.
-    const documentId = userId + '-' + experimentId;
-    firebase.firestore().collection('Images').doc(documentId).set(resultImages);
-  }
-});
+  // subscribe to the pub/sub topic for image process status
+  firebase.functions.pubsub.topic(topicName).onPublish((message) => {
+    const { userId, experimentId, resultImages } =
+      handleMessage(message, storageRef);
+    if (resultImages.length > 0) {
+      // store into firestore.
+      const documentId = userId + '-' + experimentId;
+      firebase.firestore().collection('Images')
+        .doc(documentId).set(resultImages);
+    }
+  });
+};
 
 /**
  * listen to the Pub/Sub topic message queue and collect image urls.
@@ -22,7 +25,7 @@ firebase.functions.pubsub.topic(topicName).onPublish((message) => {
  * @param {*} bucketRef processed images bucket in cloud storage.
  * @return {String[]} array of processed image urls.
  */
-const handelMessage = (message, bucketRef) => {
+const handleMessage = (message, bucketRef) => {
   // Decode the PubSub Message body.
   const messageBody = message.data ?
     Buffer.from(message.data, 'base64').toString() : null;
@@ -52,3 +55,5 @@ const handelMessage = (message, bucketRef) => {
   }
   return { userId, experimentId, resultImages };
 };
+
+export default subscribe;
