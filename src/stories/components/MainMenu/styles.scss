@@ -5,29 +5,38 @@
 
 // .main-menu {}
 
-.menu-item {
-    min-width: 200px;
-    max-width: 200px;
-	padding: 12px 0 12px 35px;
+.menu-item__link {
 	display: flex;
-	align-items: center;
     cursor: pointer;
-    font-weight:normal!important; 
-    margin-top: 15px;
-    margin-bottom: 15px;
+    font-weight:normal; 
+    text-decoration: none;
 }
 
-.menu-item:hover {
-    background: linear-gradient(to right, $teal-dark 35%, white 42%);
-    fill: white;
-
-}
-.menu-item:active, .active {
-    background: linear-gradient(to right, $teal 35%, white 42%);
-    fill: white;
-    color: $teal-dark;
+.menu-item__icon {
+    margin-right: 15px;
+    padding: 10px 15px 10px 50px;
+    display: flex;
 }
 
-.menu-icon {
-    margin-right: 35px;
+.menu-item__text {
+    color: $black;
+    display: flex;
+    align-items: center;
+}
+
+.active {
+    .menu-item__icon {
+        background: $teal;
+        fill: $white;
+        border-top-right-radius: 100px;
+        border-bottom-right-radius: 100px;
+    }
+
+    .menu-item__text {
+        color: $teal-dark;
+    }
+}
+
+li {
+    list-style-type: none;
 }

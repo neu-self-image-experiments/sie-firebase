@@ -29,43 +29,38 @@ export const MainMenu = () => {
   // List of button links/icons we currently support
   const icons = ['Dashboard', 'Experiments', 'Account', 'Logout'];
 
-  // Hard coding the color dark teal
-  const darkTeal = '#008489';
-
   // Returns SVG react component based on icon name
   const getIcon = (icon) => {
-    if (icon === 'Dashboard') {
-      return (<DashboardIcon className='menu-icon' />);
-    } else if (icon === 'Experiments') {
-      return (<ExperimentsIcon className='menu-icon'/>);
-    } else if (icon === 'Account') {
-      return (<AccountIcon className='menu-icon'/>);
-    } else if (icon === 'Logout') {
-      return (<LogoutIcon className='menu-icon'/>);
+    switch (icon) {
+    case ('Dashboard'):
+      return (<DashboardIcon/>);
+    case ('Experiments'):
+      return (<ExperimentsIcon/>);
+    case ('Account'):
+      return (<AccountIcon/>);
+    case ('Logout'):
+      return (<LogoutIcon/>);
     }
   };
 
   return (
     <Router>
-      <div id='main-menu'>
+      <ul className='main-menu'>
         {
           icons.map((icon) => {
             return (
-              <NavLink
-                key={icon}
-                to={icon}
-                className={'menu-item'}
-                style={{ textDecoration: 'none'}}
-                activeStyle={{
-                  color: darkTeal,
-                }}>
-                {getIcon(icon)}
-                {icon}
-              </NavLink>
+              <li key={icon}>
+                <NavLink
+                  to={icon}
+                  className={'menu-item__link'}>
+                  <p className='menu-item__icon'>{getIcon(icon)}</p>
+                  <p className='menu-item__text'>{icon}</p>
+                </NavLink>
+              </li>
             );
           })
         }
-      </div>
+      </ul>
 
       {/* TODO: Need to properly render different pages.
       currently routing to 'dummy' pages created below. */}
