@@ -8,12 +8,12 @@ const subscribe = () => {
 
   // subscribe to the pub/sub topic for image process status
   firebase.functions.pubsub.topic(topicName).onPublish((message) => {
-    const { userId, experimentId, resultImages } =
+    const { participantId, experimentId, resultImages } =
       handleMessage(message, storageRef);
     if (resultImages.length > 0) {
       // store into firestore.
-      const documentId = userId + '-' + experimentId;
-      firebase.firestore().collection('Images')
+      const documentId = `${participantId}-${experimentId}`;
+      firebase.firestore().collection('ProcessedImages')
         .doc(documentId).set(resultImages);
     }
   });
@@ -33,12 +33,12 @@ const handleMessage = (message, bucketRef) => {
     return [];
   }
 
-  const [userId, experimentId, status] = messageBody.split('-');
-  const resultImages = [];
+  const [participantId, experimentId, status] = messageBody.split('-');
+  const resImageURLs = [];
 
   if (status === 'complete') {
     // get all processed images from cloud storage
-    const folderPath = userId + '-' + experimentId + '/';
+    const folderPath = `${participantId}-${experimentId}/`;
     const processedImagesRef = bucketRef.child(folderPath);
 
     // store the download url in the database
@@ -47,13 +47,13 @@ const handleMessage = (message, bucketRef) => {
         // files is an array of File objects.
         images.forEach((image) => {
           image.getDownloadURL().then((url) => {
-            resultImages.push(url);
+            resImageURLs.push(url);
           });
         });
       }
     });
   }
-  return { userId, experimentId, resultImages };
+  return { participantId, experimentId, resImageURLs };
 };
 
 export default subscribe;

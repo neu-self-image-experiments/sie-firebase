@@ -37,7 +37,7 @@ export const Wizard = ({ children, labels }) => {
 
   const renderWizard = () => {
     return (
-      <Constrain>
+      <Fragment>
         <StepWizard
           className="wizard"
           onStepChange={onStepChange}
@@ -51,7 +51,7 @@ export const Wizard = ({ children, labels }) => {
         {
           WizInstance && <Controls WizInstance={WizInstance} />
         }
-      </Constrain>
+      </Fragment>
     );
   };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { Signup } from './Signup';
 
 /**
@@ -9,12 +9,11 @@ export default {
   title: 'Example/Signup',
   component: Signup,
 };
-
 const Template = (args) => {
   return (
-    <Router>
+    <MemoryRouter>
       <Signup {...args} />
-    </Router>
+    </MemoryRouter>
   );
 };
 

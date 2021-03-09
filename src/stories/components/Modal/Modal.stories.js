@@ -29,6 +29,5 @@ const Template = (args) => <Modal {...args}>
 
 export const Default = Template.bind({});
 Default.args = {
-  theme: 'light',
   buttonText: 'Open Modal',
 };
