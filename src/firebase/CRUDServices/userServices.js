@@ -104,9 +104,12 @@ export default class UserServices {
     try {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-          callback({ isLoggedIn: true, user });
+          callback(user);
         } else {
-          callback({ isLoggedIn: false });
+          return {
+            errorCode: 'auth/no user',
+            errorMessage: 'did not find user',
+          };
         }
       });
     } catch (error) {
