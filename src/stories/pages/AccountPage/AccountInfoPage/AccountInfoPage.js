@@ -1,13 +1,13 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-empty-function */
-import './styles.scss';
+/* eslint-disable max-len */
+import '../styles.scss';
 
 import React, { useContext, useState } from 'react';
-import { Form } from '../../components/Form/Form';
-import { FormItem } from '../../components/FormItem/FormItem';
-import { UserContext } from './AccountPage';
-import Edit from '../../../images/icon-edit.svg';
-import HorizontalRule from '../../../images/icon-horizontal-rule.svg';
+import { Form } from '../../../components/Form/Form';
+import { FormItem } from '../../../components/FormItem/FormItem';
+import { UserContext } from '../AccountPage';
+import Edit from '../../../../images/icon-edit.svg';
+import HorizontalRuleDark from '../../../../images/icon-horizontal-rule-dark.svg';
+import HorizontalRuleLight from '../../../../images/icon-horizontal-rule-light.svg';
 
 /**
  * Component for Account Information page.
@@ -28,10 +28,13 @@ export const AccountInfoPage = () => {
   const [password, setPassword] = useState('');
 
   return (
-    <div>
+    <div className="account-info">
       <div className="account-info__section-header">
-        <img className="personal__horizontal-rule" src={HorizontalRule}></img>
-        <span className="account-info__header-text">PERSONAL INFO</span>
+        <img
+          className="personal__horizontal-rule"
+          src={HorizontalRuleDark}
+        ></img>
+        <h5 className="account-info__header-text">PERSONAL INFO</h5>
         <img className="account-info__edit" src={Edit}></img>
       </div>
       <Form type="account">
@@ -70,8 +73,8 @@ export const AccountInfoPage = () => {
         ></FormItem>
       </Form>
       <div className="account-info__section-header">
-        <img className="login__horizontal-rule" src={HorizontalRule}></img>
-        <span className="account-info__header-text">LOGIN</span>
+        <img className="login__horizontal-rule" src={HorizontalRuleLight}></img>
+        <h5 className="account-info__header-text">LOGIN</h5>
         <img className="account-info__edit" src={Edit}></img>
       </div>
       <Form type="account">

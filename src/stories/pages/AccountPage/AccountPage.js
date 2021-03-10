@@ -1,8 +1,7 @@
-/* eslint-disable no-console */
 import './styles.scss';
 
 import React, { useEffect, useState } from 'react';
-import { AccountInfoPage } from './AccountInfoPage';
+import { AccountInfoPage } from './AccountInfoPage/AccountInfoPage';
 import { Button } from '../../components/Button/Button';
 // eslint-disable-next-line max-len
 import { HorizontalTitle } from '../../components/HorizontalTitle/HorizontalTitle';
@@ -36,9 +35,10 @@ export const AccountPage = () => {
 
   useEffect(async () => {
     userService.getCurrentUser(setLogInState).catch((e) => {
+      setLogInState({ isLoggedIn: false });
       setError(e);
     });
-  }, []);
+  }, [logInState.isLoggedIn]);
 
   return error ? (
     <div>{error.errorCode + ': ' + error.errorMessage}</div>

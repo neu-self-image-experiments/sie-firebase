@@ -10,4 +10,17 @@
 
 .account-info__header-text {
   margin-right: rem(8px);
+  margin-bottom: 0;
+}
+
+.account-info {
+  > * {
+    @include fade-in-up;
+
+    @for $i from 1 through 10 {
+      &:nth-child(#{$i}n) {
+        animation-delay: #{$i * 0.1}s;
+      }
+    }
+  }
 }
