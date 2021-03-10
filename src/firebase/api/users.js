@@ -30,10 +30,10 @@ export const signUp = async (email, password) => {
  * Create a user object in 'users' collection
  * @param {UserAuth} userAuth userAuth object returned by firebase.auth
  * @param {UserData} userData user data
- * @return {User} user object
+ * @return {User} user object if userAuth is valid else null
  */
 export const generateUserDoc = async (userAuth, userData) => {
-  if (!userAuth) return;
+  if (!userAuth) return null;
   const userRef = firestore.doc(`users/${userAuth.uid}`);
 
   const snapshot = await userRef.get();
