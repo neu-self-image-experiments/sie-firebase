@@ -73,7 +73,7 @@ export const getExperimentById = async (experimentId) => {
     const snapshot = await expRef.get();
 
     return {
-      status: StatusCodes.OK,
+      status: snapshot.exists ? StatusCodes.OK : StatusCodes.NOT_FOUND,
       data: snapshot.exists ? snapshot.data() : null,
       error: null,
     };
@@ -100,9 +100,15 @@ export const updateExperiment = async (experimentId, updatedData) => {
     if (snapshot.exists) {
       expRef.update(...updatedData);
     }
+
+    return {
+      status: snapshot.exists ? StatusCodes.OK : StatusCodes.NOT_FOUND,
+      data: null,
+      error: null,
+    };
   } catch (error) {
     return {
-      status: StatusCodes.NOT_MODIFIED,
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
       data: null,
       error,
     };
