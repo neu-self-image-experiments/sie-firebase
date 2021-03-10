@@ -1,4 +1,5 @@
 import firestore from '../firebase.js';
+import { StatusCodes } from 'http-status-codes';
 
 import {
   firestoreCollections as collections,
@@ -14,9 +15,17 @@ export const createExperiment = async (experimentData) => {
   const newDocRef = collectionRef.doc();
   try {
     newDocRef.set(experimentData);
-    return newDocRef.id;
+    return {
+      status: StatusCodes.CREATED,
+      data: newDocRef.id,
+      error: null,
+    };
   } catch (error) {
-    return null;
+    return {
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
+      data: null,
+      error,
+    };
   }
 };
 
@@ -25,18 +34,30 @@ export const createExperiment = async (experimentData) => {
  * @return {Experiment[]} a list of filtered Experiment object
  */
 export const getAllExperiments = async () => {
-  const collectionRef = firestore.collection(`${collections.EXPERIMENT}`);
-  const snapshot = await collectionRef.get();
-  const res = [];
-  if (!snapshot.empty) {
-    snapshot.forEach((doc) => {
-      // TODO(qhoang) let's not send back all information but
-      // only those necessary for frontend
-      res.push(doc.data());
-    });
-  }
+  try {
+    const collectionRef = firestore.collection(`${collections.EXPERIMENT}`);
+    const snapshot = await collectionRef.get();
+    const res = [];
+    if (!snapshot.empty) {
+      snapshot.forEach((doc) => {
+        // TODO(qhoang) let's not send back all information but
+        // only those necessary for frontend
+        res.push(doc.data());
+      });
+    }
 
-  return res;
+    return {
+      status: StatusCodes.OK,
+      data: res,
+      error: null,
+    };
+  } catch (error) {
+    return {
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
+      data: null,
+      error,
+    };
+  }
 };
 
 /**
@@ -45,12 +66,24 @@ export const getAllExperiments = async () => {
  * @return {Experiment} experiment document
  */
 export const getExperimentById = async (experimentId) => {
-  const expRef = firestore
-    .collection(`${EXPERIMENT_COLLECTION}`)
-    .doc(experimentId);
-  const snapshot = await expRef.get();
+  try {
+    const expRef = firestore
+      .collection(`${EXPERIMENT_COLLECTION}`)
+      .doc(experimentId);
+    const snapshot = await expRef.get();
 
-  return snapshot.exists ? snapshot.data() : null;
+    return {
+      status: StatusCodes.OK,
+      data: snapshot.exists ? snapshot.data() : null,
+      error: null,
+    };
+  } catch (error) {
+    return {
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
+      data: null,
+      error,
+    };
+  }
 };
 
 /**
@@ -59,16 +92,20 @@ export const getExperimentById = async (experimentId) => {
  * @param {Experiment} updatedData updated data
  */
 export const updateExperiment = async (experimentId, updatedData) => {
-  const expRef = firestore
-    .collection(`${collections.EXPERIMENT}`)
-    .doc(experimentId);
-  const snapshot = await expRef.get();
-  if (snapshot.exists) {
-    try {
+  try {
+    const expRef = firestore
+      .collection(`${collections.EXPERIMENT}`)
+      .doc(experimentId);
+    const snapshot = await expRef.get();
+    if (snapshot.exists) {
       expRef.update(...updatedData);
-    } catch (error) {
-      // TODO(qhoang) error handling
     }
+  } catch (error) {
+    return {
+      status: StatusCodes.NOT_MODIFIED,
+      data: null,
+      error,
+    };
   }
 };
 
@@ -77,15 +114,23 @@ export const updateExperiment = async (experimentId, updatedData) => {
  * @param {string} experimentId experiment's doc id
  */
 export const deleteExperiment = async (experimentId) => {
-  const expRef = firestore
-    .collection(`${collections.EXPERIMENT}`)
-    .doc(experimentId);
-  const snapshot = await expRef.get();
-  if (snapshot.exists) {
-    try {
-      expRef.delete();
-    } catch (error) {
-      // TODO(qhoang) error handling
-    }
+  try {
+    firestore
+      .collection(`${collections.EXPERIMENT}`)
+      .doc(experimentId)
+      .delete();
+
+    // NOTE: this does NOT delete this doc' subcollections
+    return {
+      status: StatusCodes.OK,
+      data: null,
+      error: null,
+    };
+  } catch (error) {
+    return {
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
+      data: null,
+      error,
+    };
   }
 };
