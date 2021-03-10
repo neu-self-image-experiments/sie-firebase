@@ -20,7 +20,7 @@ export const UserContext = React.createContext();
  * )
  */
 export const AccountPage = () => {
-  const [user, setLogInState] = useState();
+  const [logInState, setLogInState] = useState({ isLoggedIn: false });
   const [error, setError] = useState();
 
   const userService = UserServices.getInstance();
@@ -35,21 +35,15 @@ export const AccountPage = () => {
   };
 
   useEffect(async () => {
-    const result = await userService
-      .getCurrentUser(setLogInState)
-      .catch((e) => {
-        setError(e);
-      });
-
-    if (result) {
-      setError(result);
-    }
+    userService.getCurrentUser(setLogInState).catch((e) => {
+      setError(e);
+    });
   }, []);
 
   return error ? (
     <div>{error.errorCode + ': ' + error.errorMessage}</div>
-  ) : user ? (
-    <UserContext.Provider value={user}>
+  ) : logInState.isLoggedIn ? (
+    <UserContext.Provider value={logInState.user}>
       <div>
         <HorizontalTitle
           eyebrow={'Account'}
@@ -65,6 +59,6 @@ export const AccountPage = () => {
       </div>
     </UserContext.Provider>
   ) : (
-    <div>{'No user'}</div>
+    <div>{'No logged in user'}</div>
   );
 };
