@@ -3,15 +3,17 @@ import './styles.scss';
 import React, { useState, useEffect, useContext } from 'react';
 import UserServices from '../../../firebase/CRUDServices/userServices';
 
+export const UserContext = React.createContext();
+
 /**
  * Component for user's greeting element.
  *
  * @component
  * @return {object} (
- *   <Greeting/>
+ *   <UserGreeting/>
  * )
  */
-export const Greeting = () => {
+export const UserGreeting = () => {
   const service = UserServices.getInstance();
   const user = useContext(UserContext);
   const [logInState, setLogInState] = useState({ isLoggedIn: false });
@@ -19,24 +21,34 @@ export const Greeting = () => {
   const [lastName, setLastName] = useState('');
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    service.getCurrentUser(setLoginState).then((response) => {
+  useEffect(async () => {
+    service.getCurrentUser(setLogInState).then((response) => {
       if (response.errorCode) {
         // ERROR HANDLING
-        // setError(response.errorMessage);
+        setLogInState({ isLoggedIn: false });
+        setError(response.errorMessage);
       } else {
         setError('');
+        setLogInState({ isLoggedIn: true });
         setFirstName(user.firstName);
         setLastName(user.lastName);
       }
     });
-  });
+  }, [logInState.isLoggedIn]);
 
   return (
-    <UserContext.Provider value={logInState.user}>
-      <div>
-        <h3>Hello, {firstName + lastName}</h3>
-      </div>  
-    </UserContext.Provider>
+    <div>
+      { logInState.isLoggedIn ?
+        <UserContext.Provider value={logInState.user}>
+          <div>
+            <h5>Hello, {firstName + ' ' + lastName}</h5>
+          </div>
+        </UserContext.Provider> :
+        <div>
+          { error }
+          <p>No user is logged in</p>
+        </div>
+      }
+    </div>
   );
 };
