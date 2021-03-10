@@ -1,28 +1,42 @@
 import firestore from '../firebase.js';
 import auth from '../firebase.js';
+import { StatusCodes } from 'http-status-codes';
+
+import { firestoreCollections as collections } from '../constants.js';
 
 // ============ SIGN UP =============
 // How to sign up a user:
 //  1. call signUp to register user to firebase.auth()
-//  2. call generateUserDoc to create a user doc in 'users' collection
+//  2. signup will call generateUserDoc
+//     to create a user doc in 'users' collection
 
 /**
  * Create a user auth object and signs user in
  * @param {string} email valid email
  * @param {string} password valid password
- * @return {UserAuth} user auth object or error code
+ * @param {UserData} userData user data
+ * @return {JSON} user auth object or error code
  * Errors:
  *  email-already-in-use
  *  invalid-email
  *  operation-not-allowed
  *  weak-password
  */
-export const signUp = async (email, password) => {
+export const signUp = async (email, password, userData) => {
   try {
-    return await auth.createUserWithEmailAndPassword(email, password);
+    const userAuth = await auth.createUserWithEmailAndPassword(email, password);
+    await generateUserDoc(userAuth, userData);
+    return {
+      status: StatusCodes.CREATED,
+      data: userAuth,
+      error: null,
+    };
   } catch (error) {
-    // TODO(qhoang) revisit this
-    return error.code;
+    return {
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
+      data: null,
+      error,
+    };
   }
 };
 
@@ -33,8 +47,10 @@ export const signUp = async (email, password) => {
  * @return {User} user object if userAuth is valid else null
  */
 export const generateUserDoc = async (userAuth, userData) => {
-  if (!userAuth) return null;
-  const userRef = firestore.doc(`users/${userAuth.uid}`);
+  if (!userAuth) {
+    throw new Error('userAuth not available.');
+  }
+  const userRef = firestore.doc(`${collections.USER}/${userAuth.uid}`);
 
   const snapshot = await userRef.get();
   if (!snapshot.exists) { // if user doesn't already exists
@@ -48,7 +64,7 @@ export const generateUserDoc = async (userAuth, userData) => {
         ...userData,
       });
     } catch (error) {
-      // TODO(qhoang) add error handling
+      throw new Error(error.errorCode);
     }
   }
 
@@ -68,13 +84,21 @@ export const getUser = async (uid) => {
   }
 
   try {
-    const userDoc = await firestore.doc(`users/${uid}`);
+    const userDoc = await firestore.doc(`${collections.USER}/${uid}`);
     return {
-      uid,
-      ...userDoc.data(),
+      status: StatusCodes.OK,
+      data: {
+        uid,
+        ...userDoc.data(),
+      },
+      error: null,
     };
   } catch (error) {
-    // TODO(qhoang) add error handling
+    return {
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
+      data: null,
+      error,
+    };
   }
 };
 
@@ -83,8 +107,6 @@ export const getUser = async (uid) => {
  * @return {UserAuth} user auth object if current user is signed in else null
  */
 export const getCurrentUser = () => {
-  // resolve: callback function if resolved
-  // reject: callback function if rejected
   return new Promise((resolve, reject) => {
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
       unsubscribe();
@@ -95,21 +117,29 @@ export const getCurrentUser = () => {
 
 /**
  * Update user data for signed in users
- * @param {*} updatedData data to be updated
+ * @param {JSON} updatedData data to be updated
+ * @return {JSON} HTTP status code
  */
 export const updateUserData = async (updatedData) => {
   // auth.currentUser is null if user is not signed in
   const userUid = auth.currentUser.uid;
 
-  const userRef = firestore.doc(`users/${userUid}`);
+  const userRef = firestore.doc(`${collections.USER}/${userUid}`);
   try {
     await userRef.set({
       ...updatedData,
     });
+
+    return {
+      status: StatusCodes.OK,
+      data: null,
+      error: null,
+    };
   } catch (error) {
-    // TODO(qhoang) add error handling
+    return {
+      status: StatusCodes.NOT_MODIFIED,
+      data: null,
+      error,
+    };
   }
 };
-
-// TODO(qhoang) implement password reset feature
-// TODO(qhoang) re-implement method to delete a user
