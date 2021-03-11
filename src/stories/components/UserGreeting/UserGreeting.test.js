@@ -5,7 +5,7 @@ import { UserGreeting } from './UserGreeting';
 const logInState = {
   isLoggedIn: true,
   user: { email: 'testEmail', password: 'password',
-firstName: 'Jane', lastName: 'Doe' },
+    firstName: 'Jane', lastName: 'Doe' },
 };
 
 jest.mock('../../../firebase/CRUDServices/userServices');
@@ -19,7 +19,7 @@ describe('<UserGreeting />', () => {
     // mock static constructor of UserServices
     const mockGetInstance = jest.fn().mockReturnValue({
     // getCurrentUser is used inside
-    getCurrentUser: (cb) => act(() => new Promise.resolve(cb(logInState))),
+      getCurrentUser: (cb) => act(() => new promise.resolve(cb(logInState))),
     });
     // set implementation to mock implementation
     UserServices.getInstance = mockGetInstance;
@@ -34,7 +34,8 @@ describe('<UserGreeting />', () => {
     // mock static constructor of UserServices so that
     // getcurrentUser return not logged in user
     const mockGetInstance = jest.fn().mockReturnValue({
-      getCurrentUser: (cb) => act(() => new Promise.resolve(cb({ isLoggedIn: false }))),
+      getCurrentUser: (cb) => act(() =>
+        new promise.resolve(cb({ isLoggedIn: false }))),
     });
     // set implementation to mock implementation
     UserServices.getInstance = mockGetInstance;
