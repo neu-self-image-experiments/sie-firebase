@@ -4,7 +4,8 @@ import { UserGreeting } from './UserGreeting';
 
 const logInState = {
   isLoggedIn: true,
-  user: { email: 'testEmail', password: 'password' },
+  user: { email: 'testEmail', password: 'password',
+  firstName: 'Jane', lastName: 'Doe' },
 };
 
 jest.mock('../../../firebase/CRUDServices/userServices');
