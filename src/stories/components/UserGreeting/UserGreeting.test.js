@@ -1,4 +1,4 @@
-import { findByText, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import UserServices from '../../../firebase/CRUDServices/userServices';
 import { UserGreeting } from './UserGreeting';
 
@@ -18,7 +18,7 @@ describe('<UserGreeting />', () => {
     // mock static constructor of UserServices
     const mockGetInstance = jest.fn().mockReturnValue({
       // getCurrentUser is used inside
-      getCurrentUser: (cb) => Promise.resolve(cb(logInState)),
+    getCurrentUser: (cb) => Promise.resolve(cb({ isLoggedIn: true })),
     });
     // set implementation to mock implementation
     UserServices.getInstance = mockGetInstance;
@@ -38,9 +38,9 @@ describe('<UserGreeting />', () => {
     // set implementation to mock implementation
     UserServices.getInstance = mockGetInstance;
     // render component to test
-    render(<UserGreeting />);
+    const { content } = render(<UserGreeting />);
     // assertions to test
-    expect(screen.getByText('No user is logged in')).toBeInTheDocument();
+    expect(content).toBeUndefined();
     expect(mockGetInstance).toBeCalled();
   });
 });

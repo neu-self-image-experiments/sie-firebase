@@ -23,7 +23,7 @@ export const UserGreeting = () => {
 
   useEffect(async () => {
     service.getCurrentUser(setLogInState).then((response) => {
-      if (response.errorCode) {
+      if (response && response.errorCode) {
         // ERROR HANDLING
         setLogInState({ isLoggedIn: false });
         setError(response.errorMessage);
@@ -46,7 +46,6 @@ export const UserGreeting = () => {
         </UserContext.Provider> :
         <div>
           { error }
-          <p>No user is logged in</p>
         </div>
       }
     </div>
