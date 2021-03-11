@@ -15,11 +15,27 @@ describe('<UserGreeting />', () => {
     UserServices.mockClear();
   });
 
+  it('renders correct if no user', async () => {
+    // mock static constructor of UserServices so that
+    // getcurrentUser return not logged in user
+    const mockGetInstance = jest.fn().mockReturnValue({
+      getCurrentUser: (cb) => act(() =>
+        new Promise.Resolve(cb({ isLoggedIn: false }))),
+    });
+    // set implementation to mock implementation
+    UserServices.getInstance = mockGetInstance;
+    // render component to test
+    const { content } = render(<UserGreeting />);
+    expect(content).toBeUndefined();
+    expect(mockGetInstance).toBeCalled();
+  });
+
   it('renders a logged in user correctly', () => {
     // mock static constructor of UserServices
     const mockGetInstance = jest.fn().mockReturnValue({
     // getCurrentUser is used inside
-      getCurrentUser: (cb) => act(() => new promise.Resolve(cb(logInState))),
+      getCurrentUser: (cb) => act(() =>
+        new Promise.resolve(cb({ isLoggedIn: true }))),
     });
     // set implementation to mock implementation
     UserServices.getInstance = mockGetInstance;
@@ -27,21 +43,6 @@ describe('<UserGreeting />', () => {
     render(<UserGreeting />);
     // assertions to test
     expect(screen.getByText('Hello,')).toBeInTheDocument();
-    expect(mockGetInstance).toBeCalled();
-  });
-
-  it('renders correct if no user', async () => {
-    // mock static constructor of UserServices so that
-    // getcurrentUser return not logged in user
-    const mockGetInstance = jest.fn().mockReturnValue({
-      getCurrentUser: (cb) => act(() =>
-        new promise.Resolve(cb({ isLoggedIn: false }))),
-    });
-    // set implementation to mock implementation
-    UserServices.getInstance = mockGetInstance;
-    // render component to test
-    const { content } = render(<UserGreeting />);
-    expect(content).toBeUndefined();
     expect(mockGetInstance).toBeCalled();
   });
 });

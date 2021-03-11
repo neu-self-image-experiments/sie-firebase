@@ -26,7 +26,7 @@ export const UserGreeting = () => {
       if (response && response.errorCode) {
         // ERROR HANDLING
         setLogInState({ isLoggedIn: false });
-        setError(response);
+        setError(response.errorMessage);
       } else {
         setError('');
         setLogInState({ isLoggedIn: true });
@@ -45,7 +45,7 @@ export const UserGreeting = () => {
           </div>
         </UserContext.Provider> :
         <div>
-          { error.errorMessage }
+          { error }
         </div>
       }
     </div>
