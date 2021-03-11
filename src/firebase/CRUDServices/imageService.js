@@ -35,9 +35,17 @@ export default class ImageService {
       const imagePath = folderPath + image.name;
       const rawImageRef = self.storageRef.child(imagePath);
       return await rawImageRef.put(image).then(() => {
-        return 'uploaded';
+        return {
+          status: 201,
+          message: 'image successfully uploaded',
+          data: {},
+        };
       }).catch((error) => {
-        return 'error';
+        return {
+          status: 401,
+          message: `not authenticated ${error}`,
+          data: {},
+        };
       });
     }
 
@@ -54,9 +62,17 @@ export default class ImageService {
           .doc(documentId);
         const doc = await imageRef.get();
         if (!doc.exists) {
-          return [];
+          return {
+            status: 404,
+            message: 'processed images is not available yet',
+            data: { 'imagesList': [] },
+          };
         } else {
-          return doc.data();
+          return {
+            status: 200,
+            message: 'processed images successfully loaded',
+            data: { 'imagesList': doc.data() },
+          };
         }
       } catch (err) {
         return [];
@@ -74,9 +90,17 @@ export default class ImageService {
       const imagePath = folderPath + image.name;
       const rawImageRef = self.sieRawImagesBucketRef.child(imagePath);
       rawImageRef.delete().then(() => {
-        return true;
+        return {
+          status: 200,
+          message: 'image successfully deleted',
+          data: {},
+        };
       }).catch((error) => {
-        return false;
+        return {
+          status: 404,
+          message: `images cannot be deleted ${error}`,
+          data: {},
+        };
       });
     }
 }
