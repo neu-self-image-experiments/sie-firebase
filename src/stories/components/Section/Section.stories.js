@@ -1,4 +1,5 @@
 import React from 'react';
+import { Constrain } from '../../layouts/Constrain/Constrain';
 import { Section } from './Section';
 
 /**
@@ -9,7 +10,10 @@ export default {
   component: Section,
 };
 
-const Template = (args) => <Section {...args} />;
+const Template = (args) =>
+  <Constrain>
+    <Section {...args} />;
+  </Constrain>;
 
 // Deafult Section
 export const Default = Template.bind({});

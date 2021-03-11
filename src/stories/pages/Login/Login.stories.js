@@ -1,4 +1,5 @@
 import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import { Login } from './Login';
 
 /**
@@ -11,7 +12,9 @@ export default {
 
 const Template = (args) => {
   return (
-    <Login {...args} />
+    <MemoryRouter>
+      <Login {...args} />
+    </MemoryRouter>
   );
 };
 
