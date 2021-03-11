@@ -18,7 +18,7 @@ describe('<UserGreeting />', () => {
     // mock static constructor of UserServices
     const mockGetInstance = jest.fn().mockReturnValue({
       // getCurrentUser is used inside
-    getCurrentUser: (cb) => Promise.resolve(cb({ isLoggedIn: true })),
+    getCurrentUser: (cb) => Promise.resolve(cb(logInState)),
     });
     // set implementation to mock implementation
     UserServices.getInstance = mockGetInstance;
