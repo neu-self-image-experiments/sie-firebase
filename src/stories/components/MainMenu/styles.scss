@@ -24,6 +24,19 @@
     align-items: center;
 }
 
+.menu-item__link:hover {
+    .menu-item__icon {
+        background: $teal-dark;
+        fill: $white;
+        border-top-right-radius: 100px;
+        border-bottom-right-radius: 100px;
+    }
+
+    .menu-item__text {
+        color: $black;
+    }
+}
+
 .active {
     .menu-item__icon {
         background: $teal;
