@@ -1,4 +1,4 @@
-import firestore from '../firebase.js';
+import { firestore } from '../firebase.js';
 import { StatusCodes } from 'http-status-codes';
 
 import {

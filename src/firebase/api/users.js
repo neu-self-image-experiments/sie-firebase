@@ -1,5 +1,4 @@
-import firestore from '../firebase.js';
-import auth from '../firebase.js';
+import { firestore, auth } from '../firebase.js';
 import { StatusCodes } from 'http-status-codes';
 
 import { firestoreCollections as collections } from '../constants.js';
