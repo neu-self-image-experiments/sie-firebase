@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.6.3",
     "babel-eslint": "^10.1.0",
     "firebase": "^8.2.6",
+    "http-status-codes": "^2.1.4",
     "node-sass": "^5.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

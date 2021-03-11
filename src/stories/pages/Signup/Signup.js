@@ -114,7 +114,7 @@ export const Signup = ({ isDarkTheme }) => {
                 label='Role'
                 type='select'
                 options={userRoles}
-                handleChange={(e) => setRole({value: e.target.value})}
+                handleChange={(e) => setRole({ value: e.target.value })}
               />
               { error &&
                 <div className="form__msg">
