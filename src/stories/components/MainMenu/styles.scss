@@ -1,0 +1,54 @@
+@import '../../../scss/variables.scss';
+
+// @file
+// Main Menu
+
+// .main-menu {}
+
+.menu-item__link {
+	display: flex;
+    cursor: pointer;
+    font-weight:normal; 
+    text-decoration: none;
+
+    &.active {
+        .menu-item__icon {
+            background: $teal;
+            fill: $white;
+            border-top-right-radius: 100px;
+            border-bottom-right-radius: 100px;
+        }
+
+        .menu-item__text {
+            color: $teal-dark;
+        }
+    }
+}
+
+.menu-item__link:hover {
+    .menu-item__icon {
+        background: $teal-dark;
+        fill: $white;
+        border-top-right-radius: 100px;
+        border-bottom-right-radius: 100px;
+    }
+
+    .menu-item__text {
+        color: $black;
+    }
+}
+.menu-item__icon {
+    margin-right: 15px;
+    padding: 10px 15px 10px 50px;
+    display: flex;
+}
+
+.menu-item__text {
+    color: $black;
+    display: flex;
+    align-items: center;
+}
+
+li {
+    list-style-type: none;
+}
