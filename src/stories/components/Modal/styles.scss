@@ -36,7 +36,7 @@
 .modal__content--close {
   @include button-clear();
 
-  @include svg-background(close-24px);
+  @include svg-background(icon-close);
   float: right;
   display: block;
   color: transparent;

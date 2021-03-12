@@ -45,16 +45,16 @@ export const MainMenu = () => {
 
   return (
     <Router>
-      <ul className='main-menu'>
+      <ul className="main-menu">
         {
           icons.map((icon) => {
             return (
-              <li key={icon}>
+              <li className="main-menu__item" key={icon}>
                 <NavLink
                   to={icon}
                   className={'menu-item__link'}>
-                  <p className='menu-item__icon'>{getIcon(icon)}</p>
-                  <p className='menu-item__text'>{icon}</p>
+                  <span className='menu-item__icon'>{getIcon(icon)}</span>
+                  {icon}
                 </NavLink>
               </li>
             );
