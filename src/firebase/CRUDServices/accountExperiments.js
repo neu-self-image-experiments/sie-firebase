@@ -1,10 +1,10 @@
 import firebase from '../firebase';
 
 export default class AccountExperimentServices {
-    constructor() {
-        self.db = firebase.firestore();
-        self.account_experiments = 'Account_Experiments';
-    }
+  constructor() {
+    self.db = firebase.firestore();
+    self.account_experiments = 'Account_Experiments';
+  }
 
     // singleton instance.
     static accountExperimentServiceInstance = null;
@@ -14,10 +14,10 @@ export default class AccountExperimentServices {
      * @return {AccountExperimentServices} instance
      */
     static getInstance = () => {
-        if (!self.accountExperimentServiceInstance) {
-            self.accountExperimentServiceInstance = new AccountExperimentServices();
-        }
-        return self.accountExperimentServiceInstance;
+      if (!self.accountExperimentServiceInstance) {
+        self.accountExperimentServiceInstance = new AccountExperimentServices();
+      }
+      return self.accountExperimentServiceInstance;
     }
 
     /**
@@ -28,18 +28,19 @@ export default class AccountExperimentServices {
      * @param {Boolean} ifConsent of the account_experiment.
      * @return {Boolean} succeed or not.
      */
-    postAccountExperiment = async (experimentId, accountId, progress, ifConsent) => {
-        try {
-            await db.collection(self.account_experiments).add({
-                experimentId: experimentId,
-                accountId: accountId,
-                progress: progress,
-                ifConsent: ifConsent
-            })
-            return true;
-        } catch (err) {
-            return false;
-        }
+    postAccountExperiment = async (experimentId, accountId,
+      progress, ifConsent) => {
+      try {
+        await db.collection(self.account_experiments).add({
+          experimentId,
+          accountId,
+          progress,
+          ifConsent,
+        });
+        return true;
+      } catch (err) {
+        return false;
+      }
     }
 
     /**
@@ -47,22 +48,22 @@ export default class AccountExperimentServices {
      * @return {[]} array of account_experiment object.
      */
     getAccountExperiments = async () => {
-        try {
-            const accountExperimentRef = db.collection(self.account_experiments);
-            const snapshot = await accountExperimentRef.get();
-            const res = [];
-            if (snapshot.empty) {
-                // TODO: add logic here
-                return [];
-            }
-
-            snapshot.forEach((doc) => {
-                res.push(doc.data());
-            });
-            return res;
-        } catch (err) {
-            // TODO: add logic here
+      try {
+        const accountExperimentRef = db.collection(self.account_experiments);
+        const snapshot = await accountExperimentRef.get();
+        const res = [];
+        if (snapshot.empty) {
+          // TODO: add logic here
+          return [];
         }
+
+        snapshot.forEach((doc) => {
+          res.push(doc.data());
+        });
+        return res;
+      } catch (err) {
+        // TODO: add logic here
+      }
     }
 
 
@@ -73,21 +74,21 @@ export default class AccountExperimentServices {
      * @return {{account_experiment}} account_experiment object.
      */
     getAccountExperimentById = async (experimentId, accountId) => {
-        try {
-            const experimentRef = db.collection(self.account_experiments);
+      try {
+        const experimentRef = db.collection(self.account_experiments);
 
-            const doc = await experimentRef
-                .where('experimentId', '==', experimentId)
-                .where('accountId', '==', accountId).get();
-            if (!doc.exists) {
-                // TODO: add logic here
-                return {};
-            } else {
-                return doc.data();
-            }
-        } catch (err) {
-            // TODO: add logic here
+        const doc = await experimentRef
+          .where('experimentId', '==', experimentId)
+          .where('accountId', '==', accountId).get();
+        if (!doc.exists) {
+          // TODO: add logic here
+          return {};
+        } else {
+          return doc.data();
         }
+      } catch (err) {
+        // TODO: add logic here
+      }
     }
 
     /**
@@ -98,27 +99,27 @@ export default class AccountExperimentServices {
      * @param {Boolean} ifConsent of the account_experiment.
      * @return {Boolean} succeed or not.
      */
-    updateAccountExperimentById = async (experimentId, accountId, progress, ifConsent) => {
-        try {
-            await db.runTransaction(async (t) => {
+    updateAccountExperimentById = async (experimentId, accountId,
+      progress, ifConsent) => {
+      try {
+        await db.runTransaction(async (t) => {
+          const experimentRef = db.collection(self.account_experiments);
 
-                const experimentRef = db.collection(self.account_experiments);
+          const docRef = await experimentRef
+            .where('experimentId', '==', experimentId)
+            .where('accountId', '==', accountId);
 
-                const docRef = await experimentRef
-                    .where('experimentId', '==', experimentId)
-                    .where('accountId', '==', accountId);
+          const updatedAccountExperimentDoc = (await docRef.get()).data();
+          updatedAccountExperimentDoc.progress = progress;
+          updatedAccountExperimentDoc.ifConsent = ifConsent;
 
-                const updatedAccountExperimentDoc = (await docRef.get()).data();
-                updatedAccountExperimentDoc.progress = progress;
-                updatedAccountExperimentDoc.ifConsent = ifConsent;
-
-                t.update(docRef, updatedAccountExperimentDoc);
-            });
-            return true;
-        } catch (err) {
-            // TODO: add logic here
-            return false;
-        }
+          t.update(docRef, updatedAccountExperimentDoc);
+        });
+        return true;
+      } catch (err) {
+        // TODO: add logic here
+        return false;
+      }
     }
 
     /**
@@ -128,17 +129,17 @@ export default class AccountExperimentServices {
      * @return {Boolean} succeed or not.
      */
     deleteAccountExperimentById = async (experimentId, accountId) => {
-        try {
-            const experimentRef = db.collection(self.account_experiments);
-            const docRef = await experimentRef
-                .where('experimentId', '==', experimentId)
-                .where('accountId', '==', accountId).get();
+      try {
+        const experimentRef = db.collection(self.account_experiments);
+        const docRef = await experimentRef
+          .where('experimentId', '==', experimentId)
+          .where('accountId', '==', accountId).get();
 
-            await docRef.ref.delete();
-            return true;
-        } catch (err) {
-            // TODO: add logic here
-            return false;
-        }
+        await docRef.ref.delete();
+        return true;
+      } catch (err) {
+        // TODO: add logic here
+        return false;
+      }
     }
 }
