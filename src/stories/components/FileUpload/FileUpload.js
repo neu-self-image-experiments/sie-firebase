@@ -2,43 +2,31 @@ import './styles.scss';
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from '../Button/Button';
 
 /**
  * Component for File Upload element.
  *
  * @component
- * @param {func} onClick File Upload click function
+ * @param {func} onChange File upload value change
  * @return {object} (
- *   <FileUpload onClick={onClick} />
+ *   <FileUpload onChange={onChange} />
  * )
  */
-export const FileUpload = ({ onClick }) => {
-  const showFileName = () => {
-    if (document.getElementById('file-upload__input')) {
-      const name = document.getElementById('file-upload__input');
-      const selectedFile = name.files.item(0).name;
-      document.getElementById('file-upload__selected').innerHTML = selectedFile;
-    }
-  };
-
+export const FileUpload = ({ onChange }) => {
   return (
     <div className="file-upload">
-      <h4>Upload a photo instead</h4>
+      <h4>Or upload a photo instead</h4>
       <div className="file-upload__inner">
         <label htmlFor="file-upload__input" className="file-upload__label">
-            Browse...
+          Browse...
         </label>
         <p id="file-upload__selected">No file selected.</p>
         <input
+          className="file-upload__input"
           id="file-upload__input"
           type="file"
-          onChange={showFileName} />
-        <Button
-          isButton="true"
-          modifierClasses="file-upload__btn button--small"
-          text="Upload"
-          onClick={onClick} />
+          accept="image/png, image/jpeg"
+          onChange={onChange} />
       </div>
     </div>
   );
@@ -46,11 +34,11 @@ export const FileUpload = ({ onClick }) => {
 
 FileUpload.propTypes = {
   /**
-   * FileUpload's onClick function
+   * FileUpload's onChange function
    */
-  onClick: PropTypes.func,
+  onChange: PropTypes.func,
 };
 
 FileUpload.defaultProps = {
-  onClick: null,
+  onChange: null,
 };

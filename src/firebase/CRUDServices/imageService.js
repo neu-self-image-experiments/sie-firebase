@@ -1,111 +1,106 @@
 import firebase from '../firebase';
+import 'firebase/storage';
 
 export default class ImageService {
   constructor() {
-    self.storageRef = firebase.storage().ref();
-    self.sieRawImagesBucketRef = storageRef.child('sie-raw-images');
-    self.sieProcessedImagesBucketRef = storageRef.child('sie-stimuli-images');
-    self.topicName =
-    'projects/cs6510-spr2021/topics/sie-image-processing-result-test';
+    self.db = firebase.firestore();
+    self.images = 'ProcessedImages';
+    self.storageRef = firebase.app()
+      .storage(process.env.STORAGE_RAW_IMAGES_BUCKET).ref();
   }
 
-    // singleton instance.
-    static sieInstance = null;
+  // singleton instance.
+  static sieInstance = null;
 
-    /**
-     * creating singleton instance.
-     * @return {ImageService} instance
-     */
-    static getInstance = () => {
-      if (!self.sieInstance) {
-        self.sieInstance = new ImageService();
+  /**
+   * creating singleton instance.
+   * @return {ImageService} instance
+   */
+  static getInstance = () => {
+    if (!self.sieInstance) {
+      self.sieInstance = new ImageService();
+    }
+    return self.sieInstance;
+  }
+
+  /**
+   * Put a self image into the cloud storage.
+   * @param {String} participantId user id.
+   * @param {String} experimentId experiment id.
+   * @param {File} image self image file.
+   * @return {String} succeed or not.
+   */
+  postRawImage = async (participantId, experimentId, image) => {
+    const folderPath = `${participantId}-${experimentId}/`;
+    const imagePath = folderPath + image.name;
+    const rawImageRef = self.storageRef.child(imagePath);
+    return await rawImageRef.put(image).then(() => {
+      return {
+        status: 201,
+        message: 'image successfully uploaded',
+        data: {},
+      };
+    }).catch((error) => {
+      return {
+        status: 401,
+        message: `not authenticated ${error}`,
+        data: {},
+      };
+    });
+  }
+
+  /**
+   * Get all processed self images urls.
+   * @param {String} participantId user id.
+   * @param {String} experimentId experiment id.
+   * @return {String[]} array of processed self image urls.
+   */
+  getProcessedImages = async (participantId, experimentId) => {
+    const documentId = `${participantId}-${experimentId}`;
+    try {
+      const imageRef = db.collection(self.images)
+        .doc(documentId);
+      const doc = await imageRef.get();
+      if (!doc.exists) {
+        return {
+          status: 404,
+          message: 'processed images is not available yet',
+          data: { 'imagesList': [] },
+        };
+      } else {
+        return {
+          status: 200,
+          message: 'processed images successfully loaded',
+          data: { 'imagesList': doc.data() },
+        };
       }
-      return self.sieInstance;
+    } catch (err) {
+      return [];
     }
+  }
 
-    /**
-     * Put a self image into the cloud storage.
-     * @param {String} userId user id.
-     * @param {String} experimentId experiment id.
-     * @param {File} image self image file.
-     * @return {Boolean} succeed or not.
-     */
-    postImage = async (userId, experimentId, image) => {
-      const folderPath = userId + '-' + experimentId + '/';
-      const imagePath = folderPath + image.name;
-      const rawImageRef = self.sieRawImagesBucketRef.child(imagePath);
-      rawImageRef.put(image).then(() => {
-        return true;
-      }).catch((error) => {
-        return false;
-      });
-    }
-
-    /**
-     * Get all existing self images in the messaging queue.
-     * @param {String} userId user id.
-     * @param {String} experimentId experiment id.
-     * @return {File[]} array of self image files.
-     */
-    getImages = async (userId, experimentId) => {
-      const resultImages = [];
-
-      firebase.functions.pubsub.topic(self.topicName).onPublish((message) => {
-        // Decode the PubSub Message body.
-        const messageBody = message.data ?
-          Buffer.from(message.data, 'base64').toString() : null;
-
-        if (!messageBody) {
-          return [];
-        }
-
-        const [msgUserId, msgExperimentId, status] = messageBody.split('-');
-        if (msgUserId === userId && msgExperimentId === experimentId) {
-          if (status === 'complete') {
-            // get all processed images from cloud storage
-            const folderPath = userId + '-' + experimentId + '/';
-            const processedImagesRef =
-            self.sieProcessedImagesBucketRef.child(folderPath);
-
-            processedImagesRef.getFiles((err, images) => {
-              if (!err) {
-                // files is an array of File objects.
-                images.forEach((image) => {
-                  image.getDownloadURL().then((url) => {
-                    const xhr = new XMLHttpRequest();
-                    xhr.responseType = 'blob';
-                    xhr.onload = (event) => {
-                      const blob = xhr.response;
-                      // xhr.response will be a Blob ready to save
-                      resultImages.push(blob);
-                    };
-                    xhr.open('GET', url);
-                    xhr.send();
-                  });
-                });
-              }
-            });
-          }
-        }
-      });
-
-      return resultImages;
-    }
-
-    /**
-     * Delete self image by userId-experimentId in cloud storage.
-     * @param {String} userId user id.
-     * @param {String} experimentId experiment id.
-     * @return {Boolean} succeed or not.
-     */
-    deleteImage = async (userId, experimentId) => {
-      const folderPath = userId + '-' + experimentId + '/';
-      const imagePath = folderPath + image.name;
-      const rawImageRef = self.sieRawImagesBucketRef.child(imagePath);
-      rawImageRef.delete().then(() => {
-        return true;
-      }).catch((error) => {
-        return false;
-      });
-    }
+  /**
+   * Delete self image by participantId-experimentId in cloud storage.
+   * @param {String} participantId user id.
+   * @param {String} experimentId experiment id.
+   * @return {Boolean} succeed or not.
+   */
+  deleteRawImage = async (participantId, experimentId) => {
+    const folderPath = `${participantId}-${experimentId}/`;
+    const imagePath = folderPath + image.name;
+    const rawImageRef = self.sieRawImagesBucketRef.child(imagePath);
+    rawImageRef.delete().then(() => {
+      return {
+        status: 200,
+        message: 'image successfully deleted',
+        data: {},
+      };
+    }).catch((error) => {
+      return {
+        status: 404,
+        message: `images cannot be deleted ${error}`,
+        data: {},
+      };
+    });
+  }
 }
