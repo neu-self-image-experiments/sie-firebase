@@ -1,0 +1,61 @@
+@import '../../../scss/variables.scss';
+
+// @file
+// Main Menu
+
+.main-menu {
+  @include list-clean;
+}
+
+.main-menu__item {
+  margin: $spacing-2 0;
+}
+
+.menu-item__link {
+  align-items: center;
+  display: flex;
+  cursor: pointer;
+  font-weight:normal;
+  text-decoration: none;
+
+  &.active {
+    .menu-item__icon {
+      background: $teal;
+      fill: $white;
+    }
+
+    .menu-item__text {
+      color: $teal-dark;
+    }
+  }
+}
+
+.menu-item__link {
+  font-family: $header-font-family;
+  font-weight: 700;
+
+  &:not(.active):hover {
+    .menu-item__icon {
+      background: $teal-dark;
+      fill: $white;
+    }
+
+    .menu-item__text {
+      color: $black;
+    }
+  }
+}
+
+.menu-item__icon {
+  border-top-right-radius: 100px;
+  border-bottom-right-radius: 100px;
+  margin-right: $spacing-3;
+  padding: $spacing-1 15px $spacing-1 $spacing-5;
+  display: flex;
+}
+
+.menu-item__text {
+  color: $black;
+  display: flex;
+  align-items: center;
+}
