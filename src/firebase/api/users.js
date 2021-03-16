@@ -40,6 +40,37 @@ export const signUp = async (email, password, userData) => {
 };
 
 /**
+ * Reset a user password
+ * @param {string} newPassword valid password
+ * @return {JSON} user auth object or error code
+ * Errors:
+ *  not logged in
+ *  no such user
+ *  operation-not-allowed
+ *  weak-password
+ */
+export const restUserPassword = async (newPassword) => {
+  const userAuth = await getCurrentUser();
+  if (!userAuth) {
+    throw new Error('userAuth not available.');
+  }
+  try{
+    const userResetPassword = await userAuth.currentUser.updatePassword(newPassword);
+    return {
+      status: StatusCodes.OK,
+      data: null,
+      error: null,
+    };
+  } catch (error){
+    return {
+      status: StatusCodes.NOT_MODIFIED,
+      data: null,
+      error,
+    };
+  }
+};
+
+/**
  * Create a user object in 'users' collection
  * @param {UserAuth} userAuth userAuth object returned by firebase.auth
  * @param {UserData} userData user data
