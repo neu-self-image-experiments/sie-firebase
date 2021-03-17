@@ -9,7 +9,7 @@ import { Wizard } from '../../layouts/Wizard/Wizard';
 import { Constrain } from '../../layouts/Constrain/Constrain';
 import { PhotoInstructions } from
   '../../components/PhotoInstructions/PhotoInstructions';
-import { WebcamControls } from '../../components/WebcamControls/WebcamControls';
+import { UploadPhoto } from '../../components/UploadPhoto/UploadPhoto';
 
 /**
  * Component for experiment page.
@@ -74,7 +74,7 @@ export const Experiment = ({ title }) => {
             <div className="step-3">
               <h3>Photo Instructions and Upload</h3>
               <PhotoInstructions />
-              <WebcamControls />
+              <UploadPhoto />
             </div>
             <div className="step-4">
               <h3>Pre-Survey</h3>
