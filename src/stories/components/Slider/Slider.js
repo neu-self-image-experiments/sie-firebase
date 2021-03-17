@@ -1,10 +1,16 @@
-import './styles.scss';
-import 'swiper/swiper.scss';
+// Awesome Swiper React component credits: https://swiperjs.com/react
 
-import React from 'react';
+import './styles.scss';
+import 'swiper/swiper.scss'; // Swiper styles
+
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+// import Button from '../Button/Button';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Constrain } from '../../layouts/Constrain/Constrain';
+
+const TABLET_SCREEN_SIZE = 640;
+const DESKTOP_SCREEN_SIZE = 1024;
+const WIDESCREEN_SCREEN_SIZE = 1400;
 
 
 /**
@@ -19,21 +25,48 @@ import { Constrain } from '../../layouts/Constrain/Constrain';
  * )
  */
 export const Slider = ({ children }) => {
+  // Swiper reference to control scrolling via Buttons
+  const [swiper, setSwiper] = useState(null);
+
+  // Put each child of the component into a separate slide
   const slides = children.map((child, i) =>
     <SwiperSlide key={i}>
-      <Constrain modifierClasses='constrain--narrow'>
-        {child}
-      </Constrain>
+      {child}
     </SwiperSlide>);
 
   return (
-    <Swiper
-      spaceBetween={30}
-      slidesPerView={4}
-      freeMode={true}
-    >
-      {slides}
-    </Swiper>
+    <div>
+      <Swiper
+        spaceBetween={30}
+        freeMode={true}
+        onSwiper={(swiperInstance) => {
+          // Save this Swiper's instance when initialized
+          setSwiper(swiperInstance);
+        }}
+        breakpoints={{
+          // tablet
+          640: {
+            width: TABLET_SCREEN_SIZE,
+            slidesPerView: 2,
+          },
+          // desktop
+          1024: {
+            width: DESKTOP_SCREEN_SIZE,
+            slidesPerView: 3,
+          },
+          // widescreen
+          1400: {
+            width: WIDESCREEN_SCREEN_SIZE,
+            slidesPerView: 4,
+          },
+        }}
+      >
+        {slides}
+      </Swiper>
+
+      <button onClick={() => swiper.slidePrev()}>Prev</button>
+      <button onClick={() => swiper.slideNext()}>Next</button>
+    </div>
   );
 };
 
