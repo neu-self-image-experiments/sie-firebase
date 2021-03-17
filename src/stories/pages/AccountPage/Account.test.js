@@ -38,7 +38,7 @@ describe('<AccountPage/>', () => {
 
   it('renders correct if no user', () => {
     // mock static constructor of UserServices so that
-    // getcurrentUser return not logged in user
+    // getcurrentUser returns a not logged in user
     const mockGetInstance = jest.fn().mockReturnValue({
       getCurrentUser: (cb) => Promise.resolve(cb({ isLoggedIn: false })),
     });
@@ -54,7 +54,7 @@ describe('<AccountPage/>', () => {
 
   it('renders correct if there is an error', async () => {
     // mock static constructor of UserServices so that
-    // getcurrentUser return not logged in user
+    // getcurrentUser returns a  not logged in user
     const mockGetInstance = jest.fn().mockReturnValue({
       getCurrentUser: () =>
         // eslint-disable-next-line prefer-promise-reject-errors

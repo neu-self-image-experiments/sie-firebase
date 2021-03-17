@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import './styles.scss';
 
 import React, { useEffect, useState } from 'react';
@@ -5,7 +6,7 @@ import { AccountInfoPage } from './AccountInfoPage/AccountInfoPage';
 import { Button } from '../../components/Button/Button';
 // eslint-disable-next-line max-len
 import { HorizontalTitle } from '../../components/HorizontalTitle/HorizontalTitle';
-import UserServices from '../../../firebase/CRUDServices/userServices';
+import { getCurrentUser } from '../../../firebase/api/users.js';
 
 // This probably needs to be moved to the App level/higher level component
 export const UserContext = React.createContext();
@@ -22,8 +23,6 @@ export const AccountPage = () => {
   const [logInState, setLogInState] = useState({ isLoggedIn: false });
   const [error, setError] = useState();
 
-  const userService = UserServices.getInstance();
-
   const deleteUser = async () => {
     const result = await userService.deleteUserById(logInState.user.uid);
     if (result) {
@@ -34,10 +33,16 @@ export const AccountPage = () => {
   };
 
   useEffect(async () => {
-    userService.getCurrentUser(setLogInState).catch((e) => {
-      setLogInState({ isLoggedIn: false });
-      setError(e);
-    });
+    getCurrentUser()
+      .then((res) => {
+        console.log(res);
+        setLogInState({ res });
+      })
+      .catch((err) => {
+        console.log(err);
+        setLogInState({ isLoggedIn: false });
+        setError(err);
+      });
   }, [logInState.isLoggedIn]);
 
   return error ? (
