@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { firestore, auth } from '../firebase.js';
 import { StatusCodes } from 'http-status-codes';
 
@@ -83,12 +84,13 @@ export const getUser = async (uid) => {
   }
 
   try {
-    const userDoc = await firestore.doc(`${collections.USER}/${uid}`);
+    const userDoc = firestore.doc(`${collections.USER}/${uid}`);
+    const user = await userDoc.get();
     return {
       status: StatusCodes.OK,
       data: {
         uid,
-        ...userDoc.data(),
+        ...user,
       },
       error: null,
     };

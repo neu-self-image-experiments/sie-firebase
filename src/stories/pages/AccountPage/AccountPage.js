@@ -6,7 +6,10 @@ import { AccountInfoPage } from './AccountInfoPage/AccountInfoPage';
 import { Button } from '../../components/Button/Button';
 // eslint-disable-next-line max-len
 import { HorizontalTitle } from '../../components/HorizontalTitle/HorizontalTitle';
-import { getCurrentUser } from '../../../firebase/api/users.js';
+import {
+  getCurrentUser,
+  generateUserDoc,
+} from '../../../firebase/api/users.js';
 
 // This probably needs to be moved to the App level/higher level component
 export const UserContext = React.createContext();
@@ -21,22 +24,40 @@ export const UserContext = React.createContext();
  */
 export const AccountPage = () => {
   const [logInState, setLogInState] = useState({ isLoggedIn: false });
+  const [auth, setAuth] = useState();
   const [error, setError] = useState();
 
-  const deleteUser = async () => {
-    const result = await userService.deleteUserById(logInState.user.uid);
-    if (result) {
-      // TODO: redirect
-    } else {
-      // TODO: show error
-    }
+  const user = {
+    firstName: 'Carlo',
+    lastName: 'Mutuc',
+    email: 'cjay747@yahoo.com',
+    role: 'Administrator',
+    username: 'cjay747',
+    password: 'password',
+  };
+
+  // const deleteUser = async () => {
+  //   const result = await userService.deleteUserById(logInState.user.uid);
+  //   if (result) {
+  //     // TODO: redirect
+  //   } else {
+  //     // TODO: show error
+  //   }
+  // };
+
+  const updateUser = async () => {
+    const result = generateUserDoc(auth, user).catch((e) => {
+      console.log(e);
+    });
+    console.log(result);
   };
 
   useEffect(async () => {
     getCurrentUser()
       .then((res) => {
         console.log(res);
-        setLogInState({ res });
+        setLogInState({ isLoggedIn: true, user });
+        setAuth(res);
       })
       .catch((err) => {
         console.log(err);
@@ -60,7 +81,11 @@ export const AccountPage = () => {
           }
         ></HorizontalTitle>
         <AccountInfoPage></AccountInfoPage>
-        <Button text="Delete my account" onClick={deleteUser}></Button>
+        <Button
+          isButton={true}
+          text="Update"
+          onClick={async () => updateUser()}
+        ></Button>
       </div>
     </UserContext.Provider>
   ) : (
