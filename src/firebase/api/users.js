@@ -55,8 +55,7 @@ export const restUserPassword = async (newPassword) => {
     throw new Error('userAuth not available.');
   }
   try {
-    await userAuth.currentUser.
-      updatePassword(newPassword);
+    await userAuth.currentUser.updatePassword(newPassword);
     return {
       status: StatusCodes.OK,
       data: null,
