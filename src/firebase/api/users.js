@@ -54,14 +54,14 @@ export const restUserPassword = async (newPassword) => {
   if (!userAuth) {
     throw new Error('userAuth not available.');
   }
-  try{
-    const userResetPassword = await userAuth.currentUser.updatePassword(newPassword);
+  try {
+    await userAuth.currentUser.updatePassword(newPassword);
     return {
       status: StatusCodes.OK,
       data: null,
       error: null,
     };
-  } catch (error){
+  } catch (error) {
     return {
       status: StatusCodes.NOT_MODIFIED,
       data: null,
