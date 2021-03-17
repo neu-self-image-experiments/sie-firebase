@@ -2,3 +2,67 @@
 
 // @file
 // Slider
+
+$text-font-family: $header-font-family;
+$text-font-size: $font-size-md;
+$text-weight: 600;
+$text-arrow-distance: 1.5rem;
+$text-text-distance: 1rem;
+
+.slider-button-back {
+    @include button-clear;
+
+    // Arrow icon
+    @include svg-background('icon-arrow-left');
+    background-repeat: no-repeat;
+    background-position: left center;
+    
+    // Text
+    font-family: $text-font-family;
+    font-size: $text-font-size;
+    font-weight: $text-weight;
+    padding-left: $text-arrow-distance;
+    margin-right: $text-text-distance;
+}
+
+.slider-button-next {
+  @include button-clear;
+
+  // Arrow icon
+  @include svg-background('icon-arrow-right');
+  background-repeat: no-repeat;
+  background-position: right center;
+  
+  // Text
+  font-family: $text-font-family;
+  font-size: $text-font-size;
+  font-weight: $text-weight;
+  padding-right: $text-arrow-distance;
+  margin-left: $text-text-distance;
+  margin-right: 3rem;
+}
+
+.slider-controls {
+  float: right;
+  margin-top: 2rem;
+}
+
+/*
+
+  Questions:
+
+  1) Would it be better to split classes and nest them? For example:
+      .slider-button {
+          // Shared attributes here
+
+          .back {
+              // Back-specific attributes here
+          } 
+          .next {
+              // Next-specific attributes here
+          }
+      }
+
+  2) Fix naming based on BEM naming convention.
+
+*/

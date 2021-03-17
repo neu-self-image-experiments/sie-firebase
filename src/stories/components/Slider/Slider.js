@@ -5,7 +5,6 @@ import 'swiper/swiper.scss'; // Swiper styles
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-// import Button from '../Button/Button';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 const TABLET_SCREEN_SIZE = 640;
@@ -36,6 +35,7 @@ export const Slider = ({ children }) => {
 
   return (
     <div>
+      {/* Slider itself */}
       <Swiper
         spaceBetween={30}
         freeMode={true}
@@ -64,8 +64,22 @@ export const Slider = ({ children }) => {
         {slides}
       </Swiper>
 
-      <button onClick={() => swiper.slidePrev()}>Prev</button>
-      <button onClick={() => swiper.slideNext()}>Next</button>
+      {/* Slider control buttons */}
+      <div className="slider-controls">
+        <button
+          className='slider-button-back'
+          onClick={() => swiper.slidePrev()}
+        >
+          BACK
+        </button>
+        {' '}
+        <button
+          className='slider-button-next'
+          onClick={() => swiper.slideNext()}
+        >
+          NEXT
+        </button>
+      </div>
     </div>
   );
 };
