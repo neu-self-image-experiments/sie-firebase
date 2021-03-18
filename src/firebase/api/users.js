@@ -49,7 +49,7 @@ export const signUp = async (email, password, userData) => {
  *  operation-not-allowed
  *  weak-password
  */
-export const restUserPassword = async (newPassword) => {
+export const resetUserPassword = async (newPassword) => {
   const userAuth = await getCurrentUser();
   if (!userAuth) {
     throw new Error('userAuth not available.');
