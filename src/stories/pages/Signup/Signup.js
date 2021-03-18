@@ -11,7 +11,8 @@ import { Button } from '../../components/Button/Button';
 import { Section } from '../../components/Section/Section';
 import { SplitGradient } from '../../layouts/SplitGradient/SplitGradient';
 import { Footer } from '../../layouts/Footer/Footer';
-import UserServices from '../../../firebase/CRUDServices/userServices';
+import { signUp } from '../../../firebase/api/users';
+import { StatusCodes } from 'http-status-codes';
 
 /**
  * Component for signup page.
@@ -43,7 +44,6 @@ export const Signup = ({ isDarkTheme }) => {
   const postUser = (e) => {
     e.preventDefault();
     // call user service
-    const service = UserServices.getInstance();
     // define new user object
     const user = {
       firstName,
@@ -53,8 +53,14 @@ export const Signup = ({ isDarkTheme }) => {
       role,
     };
 
-    service.signUp(user).then((response) => {
-      if (response.status === 200) {
+    const userData = {
+      firstName,
+      lastName,
+      role,
+    };
+
+    signUp(user.email, user.password, userData).then((response) => {
+      if (response.status === StatusCodes.CREATED) {
         // redirect to login page
         history.push('/login');
       } else {
@@ -114,7 +120,7 @@ export const Signup = ({ isDarkTheme }) => {
                 label='Role'
                 type='select'
                 options={userRoles}
-                handleChange={(e) => setRole({ value: e.target.value })}
+                handleChange={(e) => setRole(e.target.value)}
               />
               { error &&
                 <div className="form__msg">
