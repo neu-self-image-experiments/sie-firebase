@@ -97,7 +97,6 @@ export const UploadPhoto = () => {
               text="Take a photo"
               onClick={() => {
                 capturePhoto();
-                convertPhotoToFile();
               }}
             />
           }
