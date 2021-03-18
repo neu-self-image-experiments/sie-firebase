@@ -63,8 +63,15 @@ export const observeStimuliCompletion =
       if (status === 'Completed') {
         // call getFileUrlsFromBucket once ready to display stimuli
         getFileUrlsFromBucket(userId, experimentId).then((json) => {
-          const imageUrls = json.data;
-          imageUrlsHandler(imageUrls);
+          const status = json.status;
+          if (status === StatusCodes.NOT_FOUND) {
+            // one of the image url is unable to fetch
+            errorHandler(json.message);
+          } else {
+            // successfully get all image urls
+            const imageUrls = json.data;
+            imageUrlsHandler(imageUrls);
+          }
         });
       } else {
         // “face_missing”, “failed”
