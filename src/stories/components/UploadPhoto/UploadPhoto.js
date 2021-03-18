@@ -44,6 +44,14 @@ export const UploadPhoto = () => {
     [webcamRef],
   );
 
+  // use file input value
+  const uploadFile = (target) => {
+    // set file variable
+    setFile(target.files.item(0));
+    // reset image
+    setImage('');
+  };
+
   // upload photo to the server to generate stimuli
   const uploadPhoto = () => {
     // REMOVE EVENTUALLY
@@ -75,14 +83,6 @@ export const UploadPhoto = () => {
     });
   };
 
-  // upload image via file input
-  const selectImage = (target) => {
-    // set file variable
-    setFile(target.files.item(0));
-    // reset image
-    setImage('');
-  };
-
   return (
     <div className="upload-photo">
       <Constrain modifierClasses="constrain--narrow">
@@ -112,7 +112,7 @@ export const UploadPhoto = () => {
         </div>
       </div>
       <Constrain modifierClasses="constrain--narrow">
-        <FileUpload onChange={(e) => selectImage(e.target)} />
+        <FileUpload onChange={(e) => uploadFile(e.target)} />
         <div className="upload-photo__submit">
           <p>Once you are ready. You can upload your photo here.</p>
           <Button
