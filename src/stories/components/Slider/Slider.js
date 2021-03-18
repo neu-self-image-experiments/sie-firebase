@@ -65,16 +65,15 @@ export const Slider = ({ children }) => {
       </Swiper>
 
       {/* Slider control buttons */}
-      <div className="slider-controls">
+      <div className="slider__controls">
         <button
-          className='slider-button-back'
+          className='slider__button slider__button--back'
           onClick={() => swiper.slidePrev()}
         >
           BACK
         </button>
-        {' '}
         <button
-          className='slider-button-next'
+          className='slider__button slider__button--next'
           onClick={() => swiper.slideNext()}
         >
           NEXT
