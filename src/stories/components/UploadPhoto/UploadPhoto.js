@@ -32,17 +32,10 @@ export const UploadPhoto = () => {
   };
 
   // take a photo via webcam
-  const capturePhoto = React.useCallback(
-    () => {
-      setImage(webcamRef.current.getScreenshot());
-      // reset file
-      setFile('');
-      // reset input value
-      const input = document.getElementById('file-upload__selected');
-      input.innerHTML = 'No file selected.';
-    },
-    [webcamRef],
-  );
+  const capturePhoto = React.useCallback(() => {
+    setImage(webcamRef.current.getScreenshot());
+    document.getElementById('fileName').innerHTML = 'No file selected.';
+  }, [webcamRef]);
 
   // use file input value
   const uploadFile = (target) => {
@@ -87,7 +80,7 @@ export const UploadPhoto = () => {
     <div className="upload-photo">
       <Constrain modifierClasses="constrain--narrow">
         <PhotoInstructions />
-        <ToggleCamera onClick={() => toggleCamera()} toggleOn={cameraIsOn} />
+        <ToggleCamera onClick={() => toggleCamera()} />
       </Constrain>
       <div className="upload-photo__images">
         <div className="upload-photo__item">
@@ -102,7 +95,10 @@ export const UploadPhoto = () => {
               modifierClasses="button--small button--secondary"
               isButton={true}
               text="Take a photo"
-              onClick={() => capturePhoto()}
+              onClick={() => {
+                capturePhoto();
+                convertPhotoToFile();
+              }}
             />
           }
         </div>

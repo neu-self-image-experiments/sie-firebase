@@ -24,7 +24,7 @@ export const FileUpload = ({ onChange }) => {
         <label htmlFor="file-upload__input" className="file-upload__label">
           Browse...
         </label>
-        <p id="file-upload__selected">No file selected.</p>
+        <p id="fileName">No file selected.</p>
         <input
           className="file-upload__input"
           id="file-upload__input"
