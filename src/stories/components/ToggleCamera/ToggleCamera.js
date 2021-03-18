@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
  * @component
  * @param {func} onClick define click function.
  * @return {object} (
- *   <ToggleCamera onClick={onClick} toggleOn={toggleOn} />
+ *   <ToggleCamera onClick={onClick} />
  * )
  */
 export const ToggleCamera = ({ onClick }) => {
