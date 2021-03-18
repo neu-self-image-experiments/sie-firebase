@@ -17,7 +17,7 @@ export const uploadImageToStorage = async (
   const storageRef = storage.ref();
   const rawImageBucketRef = storageRef.child(bucket);
   const newImageRef = rawImageBucketRef.child(imagePath);
-  newImageRef.put(image).then((snapshot) => {
+  return newImageRef.put(image).then((snapshot) => {
     return {
       status: '201',
       error: null,

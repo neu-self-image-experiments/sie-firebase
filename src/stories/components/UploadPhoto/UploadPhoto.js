@@ -9,7 +9,7 @@ import { Button } from '../Button/Button';
 import { ImageGuidelines } from '../ImageGuidelines/ImageGuidelines';
 import { ToggleCamera } from '../ToggleCamera/ToggleCamera';
 import { FileUpload } from '../FileUpload/FileUpload';
-import ImageService from '../../../firebase/CRUDServices/imageService';
+import { uploadImageToStorage } from '../../../firebase/api/gcp-utils';
 
 /**
  * Component for webcam controls element.
@@ -21,7 +21,9 @@ import ImageService from '../../../firebase/CRUDServices/imageService';
  */
 export const UploadPhoto = () => {
   const [cameraIsOn, setWebcamOn] = useState(false);
+  const [file, setFile] = useState('');
   const [image, setImage] = useState('');
+  const [error, setError] = useState(false);
   const webcamRef = React.useRef(null);
 
   // toggle device camera
@@ -29,26 +31,49 @@ export const UploadPhoto = () => {
     setWebcamOn(!cameraIsOn);
   };
 
-  // take a photo
+  // take a photo via webcam
   const capturePhoto = React.useCallback(
     () => {
       setImage(webcamRef.current.getScreenshot());
+      setFile('');
     },
     [webcamRef],
   );
 
+  // upload photo to the server to generate stimuli
   const uploadPhoto = () => {
-    const service = ImageService.getInstance();
+    // REMOVE EVENTUALLY
     const userId = 'test';
     const experimentId = '001';
-    service.postRawImage(userId, experimentId, image).then((response) => {
+
+    if (image) {
+      fetch(image).then((response) => response.blob())
+        .then((blob) => {
+          const file = new File([blob], 'photo.jpeg', { type: 'image/jpeg' });
+          setFile(file);
+        });
+    }
+
+    uploadImageToStorage(
+      userId, experimentId, file, 'sie-raw-images',
+    ).then((response) => {
       // REMOVE EVENTUALLY
-      window.alert(response);
+      switch (response.status) {
+      case '201':
+        // UPDATE EVENTUALLY
+        return;
+      case '500':
+        setError(true);
+        return;
+      default:
+        return;
+      }
     });
   };
 
   const selectImage = (target) => {
-    setImage(target.files.item(0));
+    setImage('');
+    setFile(target.files.item(0));
 
     if (document.getElementById('file-upload__input')) {
       const name = document.getElementById('file-upload__input');
@@ -94,6 +119,11 @@ export const UploadPhoto = () => {
             modifierClasses="upload-photo__btn button--small"
             text="Upload"
             onClick={() => uploadPhoto()} />
+          { error &&
+            <p className="upload-photo__err">
+              Something went wrong and your photo could not be uploaded.
+              Please, try again.</p>
+          }
         </div>
       </Constrain>
     </div>
