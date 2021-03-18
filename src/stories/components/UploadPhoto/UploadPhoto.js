@@ -34,8 +34,12 @@ export const UploadPhoto = () => {
   // take a photo via webcam
   const capturePhoto = React.useCallback(
     () => {
-      setFile('');
       setImage(webcamRef.current.getScreenshot());
+      // reset file
+      setFile('');
+      // reset input value
+      const input = document.getElementById('file-upload__selected');
+      input.innerHTML = 'No file selected.';
     },
     [webcamRef],
   );
@@ -60,7 +64,7 @@ export const UploadPhoto = () => {
       // REMOVE EVENTUALLY
       switch (response.status) {
       case '201':
-        // UPDATE EVENTUALLY
+        // UPDATE WITH BETTER RESPONSE EVENTUALLY
         return;
       case '500':
         setError(true);
@@ -71,15 +75,12 @@ export const UploadPhoto = () => {
     });
   };
 
+  // upload image via file input
   const selectImage = (target) => {
-    setImage('');
+    // set file variable
     setFile(target.files.item(0));
-
-    if (document.getElementById('file-upload__input')) {
-      const name = document.getElementById('file-upload__input');
-      const selectedFile = name.files.item(0).name;
-      document.getElementById('file-upload__selected').innerHTML = selectedFile;
-    }
+    // reset image
+    setImage('');
   };
 
   return (

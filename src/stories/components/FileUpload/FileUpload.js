@@ -13,6 +13,10 @@ import PropTypes from 'prop-types';
  * )
  */
 export const FileUpload = ({ onChange }) => {
+  const setInputValue = (e) => {
+    e.target.previousSibling.innerHTML = e.target.files.item(0).name;
+  };
+
   return (
     <div className="file-upload">
       <h4>Or upload a photo instead</h4>
@@ -26,7 +30,10 @@ export const FileUpload = ({ onChange }) => {
           id="file-upload__input"
           type="file"
           accept="image/png, image/jpeg"
-          onChange={onChange} />
+          onChange={(e) => {
+            setInputValue(e);
+            onChange(e);
+          }}/>
       </div>
     </div>
   );
