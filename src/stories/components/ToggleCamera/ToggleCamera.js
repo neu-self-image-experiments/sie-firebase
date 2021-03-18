@@ -1,6 +1,6 @@
 import './styles.scss';
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 /**
@@ -8,12 +8,16 @@ import PropTypes from 'prop-types';
  *
  * @component
  * @param {func} onClick define click function.
- * @param {boolean} toggleOn whether toggle is on or off.
  * @return {object} (
  *   <ToggleCamera onClick={onClick} toggleOn={toggleOn} />
  * )
  */
-export const ToggleCamera = ({ onClick, toggleOn }) => {
+export const ToggleCamera = ({ onClick }) => {
+  const [webcamIsOn, setWebcamOn] = useState(false);
+  const toggleWebcamIcon = () => {
+    setWebcamOn(!webcamIsOn);
+  };
+
   return (
     <div className="toggle-camera">
       <div className="toggle-camera__half">
@@ -21,7 +25,10 @@ export const ToggleCamera = ({ onClick, toggleOn }) => {
         <p>Turn on your webcam.</p>
       </div>
       <div className="toggle-camera__half">
-        <ToggleIcon onClick={onClick} on={toggleOn} />
+        <ToggleIcon onClick={() => {
+          toggleWebcamIcon();
+          onClick();
+        }} on={webcamIsOn} />
       </div>
     </div>
   );
@@ -32,15 +39,10 @@ ToggleCamera.propTypes = {
    * ToggleCamera's onClick
    */
   onClick: PropTypes.func,
-  /**
-   * ToggleCamera's toggleOn
-   */
-  toggleOn: PropTypes.bool,
 };
 
 ToggleCamera.defaultProps = {
   onClick: null,
-  toggleOn: false,
 };
 
 /**

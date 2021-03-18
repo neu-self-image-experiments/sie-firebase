@@ -65,7 +65,7 @@ export const UploadPhoto = () => {
           setFile(file);
         });
     }
-
+    // call gcp util function
     uploadImageToStorage(
       userId, experimentId, file, 'sie-raw-images',
     ).then((response) => {
