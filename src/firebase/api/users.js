@@ -24,7 +24,7 @@ import { firestoreCollections as collections } from '../constants.js';
 export const signUp = async (email, password, userData) => {
   try {
     const userAuth = await auth.createUserWithEmailAndPassword(email, password);
-    await generateUserDoc(userAuth, userData);
+    await generateUserDoc(userAuth.user, userData);
     return {
       status: StatusCodes.CREATED,
       data: userAuth,
@@ -33,6 +33,37 @@ export const signUp = async (email, password, userData) => {
   } catch (error) {
     return {
       status: StatusCodes.INTERNAL_SERVER_ERROR,
+      data: null,
+      error,
+    };
+  }
+};
+
+/**
+ * Reset a user password
+ * @param {string} newPassword valid password
+ * @return {JSON} user auth object or error code
+ * Errors:
+ *  not logged in
+ *  no such user
+ *  operation-not-allowed
+ *  weak-password
+ */
+export const resetUserPassword = async (newPassword) => {
+  const userAuth = await getCurrentUser();
+  if (!userAuth) {
+    throw new Error('userAuth not available.');
+  }
+  try {
+    await userAuth.currentUser.updatePassword(newPassword);
+    return {
+      status: StatusCodes.OK,
+      data: null,
+      error: null,
+    };
+  } catch (error) {
+    return {
+      status: StatusCodes.NOT_MODIFIED,
       data: null,
       error,
     };
@@ -67,7 +98,7 @@ export const generateUserDoc = async (userAuth, userData) => {
     }
   }
 
-  return getUser(userAuth.uid);
+  return await getUser(userAuth.uid);
 };
 
 // ============ SIGN UP =============
