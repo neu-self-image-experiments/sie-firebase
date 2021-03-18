@@ -1,30 +1,45 @@
 import { app, pubsub as gcpPubsub } from '../firebase.js';
 import { pubsub, storageBuckets } from '../constants.js';
+import { StatusCodes } from 'http-status-codes';
 
 /**
- * Upload an image to the specified bucket
- * @param {string} userId userId
- * @param {string} experimentId experimentId
+ * Upload image for self image experiment.
+ * @param {String} userId userId
+ * @param {String} experimentId experimentId
  * @param {Blob} image image file to be uploaded
  *
  * @return {JSON}
  */
-export const uploadImageToStorage = async (
-  userId, experimentId, image) => {
+export const uploadSelfImage = async (userId, experimentId, image) => {
+  return await uploadImageToStorage(userId, experimentId,
+    image, storageBuckets.SIE_RAW_IMGS);
+};
+
+/**
+ * Upload an image to the specified bucket.
+ * @param {String} userId userId
+ * @param {String} experimentId experimentId
+ * @param {Blob} image image file to be uploaded
+ * @param {String} bucket bucket destination bucket
+ *
+ * @return {JSON}
+ */
+const uploadImageToStorage = async (
+  userId, experimentId, image, bucket) => {
   const imagePath = `${userId}-${experimentId}/${image.name}`;
 
-  const rawImageBucketRef = app.storage(storageBuckets.SIE_RAW_IMGS).ref();
+  const rawImageBucketRef = app.storage(bucket).ref();
   const newImageRef = rawImageBucketRef.child(imagePath);
   return await newImageRef.put(image).then(() => {
     return {
-      status: 201,
+      status: StatusCodes.CREATED,
       message: 'image successfully uploaded',
       data: {},
     };
-  }).catch((err) => {
+  }).catch((error) => {
     return {
-      status: 401,
-      message: `not authenticated ${err}`,
+      status: StatusCodes.UNAUTHORIZED,
+      message: `user not authenticated ${error.code}`,
       data: {},
     };
   });
@@ -47,7 +62,8 @@ export const observeStimuliCompletion =
 
       if (status === 'Completed') {
         // call getFileUrlsFromBucket once ready to display stimuli
-        getFileUrlsFromBucket(userId, experimentId).then(() => {
+        getFileUrlsFromBucket(userId, experimentId).then((json) => {
+          const imageUrls = json.data;
           imageUrlsHandler(imageUrls);
         });
       } else {
@@ -62,7 +78,7 @@ export const observeStimuliCompletion =
  * Get all file urls from bucket to display in img tags
  * @param {String} userId user id
  * @param {String} experimentId experiment id
- * @return {String[]} array of processed self image urls
+ * @return {JSON} JSON object including array of processed self image urls
  */
 const getFileUrlsFromBucket = async (userId, experimentId) => {
   const bucketPrefix = `${userId}-${experimentId}`;
@@ -75,13 +91,21 @@ const getFileUrlsFromBucket = async (userId, experimentId) => {
       files.forEach((file) => {
         file.getDownloadURL().then((url) => {
           fileUrls.push(url);
-        }).catch(() => {
-          return [];
+        }).catch((error) => {
+          return {
+            status: StatusCodes.NOT_FOUND,
+            message: `Unable to fetch image ${file.name}'s url ${error.code}`,
+            data: fileUrls,
+          };
         });
       });
     }
   });
 
-  return fileUrls;
+  return {
+    status: StatusCodes.OK,
+    message: 'Stimuli image urls fetched',
+    data: fileUrls,
+  };
 };
 
