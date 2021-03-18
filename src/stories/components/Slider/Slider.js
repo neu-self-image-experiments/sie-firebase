@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // Awesome Swiper React component credits: https://swiperjs.com/react
 
 import './styles.scss';
@@ -7,10 +8,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-const TABLET_SCREEN_SIZE = 640;
-const DESKTOP_SCREEN_SIZE = 1024;
-const WIDESCREEN_SCREEN_SIZE = 1400;
-
 
 /**
  * Component for branding element.
@@ -18,14 +15,16 @@ const WIDESCREEN_SCREEN_SIZE = 1400;
  * @component
  * @param {node} children The items that will be shown as a list in the slider.
  * @return {object} (
- *   <Branding modifierClasses={modifierClasses}
- *             text={text}
- *   />
+ *   <Slider>
+ *     {children}
+ *   </Slider>
  * )
  */
 export const Slider = ({ children }) => {
   // Swiper reference to control scrolling via Buttons
   const [swiper, setSwiper] = useState(null);
+  const [isAtBeginning, setIsAtBeginning] = useState(true);
+  const [isAtEnd, setIsAtEnd] = useState(false);
 
   // Put each child of the component into a separate slide
   const slides = children.map((child, i) =>
@@ -33,32 +32,54 @@ export const Slider = ({ children }) => {
       {child}
     </SwiperSlide>);
 
+  const backButtonDisabled = isAtBeginning ? 'slider__button--disabled' : '';
+  const nextButtonDisabled = isAtEnd ? 'slider__button--disabled' : '';
+
   return (
     <div>
       {/* Slider itself */}
       <Swiper
         spaceBetween={30}
         freeMode={true}
-        onSwiper={(swiperInstance) => {
-          // Save this Swiper's instance when initialized
-          setSwiper(swiperInstance);
-        }}
+        scrollbar={{ draggable: true }}
         breakpoints={{
           // tablet
           640: {
-            width: TABLET_SCREEN_SIZE,
             slidesPerView: 2,
           },
           // desktop
           1024: {
-            width: DESKTOP_SCREEN_SIZE,
             slidesPerView: 3,
           },
           // widescreen
           1400: {
-            width: WIDESCREEN_SCREEN_SIZE,
             slidesPerView: 4,
           },
+        }}
+
+        // Save this Swiper's instance when initialized
+        onSwiper={(swiperInstance) => {
+          setSwiper(swiperInstance);
+        }}
+
+        // Disable 'BACK' control button
+        onReachBeginning={() => {
+          setIsAtBeginning(true);
+        }}
+
+        // Disable 'NEXT' control button
+        onReachEnd={() => {
+          setIsAtEnd(true);
+        }}
+
+        // Enable control buttons
+        onSlideChange={(swiperInstance) => {
+          if (!swiperInstance.isBeginning) {
+            setIsAtBeginning(false);
+          }
+          if (!swiperInstance.isEnd) {
+            setIsAtEnd(false);
+          }
         }}
       >
         {slides}
@@ -67,13 +88,17 @@ export const Slider = ({ children }) => {
       {/* Slider control buttons */}
       <div className="slider__controls">
         <button
-          className='slider__button slider__button--back'
-          onClick={() => swiper.slidePrev()}
+          className=
+            {`slider__button slider__button--back ${backButtonDisabled}`}
+          onClick={() => {
+            swiper.slidePrev();
+          }}
         >
           BACK
         </button>
         <button
-          className='slider__button slider__button--next'
+          className=
+            {`slider__button slider__button--next ${nextButtonDisabled}`}
           onClick={() => swiper.slideNext()}
         >
           NEXT

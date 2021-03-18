@@ -25,11 +25,16 @@ $text-text-distance: 1rem;
     background-position: right center;
     padding-right: $text-arrow-distance;
     margin-left: $text-text-distance;
-    margin-right: 3rem;
+    margin-right: $spacing-3;
   }
+}
+
+.slider__button--disabled {
+  opacity: 0.2;
+  pointer-events: none;
 }
 
 .slider__controls {
   float: right;
-  margin-top: 2rem;
+  margin-top: $spacing-4;
 }
