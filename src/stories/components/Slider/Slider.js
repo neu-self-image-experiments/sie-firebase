@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // Awesome Swiper React component credits: https://swiperjs.com/react
 
 import './styles.scss';
@@ -21,7 +20,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
  * )
  */
 export const Slider = ({ children }) => {
-  // Swiper reference to control scrolling via Buttons
+  // Swiper reference to control scrolling via buttons
   const [swiper, setSwiper] = useState(null);
   const [isAtBeginning, setIsAtBeginning] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
