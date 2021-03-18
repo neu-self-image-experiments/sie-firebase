@@ -34,8 +34,8 @@ export const UploadPhoto = () => {
   // take a photo via webcam
   const capturePhoto = React.useCallback(
     () => {
-      setImage(webcamRef.current.getScreenshot());
       setFile('');
+      setImage(webcamRef.current.getScreenshot());
     },
     [webcamRef],
   );
@@ -49,7 +49,7 @@ export const UploadPhoto = () => {
     if (image) {
       fetch(image).then((response) => response.blob())
         .then((blob) => {
-          const file = new File([blob], 'photo.jpeg', { type: 'image/jpeg' });
+          const file = new File([blob], 'photo', { type: 'image/jpeg' });
           setFile(file);
         });
     }
