@@ -1,6 +1,6 @@
 export const firestoreCollections = {
-  EXPERIMENT: 'experiments',
-  USER: 'users',
+  EXPERIMENT: 'Experiments',
+  USER: 'Users',
 };
 
 export const storageBuckets = {

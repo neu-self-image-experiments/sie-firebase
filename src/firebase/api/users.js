@@ -24,7 +24,7 @@ import { firestoreCollections as collections } from '../constants.js';
 export const signUp = async (email, password, userData) => {
   try {
     const userAuth = await auth.createUserWithEmailAndPassword(email, password);
-    await generateUserDoc(userAuth, userData);
+    await generateUserDoc(userAuth.user, userData);
     return {
       status: StatusCodes.CREATED,
       data: userAuth,
@@ -98,7 +98,7 @@ export const generateUserDoc = async (userAuth, userData) => {
     }
   }
 
-  return getUser(userAuth.uid);
+  return await getUser(userAuth.uid);
 };
 
 // ============ SIGN UP =============
