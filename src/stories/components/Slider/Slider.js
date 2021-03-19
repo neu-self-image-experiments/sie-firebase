@@ -9,7 +9,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 
 /**
- * Component for branding element.
+ * Component for Slider element.
  *
  * @component
  * @param {node} children The items that will be shown as a list in the slider.
