@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable max-len */
 import '../styles.scss';
 
@@ -8,6 +9,8 @@ import { UserContext } from '../AccountPage';
 import Edit from '../../../../images/icon-edit.svg';
 import HorizontalRuleDark from '../../../../images/icon-horizontal-rule-dark.svg';
 import HorizontalRuleLight from '../../../../images/icon-horizontal-rule-light.svg';
+import { updateUserData } from '../../../../firebase/api/users';
+import { StatusCodes } from 'http-status-codes';
 
 /**
  * Component for Account Information page.
@@ -18,14 +21,35 @@ import HorizontalRuleLight from '../../../../images/icon-horizontal-rule-light.s
  * )
  */
 export const AccountInfoPage = () => {
-  const user = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [role, setRole] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [editInfo, setEditInfo] = useState(true);
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
+  const [email, setEmail] = useState(user.email);
+  const [role, setRole] = useState(user.role);
+  const [username, setUsername] = useState(user.username);
+  const [password, setPassword] = useState(user.password);
+
+  const updateUserInfo = () => {
+    if (!editInfo) {
+      const newUser = {
+        firstName,
+        lastName,
+        email,
+        role,
+      };
+
+      console.log(newUser);
+      const result = updateUserData(newUser);
+      if (result.status === StatusCodes.OK) {
+        console.log('success');
+        setUser(newUser);
+      }
+    } else {
+      setEditInfo(false);
+    }
+  };
 
   return (
     <div className="account-info">
@@ -35,41 +59,49 @@ export const AccountInfoPage = () => {
           src={HorizontalRuleDark}
         ></img>
         <h5 className="account-info__header-text">PERSONAL INFO</h5>
-        <img className="account-info__edit" src={Edit}></img>
+        <img
+          className="account-info__edit"
+          src={Edit}
+          onClick={() => updateUserInfo()}
+        ></img>
       </div>
       <Form type="account">
         <FormItem
           modifierClasses="form-item--inline"
           label={'First Name'}
-          placeholder={user.firstName}
+          placeholder={firstName}
           showLabel={true}
           value={firstName}
           handleChange={(e) => setFirstName(e.target.value)}
+          disabled={editInfo}
         ></FormItem>
         <FormItem
           modifierClasses="form-item--inline"
           label={'Last Name'}
-          placeholder={user.lastName}
+          placeholder={lastName}
           showLabel={true}
           value={lastName}
           handleChange={(e) => setLastName(e.target.value)}
+          disabled={editInfo}
         ></FormItem>
         <FormItem
           modifierClasses="form-item--inline"
           label={'Email Address'}
-          placeholder={user.email}
+          placeholder={email}
           showLabel={true}
           value={email}
           type="email"
           handleChange={(e) => setEmail(e.target.value)}
+          disabled={editInfo}
         ></FormItem>
         <FormItem
           modifierClasses="form-item--inline"
           label={'Role'}
-          placeholder={user.role}
+          placeholder={role}
           showLabel={true}
           value={role}
           handleChange={(e) => setRole(e.target.value)}
+          disabled={editInfo}
         ></FormItem>
       </Form>
       <div className="account-info__section-header">
@@ -81,7 +113,7 @@ export const AccountInfoPage = () => {
         <FormItem
           modifierClasses="form-item--inline"
           label={'Username'}
-          placeholder={user.username}
+          placeholder={username}
           showLabel={true}
           value={username}
           handleChange={(e) => setUsername(e.target.value)}
@@ -89,7 +121,7 @@ export const AccountInfoPage = () => {
         <FormItem
           modifierClasses="form-item--inline"
           label={'Password'}
-          placeholder={user.password}
+          placeholder={password}
           showLabel={true}
           value={password}
           type="password"

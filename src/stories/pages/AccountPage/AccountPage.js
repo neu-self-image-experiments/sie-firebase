@@ -6,10 +6,7 @@ import { AccountInfoPage } from './AccountInfoPage/AccountInfoPage';
 import { Button } from '../../components/Button/Button';
 // eslint-disable-next-line max-len
 import { HorizontalTitle } from '../../components/HorizontalTitle/HorizontalTitle';
-import {
-  getCurrentUser,
-  generateUserDoc,
-} from '../../../firebase/api/users.js';
+import { getCurrentUser, getUser } from '../../../firebase/api/users.js';
 
 // This probably needs to be moved to the App level/higher level component
 export const UserContext = React.createContext();
@@ -23,18 +20,8 @@ export const UserContext = React.createContext();
  * )
  */
 export const AccountPage = () => {
-  const [logInState, setLogInState] = useState({ isLoggedIn: false });
-  const [auth, setAuth] = useState();
+  const [user, setUser] = useState();
   const [error, setError] = useState();
-
-  const user = {
-    firstName: 'Carlo',
-    lastName: 'Mutuc',
-    email: 'cjay747@yahoo.com',
-    role: 'Administrator',
-    username: 'cjay747',
-    password: 'password',
-  };
 
   // const deleteUser = async () => {
   //   const result = await userService.deleteUserById(logInState.user.uid);
@@ -45,31 +32,22 @@ export const AccountPage = () => {
   //   }
   // };
 
-  const updateUser = async () => {
-    const result = generateUserDoc(auth, user).catch((e) => {
-      console.log(e);
-    });
-    console.log(result);
-  };
-
-  useEffect(async () => {
+  useEffect(() => {
     getCurrentUser()
-      .then((res) => {
-        console.log(res);
-        setLogInState({ isLoggedIn: true, user });
-        setAuth(res);
+      .then(async (res) => {
+        const user = await getUser(res.uid);
+        console.log(user.data);
+        setUser(user.data);
       })
       .catch((err) => {
-        console.log(err);
-        setLogInState({ isLoggedIn: false });
         setError(err);
       });
-  }, [logInState.isLoggedIn]);
+  }, []);
 
   return error ? (
     <div>{error.errorCode + ': ' + error.errorMessage}</div>
-  ) : logInState.isLoggedIn ? (
-    <UserContext.Provider value={logInState.user}>
+  ) : user ? (
+    <UserContext.Provider value={{ user, setUser }}>
       <div>
         <HorizontalTitle
           eyebrow={'Account'}
@@ -81,11 +59,7 @@ export const AccountPage = () => {
           }
         ></HorizontalTitle>
         <AccountInfoPage></AccountInfoPage>
-        <Button
-          isButton={true}
-          text="Update"
-          onClick={async () => updateUser()}
-        ></Button>
+        <Button isButton={true} text="Delete My Account"></Button>
       </div>
     </UserContext.Provider>
   ) : (

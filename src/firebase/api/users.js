@@ -84,7 +84,8 @@ export const generateUserDoc = async (userAuth, userData) => {
   const userRef = firestore.doc(`${collections.USER}/${userAuth.uid}`);
 
   const snapshot = await userRef.get();
-  if (!snapshot.exists) { // if user doesn't already exists
+  if (!snapshot.exists) {
+    // if user doesn't already exists
     const { email } = userAuth;
     const createdAt = new Date();
 
@@ -121,7 +122,7 @@ export const getUser = async (uid) => {
       status: StatusCodes.OK,
       data: {
         uid,
-        ...user,
+        ...user.data(),
       },
       error: null,
     };
