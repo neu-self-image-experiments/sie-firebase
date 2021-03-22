@@ -1,16 +1,9 @@
 @import '../../../scss/variables.scss';
 
-.section {
-  .signup &,
-  .login & {
-    @include fade-in;
+.consent-form__list {
+  @include list-clean();
+
+  li {
+    margin-bottom: $spacing-3;
   }
-}
-
-.section--medium {
-  font-size: $font-size-lg;
-}
-
-.section--large {
-  font-size: rem(24px);
 }

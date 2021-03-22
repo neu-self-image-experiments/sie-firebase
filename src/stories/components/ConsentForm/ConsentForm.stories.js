@@ -12,7 +12,7 @@ export default {
 
 const Template = (args) =>
   <Constrain>
-    <ConsentForm {...args} />;
+    <ConsentForm {...args} />
   </Constrain>;
 
 // Deafult Consent Form
@@ -20,6 +20,7 @@ export const Default = Template.bind({});
 Default.args = {
   title: 'Default Paragraph',
   qualtricsForms: [
-    'https://qwebsite.qualtrics.com/jfe/form/SV_6rmXNFKL5g9GSt7',
+    'https://neu.co1.qualtrics.com/jfe/form/SV_56LysMCx8JpZgWO',
+    'https://neu.co1.qualtrics.com/jfe/form/SV_56LysMCx8JpZgWO',
   ],
 };

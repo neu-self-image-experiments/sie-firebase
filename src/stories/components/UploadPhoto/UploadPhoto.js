@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import Webcam from 'react-webcam';
 
 import { PhotoInstructions } from '../PhotoInstructions/PhotoInstructions';
-import { Constrain } from '../../layouts/Constrain/Constrain';
 import { Button } from '../Button/Button';
 import { ImageGuidelines } from '../ImageGuidelines/ImageGuidelines';
 import { ToggleCamera } from '../ToggleCamera/ToggleCamera';
@@ -59,10 +58,8 @@ export const UploadPhoto = () => {
 
   return (
     <div className="upload-photo">
-      <Constrain modifierClasses="constrain--narrow">
-        <PhotoInstructions />
-        <ToggleCamera onClick={() => toggleCamera()} toggleOn={cameraIsOn} />
-      </Constrain>
+      <PhotoInstructions />
+      <ToggleCamera onClick={() => toggleCamera()} toggleOn={cameraIsOn} />
       <div className="upload-photo__images">
         <div className="upload-photo__item">
           <ImageGuidelines content={ cameraIsOn &&
@@ -85,17 +82,15 @@ export const UploadPhoto = () => {
           <p>Your photo will appear here.</p>
         </div>
       </div>
-      <Constrain modifierClasses="constrain--narrow">
-        <FileUpload onChange={(e) => selectImage(e.target)} />
-        <div className="upload-photo__submit">
-          <p>Once you are ready. You can upload your photo here.</p>
-          <Button
-            isButton={true}
-            modifierClasses="upload-photo__btn button--small"
-            text="Upload"
-            onClick={() => uploadPhoto()} />
-        </div>
-      </Constrain>
+      <FileUpload onChange={(e) => selectImage(e.target)} />
+      <div className="upload-photo__submit">
+        <p>Once you are ready. You can upload your photo here.</p>
+        <Button
+          isButton={true}
+          modifierClasses="upload-photo__btn button--small"
+          text="Upload"
+          onClick={() => uploadPhoto()} />
+      </div>
     </div>
   );
 };

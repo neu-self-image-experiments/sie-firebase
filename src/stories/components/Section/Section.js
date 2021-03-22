@@ -10,13 +10,13 @@ import PropTypes from 'prop-types';
  * @param {string} modifierClasses Class modifiers of the component.
  * @param {string} titleEl HTML title element.
  * @param {string} title Text found for the title of the section.
- * @param {string} content Text found in the content of the section.
+ * @param {string} children Content of the section.
  * @return {object}
  *   <Section
  *      modifierClasses={modifierClasses}
  *      titleEl={titleEl}
  *      title={title}
- *      content={content}
+ *      children={children}
  *      />
  * )
  */
@@ -24,7 +24,7 @@ export const Section = ({
   modifierClasses,
   titleEl,
   title,
-  content,
+  children,
 }) => {
   const classes = ['section', `${modifierClasses}`].join(' ').trim();
   const CustomTitleTag = titleEl ? titleEl : 'h3';
@@ -32,7 +32,7 @@ export const Section = ({
     <div className={classes}>
       <CustomTitleTag className="section__title">{title}</CustomTitleTag>
       <div className="section__content">
-        <p>{content}</p>
+        {children}
       </div>
     </div>
   );
@@ -52,9 +52,9 @@ Section.propTypes = {
      */
   title: PropTypes.string.isRequired,
   /**
-     * Section's content
+     * Section's children
      */
-  content: PropTypes.string,
+  children: PropTypes.node,
 };
 
 Section.defaultProps = {

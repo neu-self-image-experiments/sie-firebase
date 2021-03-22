@@ -7,21 +7,25 @@ import { Header } from '../../layouts/Header/Header';
 import { Main } from '../../layouts/Main/Main';
 import { Wizard } from '../../layouts/Wizard/Wizard';
 import { Constrain } from '../../layouts/Constrain/Constrain';
-import { PhotoInstructions } from
-  '../../components/PhotoInstructions/PhotoInstructions';
 import { UploadPhoto } from '../../components/UploadPhoto/UploadPhoto';
+import { ConsentForm } from '../../components/ConsentForm/ConsentForm';
+import { Section } from '../../components/Section/Section';
 
 /**
  * Component for experiment page.
  *
  * @component
  * @param {string} title experiment's title
+ * @param {string} description experiment's description
+ * @param {array} consentForms experiment's conset forms
  * @return {object} (
- *   <Experiment title={title} />
+ *   <Experiment title={title} description={description} />
  * )
  */
 
-export const Experiment = ({ title }) => {
+export const Experiment = ({
+  title, description, consentForms,
+}) => {
   const steps = [
     'Introduction',
     'Consent form',
@@ -41,39 +45,16 @@ export const Experiment = ({ title }) => {
         <Constrain>
           <Wizard labels={steps}>
             <div className="step-1">
-              <h3>Introduction</h3>
-              <h4>{title}</h4>
-              <p>
-                Lorem ipsum dolor sit amet, an has summo
-                riure epicuri, has illud rationibus et. Prima ridens sit te,
-                nam idque explicari expetendis in. An mei adolescens
-                mnesarchum, ei periculis adipiscing per, probo populo nec ad.
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, an has summo
-                riure epicuri, has illud rationibus et. Prima ridens sit te,
-                nam idque explicari expetendis in. An mei adolescens
-                mnesarchum, ei periculis adipiscing per, probo populo nec ad.
-              </p>
+              <Section titleEl='h3' title='Consent Form'>
+                <h4>{title}</h4>
+                {description}
+              </Section>
             </div>
             <div className="step-2">
-              <h3>Consent Form</h3>
-              <p>
-                Lorem ipsum dolor sit amet, an has summo
-                riure epicuri, has illud rationibus et. Prima ridens sit te,
-                nam idque explicari expetendis in. An mei adolescens
-                mnesarchum, ei periculis adipiscing per, probo populo nec ad.
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, an has summo
-                riure epicuri, has illud rationibus et. Prima ridens sit te,
-                nam idque explicari expetendis in. An mei adolescens
-                mnesarchum, ei periculis adipiscing per, probo populo nec ad.
-              </p>
+              <ConsentForm qualtricsForms={consentForms} />
             </div>
             <div className="step-3">
               <h3>Photo Instructions and Upload</h3>
-              <PhotoInstructions />
               <UploadPhoto />
             </div>
             <div className="step-4">
@@ -154,8 +135,18 @@ Experiment.propTypes = {
    * Experiment's title
    */
   title: PropTypes.string,
+  /**
+   * Experiment's description
+   */
+  description: PropTypes.string,
+  /**
+   * Experiment's consent forms
+   */
+  consentForms: PropTypes.string.isRequired,
 };
 
 Experiment.defaultProps = {
   title: '',
+  description: '',
+  consentForms: [],
 };
