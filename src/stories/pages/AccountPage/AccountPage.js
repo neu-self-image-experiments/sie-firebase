@@ -23,6 +23,7 @@ export const AccountPage = () => {
   const [user, setUser] = useState();
   const [error, setError] = useState();
 
+  // TODO
   // const deleteUser = async () => {
   //   const result = await userService.deleteUserById(logInState.user.uid);
   //   if (result) {
@@ -36,7 +37,6 @@ export const AccountPage = () => {
     getCurrentUser()
       .then(async (res) => {
         const user = await getUser(res.uid);
-        console.log(user.data);
         setUser(user.data);
       })
       .catch((err) => {

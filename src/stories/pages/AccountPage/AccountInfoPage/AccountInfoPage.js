@@ -11,6 +11,7 @@ import HorizontalRuleDark from '../../../../images/icon-horizontal-rule-dark.svg
 import HorizontalRuleLight from '../../../../images/icon-horizontal-rule-light.svg';
 import { updateUserData } from '../../../../firebase/api/users';
 import { StatusCodes } from 'http-status-codes';
+import { isEmpty } from '../../../../utils/utils';
 
 /**
  * Component for Account Information page.
@@ -33,19 +34,30 @@ export const AccountInfoPage = () => {
 
   const updateUserInfo = () => {
     if (!editInfo) {
-      const newUser = {
+      if (
+        isEmpty(firstName) ||
+        isEmpty(lastName) ||
+        isEmpty(email) ||
+        isEmpty(role)
+      ) {
+        alert('Cannot submit if any fields are empty');
+        return;
+      }
+
+      const result = updateUserData({
         firstName,
         lastName,
         email,
         role,
-      };
+      });
 
-      console.log(newUser);
-      const result = updateUserData(newUser);
       if (result.status === StatusCodes.OK) {
-        console.log('success');
         setUser(newUser);
+      } else {
+        // TODO: how do we handle this?
+        alert('error');
       }
+      setEditInfo(true);
     } else {
       setEditInfo(false);
     }
@@ -55,7 +67,7 @@ export const AccountInfoPage = () => {
     <div className="account-info">
       <div className="account-info__section-header">
         <img
-          className="personal__horizontal-rule"
+          className="account-info__personal__horizontal-rule"
           src={HorizontalRuleDark}
         ></img>
         <h5 className="account-info__header-text">PERSONAL INFO</h5>
