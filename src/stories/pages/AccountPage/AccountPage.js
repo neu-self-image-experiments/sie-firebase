@@ -33,15 +33,16 @@ export const AccountPage = () => {
   //   }
   // };
 
-  useEffect(() => {
-    getCurrentUser()
-      .then(async (res) => {
-        const user = await getUser(res.uid);
+  useEffect(async () => {
+    try {
+      const auth = await getCurrentUser();
+      if (auth) {
+        const user = await getUser(auth.uid);
         setUser(user.data);
-      })
-      .catch((err) => {
-        setError(err);
-      });
+      }
+    } catch (err) {
+      setError(err);
+    }
   }, []);
 
   return error ? (

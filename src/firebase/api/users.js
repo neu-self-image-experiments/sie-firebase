@@ -111,6 +111,7 @@ export const generateUserDoc = async (userAuth, userData) => {
  * @return {User} user document
  */
 export const getUser = async (uid) => {
+  console.log('getUser');
   if (!uid) {
     return null;
   }
@@ -143,6 +144,7 @@ export const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
       unsubscribe();
+      console.log(userAuth);
       resolve(userAuth);
     }, reject);
   });
