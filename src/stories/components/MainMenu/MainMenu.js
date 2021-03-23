@@ -22,18 +22,18 @@ import { ReactComponent as LogoutIcon} from
 
 export const MainMenu = () => {
   // List of button links/icons we currently support
-  const icons = ['Dashboard', 'Experiments', 'Account', 'Logout'];
+  const icons = ['dashboard', 'experiments', 'account', 'logout'];
 
   // Returns SVG react component based on icon name
   const getIcon = (icon) => {
     switch (icon) {
-    case ('Dashboard'):
+    case ('dashboard'):
       return (<DashboardIcon/>);
-    case ('Experiments'):
+    case ('experiments'):
       return (<ExperimentsIcon/>);
-    case ('Account'):
+    case ('account'):
       return (<AccountIcon/>);
-    case ('Logout'):
+    case ('logout'):
       return (<LogoutIcon/>);
     }
   };
@@ -48,7 +48,7 @@ export const MainMenu = () => {
                 to={icon}
                 className={'menu-item__link'}>
                 <span className='menu-item__icon'>{getIcon(icon)}</span>
-                {icon}
+                {icon.charAt(0).toUpperCase() + icon.slice(1)}
               </NavLink>
             </li>
           );

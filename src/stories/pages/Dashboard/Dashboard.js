@@ -1,3 +1,4 @@
+import './styles.scss';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
@@ -8,6 +9,8 @@ import { Main } from '../../layouts/Main/Main';
 import { Sidebar } from '../../layouts/Sidebar/Sidebar';
 import { AccountPage } from '../AccountPage/AccountPage';
 import { MainMenu } from '../../components/MainMenu/MainMenu';
+import { HorizontalTitle } from
+  '../../components/HorizontalTitle/HorizontalTitle';
 
 /**
  * Component for login page.
@@ -36,7 +39,9 @@ export const Dashboard = () => {
 
 const Navigation = () => {
   return (
-    <MainMenu />
+    <div className="navigation">
+      <MainMenu />
+    </div>
   );
 };
 
@@ -47,8 +52,16 @@ const MainContent = () => {
         <AccountPage />
       </Route>
       <Route path="/dashboard">
-        Some Welcome to the dashboard
+
+        <p>Hello</p>
+        <DashboardContent />
       </Route>
     </Switch>
+  );
+};
+
+const DashboardContent = () => {
+  return (
+    <HorizontalTitle eyebrow="hello"/>
   );
 };

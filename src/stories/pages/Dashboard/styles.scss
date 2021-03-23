@@ -1,0 +1,14 @@
+@import '../../../scss/variables.scss';
+
+// @file
+// Dashboard
+
+
+.dashboard {
+  margin-top: 10%;
+}
+
+.navigation {
+  position: fixed;
+  top: $spacing-1;
+}
