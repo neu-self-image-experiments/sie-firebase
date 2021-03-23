@@ -1,0 +1,9 @@
+@import '../../../scss/variables.scss';
+
+.consent-form__list {
+  @include list-clean();
+
+  li {
+    margin-bottom: $spacing-3;
+  }
+}
