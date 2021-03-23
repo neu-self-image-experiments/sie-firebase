@@ -12,7 +12,11 @@ export default {
 
 const Template = (args) =>
   <Constrain>
-    <Section {...args} />;
+    <Section {...args}>
+      <p>Lorem ipsum dolor sit amet, ne eum iusto antiopam assentior,
+        vix primis fuisset complectitur in. Per dolores mandamus
+        concludaturque te, quo eruditi efficiendi id.</p>
+    </Section>
   </Constrain>;
 
 // Deafult Section
@@ -21,11 +25,6 @@ Default.args = {
   modifierClasses: '',
   titleEl: '',
   title: 'Default Paragraph',
-  content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, ' +
-        'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ' +
-        'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris ' +
-        'nisi ut aliquip ex ea commodo consequat.',
 };
 
 // Medium Section
@@ -34,11 +33,6 @@ Medium.args = {
   modifierClasses: 'section--medium',
   titleEl: '',
   title: 'Medium Paragraph',
-  content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, ' +
-        'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ' +
-        'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris ' +
-        'nisi ut aliquip ex ea commodo consequat.',
 };
 
 // Large Section
@@ -47,9 +41,4 @@ Large.args = {
   modifierClasses: 'section--large',
   titleEl: '',
   title: 'Large Paragraph',
-  content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, ' +
-        'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ' +
-        'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris ' +
-        'nisi ut aliquip ex ea commodo consequat.',
 };
