@@ -19,7 +19,7 @@ import { ImageSelectionTask }
  * @component
  * @param {string} title experiment's title
  * @param {string} description experiment's description
- * @param {array} consentForms experiment's conset forms
+ * @param {array} consent experiment's conset forms
  * @param {string} url experiment's description
  * @param {string} preSurveys experiment's pre-survey questionnaires
  * @param {string} postSurveys experiment's post-survey questionnaires
@@ -29,7 +29,7 @@ import { ImageSelectionTask }
  */
 
 export const Experiment = ({
-  title, description, consentForms, url, preSurveys, postSurveys,
+  title, description, consent, url, preSurveys, postSurveys,
 }) => {
   const steps = [
     'Introduction',
@@ -60,10 +60,7 @@ export const Experiment = ({
               <Section titleEl={HEADING} title='Consent Form'>
                 <p>Please, complete the form below before completing the
                   study.</p>
-                { consentForms.map((form, i) => {
-                  return <QualtricsEmbed key={i} url={form} />;
-                })
-                }
+                <QualtricsEmbed url={consent} />
               </Section>
             </div>
             <div className="step-3">
@@ -124,22 +121,22 @@ Experiment.propTypes = {
   /**
    * Experiment's consent forms
    */
-  consentForms: PropTypes.string.isRequired,
+  consent: PropTypes.string.isRequired,
   /**
    * Experiment's pre-survey forms
    */
-  preSurveys: PropTypes.string.isRequired,
+  preSurveys: PropTypes.array.isRequired,
   /**
    * Experiment's post-survey forms
    */
-  postSurveys: PropTypes.string.isRequired,
+  postSurveys: PropTypes.array.isRequired,
 };
 
 Experiment.defaultProps = {
   title: '',
   description: '',
   url: '',
-  consentForms: [],
+  consent: '',
   preSurveys: [],
   postSurveys: [],
 };

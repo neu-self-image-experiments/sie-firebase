@@ -24,9 +24,7 @@ Default.args = {
     'Vim ei commune vivendum postulant, mentitum repudiare moderatius' +
     'mel ne. Vix et ocurreret repudiare. Rebum tritani fuisset eum id.',
   url: '#',
-  consentForms: [
-    'https://neu.co1.qualtrics.com/jfe/form/SV_56LysMCx8JpZgWO',
-  ],
+  consent: 'https://neu.co1.qualtrics.com/jfe/form/SV_56LysMCx8JpZgWO',
   preSurveys: [
     'https://neu.co1.qualtrics.com/jfe/form/SV_56LysMCx8JpZgWO',
   ],

@@ -11,7 +11,10 @@ function App() {
           <Login />
         </Route>
         <Route path="/signup">
-          <Signup isDarkTheme={false} />
+          <Signup />
+        </Route>
+        <Route path="/study/:studyID">
+          <Experiment />
         </Route>
       </Switch>
     </BrowserRouter>
