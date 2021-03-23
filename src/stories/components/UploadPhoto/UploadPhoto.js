@@ -9,7 +9,7 @@ import { Button } from '../Button/Button';
 import { ImageGuidelines } from '../ImageGuidelines/ImageGuidelines';
 import { ToggleCamera } from '../ToggleCamera/ToggleCamera';
 import { FileUpload } from '../FileUpload/FileUpload';
-import { uploadImageToStorage } from '../../../firebase/api/gcp-utils';
+import { uploadSelfImage } from '../../../firebase/api/gcp-utils';
 
 /**
  * Component for webcam controls element.
@@ -59,7 +59,7 @@ export const UploadPhoto = () => {
         });
     }
     // call gcp util function
-    uploadImageToStorage(
+    uploadSelfImage(
       userId, experimentId, file, 'sie-raw-images',
     ).then((response) => {
       // REMOVE EVENTUALLY

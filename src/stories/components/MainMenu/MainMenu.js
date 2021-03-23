@@ -1,13 +1,7 @@
 import './styles.scss';
 
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  NavLink,
-  // useRouteMatch,
-  // useLocation,
-  useHistory,
-} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { ReactComponent as DashboardIcon} from
   '../../../images/icon-dashboard.svg';
 import { ReactComponent as ExperimentsIcon} from
@@ -30,10 +24,6 @@ export const MainMenu = () => {
   // List of button links/icons we currently support
   const icons = ['Dashboard', 'Experiments', 'Account', 'Logout'];
 
-  // const { url } = useRouteMatch();
-  const history = useHistory();
-  // const location = useLocation();
-
   // Returns SVG react component based on icon name
   const getIcon = (icon) => {
     switch (icon) {
@@ -49,23 +39,21 @@ export const MainMenu = () => {
   };
 
   return (
-    <Router history={history}>
-      <ul className="main-menu">
-        {
-          icons.map((icon) => {
-            return (
-              <li className="main-menu__item" key={icon}>
-                <NavLink
-                  to={icon}
-                  className={'menu-item__link'}>
-                  <span className='menu-item__icon'>{getIcon(icon)}</span>
-                  {icon}
-                </NavLink>
-              </li>
-            );
-          })
-        }
-      </ul>
-    </Router>
+    <ul className="main-menu">
+      {
+        icons.map((icon) => {
+          return (
+            <li className="main-menu__item" key={icon}>
+              <NavLink
+                to={icon}
+                className={'menu-item__link'}>
+                <span className='menu-item__icon'>{getIcon(icon)}</span>
+                {icon}
+              </NavLink>
+            </li>
+          );
+        })
+      }
+    </ul>
   );
 };
