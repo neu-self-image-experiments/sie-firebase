@@ -3,9 +3,10 @@ import './styles.scss';
 import React from 'react';
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
   NavLink,
+  // useRouteMatch,
+  // useLocation,
+  useHistory,
 } from 'react-router-dom';
 import { ReactComponent as DashboardIcon} from
   '../../../images/icon-dashboard.svg';
@@ -29,6 +30,10 @@ export const MainMenu = () => {
   // List of button links/icons we currently support
   const icons = ['Dashboard', 'Experiments', 'Account', 'Logout'];
 
+  // const { url } = useRouteMatch();
+  const history = useHistory();
+  // const location = useLocation();
+
   // Returns SVG react component based on icon name
   const getIcon = (icon) => {
     switch (icon) {
@@ -44,7 +49,7 @@ export const MainMenu = () => {
   };
 
   return (
-    <Router>
+    <Router history={history}>
       <ul className="main-menu">
         {
           icons.map((icon) => {
@@ -61,57 +66,6 @@ export const MainMenu = () => {
           })
         }
       </ul>
-
-      {/* TODO: Need to properly render different pages.
-      currently routing to 'dummy' pages created below. */}
-      <hr />
-      <Switch>
-        <Route exact path="/dashboard">
-          <DashboardPage />
-        </Route>
-        <Route path="/experiments">
-          <ExperimentsPage />
-        </Route>
-        <Route path="/account">
-          <AccountPage />
-        </Route>
-        <Route path="/logout">
-          <LogoutPage />
-        </Route>
-      </Switch>
     </Router>
   );
 };
-
-// TODO: Update pages below once these pages are implemented
-function DashboardPage() {
-  return (
-    <div>
-      <h2>Dashboard</h2>
-    </div>
-  );
-}
-
-function ExperimentsPage() {
-  return (
-    <div>
-      <h2>Experiments</h2>
-    </div>
-  );
-}
-
-function AccountPage() {
-  return (
-    <div>
-      <h2>Account</h2>
-    </div>
-  );
-}
-
-function LogoutPage() {
-  return (
-    <div>
-      <h2>Logout</h2>
-    </div>
-  );
-}
