@@ -142,7 +142,7 @@ export const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
       unsubscribe();
-      if (userAuth.emailVerified) {
+      if (userAuth && !userAuth.isAnonymous && userAuth.emailVerified) {
         resolve(userAuth);
       }
     }, reject);
@@ -202,6 +202,27 @@ export const signIn = async (email, password) => {
         error,
       };
     }
+    return {
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
+      data: null,
+      error,
+    };
+  }
+};
+
+/**
+ * Sign current logged in user out.
+ * @return {Object} response object.
+ */
+export const signOut = async () => {
+  try {
+    await auth.signOut();
+    return {
+      status: StatusCodes.OK,
+      data: userAuth,
+      error: null,
+    };
+  } catch (error) {
     return {
       status: StatusCodes.INTERNAL_SERVER_ERROR,
       data: null,
