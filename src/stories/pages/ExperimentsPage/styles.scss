@@ -1,0 +1,14 @@
+@import '../../../scss/variables.scss';
+
+// @file
+// ExperimentsPage
+
+.experiments__section-header {
+  display: inline-block;
+  margin-right: $spacing-2;
+}
+
+.experiments__ongoing-section {
+  margin-top: $spacing-2;
+  margin-bottom: $spacing-12;
+}

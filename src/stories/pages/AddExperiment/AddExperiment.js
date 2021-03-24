@@ -12,13 +12,17 @@ import { Modal } from '../../components/Modal/Modal';
 /**
  * Component for AddExperiment page.
  * @param {string} buttonText Text to appear on the modal's open button.
+ * @param {string} buttonModifierClasses Class modifiers of the modal's open
+ * button.
  * @component
  * @return {object} (
- *   <AddExperiment buttonText={buttonText} />
+ *   <AddExperiment buttonText={buttonText}
+ *     buttonModifierClasses={buttonModifierClasses}
+ *   />
  * )
  */
 
-export const AddExperiment = ({ buttonText }) => {
+export const AddExperiment = ({ buttonText, buttonModifierClasses }) => {
   const [error, setError] = useState('');
   const [title, setTitle] = useState('');
   const [shortDesc, setShortDesc] = useState('');
@@ -64,6 +68,7 @@ export const AddExperiment = ({ buttonText }) => {
   return (
     <Modal
       buttonText={buttonText}
+      buttonModifierClasses={buttonModifierClasses}
     >
       <h3>Add New Experiment</h3>
       <p>Make sure all fields are filled out, submit the new experiment
@@ -131,6 +136,10 @@ AddExperiment.propTypes = {
     * Button's Text
     */
   buttonText: PropTypes.string.isRequired,
+  /**
+    * Button's modifier classes
+    */
+  buttonModifierClasses: PropTypes.string,
 };
 
 AddExperiment.defaultProps = {
