@@ -1,6 +1,5 @@
 import { firestore, auth } from '../firebase.js';
 import { StatusCodes } from 'http-status-codes';
-
 import { firestoreCollections as collections } from '../constants.js';
 
 // ============ SIGN UP =============
@@ -25,6 +24,9 @@ export const signUp = async (email, password, userData) => {
   try {
     const userAuth = await auth.createUserWithEmailAndPassword(email, password);
     await generateUserDoc(userAuth.user, userData);
+    auth.onAuthStateChanged((user)=>{
+      user.sendEmailVerification();
+    });
     return {
       status: StatusCodes.CREATED,
       data: userAuth,
@@ -140,7 +142,9 @@ export const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
       unsubscribe();
-      resolve(userAuth);
+      if (userAuth.emailVerified) {
+        resolve(userAuth);
+      }
     }, reject);
   });
 };
@@ -168,6 +172,95 @@ export const updateUserData = async (updatedData) => {
   } catch (error) {
     return {
       status: StatusCodes.NOT_MODIFIED,
+      data: null,
+      error,
+    };
+  }
+};
+
+/**
+ * Sign in user.
+ * @param {String} email email of user.
+ * @param {String} password password of user.
+ * @return {user} authenticated user object.
+ */
+export const signIn = async (email, password) => {
+  try {
+    const userAuth = await auth
+      .signInWithEmailAndPassword(email, password);
+    return {
+      status: StatusCodes.OK,
+      data: userAuth,
+      error: null,
+    };
+  } catch (error) {
+    if (error.code === 'auth/wrong-password' ||
+        error.code === 'auth/user-not-found') {
+      return {
+        status: StatusCodes.NOT_FOUND,
+        data: null,
+        error,
+      };
+    }
+    return {
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
+      data: null,
+      error,
+    };
+  }
+};
+
+/**
+ * This function is for users who do not what to sign in.
+ * Call this function to sign in user anonymously.
+ * @param {User} userData user's data
+ * @return {Object} user auth or error object.
+ */
+export const signInAnonymousUser = async (userData) => {
+  try {
+    const userAuth = await auth.signInAnonymously();
+    await generateUserDoc(userAuth.user, userData);
+    return {
+      status: StatusCodes.CREATED,
+      data: userAuth,
+      error,
+    };
+  } catch (error) {
+    return {
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
+      data: null,
+      error,
+    };
+  }
+};
+
+/**
+ * Link user to their current anonymousAccount.
+ * @param {String} email email of user.
+ * @param {String} password password of user.
+ * @return {Object} userAuth or error object.
+ */
+export const linkUsetToAnonymousAccount = async (email, password) => {
+  try {
+    const credential = auth.EmailAuthProvider.credential(email, password);
+    const userAuth = await auth.currentUser.linkWithCredential(credential);
+    return {
+      status: StatusCodes.OK,
+      data: userAuth,
+      error: 'Linking success',
+    };
+  } catch (error) {
+    if (error.message === 'Cannot read property \'credential\' of undefined') {
+      return {
+        status: StatusCodes.NOT_FOUND,
+        data: null,
+        error: {
+          message: 'user not found by this email and password',
+        },
+      };
+    }
+    return {
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
       data: null,
       error,
     };
