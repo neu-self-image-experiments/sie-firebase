@@ -64,7 +64,7 @@ export const observeStimuliCompletion =
          getFileUrlsFromBucket(userId, experimentId).then((results) => {
            const status = results.status;
            if (status === StatusCodes.NOT_FOUND) {
-             // one of the image url is unable to fetch
+           // one of the image url is unable to fetch
              errorHandler(results.message);
            } else {
              // successfully get all image urls
@@ -88,30 +88,18 @@ export const observeStimuliCompletion =
  */
 const getFileUrlsFromBucket = async (userId, experimentId) => {
   const bucketPrefix = `${userId}-${experimentId}`;
-  const fileUrls = [];
   const bucketRef = app.storage(storageBuckets.SIE_STIMULI_IMGS).ref();
   const stimuliImagesRef = bucketRef.child(bucketPrefix);
 
-  await stimuliImagesRef.getFiles((err, files) => {
-    if (!err) {
-      files.forEach((file) => {
-        file.getDownloadURL().then((url) => {
-          fileUrls.push(url);
-        }).catch((error) => {
-          return {
-            status: StatusCodes.NOT_FOUND,
-            message: `Unable to fetch image ${file.name}'s url ${error.code}`,
-            data: fileUrls,
-          };
-        });
-      });
-    }
+  const itemRefs = await stimuliImagesRef.listAll().then((res) => res.items);
+  return await Promise.all(itemRefs.map(async (itemRef) => {
+    return await itemRef.getDownloadURL();
+  })).then((fileUrls) => {
+    return {
+      status: StatusCodes.OK,
+      message: 'Stimuli image urls fetched',
+      data: fileUrls,
+    };
   });
-
-  return {
-    status: StatusCodes.OK,
-    message: 'Stimuli image urls fetched',
-    data: fileUrls,
-  };
 };
 
