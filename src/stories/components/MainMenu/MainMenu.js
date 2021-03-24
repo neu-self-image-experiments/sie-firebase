@@ -2,13 +2,13 @@ import './styles.scss';
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { ReactComponent as DashboardIcon } from
+import { ReactComponent as DashboardIcon} from
   '../../../images/icon-dashboard.svg';
-import { ReactComponent as ExperimentsIcon } from
+import { ReactComponent as ExperimentsIcon} from
   '../../../images/icon-experiments.svg';
-import { ReactComponent as AccountIcon } from
+import { ReactComponent as AccountIcon} from
   '../../../images/icon-account.svg';
-import { ReactComponent as LogoutIcon } from
+import { ReactComponent as LogoutIcon} from
   '../../../images/icon-logout.svg';
 
 /**
