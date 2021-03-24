@@ -83,7 +83,8 @@ export const generateUserDoc = async (userAuth, userData) => {
   const userRef = firestore.doc(`${collections.USER}/${userAuth.uid}`);
 
   const snapshot = await userRef.get();
-  if (!snapshot.exists) { // if user doesn't already exists
+  if (!snapshot.exists) {
+    // if user doesn't already exists
     const { email } = userAuth;
     const createdAt = new Date();
 
@@ -169,6 +170,26 @@ export const updateUserData = async (updatedData) => {
   } catch (error) {
     return {
       status: StatusCodes.NOT_MODIFIED,
+      data: null,
+      error,
+    };
+  }
+};
+
+/**
+ * Signs out user
+ */
+export const logout = async () => {
+  try {
+    await auth.signOut();
+    return {
+      status: StatusCodes.OK,
+      data: null,
+      error: null,
+    };
+  } catch (error) {
+    return {
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
       data: null,
       error,
     };
