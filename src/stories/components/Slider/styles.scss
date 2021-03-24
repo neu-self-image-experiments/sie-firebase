@@ -1,0 +1,40 @@
+@import '../../../scss/variables.scss';
+
+// @file
+// Slider
+
+$text-arrow-distance: 1.5rem;
+$text-text-distance: 1rem;
+
+.slider__button {
+  @include button-clear;
+  background-repeat: no-repeat;
+  font-family: $header-font-family;
+  font-size: $font-size-md;
+  font-weight: 600;
+
+  &.slider__button--back {
+    @include svg-background('icon-arrow-left');
+    background-position: left center;
+    padding-left: $text-arrow-distance;
+    margin-right: $text-text-distance;
+  }
+
+  &.slider__button--next {
+    @include svg-background('icon-arrow-right');
+    background-position: right center;
+    padding-right: $text-arrow-distance;
+    margin-left: $text-text-distance;
+    margin-right: $spacing-3;
+  }
+}
+
+.slider__button--disabled {
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.slider__controls {
+  float: right;
+  margin-top: $spacing-4;
+}
