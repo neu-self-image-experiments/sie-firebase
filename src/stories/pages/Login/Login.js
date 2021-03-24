@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import UserServices from '../../../firebase/CRUDServices/userServices';
+import { signIn } from '../../../firebase/api/users';
 import { SplitGradient } from '../../layouts/SplitGradient/SplitGradient';
 import { Header } from '../../layouts/Header/Header';
 import { Footer } from '../../layouts/Footer/Footer';
@@ -13,6 +13,7 @@ import { Section } from '../../components/Section/Section';
 import { FormItem } from '../../components/FormItem/FormItem';
 import { Form } from '../../components/Form/Form';
 import { Button } from '../../components/Button/Button';
+import { useAppContext } from '../../../libs/contextLib';
 
 /**
  * Component for login page.
@@ -28,24 +29,18 @@ export const Login = ({ isDarkTheme }) => {
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { setIsAuthenticated } = useAppContext();
 
   const getUser = (e) => {
     e.preventDefault();
 
-    const service = UserServices.getInstance();
-
-    const user = {
-      email,
-      password,
-    };
-    service.signIn(user).then((response) => {
+    signIn(email, password).then((response) => {
       if (response.errorCode) {
         // REDIRECT TO DASHBOARD
         // ERROR HANDLING
         setError(response.errorMessage);
       } else {
-        setError('');
-        // window.alert(response.email);
+        setIsAuthenticated(true);
       }
     });
   };

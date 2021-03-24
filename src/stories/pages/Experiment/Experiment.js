@@ -124,15 +124,15 @@ Experiment.propTypes = {
   /**
    * Experiment's consent forms
    */
-  consentForms: PropTypes.string.isRequired,
+  consentForms: PropTypes.array.isRequired,
   /**
    * Experiment's pre-survey forms
    */
-  preSurveys: PropTypes.string.isRequired,
+  preSurveys: PropTypes.array.isRequired,
   /**
    * Experiment's post-survey forms
    */
-  postSurveys: PropTypes.string.isRequired,
+  postSurveys: PropTypes.array.isRequired,
 };
 
 Experiment.defaultProps = {

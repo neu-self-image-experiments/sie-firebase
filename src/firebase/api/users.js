@@ -40,6 +40,31 @@ export const signUp = async (email, password, userData) => {
 };
 
 /**
+ * Sign in user.
+ * @param {string} email user email
+ * @param {string} password user password
+ * @return {JSON} user auth object or error code
+ */
+export const signIn = async (email, password) => {
+  try {
+    const userCredential = await auth
+      .signInWithEmailAndPassword(email, password);
+
+    return {
+      status: StatusCodes.OK,
+      data: userCredential,
+      error: null,
+    };
+  } catch (error) {
+    return {
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
+      data: null,
+      error,
+    };
+  }
+};
+
+/**
  * Reset a user password
  * @param {string} newPassword valid password
  * @return {JSON} user auth object or error code
@@ -169,6 +194,27 @@ export const updateUserData = async (updatedData) => {
   } catch (error) {
     return {
       status: StatusCodes.NOT_MODIFIED,
+      data: null,
+      error,
+    };
+  }
+};
+
+
+/**
+ * Signs out user
+ */
+export const logout = async () => {
+  try {
+    await auth.signOut();
+    return {
+      status: StatusCodes.OK,
+      data: null,
+      error: null,
+    };
+  } catch (error) {
+    return {
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
       data: null,
       error,
     };
