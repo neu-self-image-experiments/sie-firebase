@@ -22,7 +22,6 @@ export const AddExperiment = ({ buttonText }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [consent, setConsent] = useState('');
-  const [preSurveys, setpreSurveys] = useState('');
 
   const postExperiment = async (e) => {
     e.preventDefault();
@@ -31,7 +30,7 @@ export const AddExperiment = ({ buttonText }) => {
       title,
       description,
       consent,
-      preSurveys,
+      // preSurveys,
       // postSurveys,
     };
 

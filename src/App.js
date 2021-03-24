@@ -1,7 +1,7 @@
 import './App.scss';
 
 import { useState, useEffect } from 'react';
-import { BrowserRouter, Switch } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Login } from './stories/pages/Login/Login';
 import { Signup } from './stories/pages/Signup/Signup';
 import { Experiment } from './stories/pages/Experiment/Experiment';

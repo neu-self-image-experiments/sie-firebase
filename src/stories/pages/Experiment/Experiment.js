@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-// import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { Header } from '../../layouts/Header/Header';
 import { Main } from '../../layouts/Main/Main';
@@ -29,17 +29,15 @@ import { getExperimentById } from '../../../firebase/api/experiments';
  */
 
 export const Experiment = ({
-  title, description, consent, url, preSurveys, postSurveys,
+  preSurveys, postSurveys,
 }) => {
-  // const { experimentId } = useParams();
+  const { experimentId } = useParams();
   const [experiment, setExperiment] = useState({});
   useEffect(() => {
-    getExperimentById('Pl3WJYa7vQ1ALVt0rHRV').then((res) => {
+    getExperimentById(experimentId).then((res) => {
       setExperiment(res.data);
     });
   }, []);
-
-  // test Experiment ID Pl3WJYa7vQ1ALVt0rHRV
 
   const HEADING = 'h3';
   const steps = [
@@ -63,7 +61,7 @@ export const Experiment = ({
             {/* Step 1 */}
             <Section titleEl={HEADING} title='Introduction'>
               <h4>{experiment.title}</h4>
-              {description}
+              {experiment.description}
             </Section>
             {/* Step 2 */}
             <Section titleEl={HEADING} title='Consent Form'>
@@ -85,7 +83,7 @@ export const Experiment = ({
             </Section>
             {/* Step 5 */}
             <Section titleEl={HEADING} title='Image Selection Task'>
-              <ImageSelectionTask url={url} />
+              <ImageSelectionTask />
             </Section>
             {/* Step 6 */}
             <Section titleEl={HEADING} title='Post-Study Questionnaire'>

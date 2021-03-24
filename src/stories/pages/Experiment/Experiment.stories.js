@@ -1,4 +1,5 @@
 import React from 'react';
+import { MemoryRouter } from 'react-router';
 import { Experiment } from './Experiment';
 
 /**
@@ -11,7 +12,9 @@ export default {
 
 const Template = (args) => {
   return (
-    <Experiment {...args} />
+    <MemoryRouter initialEntries={['/user/108/study/Pl3WJYa7vQ1ALVt0rHRV']}>
+      <Experiment {...args} />
+    </MemoryRouter>
   );
 };
 
