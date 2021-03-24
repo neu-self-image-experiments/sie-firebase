@@ -55,14 +55,11 @@ const uploadImageToStorage = async (
 export const observeStimuliCompletion =
  async (userId, experimentId, imageUrlsHandler, errorHandler) => {
    // TODO: refactor for multiple experiments inside user doc
-   console.log('listening...');
    firestore.collection(firestoreCollections.USER).doc(userId)
      .onSnapshot((doc) => {
        const userDoc = doc.data();
-       console.log(userDoc);
        const stimuliStatus = userDoc.sie_stimuli_generation_status;
        if (stimuliStatus === 'completed') {
-         console.log(userDoc);
          // call getFileUrlsFromBucket once ready to display stimuli
          getFileUrlsFromBucket(userId, experimentId).then((results) => {
            const status = results.status;
