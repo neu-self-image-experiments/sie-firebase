@@ -27,8 +27,8 @@ export const UploadPhoto = () => {
   const [error, setError] = useState(false);
   const webcamRef = React.useRef(null);
   const [loading, setLoading] = useState(false);
-  const [urls, setUrls] = setState([]);
-  const [complete, setComplete] = setState(false);
+  const [urls, setUrls] = useState([]);
+  const [complete, setComplete] = useState(false);
 
   // image URLs handler
   const imageHandler = (urlArray) => {
