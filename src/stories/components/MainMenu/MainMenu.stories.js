@@ -1,4 +1,5 @@
 import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 
 import { MainMenu } from './MainMenu';
 
@@ -11,9 +12,9 @@ export default {
 };
 
 const Template = (args) =>
-  <div>
+  <MemoryRouter>
     <MainMenu {...args} />
-  </div>;
+  </MemoryRouter>;
 
 // Default main menu
 export const Default = Template.bind({});
