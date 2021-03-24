@@ -40,9 +40,10 @@ export const FormItem = (
     // switch statement to check value of type
     switch (type) {
     case 'textarea':
-      return <Textarea />;
+      return <Textarea handleChange={handleChange} />;
     case 'select':
-      return <Select options={options} />;
+      return <Select handleChange={handleChange}
+        options={options} />;
     default:
       return <Input placeholder={placeholder}
         label={showLabel ? '' : label}
@@ -174,12 +175,14 @@ Input.defaultProps = {
 
 /**
  * Render <textarea></textarea> HTML
+ * @param {function} handleChange of the textarea input.
  * @return {object} (
  *   <Textarea />
  * )
  */
-const Textarea = () => (
+const Textarea = ({ handleChange }) => (
   <textarea
+    onChange={handleChange}
     className={[
       'form-item__input',
       'form-item__input--textarea'].join(' ').trim()}
@@ -189,12 +192,14 @@ const Textarea = () => (
 /**
  * Render <textarea></textarea> HTML
  * @param {array} options of the input.
+ * @param {function} handleChange of the select input.
  * @return {object} (
  *   <Select options={options />
  * )
  */
-const Select = ({ options }) => (
+const Select = ({ options, handleChange }) => (
   <select
+    onChange={handleChange}
     defaultValue={options[0]}
     className={[
       'form-item__input',

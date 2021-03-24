@@ -1,5 +1,7 @@
 import './App.scss';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
+import { useState, useEffect } from 'react';
+import { BrowserRouter, Switch } from 'react-router-dom';
 import { Login } from './stories/pages/Login/Login';
 import { Signup } from './stories/pages/Signup/Signup';
 import { Experiment } from './stories/pages/Experiment/Experiment';
@@ -7,6 +9,23 @@ import { ExperimentLogin }
   from './stories/pages/ExperimentLogin/ExperimentLogin';
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    onLoad();
+  }, []);
+
+  const onLoad = async () => {
+    try {
+      const userAuth = await getCurrentUser();
+      if (userAuth) {
+        setIsAuthenticated(true);
+      }
+    } catch (err) {
+      // TODO: error handling
+    }
+  };
+
   return (
     <BrowserRouter>
       <Switch>

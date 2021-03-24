@@ -1,10 +1,10 @@
 /* eslint-disable max-len */
 import '../styles.scss';
 
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Form } from '../../../components/Form/Form';
 import { FormItem } from '../../../components/FormItem/FormItem';
-import { UserContext } from '../AccountPage';
+// import { UserContext } from '../AccountPage';
 import Edit from '../../../../images/icon-edit.svg';
 import HorizontalRuleDark from '../../../../images/icon-horizontal-rule-dark.svg';
 import HorizontalRuleLight from '../../../../images/icon-horizontal-rule-light.svg';
@@ -18,7 +18,7 @@ import HorizontalRuleLight from '../../../../images/icon-horizontal-rule-light.s
  * )
  */
 export const AccountInfoPage = () => {
-  const user = useContext(UserContext);
+  // const user = useContext(UserContext);
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -41,7 +41,7 @@ export const AccountInfoPage = () => {
         <FormItem
           modifierClasses="form-item--inline"
           label={'First Name'}
-          placeholder={user.firstName}
+          placeholder={firstName}
           showLabel={true}
           value={firstName}
           handleChange={(e) => setFirstName(e.target.value)}
@@ -49,7 +49,7 @@ export const AccountInfoPage = () => {
         <FormItem
           modifierClasses="form-item--inline"
           label={'Last Name'}
-          placeholder={user.lastName}
+          placeholder={lastName}
           showLabel={true}
           value={lastName}
           handleChange={(e) => setLastName(e.target.value)}
@@ -57,7 +57,7 @@ export const AccountInfoPage = () => {
         <FormItem
           modifierClasses="form-item--inline"
           label={'Email Address'}
-          placeholder={user.email}
+          placeholder={email}
           showLabel={true}
           value={email}
           type="email"
@@ -66,7 +66,7 @@ export const AccountInfoPage = () => {
         <FormItem
           modifierClasses="form-item--inline"
           label={'Role'}
-          placeholder={user.role}
+          placeholder={role}
           showLabel={true}
           value={role}
           handleChange={(e) => setRole(e.target.value)}
@@ -81,7 +81,7 @@ export const AccountInfoPage = () => {
         <FormItem
           modifierClasses="form-item--inline"
           label={'Username'}
-          placeholder={user.username}
+          placeholder={username}
           showLabel={true}
           value={username}
           handleChange={(e) => setUsername(e.target.value)}
@@ -89,7 +89,7 @@ export const AccountInfoPage = () => {
         <FormItem
           modifierClasses="form-item--inline"
           label={'Password'}
-          placeholder={user.password}
+          placeholder={password}
           showLabel={true}
           value={password}
           type="password"

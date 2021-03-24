@@ -1,8 +1,6 @@
-import './styles.scss';
-
-import React from 'react';
-// import { useParams } from 'react-router';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+// import { useParams } from 'react-router-dom';
 
 import { Header } from '../../layouts/Header/Header';
 import { Main } from '../../layouts/Main/Main';
@@ -33,11 +31,17 @@ import { getExperimentById } from '../../../firebase/api/experiments';
 export const Experiment = ({
   title, description, consent, url, preSurveys, postSurveys,
 }) => {
-  // const {experimentId} = useParams();
-  /* eslint-disable */
-  console.log(getAllExperiments('NBASelfImageExperiment'));
-  const experiment = getExperimentById('NBASelfImageExperiment');
+  // const { experimentId } = useParams();
+  const [experiment, setExperiment] = useState({});
+  useEffect(() => {
+    getExperimentById('Alessiatest').then((res) => {
+      setExperiment(res.data);
+    });
+  }, []);
 
+  // test Experiment ID Pl3WJYa7vQ1ALVt0rHRV
+
+  const HEADING = 'h3';
   const steps = [
     'Introduction',
     'Consent form',
@@ -47,7 +51,6 @@ export const Experiment = ({
     'Post-Survey',
     'Debriefing',
   ];
-  const HEADING = 'h3';
 
   return (
     <Main>
@@ -57,54 +60,47 @@ export const Experiment = ({
       <div className="experiment">
         <Constrain>
           <Wizard labels={steps}>
-            <div className="step-1">
-              <Section titleEl={HEADING} title='Introduction'>
-                <h4>{title}</h4>
-                {description}
-              </Section>
-            </div>
-            <div className="step-2">
-              <Section titleEl={HEADING} title='Consent Form'>
-                <p>Please, complete the form below before completing the
-                  study.</p>
-                <QualtricsEmbed url={consent} />
-              </Section>
-            </div>
-            <div className="step-3">
-              <Section titleEl={HEADING} title='Photo Instructions and Upload'>
-                <UploadPhoto />
-              </Section>
-            </div>
-            <div className="step-4">
-              <Section titleEl={HEADING} title='Pre-Study Questionnaire'>
-                <p>Please complete the (first/second) pre-survey below.</p>
-                { preSurveys.map((form, i) => {
-                  return <QualtricsEmbed key={i} url={form} />;
-                })
-                }
-              </Section>
-            </div>
-            <div className="step-5">
-              <Section titleEl={HEADING} title='Image Selection Task'>
-                <ImageSelectionTask url={url} />
-              </Section>
-            </div>
-            <div className="step-6">
-              <Section titleEl={HEADING} title='Post-Study Questionnaire'>
-                <p>Please complete the (first/second) post-survey below.</p>
-                { postSurveys.map((form, i) => {
-                  return <QualtricsEmbed key={i} url={form} />;
-                })
-                }
-              </Section>
-            </div>
-            <div className="step-7">
-              <Section titleEl={HEADING} title='Debriefing'>
-                <p>Thank you for participating in the study!
-                  Please complete the debriefing below to be credited
-                  for your participation.</p>
-              </Section>
-            </div>
+            {/* Step 1 */}
+            <Section titleEl={HEADING} title='Introduction'>
+              <h4>{experiment.title}</h4>
+              {description}
+            </Section>
+            {/* Step 2 */}
+            <Section titleEl={HEADING} title='Consent Form'>
+              <p>Please, complete the form below before completing the
+                study.</p>
+              <QualtricsEmbed url={experiment.consent} />
+            </Section>
+            {/* Step 3 */}
+            <Section titleEl={HEADING} title='Photo Instructions and Upload'>
+              <UploadPhoto />
+            </Section>
+            {/* Step 4 */}
+            <Section titleEl={HEADING} title='Pre-Study Questionnaire'>
+              <p>Please complete the (first/second) pre-survey below.</p>
+              { preSurveys.map((form, i) => {
+                return <QualtricsEmbed key={i} url={form} />;
+              })
+              }
+            </Section>
+            {/* Step 5 */}
+            <Section titleEl={HEADING} title='Image Selection Task'>
+              <ImageSelectionTask url={url} />
+            </Section>
+            {/* Step 6 */}
+            <Section titleEl={HEADING} title='Post-Study Questionnaire'>
+              <p>Please complete the (first/second) post-survey below.</p>
+              { postSurveys.map((form, i) => {
+                return <QualtricsEmbed key={i} url={form} />;
+              })
+              }
+            </Section>
+            {/* Step 7 */}
+            <Section titleEl={HEADING} title='Debriefing'>
+              <p>Thank you for participating in the study!
+                Please complete the debriefing below to be credited
+                for your participation.</p>
+            </Section>
           </Wizard>
         </Constrain>
       </div>
