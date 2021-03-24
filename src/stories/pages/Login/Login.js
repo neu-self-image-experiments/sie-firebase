@@ -45,7 +45,7 @@ export const Login = ({ isDarkTheme }) => {
         setError(response.errorMessage);
       } else {
         setError('');
-        window.alert(response.email);
+        // window.alert(response.email);
       }
     });
   };

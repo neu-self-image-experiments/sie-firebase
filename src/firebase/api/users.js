@@ -114,12 +114,13 @@ export const getUser = async (uid) => {
   }
 
   try {
-    const userDoc = await firestore.doc(`${collections.USER}/${uid}`);
+    const userDoc = firestore.doc(`${collections.USER}/${uid}`);
+    const user = await userDoc.get();
     return {
       status: StatusCodes.OK,
       data: {
         uid,
-        ...userDoc.data(),
+        ...user.data(),
       },
       error: null,
     };

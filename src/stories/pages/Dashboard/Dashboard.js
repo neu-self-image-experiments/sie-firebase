@@ -13,7 +13,7 @@ import { HorizontalTitle } from
   '../../components/HorizontalTitle/HorizontalTitle';
 
 /**
- * Component for login page.
+ * Component for dashboard page.
  *
  * @component
  * @return {object} (
@@ -36,7 +36,6 @@ export const Dashboard = () => {
   );
 };
 
-
 const Navigation = () => {
   return (
     <div className="navigation">
@@ -52,16 +51,35 @@ const MainContent = () => {
         <AccountPage />
       </Route>
       <Route path="/dashboard">
-
-        <p>Hello</p>
         <DashboardContent />
+      </Route>
+      <Route path="/experiments">
+        <ExperimentContent />
       </Route>
     </Switch>
   );
 };
 
+const content = 'Here\'s an overview of what\'s going on in your ' +
+  'application. You can review active experiments, check reports, ' +
+  'and analyze real-time data.';
+
 const DashboardContent = () => {
   return (
-    <HorizontalTitle eyebrow="hello"/>
+    <HorizontalTitle
+      eyebrow="Overview"
+      title="Dashboard"
+      content={content}
+    />
+  );
+};
+
+const ExperimentContent = () => {
+  return (
+    <HorizontalTitle
+      eyebrow="Overview"
+      title="Experiments"
+      content={content}
+    />
   );
 };
