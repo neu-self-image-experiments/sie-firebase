@@ -1,6 +1,6 @@
 import './styles.scss';
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { Header } from '../../layouts/Header/Header';
@@ -12,6 +12,7 @@ import { QualtricsEmbed } from '../../components/QualtricsEmbed/QualtricsEmbed';
 import { Section } from '../../components/Section/Section';
 import { ImageSelectionTask }
   from '../../components/ImageSelectionTask/ImageSelectionTask';
+import { useParams } from 'react-router';
 
 /**
  * Component for experiment page.
@@ -31,6 +32,9 @@ import { ImageSelectionTask }
 export const Experiment = ({
   title, description, consent, url, preSurveys, postSurveys,
 }) => {
+  const {experimentId} = useParams();
+  const {experiment, setExperiment} = useState(null);
+
   const steps = [
     'Introduction',
     'Consent form',
