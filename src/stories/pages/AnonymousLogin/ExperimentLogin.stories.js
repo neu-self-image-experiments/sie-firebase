@@ -1,21 +1,21 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { ExperimentLogin } from './ExperimentLogin';
+import { AnonymousLogin } from './AnonymousLogin';
 
 /**
- * Example Component: ExperimentLogin
+ * Example Component: AnonymousLogin
  */
 export default {
-  title: 'Example/ExperimentLogin',
-  component: ExperimentLogin,
+  title: 'Example/AnonymousLogin',
+  component: AnonymousLogin,
 };
 const Template = (args) => {
   return (
     <MemoryRouter>
-      <ExperimentLogin />
+      <AnonymousLogin />
     </MemoryRouter>
   );
 };
 
-// Default ExperimentLogin
+// Default AnonymousLogin
 export const Default = Template.bind({});

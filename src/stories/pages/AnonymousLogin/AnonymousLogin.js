@@ -16,11 +16,11 @@ import { Footer } from '../../layouts/Footer/Footer';
  *
  * @component
  * @return {object} (
- *   <ExperimentLogin />
+ *   <AnonymousLogin />
  * )
  */
 
-export const ExperimentLogin = () => {
+export const AnonymousLogin = () => {
   const { experimentId } = useParams();
   const isDarkTheme = false;
   const history = useHistory();
