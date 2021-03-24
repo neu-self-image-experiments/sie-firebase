@@ -1,5 +1,5 @@
-import { app, pubsub as gcpPubsub } from '../firebase.js';
-import { pubsub, storageBuckets } from '../constants.js';
+import { firestore, app } from '../firebase.js';
+import { firestoreCollections, storageBuckets } from '../constants.js';
 import { StatusCodes } from 'http-status-codes';
 
 /**
@@ -26,60 +26,62 @@ export const uploadSelfImage = async (userId, experimentId, image) => {
  */
 const uploadImageToStorage = async (
   userId, experimentId, image, bucket) => {
-  const imagePath = `${userId}-${experimentId}/${image.name}`;
+  const imageName = `${userId}-${experimentId}.${image.name.split('.').pop()}`;
 
   const rawImageBucketRef = app.storage(bucket).ref();
-  const newImageRef = rawImageBucketRef.child(imagePath);
+  const newImageRef = rawImageBucketRef.child(imageName);
   return await newImageRef.put(image).then(() => {
     return {
       status: StatusCodes.CREATED,
       message: 'image successfully uploaded',
-      data: {},
+      data: null,
     };
   }).catch((error) => {
     return {
       status: StatusCodes.UNAUTHORIZED,
       message: `user not authenticated ${error.code}`,
-      data: {},
+      data: null,
     };
   });
 };
 
-
 /**
  * Subscribes to pubsub to signal stimuli generation completion
+ * @param {String} userId userId
+ * @param {String} experimentId experimentId
  * @param {Function} imageUrlsHandler react hook function for imageUrls
  * @param {Function} errorHandler react hook function for error.
  */
 export const observeStimuliCompletion =
-  async (imageUrlsHandler, errorHandler) => {
-    gcpPubsub.topic(pubsub.SIE_RESULT).onPublish((msg) => {
-      // Decode the PubSub Message body.
-      const status = msg.data ?
-        Buffer.from(message.data, 'base64').toString() : null;
-      const userId = msg.attributes.participant_id;
-      const experimentId = msg.attributes.experiment_id;
-
-      if (status === 'Completed') {
-        // call getFileUrlsFromBucket once ready to display stimuli
-        getFileUrlsFromBucket(userId, experimentId).then((json) => {
-          const status = json.status;
-          if (status === StatusCodes.NOT_FOUND) {
-            // one of the image url is unable to fetch
-            errorHandler(json.message);
-          } else {
-            // successfully get all image urls
-            const imageUrls = json.data;
-            imageUrlsHandler(imageUrls);
-          }
-        });
-      } else {
-        // “face_missing”, “failed”
-        // call setError() for image processing status, display on frontend
-        errorHandler(status);
-      }
-    });
-  };
+ async (userId, experimentId, imageUrlsHandler, errorHandler) => {
+   // TODO: refactor for multiple experiments inside user doc
+   console.log('listening...');
+   firestore.collection(firestoreCollections.USER).doc(userId)
+     .onSnapshot((doc) => {
+       const userDoc = doc.data();
+       console.log(userDoc);
+       const stimuliStatus = userDoc.sie_stimuli_generation_status;
+       if (stimuliStatus === 'completed') {
+         console.log(userDoc);
+         // call getFileUrlsFromBucket once ready to display stimuli
+         getFileUrlsFromBucket(userId, experimentId).then((results) => {
+           const status = results.status;
+           if (status === StatusCodes.NOT_FOUND) {
+             // one of the image url is unable to fetch
+             errorHandler(results.message);
+           } else {
+             // successfully get all image urls
+             const imageUrls = results.data;
+             imageUrlsHandler(imageUrls);
+           }
+         });
+       } else {
+         // “face_missing”, “failed”
+         // call setError() for image processing status, display on frontend
+         errorHandler(status);
+       }
+     });
+ };
 
 /**
  * Get all file urls from bucket to display in img tags
