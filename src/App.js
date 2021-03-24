@@ -1,6 +1,6 @@
 import './App.scss';
 
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login } from './stories/pages/Login/Login';
 import { Signup } from './stories/pages/Signup/Signup';
 import { Dashboard } from './stories/pages/Dashboard/Dashboard';
@@ -13,15 +13,25 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/">
-          {user ? <Dashboard/> : <Login/>}
+        <Route
+          exact path="/"
+          render={() => {
+            return (
+              user ? <Redirect to="/dashboard" /> : <Redirect to="/login" />
+            );
+          }}
+        >
         </Route>
-        <Route path="/login">
+        <Route exact path="/login">
           <Login />
         </Route>
         <Route path="/signup">
           <Signup isDarkTheme={false} />
         </Route>
+        <Route exact path="/dashboard">
+          <Dashboard />
+        </Route>
+
       </Switch>
     </BrowserRouter>
   );
