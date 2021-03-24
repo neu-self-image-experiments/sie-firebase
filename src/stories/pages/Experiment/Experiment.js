@@ -1,6 +1,7 @@
 import './styles.scss';
 
-import React, { useState } from 'react';
+import React from 'react';
+// import { useParams } from 'react-router';
 import PropTypes from 'prop-types';
 
 import { Header } from '../../layouts/Header/Header';
@@ -12,7 +13,7 @@ import { QualtricsEmbed } from '../../components/QualtricsEmbed/QualtricsEmbed';
 import { Section } from '../../components/Section/Section';
 import { ImageSelectionTask }
   from '../../components/ImageSelectionTask/ImageSelectionTask';
-import { useParams } from 'react-router';
+import { getExperimentById } from '../../../firebase/api/experiments';
 
 /**
  * Component for experiment page.
@@ -32,8 +33,10 @@ import { useParams } from 'react-router';
 export const Experiment = ({
   title, description, consent, url, preSurveys, postSurveys,
 }) => {
-  const {experimentId} = useParams();
-  const {experiment, setExperiment} = useState(null);
+  // const {experimentId} = useParams();
+  /* eslint-disable */
+  console.log(getAllExperiments('NBASelfImageExperiment'));
+  const experiment = getExperimentById('NBASelfImageExperiment');
 
   const steps = [
     'Introduction',
@@ -49,7 +52,7 @@ export const Experiment = ({
   return (
     <Main>
       <Header
-        leftContent={<h5>{title}</h5>}
+        leftContent={<h5>{experiment.title}</h5>}
       />
       <div className="experiment">
         <Constrain>
