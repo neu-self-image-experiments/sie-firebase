@@ -142,7 +142,7 @@ export const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
       unsubscribe();
-      if (userAuth && !userAuth.isAnonymous && userAuth.emailVerified) {
+      if (userAuth && (userAuth.isAnonymous || userAuth.emailVerified)) {
         resolve(userAuth);
       }
     }, reject);
@@ -219,7 +219,7 @@ export const signOut = async () => {
     await auth.signOut();
     return {
       status: StatusCodes.OK,
-      data: userAuth,
+      data: null,
       error: null,
     };
   } catch (error) {
@@ -232,7 +232,9 @@ export const signOut = async () => {
 };
 
 /**
- * This function is for users who do not what to sign in.
+ * This function give a temporary account for users who do not want to sign up.
+ * When user choose to skip the registrition, this function should be called
+ * to create an anonymous account for them.
  * Call this function to sign in user anonymously.
  * @param {User} userData user's data
  * @return {Object} user auth or error object.
@@ -261,7 +263,7 @@ export const signInAnonymousUser = async (userData) => {
  * @param {String} password password of user.
  * @return {Object} userAuth or error object.
  */
-export const linkUsetToAnonymousAccount = async (email, password) => {
+export const linkUserToAnonymousAccount = async (email, password) => {
   try {
     const credential = auth.EmailAuthProvider.credential(email, password);
     const userAuth = await auth.currentUser.linkWithCredential(credential);
