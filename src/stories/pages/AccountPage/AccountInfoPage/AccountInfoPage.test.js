@@ -19,15 +19,11 @@ describe('<AccountInfoPage />', () => {
       lastName: 'last',
       email: 'email@email.com',
       role: 'Administrator',
-      username: 'username',
-      password: 'password',
     };
     renderWithContext(user);
     expect(screen.getByPlaceholderText(user.firstName)).toBeInTheDocument();
     expect(screen.getByPlaceholderText(user.lastName)).toBeInTheDocument();
     expect(screen.getByPlaceholderText(user.email)).toBeInTheDocument();
     expect(screen.getByPlaceholderText(user.role)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(user.username)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(user.password)).toBeInTheDocument();
   });
 });
