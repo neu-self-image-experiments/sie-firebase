@@ -34,7 +34,7 @@ export const Experiment = ({
   // const { experimentId } = useParams();
   const [experiment, setExperiment] = useState({});
   useEffect(() => {
-    getExperimentById('Alessiatest').then((res) => {
+    getExperimentById('Pl3WJYa7vQ1ALVt0rHRV').then((res) => {
       setExperiment(res.data);
     });
   }, []);

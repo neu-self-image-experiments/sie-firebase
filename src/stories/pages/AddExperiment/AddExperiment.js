@@ -22,6 +22,7 @@ export const AddExperiment = ({ buttonText }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [consent, setConsent] = useState('');
+  const [preSurveys, setpreSurveys] = useState('');
 
   const postExperiment = async (e) => {
     e.preventDefault();
@@ -30,7 +31,7 @@ export const AddExperiment = ({ buttonText }) => {
       title,
       description,
       consent,
-      // preSurveys,
+      preSurveys,
       // postSurveys,
     };
 
@@ -42,6 +43,9 @@ export const AddExperiment = ({ buttonText }) => {
         setTitle('');
         setDescription('');
         setConsent('');
+
+        // reset form
+        e.target.parentNode.reset();
       } else {
         // ERROR HANDLING
         setError(`Looks like something is missing. Please make sure that all \
@@ -75,6 +79,14 @@ export const AddExperiment = ({ buttonText }) => {
             type="text"
             showLabel={false}
             label="Consent Form"
+            handleChange={(e) => setConsent(e.target.value)}
+          />
+          <h5>Pre-Survey Questionnaires.</h5>
+          <FormItem
+            placeholder="URL to Consent Form"
+            type="text"
+            showLabel={false}
+            label="Questionnaire URL"
             handleChange={(e) => setConsent(e.target.value)}
           />
           { error &&
