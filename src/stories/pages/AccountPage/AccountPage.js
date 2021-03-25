@@ -54,7 +54,7 @@ export const AccountPage = () => {
             'check reports and analyze real-time data.'
           }
         ></HorizontalTitle>
-        <AccountInfoPage></AccountInfoPage>
+        <AccountInfoPage />
         <Button text="Delete my account" onClick={deleteUser}></Button>
       </div>
     </UserContext.Provider>

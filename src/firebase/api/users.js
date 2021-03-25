@@ -49,7 +49,6 @@ export const signIn = async (email, password) => {
   try {
     const userCredential = await auth
       .signInWithEmailAndPassword(email, password);
-
     return {
       status: StatusCodes.OK,
       data: userCredential,
@@ -108,7 +107,8 @@ export const generateUserDoc = async (userAuth, userData) => {
   const userRef = firestore.doc(`${collections.USER}/${userAuth.uid}`);
 
   const snapshot = await userRef.get();
-  if (!snapshot.exists) { // if user doesn't already exists
+  if (!snapshot.exists) {
+    // if user doesn't already exists
     const { email } = userAuth;
     const createdAt = new Date();
 
@@ -199,7 +199,6 @@ export const updateUserData = async (updatedData) => {
     };
   }
 };
-
 
 /**
  * Signs out user

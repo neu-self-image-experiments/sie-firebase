@@ -48,7 +48,7 @@ export const MainMenu = () => {
                 to={icon}
                 className={'menu-item__link'}>
                 <span className='menu-item__icon'>{getIcon(icon)}</span>
-                {icon}
+                {icon.charAt(0).toUpperCase() + icon.slice(1)}
               </NavLink>
             </li>
           );

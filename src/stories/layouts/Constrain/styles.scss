@@ -12,6 +12,11 @@
   @include bp-tablet {
     padding: 0 2rem;
   }
+
+  .sidebar & {
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
 
 // wide constrain

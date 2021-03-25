@@ -1,44 +1,41 @@
 import './App.scss';
 
-import { useState, useEffect } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login } from './stories/pages/Login/Login';
 import { Signup } from './stories/pages/Signup/Signup';
+import { Dashboard } from './stories/pages/Dashboard/Dashboard';
 import { Experiment } from './stories/pages/Experiment/Experiment';
-import { ExperimentLogin }
-  from './stories/pages/ExperimentLogin/ExperimentLogin';
+import { AnonymousLogin } from './stories/pages/AnonymousLogin/AnonymousLogin';
+import { AuthContext } from './contexts/auth-provider';
+import { useContext } from 'react';
+
 
 function App() {
-  const [setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    onLoad();
-  }, []);
-
-  const onLoad = async () => {
-    try {
-      const userAuth = await getCurrentUser();
-      if (userAuth) {
-        setIsAuthenticated(true);
-      }
-    } catch (err) {
-      // TODO: error handling
-    }
-  };
-
+  const user = useContext(AuthContext);
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/login">
+        <Route
+          exact path="/"
+          render={() => {
+            return (
+              user ? <Redirect to="/dashboard" /> : <Redirect to="/login" />
+            );
+          }}
+        >
+        </Route>
+        <Route exact path="/login">
           <Login />
         </Route>
         <Route path="/signup">
-          <Signup />
+          <Signup isDarkTheme={false} />
+        </Route>
+        <Route exact path="/dashboard">
+          <Dashboard />
         </Route>
         <Route path="/study/:experimentId">
-          <ExperimentLogin />
+          <AnonymousLogin />
         </Route>
-        {/* <Route path="/study/:experimentId/user/:participantId"> */}
         <Route path="/user/:participantId/study/:experimentId">
           <Experiment />
         </Route>
