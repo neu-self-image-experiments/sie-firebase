@@ -63,11 +63,9 @@ export const observeStimuliCompletion =
         // call getFileUrlsFromBucket once ready to display stimuli
           await getSieStimuliFromBucket(userId, experimentId)
             .then((results) => {
-              console.log(results);
               const status = results.status;
               if (status === StatusCodes.OK) {
               // successfully get all image urls
-                // return results;
                 imageUrlsHandler(results.data);
               } else {
               // one of the image url is unable to fetch
@@ -94,8 +92,8 @@ export const unsubscribe = firestore.collection(firestoreCollections.USER)
 
 /**
  * Get all stimuli image urls from bucket to display in img tags.
- * @param {*} userId user id
- * @param {*} experimentId experiment id
+ * @param {String} userId user id
+ * @param {String} experimentId experiment id
  * @return {JSON} JSON object including array of processed self image urls
  */
 const getSieStimuliFromBucket = (userId, experimentId) => {
