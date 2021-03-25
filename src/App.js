@@ -3,10 +3,14 @@ import './App.scss';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login } from './stories/pages/Login/Login';
 import { Signup } from './stories/pages/Signup/Signup';
-import { Dashboard } from './stories/pages/Dashboard/Dashboard';
+import {
+  Dashboard,
+  DashboardContent,
+  ExperimentContent,
+} from './stories/pages/Dashboard/Dashboard';
 import { AuthContext } from './contexts/auth-provider';
 import { useContext } from 'react';
-
+import { AccountPage } from './stories/pages/AccountPage/AccountPage';
 
 function App() {
   const user = useContext(AuthContext);
@@ -14,14 +18,16 @@ function App() {
     <BrowserRouter>
       <Switch>
         <Route
-          exact path="/"
+          exact
+          path="/"
           render={() => {
-            return (
-              user ? <Redirect to="/dashboard" /> : <Redirect to="/login" />
+            return user ? (
+              <Redirect to="/dashboard" />
+            ) : (
+              <Redirect to="/login" />
             );
           }}
-        >
-        </Route>
+        ></Route>
         <Route exact path="/login">
           <Login />
         </Route>
@@ -29,9 +35,20 @@ function App() {
           <Signup isDarkTheme={false} />
         </Route>
         <Route exact path="/dashboard">
-          <Dashboard />
+          <Dashboard>
+            <DashboardContent />
+          </Dashboard>
         </Route>
-
+        <Route exact path="/account">
+          <Dashboard>
+            <AccountPage />
+          </Dashboard>
+        </Route>
+        <Route exact path="/experiments">
+          <Dashboard>
+            <ExperimentContent />
+          </Dashboard>
+        </Route>
       </Switch>
     </BrowserRouter>
   );

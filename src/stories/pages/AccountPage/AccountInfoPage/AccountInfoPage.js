@@ -5,12 +5,12 @@ import '../styles.scss';
 import React, { useContext, useState } from 'react';
 import { Form } from '../../../components/Form/Form';
 import { FormItem } from '../../../components/FormItem/FormItem';
-import { UserContext } from '../AccountPage';
 import Edit from '../../../../images/icon-edit.svg';
 import HorizontalRuleDark from '../../../../images/icon-horizontal-rule-dark.svg';
 import { updateUserData } from '../../../../firebase/api/users';
 import { StatusCodes } from 'http-status-codes';
 import { isEmpty } from '../../../../utils/utils';
+import { AuthContext } from '../../../../contexts/auth-provider';
 
 /**
  * Component for Account Information page.
@@ -21,7 +21,7 @@ import { isEmpty } from '../../../../utils/utils';
  * )
  */
 export const AccountInfoPage = () => {
-  const { user, setUser } = useContext(UserContext);
+  const user = useContext(AuthContext);
 
   const [editInfo, setEditInfo] = useState(true);
   const [firstName, setFirstName] = useState(user.firstName);
@@ -49,12 +49,6 @@ export const AccountInfoPage = () => {
       });
       console.log(result);
       if (result.status === StatusCodes.OK) {
-        setUser({
-          firstName,
-          lastName,
-          email,
-          role,
-        });
       } else {
         // TODO: how do we handle this
         alert('error');
