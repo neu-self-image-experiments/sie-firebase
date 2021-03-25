@@ -7,7 +7,7 @@ describe('<AccountInfoPage />', () => {
   // with UserContext.Provider
   const renderWithContext = (user) => {
     render(
-      <AuthContext.Provider value={user}>
+      <AuthContext.Provider value={{ user }}>
         <AccountInfoPage />
       </AuthContext.Provider>,
     );
