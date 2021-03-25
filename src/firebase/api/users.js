@@ -213,10 +213,10 @@ export const updateUserData = async (updatedData) => {
 };
 
 /**
- * Sign current logged in user out.
+ * Log current out.
  * @return {Object} response object.
  */
-export const signOut = async () => {
+export const logOut = async () => {
   try {
     await auth.signOut();
     return {
