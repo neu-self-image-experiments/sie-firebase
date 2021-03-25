@@ -8,13 +8,17 @@ import PropTypes from 'prop-types';
  * HorizontalTitle Component
  *
  * @component
- * @param {eyebrow} eyebrow
- * @param {title} title
- * @param {content} paragraph content
+ * @param {string} eyebrow
+ * @param {string} titleEl
+ * @param {string} title
+ * @param {string} content content
  * @return {object}
  */
-export const HorizontalTitle = (
-  { modifierClasses, eyebrow, title, content }) => {
+export const HorizontalTitle = ({
+  modifierClasses, eyebrow, titleEl, title, content,
+}) => {
+  const CustomTitleTag = titleEl ? titleEl : 'h1';
+
   return (
     <div
       className={
@@ -26,7 +30,8 @@ export const HorizontalTitle = (
         ''
       }
       <div className="horizontal-title__container">
-        <h1 className="horizontal-title__title">{title}</h1>
+        <CustomTitleTag
+          className="horizontal-title__title">{title}</CustomTitleTag>
         <div className="horizontal-title__content">{content}</div>
       </div>
     </div>
@@ -35,6 +40,7 @@ export const HorizontalTitle = (
 
 HorizontalTitle.propTypes = {
   modifierClasses: PropTypes.string,
+  titleEl: PropTypes.string,
   eyebrow: PropTypes.string,
   title: PropTypes.string,
   content: PropTypes.string,
@@ -42,6 +48,7 @@ HorizontalTitle.propTypes = {
 
 HorizontalTitle.defaultProps = {
   modifierClasses: '',
+  titleEl: 'h1',
   eyebrow: '',
   title: '',
   content: '',

@@ -25,17 +25,19 @@ export const Slider = ({ children }) => {
   const [isAtBeginning, setIsAtBeginning] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
 
-  // Put each child of the component into a separate slide
-  const slides = children.map((child, i) =>
-    <SwiperSlide key={i}>
-      {child}
-    </SwiperSlide>);
+  // Put each child of the component into a separate slide, if any
+  const slides = children.length ?
+    children.map((child, i) =>
+      <SwiperSlide key={i}>
+        {child}
+      </SwiperSlide>) :
+    null;
 
   const backButtonDisabled = isAtBeginning ? 'slider__button--disabled' : '';
   const nextButtonDisabled = isAtEnd ? 'slider__button--disabled' : '';
 
   return (
-    <div>
+    <div className="slider">
       {/* Slider itself */}
       <Swiper
         spaceBetween={30}

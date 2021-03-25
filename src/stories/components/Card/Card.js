@@ -36,7 +36,7 @@ export const Card = ({
     <div className={['card', `${modifierClasses}`].join(' ').trim()}>
       <div className="card__container">
         <div className="card__details">
-          <h3>{title}</h3>
+          <h4>{title}</h4>
           <p>{body}</p>
         </div>
         <div className="card__extra">
@@ -46,7 +46,7 @@ export const Card = ({
         </div>
         <Button
           text="View Details"
-          modifierClasses="card__button"
+          modifierClasses="button--small card__button"
         ></Button>
       </div>
     </div>

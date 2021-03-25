@@ -78,3 +78,14 @@
   $url: $image-location + $image-name + '.svg';
   background-image: url($url);
 }
+
+// hide text, but make accessible
+@mixin image-replace($width, $height) {
+  color: transparent;
+  display: inline-block;
+  font: 0/0 a;
+  height: $height;
+  position: relative;
+  text-shadow: none;
+  width: $width;
+}

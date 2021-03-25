@@ -20,11 +20,23 @@
 .horizontal-title__container {
   @include bp-tablet {
     display: flex;
+
+    .horizontal-title--small & {
+      align-items: center;
+
+      h6 {
+        margin: 0;
+      }
+    }
   }
 }
 
 .horizontal-title__title {
   max-width: rem(350px);
+
+  .horizontal-title--small & {
+    padding-right: $spacing-1;
+  }
 
   @include bp-tablet {
     padding-right: $spacing-3;

@@ -6,13 +6,13 @@
 /* The Modal (background) */
 .modal {
   position: fixed;
-  z-index: 1;
+  z-index: 2;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgb(255, 255, 255);
 }
 
 /* Modal Content/Box */
@@ -48,4 +48,24 @@
   position: absolute;
   top: $spacing-9;
   width: 24px;
+}
+
+/* Custom button used in ExperimentsPage */
+.button--circular-small {
+  @include image-replace(rem(35px), rem(35px));
+  @include svg-background(icon-close);
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 15px;
+  border-radius: 100%;
+  min-width: rem(35px);
+  padding: 0;
+  transform: rotate(45deg);
+
+  &:hover,
+  &:focus {
+    background-color: $teal-light;
+    border-radius: 100%;
+  }
 }

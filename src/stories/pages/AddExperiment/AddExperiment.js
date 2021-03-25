@@ -11,13 +11,17 @@ import { Section } from '../../components/Section/Section';
 /**
  * Component for AddExperiment page.
  * @param {string} buttonText Text to appear on the modal's open button.
+ * @param {string} buttonModifierClasses Class modifiers of the modal's open
+ * button.
  * @component
  * @return {object} (
- *   <AddExperiment buttonText={buttonText} />
+ *   <AddExperiment buttonText={buttonText}
+ *     buttonModifierClasses={buttonModifierClasses}
+ *   />
  * )
  */
 
-export const AddExperiment = ({ buttonText }) => {
+export const AddExperiment = ({ buttonText, buttonModifierClasses }) => {
   const [error, setError] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -54,7 +58,9 @@ export const AddExperiment = ({ buttonText }) => {
   };
 
   return (
-    <Modal buttonText={buttonText}>
+    <Modal buttonText={buttonText}
+      buttonModifierClasses={buttonModifierClasses}
+    >
       <Section titleEl='h3' title='Add New Experiment'>
         <p>Make sure all fields are filled out, submit the new experiment
           and test it yourself.</p>
@@ -111,6 +117,10 @@ AddExperiment.propTypes = {
     * Button's Text
     */
   buttonText: PropTypes.string.isRequired,
+  /**
+    * Button's modifier classes
+    */
+  buttonModifierClasses: PropTypes.string,
 };
 
 AddExperiment.defaultProps = {

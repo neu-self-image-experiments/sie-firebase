@@ -5,76 +5,72 @@
 
 .card
 {
-    border-radius: 5px;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    border-bottom-style: solid;
-    border-color: $teal-dark;
+  border-radius: 5px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-bottom-style: solid;
+  border-color: $teal-dark;
+  cursor: pointer;
+  font-family: $font-size-md;
+  height: 100%;
+
+  &:hover,
+  &:focus {
+    .card__button {
+      background-color: $teal-dark;
+      color: $white;
+    }
+  }
 }
 
 .card__container
 {
-    padding: $spacing-3;
-}
-
-.card__details {
-    h3 {
-        margin: 0px;
-    }
-    p {
-        font-family: $font-size-md;;
-    }
+  padding: $spacing-3;
 }
 
 .card__extra {
-    opacity: 0.7;
-    margin-bottom: $spacing-3;
-    font-size: $font-size-sm;
-    p {
-        margin: 0px
-    }
+  opacity: 0.7;
+  margin-bottom: $spacing-3;
+  font-size: $font-size-sm;
+  p {
+    margin: 0px
+  }
 }
 
 .card--active
 {
-    &:hover,
-    &:focus,
-    &:active {
-        border-color: $teal;
+  &:hover,
+  &:focus,
+  &:active {
+    border-color: $teal;
+
+    .card__button {
+      border-radius: 0;
+      border-bottom-right-radius: 50px;
+      border-top-left-radius: 50px;
     }
+  }
 }
 
 .card--inactive
 {
-    background-color: $gray-1;
-    border-color: black;
+  background-color: $gray-1;
+  border-color: $black;
 
-    &:hover,
-    &:focus,
-    &:active {
-        border-color: black;
-    }
-
-    .card__button {
-        &:hover,
-        &:focus,
-        &:active,
-        &:visited {
-            background-color: $black;
-            border-radius:0;
-            border-bottom-right-radius: 50px;
-            border-top-left-radius: 50px;
-        }
-    }
+  &:hover,
+  &:focus,
+  &:active {
+    border-color: $black;
+  }
 }
 
 .card--teaser
 {
-    border-width: 0px;
-    .card__extra {
-        display: none;
-    }
+  border-width: 0px;
+  .card__extra {
+    display: none;
+  }
 
-    .card__button {
-        display: none!important;
-    }
+  .card__button {
+    display: none !important;
+  }
 }

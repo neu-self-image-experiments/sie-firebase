@@ -12,13 +12,16 @@ import { Constrain } from '../../layouts/Constrain/Constrain';
  *
  * @component
  * @param {node} children items of the Modal.
+ * @param {string} buttonText Text to appear on the modal's open button.
+ * @param {string} buttonModifierClasses Class modifiers of the modal's open
+ * button.
  * @return {object} (
  *   <Modal>
  *      {children}
  *   </Modal>
  * )
  */
-export const Modal = ({ children, buttonText }) => {
+export const Modal = ({ children, buttonText, buttonModifierClasses }) => {
   const [modalOpen, setModalOpen] = useState(false);
   // const [modalClasses, setModalClasses] = useState('modal--content');
   const toggleModal = () => {
@@ -30,7 +33,8 @@ export const Modal = ({ children, buttonText }) => {
       <Button
         modifierClasses={[
           'button--small',
-          'button--tertiary'].join(' ').trim()
+          'button--tertiary',
+          buttonModifierClasses].join(' ').trim()
         }
         onClick={toggleModal}
         text={buttonText}
@@ -65,6 +69,10 @@ Modal.propTypes = {
     * Button's Text
     */
   buttonText: PropTypes.string.isRequired,
+  /**
+    * Button's modifier classes
+    */
+  buttonModifierClasses: PropTypes.string,
 };
 
 Modal.defaultProps = {
