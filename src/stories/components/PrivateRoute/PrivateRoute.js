@@ -1,15 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, Route } from 'react-router';
-import { AuthContext } from '../../../contexts/auth-provider';
 
-export const PrivateRoute = ({ component: Component, ...rest }) => {
-  const { isAuthenticated } = useContext(AuthContext);
+export const PrivateRoute = ({ component: Component, user, ...rest }) => {
   return (
     <Route
       {...rest}
       render={(props) =>
-        isAuthenticated ? (
+        user ? (
           <Component />
         ) : (
           <Redirect
@@ -29,5 +27,9 @@ PrivateRoute.propTypes = {
   /**
    * Previous location
    */
-  location: PropTypes.string,
+  location: PropTypes.object,
+  /**
+   * User that is logged in
+   */
+  user: PropTypes.object,
 };

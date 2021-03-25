@@ -1,5 +1,4 @@
 import './App.scss';
-
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login } from './stories/pages/Login/Login';
 import { Signup } from './stories/pages/Signup/Signup';
@@ -18,21 +17,36 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <PrivateRoute exact path="/dashboard">
-          <Dashboard>
-            <DashboardContent />
-          </Dashboard>
-        </PrivateRoute>
-        <PrivateRoute exact path="/account">
-          <Dashboard>
-            <AccountPage />
-          </Dashboard>
-        </PrivateRoute>
-        <PrivateRoute exact path="/experiments">
-          <Dashboard>
-            <ExperimentContent />
-          </Dashboard>
-        </PrivateRoute>
+        <PrivateRoute
+          exact
+          path="/dashboard"
+          user={user}
+          component={() => (
+            <Dashboard>
+              <DashboardContent />
+            </Dashboard>
+          )}
+        ></PrivateRoute>
+        <PrivateRoute
+          exact
+          path="/account"
+          user={user}
+          component={() => (
+            <Dashboard>
+              <AccountPage />
+            </Dashboard>
+          )}
+        ></PrivateRoute>
+        <PrivateRoute
+          exact
+          path="/experiments"
+          user={user}
+          component={() => (
+            <Dashboard>
+              <ExperimentContent />
+            </Dashboard>
+          )}
+        ></PrivateRoute>
         <Route exact path="/login">
           {user ? <Redirect to="/dashboard" /> : <Login />}
         </Route>

@@ -1,6 +1,5 @@
-/* eslint-disable no-console */
-/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { getCurrentUser, getUser } from '../firebase/api/users';
 import { Loader } from '../stories/components/Loader/Loader';
 
@@ -13,7 +12,6 @@ const AuthProvider = ({ children }) => {
   const [trigger, setTrigger] = useState(false);
 
   useEffect(async () => {
-    // eslint-disable-next-line no-console
     try {
       const auth = await getCurrentUser();
       if (auth) {
@@ -36,6 +34,13 @@ const AuthProvider = ({ children }) => {
   ) : (
     <Loader />
   );
+};
+
+AuthProvider.propTypes = {
+  /**
+   * Children of this AuthProvider
+   */
+  children: PropTypes.node,
 };
 
 export { AuthProvider, AuthContext };
