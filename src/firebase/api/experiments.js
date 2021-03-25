@@ -68,7 +68,7 @@ export const getAllExperiments = async () => {
 export const getExperimentById = async (experimentId) => {
   try {
     const expRef = firestore
-      .collection(`${EXPERIMENT_COLLECTION}`)
+      .collection(`${collections.EXPERIMENT}`)
       .doc(experimentId);
     const snapshot = await expRef.get();
 

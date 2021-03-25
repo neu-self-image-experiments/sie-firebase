@@ -8,9 +8,10 @@ import { Button } from '../Button/Button';
 import { ImageGuidelines } from '../ImageGuidelines/ImageGuidelines';
 import { ToggleCamera } from '../ToggleCamera/ToggleCamera';
 import { FileUpload } from '../FileUpload/FileUpload';
-import { uploadSelfImage, observeStimuliCompletion }
+import { uploadSelfImage }
   from '../../../firebase/api/gcp-utils';
 import { Loader } from '../Loader/Loader';
+import { StatusCodes } from 'http-status-codes';
 
 /**
  * Component for webcam controls element.
@@ -27,18 +28,12 @@ export const UploadPhoto = () => {
   const [error, setError] = useState(false);
   const webcamRef = React.useRef(null);
   const [loading, setLoading] = useState(false);
-  const [urls, setUrls] = useState([]);
   const [complete, setComplete] = useState(false);
+  // TODO: define urls state
 
-  // image URLs handler
-  const imageHandler = (urlArray) => {
-    setUrls(urlArray);
-  };
+  // TODO: image URLs handler
 
-  // image error handler
-  const errorHandler = (errorMessage) => {
-    setComplete(false);
-  };
+  // TODO: image error handler
 
   // toggle device camera
   const toggleCamera = () => {
@@ -59,15 +54,21 @@ export const UploadPhoto = () => {
     setImage('');
   };
 
-  // call gcp function to check if stimuli generation is successful
+  // TODO call useEffect() to listen for stimuli completion
+  // TODO: call observeStimuliCompletion here with timer to avoid
+  // long open listeners, should be around 4000ms;
+
+  // TODO: useEffect({}, [urls]) to check if all urls are fetched
+
+  // check if stimuli generation is successful
   const checkStimuli = () => {
-    observeStimuliCompletion(imageHandler, errorHandler);
     if (urls.length > 0) {
       setComplete(true);
+      setLoading(false);
+      setError(false);
     } else {
       setError(true);
     }
-    setLoading(false);
   };
 
   // upload photo to the server to generate stimuli
@@ -85,14 +86,16 @@ export const UploadPhoto = () => {
     }
     // call gcp util function
     uploadSelfImage(
-      userId, experimentId, file, 'sie-raw-images',
+      userId, experimentId, file,
     ).then((response) => {
       // REMOVE EVENTUALLY
       switch (response.status) {
-      case '201':
+      case StatusCodes.CREATED:
+        setLoading(true);
+        // TODO: move this line to useEffect
         checkStimuli();
         return;
-      case '500':
+      case StatusCodes.INTERNAL_SERVER_ERROR:
         setError(true);
         return;
       default:

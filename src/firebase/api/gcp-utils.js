@@ -1,5 +1,5 @@
-import { app, pubsub as gcpPubsub } from '../firebase.js';
-import { pubsub, storageBuckets } from '../constants.js';
+import { firestore, app } from '../firebase.js';
+import { firestoreCollections, storageBuckets } from '../constants.js';
 import { StatusCodes } from 'http-status-codes';
 
 /**
@@ -11,7 +11,7 @@ import { StatusCodes } from 'http-status-codes';
  * @return {JSON}
  */
 export const uploadSelfImage = async (userId, experimentId, image) => {
-  return await uploadImageToStorage(userId, experimentId,
+  return uploadImageToStorage(userId, experimentId,
     image, storageBuckets.SIE_RAW_IMGS);
 };
 
@@ -26,93 +26,103 @@ export const uploadSelfImage = async (userId, experimentId, image) => {
  */
 const uploadImageToStorage = async (
   userId, experimentId, image, bucket) => {
-  const imagePath = `${userId}-${experimentId}/${image.name}`;
+  const imageName = `${userId}-${experimentId}.${image.name.split('.').pop()}`;
 
   const rawImageBucketRef = app.storage(bucket).ref();
-  const newImageRef = rawImageBucketRef.child(imagePath);
+  const newImageRef = rawImageBucketRef.child(imageName);
   return await newImageRef.put(image).then(() => {
     return {
       status: StatusCodes.CREATED,
       message: 'image successfully uploaded',
-      data: {},
+      data: null,
     };
   }).catch((error) => {
     return {
       status: StatusCodes.UNAUTHORIZED,
       message: `user not authenticated ${error.code}`,
-      data: {},
+      data: null,
     };
   });
 };
 
-
 /**
- * Subscribes to pubsub to signal stimuli generation completion
+ * Listen to user document for the signal of stimuli generation completion
+ * @param {String} userId userId
+ * @param {String} experimentId experimentId
  * @param {Function} imageUrlsHandler react hook function for imageUrls
  * @param {Function} errorHandler react hook function for error.
  */
 export const observeStimuliCompletion =
-  async (imageUrlsHandler, errorHandler) => {
-    gcpPubsub.topic(pubsub.SIE_RESULT).onPublish((msg) => {
-      // Decode the PubSub Message body.
-      const status = msg.data ?
-        Buffer.from(message.data, 'base64').toString() : null;
-      const userId = msg.attributes.participant_id;
-      const experimentId = msg.attributes.experiment_id;
-
-      if (status === 'Completed') {
+  async (userId, experimentId, imageUrlsHandler, errorHandler) => {
+    // TODO: refactor for multiple experiments inside user doc
+    firestore.collection(firestoreCollections.USER)
+      .doc(userId).onSnapshot(async (doc) => {
+        const userDoc = doc.data();
+        const stimuliStatus = userDoc.sie_stimuli_generation_status;
+        if (stimuliStatus === 'completed') {
         // call getFileUrlsFromBucket once ready to display stimuli
-        getFileUrlsFromBucket(userId, experimentId).then((json) => {
-          const status = json.status;
-          if (status === StatusCodes.NOT_FOUND) {
-            // one of the image url is unable to fetch
-            errorHandler(json.message);
-          } else {
-            // successfully get all image urls
-            const imageUrls = json.data;
-            imageUrlsHandler(imageUrls);
-          }
-        });
-      } else {
-        // “face_missing”, “failed”
-        // call setError() for image processing status, display on frontend
-        errorHandler(status);
-      }
-    });
+          await getSieStimuliFromBucket(userId, experimentId)
+            .then((results) => {
+              const status = results.status;
+              if (status === StatusCodes.OK) {
+              // successfully get all image urls
+                imageUrlsHandler(results.data);
+              } else {
+              // one of the image url is unable to fetch
+                errorHandler(results.message);
+              }
+            });
+        } else {
+          // “face_missing”, “failed”
+          // call setError() for image processing status, display on frontend
+          errorHandler(stimuliStatus);
+        }
+      });
   };
 
 /**
- * Get all file urls from bucket to display in img tags
+ * Get all stimuli image urls from bucket to display in img tags.
  * @param {String} userId user id
  * @param {String} experimentId experiment id
  * @return {JSON} JSON object including array of processed self image urls
  */
-const getFileUrlsFromBucket = async (userId, experimentId) => {
+const getSieStimuliFromBucket = (userId, experimentId) => {
+  const imageFilterFunction = (url) => {
+    const urlObj = new URL(url);
+    const pathName = urlObj.pathname.split('/').pop();
+    return pathName.split('.')[1] === 'jpg';
+  };
+
+  return getFileUrlsFromBucket(userId, experimentId, imageFilterFunction);
+};
+
+/**
+ * Get all file urls from bucket
+ * @param {String} userId user id
+ * @param {String} experimentId experiment id
+ * @param {Function} filterFunction function for filtering the results
+ * @return {JSON} JSON object including array of urls
+ */
+const getFileUrlsFromBucket = async (userId, experimentId, filterFunction) => {
   const bucketPrefix = `${userId}-${experimentId}`;
-  const fileUrls = [];
   const bucketRef = app.storage(storageBuckets.SIE_STIMULI_IMGS).ref();
   const stimuliImagesRef = bucketRef.child(bucketPrefix);
 
-  await stimuliImagesRef.getFiles((err, files) => {
-    if (!err) {
-      files.forEach((file) => {
-        file.getDownloadURL().then((url) => {
-          fileUrls.push(url);
-        }).catch((error) => {
-          return {
-            status: StatusCodes.NOT_FOUND,
-            message: `Unable to fetch image ${file.name}'s url ${error.code}`,
-            data: fileUrls,
-          };
-        });
-      });
-    }
+  const itemRefs = await stimuliImagesRef.listAll().then((res) => res.items);
+  return await Promise.all(itemRefs.map(async (itemRef) => {
+    return await itemRef.getDownloadURL();
+  })).then((fileUrls) => {
+    return {
+      status: StatusCodes.OK,
+      message: 'Stimuli image urls fetched',
+      data: fileUrls.filter(filterFunction),
+    };
+  }).catch((error) => {
+    return {
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
+      message: 'Unable to get stimuli image downloadable urls',
+      data: error,
+    };
   });
-
-  return {
-    status: StatusCodes.OK,
-    message: 'Stimuli image urls fetched',
-    data: fileUrls,
-  };
 };
 

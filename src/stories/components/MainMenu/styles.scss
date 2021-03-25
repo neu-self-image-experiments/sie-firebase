@@ -5,6 +5,10 @@
 
 .main-menu {
   @include list-clean;
+
+  margin-top: calc(#{$spacing-10} * 2);
+  position: fixed;
+  top: 0;
 }
 
 .main-menu__item {

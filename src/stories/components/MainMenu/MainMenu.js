@@ -1,19 +1,14 @@
 import './styles.scss';
 
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  NavLink,
-} from 'react-router-dom';
-import { ReactComponent as DashboardIcon} from
+import { NavLink } from 'react-router-dom';
+import { ReactComponent as DashboardIcon } from
   '../../../images/icon-dashboard.svg';
-import { ReactComponent as ExperimentsIcon} from
+import { ReactComponent as ExperimentsIcon } from
   '../../../images/icon-experiments.svg';
-import { ReactComponent as AccountIcon} from
+import { ReactComponent as AccountIcon } from
   '../../../images/icon-account.svg';
-import { ReactComponent as LogoutIcon} from
+import { ReactComponent as LogoutIcon } from
   '../../../images/icon-logout.svg';
 
 /**
@@ -27,91 +22,38 @@ import { ReactComponent as LogoutIcon} from
 
 export const MainMenu = () => {
   // List of button links/icons we currently support
-  const icons = ['Dashboard', 'Experiments', 'Account', 'Logout'];
+  const icons = ['dashboard', 'experiments', 'account', 'logout'];
 
   // Returns SVG react component based on icon name
   const getIcon = (icon) => {
     switch (icon) {
-    case ('Dashboard'):
+    case ('dashboard'):
       return (<DashboardIcon/>);
-    case ('Experiments'):
+    case ('experiments'):
       return (<ExperimentsIcon/>);
-    case ('Account'):
+    case ('account'):
       return (<AccountIcon/>);
-    case ('Logout'):
+    case ('logout'):
       return (<LogoutIcon/>);
     }
   };
 
   return (
-    <Router>
-      <ul className="main-menu">
-        {
-          icons.map((icon) => {
-            return (
-              <li className="main-menu__item" key={icon}>
-                <NavLink
-                  to={icon}
-                  className={'menu-item__link'}>
-                  <span className='menu-item__icon'>{getIcon(icon)}</span>
-                  {icon}
-                </NavLink>
-              </li>
-            );
-          })
-        }
-      </ul>
-
-      {/* TODO: Need to properly render different pages.
-      currently routing to 'dummy' pages created below. */}
-      <hr />
-      <Switch>
-        <Route exact path="/dashboard">
-          <DashboardPage />
-        </Route>
-        <Route path="/experiments">
-          <ExperimentsPage />
-        </Route>
-        <Route path="/account">
-          <AccountPage />
-        </Route>
-        <Route path="/logout">
-          <LogoutPage />
-        </Route>
-      </Switch>
-    </Router>
+    <ul className="main-menu">
+      {
+        icons.map((icon) => {
+          return (
+            <li className="main-menu__item" key={icon}>
+              <NavLink
+                to={icon}
+                className={'menu-item__link'}>
+                <span className='menu-item__icon'>{getIcon(icon)}</span>
+                {icon.charAt(0).toUpperCase() + icon.slice(1)}
+              </NavLink>
+            </li>
+          );
+        })
+      }
+    </ul>
   );
 };
-
-// TODO: Update pages below once these pages are implemented
-function DashboardPage() {
-  return (
-    <div>
-      <h2>Dashboard</h2>
-    </div>
-  );
-}
-
-function ExperimentsPage() {
-  return (
-    <div>
-      <h2>Experiments</h2>
-    </div>
-  );
-}
-
-function AccountPage() {
-  return (
-    <div>
-      <h2>Account</h2>
-    </div>
-  );
-}
-
-function LogoutPage() {
-  return (
-    <div>
-      <h2>Logout</h2>
-    </div>
-  );
-}

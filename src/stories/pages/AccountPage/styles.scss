@@ -14,6 +14,8 @@
 }
 
 .account-info {
+  max-width: rem(600px);
+
   > * {
     @include fade-in-up;
 
@@ -23,4 +25,12 @@
       }
     }
   }
+}
+
+.account-info__edit {
+  cursor: pointer;
+}
+
+.account-page__delete {
+  padding-right: $spacing-5;
 }

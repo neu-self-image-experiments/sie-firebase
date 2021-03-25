@@ -5,6 +5,10 @@
 $sidebar-width: rem(300px);
 
 .sidebar {
+  .dashboard & {
+    margin-top: $spacing-12;
+  }
+
   @include bp-tablet-lg {
     display: grid;
     grid-template-columns: $sidebar-width auto;

@@ -18,12 +18,13 @@
 /* Modal Content/Box */
 .modal__content {
   align-items: center;
+  background-color: $white;
   border-top-right-radius: $spacing-2;
   border-top-left-radius: $spacing-2;
   display: flex;
   justify-content: center;
   margin-top: $spacing-5;
-  padding-top: $spacing-8;
+  padding: $spacing-8 0;
   width: 100%;
   min-height: -webkit-calc(100% - #{rem(50px)});
   min-height: -moz-calc(100% - #{rem(50px)});

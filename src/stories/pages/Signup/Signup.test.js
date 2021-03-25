@@ -10,7 +10,11 @@ configure({ adapter: new Adapter() });
 // Signup test suite
 describe('<Signup />', () => {
   it('renders correctly', () => {
-    const { getByText, getByRole } = render(<Router><Signup /></Router>);
+    const { getByText, getByRole } = render(
+      <Router>
+        <Signup />
+      </Router>,
+    );
     expect(getByText(/Welcome/i)).toBeInTheDocument();
     expect(getByRole('button')).toBeInTheDocument();
   });
@@ -20,7 +24,11 @@ describe('<Signup />', () => {
   // test email state change
   it('should update email state on change', () => {
     const changeState = jest.fn();
-    const wrapper = mount(<Router><Signup onChange={changeState} /></Router>);
+    const wrapper = mount(
+      <Router>
+        <Signup onChange={changeState} />
+      </Router>,
+    );
     const handleClick = jest.spyOn(React, 'useState');
     handleClick.mockImplementation((email) => [email, setEmail]);
     wrapper.find('.form-item__input--email').simulate('change');
@@ -30,7 +38,11 @@ describe('<Signup />', () => {
   // test password state change
   it('should update password state on change', () => {
     const changeState = jest.fn();
-    const wrapper = mount(<Router><Signup onChange={changeState} /></Router>);
+    const wrapper = mount(
+      <Router>
+        <Signup onChange={changeState} />
+      </Router>,
+    );
     const handleClick = jest.spyOn(React, 'useState');
     handleClick.mockImplementation((password) => [password, setPassword]);
     wrapper.find('.form-item__input--password').simulate('change');
@@ -40,7 +52,11 @@ describe('<Signup />', () => {
   // test select role state change
   it('should update role state on change', () => {
     const changeState = jest.fn();
-    const wrapper = mount(<Router><Signup onChange={changeState} /></Router>);
+    const wrapper = mount(
+      <Router>
+        <Signup onChange={changeState} />
+      </Router>,
+    );
     const handleClick = jest.spyOn(React, 'useState');
     handleClick.mockImplementation((role) => [role, setRole]);
     wrapper.find('.form-item__input--select').simulate('change');
