@@ -13,6 +13,9 @@
     font-family: $base-font-family;
     font-size: $base-font-size;
     opacity: 1;
+    :focus {
+      color: red;
+    }
   }
 
   @include bp-tablet {

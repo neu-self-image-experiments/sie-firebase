@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useHistory } from 'react-router-dom';
 
@@ -13,6 +12,7 @@ import { FormItem } from '../../components/FormItem/FormItem';
 import { Form } from '../../components/Form/Form';
 import { Button } from '../../components/Button/Button';
 import { signIn } from '../../../firebase/api/users';
+import { AuthContext } from '../../../contexts/auth-provider';
 
 /**
  * Component for login page.
@@ -23,13 +23,14 @@ import { signIn } from '../../../firebase/api/users';
  *   <Login isDarkTheme={isDarkTheme}>
  * )
  */
-
 export const Login = ({ isDarkTheme }) => {
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const history = useHistory();
+
+  const { trigger, setTrigger } = useContext(AuthContext);
 
   const getUser = (e) => {
     e.preventDefault();
@@ -38,6 +39,7 @@ export const Login = ({ isDarkTheme }) => {
       if (response.data) {
         // REDIRECT TO DASHBOARD
         // ERROR HANDLING
+        setTrigger(!trigger);
         history.push('/dashboard');
       } else {
         setError(response.errorMessage);
@@ -47,19 +49,19 @@ export const Login = ({ isDarkTheme }) => {
 
   return (
     <Main>
-      <div
-        className="login"
-      >
+      <div className="login">
         <Header
           modifierClasses="header--no-border"
           leftContent={<Branding text="SIE" />}
         />
         <SplitGradient
-          modifierClasses={ !isDarkTheme ? 'split-gradient--light' : '' }
+          modifierClasses={!isDarkTheme ? 'split-gradient--light' : ''}
           leftContent={
-            <Section titleEl="h1" title="Welcome back." >
-              <p>Login into your account to access your user dashboard.</p>
-            </Section>
+            <Section
+              titleEl="h1"
+              title="Welcome back."
+              content="Login into your account to access your user dashboard."
+            />
           }
           rightContent={
             <Form type="login">
@@ -79,11 +81,11 @@ export const Login = ({ isDarkTheme }) => {
                 label="Password"
                 handleChange={(e) => setPassword(e.target.value)}
               />
-              { error &&
+              {error && (
                 <div className="form__msg">
                   <p>{error}</p>
                 </div>
-              }
+              )}
               <Button
                 modifierClasses={
                   isDarkTheme ?
@@ -91,16 +93,24 @@ export const Login = ({ isDarkTheme }) => {
                     'button--small'
                 }
                 disabled={true}
-                isButton={true} text="Login" onClick={(e) => getUser(e)}
+                isButton={true}
+                text="Login"
+                onClick={(e) => getUser(e)}
               />
             </Form>
           }
         />
         <Footer
-          modifierClasses={ !isDarkTheme ? 'footer--light' : '' }
-          leftContent={<p>Need Help? <a href="#">Contact us</a>.</p>}
+          modifierClasses={!isDarkTheme ? 'footer--light' : ''}
+          leftContent={
+            <p>
+              Need Help? <a href="#">Contact us</a>.
+            </p>
+          }
           rightContent={
-            <p>Don’t have an account yet? <Link to="/signup">Sign up</Link>.</p>
+            <p>
+              Don’t have an account yet? <Link to="/signup">Sign up</Link>.
+            </p>
           }
         />
       </div>

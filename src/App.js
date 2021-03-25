@@ -1,45 +1,79 @@
+/* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
 import './App.scss';
-
 import { useContext } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-
 import { Login } from './stories/pages/Login/Login';
 import { Signup } from './stories/pages/Signup/Signup';
-import { Dashboard } from './stories/pages/Dashboard/Dashboard';
 import { Experiment } from './stories/pages/Experiment/Experiment';
 import { AnonymousLogin } from './stories/pages/AnonymousLogin/AnonymousLogin';
 import { AuthContext } from './contexts/auth-provider';
-
+import {
+  Dashboard,
+  DashboardContent,
+  ExperimentContent,
+} from './stories/pages/Dashboard/Dashboard';
+import { AccountPage } from './stories/pages/AccountPage/AccountPage';
+import { PrivateRoute } from './stories/components/PrivateRoute/PrivateRoute';
 
 function App() {
-  const user = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  console.log(user);
   return (
     <BrowserRouter>
       <Switch>
-        <Route
-          exact path="/"
-          render={() => {
-            return (
-              user ? <Redirect to="/dashboard" /> : <Redirect to="/login" />
-            );
-          }}
-        >
-        </Route>
-        <Route exact path="/login">
-          <Login />
-        </Route>
-        <Route path="/signup">
-          <Signup isDarkTheme={false} />
-        </Route>
-        <Route exact path="/dashboard">
-          <Dashboard />
-        </Route>
+        <PrivateRoute
+          exact
+          path="/dashboard"
+          user={user}
+          component={() => (
+            <Dashboard>
+              <DashboardContent />
+            </Dashboard>
+          )}
+        ></PrivateRoute>
+        <PrivateRoute
+          exact
+          path="/account"
+          user={user}
+          component={() => (
+            <Dashboard>
+              <AccountPage />
+            </Dashboard>
+          )}
+        ></PrivateRoute>
+        <PrivateRoute
+          exact
+          path="/experiments"
+          user={user}
+          component={() => (
+            <Dashboard>
+              <ExperimentContent />
+            </Dashboard>
+          )}
+        ></PrivateRoute>
         <Route path="/study/:experimentId">
           <AnonymousLogin />
         </Route>
         <Route path="/user/:participantId/study/:experimentId">
           <Experiment />
         </Route>
+        <Route exact path="/login">
+          {user ? <Redirect to="/dashboard" /> : <Login />}
+        </Route>
+        <Route exact path="/signup">
+          {user ? <Redirect to="/dashboard" /> : <Signup isDarkTheme={false} />}
+        </Route>
+        <Route
+          path="/"
+          render={() => {
+            return user ? (
+              <Redirect to="/dashboard" />
+            ) : (
+              <Redirect to="/login" />
+            );
+          }}
+        ></Route>
       </Switch>
     </BrowserRouter>
   );

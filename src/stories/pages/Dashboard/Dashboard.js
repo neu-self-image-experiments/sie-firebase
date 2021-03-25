@@ -1,49 +1,44 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { Route, Switch } from 'react-router';
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
+import React, { useContext, useState } from 'react';
+import PropTypes from 'prop-types';
 import { AuthContext } from '../../../contexts/auth-provider';
-
 import { Header } from '../../layouts/Header/Header';
 import { Branding } from '../../components/Branding/Branding';
 import { Main } from '../../layouts/Main/Main';
 import { Sidebar } from '../../layouts/Sidebar/Sidebar';
-import { AccountPage } from '../AccountPage/AccountPage';
-import { AddExperiment } from '../AddExperiment/AddExperiment';
 import { MainMenu } from '../../components/MainMenu/MainMenu';
-import { HorizontalTitle } from
-  '../../components/HorizontalTitle/HorizontalTitle';
+import { HorizontalTitle }
+  from '../../components/HorizontalTitle/HorizontalTitle';
 import { Constrain } from '../../layouts/Constrain/Constrain';
-import { getUser } from '../../../firebase/api/users';
+import { AddExperiment } from '../AddExperiment/AddExperiment';
 
 /**
  * Component for dashboard page.
  *
  * @component
+ * @param {node} children component to show
  * @return {object} (
- *   <Dashboard />
+ *   <Dashboard>{children}</Dashboard>
  * )
  */
 
-export const Dashboard = () => {
-  const user = useContext(AuthContext);
-  const [isAdmin, setAdmin] = useState(false);
+export const Dashboard = ({ children }) => {
+  const { user } = useContext(AuthContext);
+  const isAdmin = user?.role === 'Administrator';
 
-  // check if user is administrator
-  useEffect(() => {
-    getUser(user.uid).then((res) => {
-      setAdmin(res.data.role === 'Administrator');
-    });
-  }, []);
+  console.log(user);
 
   return (
     <Main>
       <div className="dashboard">
         <Header
           leftContent={<Branding text="SIE" />}
-          rightContent={isAdmin &&
-            <AddExperiment buttonText="Create New Study" />
+          rightContent={
+            isAdmin && <AddExperiment buttonText="Create New Study" />
           }
         />
-        <Sidebar leftContent={<Navigation />} rightContent={<MainContent />} />
+        <Sidebar leftContent={<Navigation />} rightContent={children} />
       </div>
     </Main>
   );
@@ -57,27 +52,20 @@ const Navigation = () => {
   );
 };
 
-const MainContent = () => {
-  return (
-    <Switch>
-      <Route path="/account">
-        <AccountPage />
-      </Route>
-      <Route path="/dashboard">
-        <DashboardContent />
-      </Route>
-      <Route path="/experiments">
-        <ExperimentContent />
-      </Route>
-    </Switch>
-  );
+Dashboard.propTypes = {
+  /**
+   * Content to show in the left hand side
+   */
+  children: PropTypes.node.isRequired,
 };
 
-const content = 'Here\'s an overview of what\'s going on in your ' +
+const content =
+  'Here\'s an overview of what\'s going on in your ' +
   'application. You can review active experiments, update your account ' +
   'information and create new experiments.';
+// TODO: put the real components
 
-const DashboardContent = () => {
+export const DashboardContent = () => {
   return (
     <Constrain>
       <HorizontalTitle
@@ -90,12 +78,8 @@ const DashboardContent = () => {
   );
 };
 
-const ExperimentContent = () => {
+export const ExperimentContent = () => {
   return (
-    <HorizontalTitle
-      eyebrow="Overview"
-      title="Experiments"
-      content={content}
-    />
+    <HorizontalTitle eyebrow="Overview" title="Experiments" content={content} />
   );
 };

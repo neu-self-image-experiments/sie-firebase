@@ -15,26 +15,27 @@ import PropTypes from 'prop-types';
  * @param {string} value of the input.
  * @param {array} options of the select input.
  * @param {func} handleChange of the input.
+ * @param {boolean} disabled set the form item to disabled
  * @return {object} (
  *   <FormItem modifierClasses={modifierClasses}
  *      label={label} showLabel={showLabel}
- *      placeholder={placeholder} type={type} value={value} options={options}
+ *      placeholder={placeholder} type={type}
+ *      value={value} options={options} disabled={disabled}
  *   />
  * )
  */
 /* eslint-disable react/prop-types */
-export const FormItem = (
-  {
-    modifierClasses,
-    label,
-    showLabel,
-    placeholder,
-    type,
-    value,
-    handleChange,
-    options,
-  },
-) => {
+export const FormItem = ({
+  modifierClasses,
+  label,
+  showLabel,
+  placeholder,
+  type,
+  value,
+  handleChange,
+  options,
+  disabled,
+}) => {
   // dynamically render Form Item Input
   function returnFormItem(type) {
     // switch statement to check value of type
@@ -42,15 +43,18 @@ export const FormItem = (
     case 'textarea':
       return <Textarea handleChange={handleChange} />;
     case 'select':
-      return <Select handleChange={handleChange}
-        options={options} />;
+      return <Select handleChange={handleChange} options={options} />;
     default:
-      return <Input placeholder={placeholder}
-        label={showLabel ? '' : label}
-        type={type}
-        value={value}
-        handleChange={handleChange}
-      />;
+      return (
+        <Input
+          placeholder={placeholder}
+          label={showLabel ? '' : label}
+          type={type}
+          value={value}
+          handleChange={handleChange}
+          disabled={disabled}
+        />
+      );
     }
   }
 
@@ -58,10 +62,12 @@ export const FormItem = (
     <div className={['form-item', `${modifierClasses}`].join(' ').trim()}>
       {returnFormItem(type)}
       <label
-        className={[
-          'form-item__label',
-          `${showLabel ? '' : 'is-hidden'}`].join(' ').trim()}
-      >{label}</label>
+        className={['form-item__label', `${showLabel ? '' : 'is-hidden'}`]
+          .join(' ')
+          .trim()}
+      >
+        {label}
+      </label>
     </div>
   );
 };
@@ -95,6 +101,10 @@ FormItem.propTypes = {
    * FormItem's options
    */
   options: PropTypes.array,
+  /**
+   * FormItem's disabled property
+   */
+  disabled: PropTypes.bool,
 };
 
 FormItem.defaultProps = {
@@ -105,6 +115,7 @@ FormItem.defaultProps = {
   placeholder: 'Placeholder',
   value: '',
   handleChange: null,
+  disabled: false,
 };
 
 /**
@@ -121,17 +132,18 @@ FormItem.defaultProps = {
  * )
  */
 
-const Input = ( { type, placeholder, value, label, handleChange }) => {
+const Input = ({ type, placeholder, value, label, handleChange, disabled }) => {
   return (
     <input
-      className={[
-        'form-item__input',
-        `form-item__input--${type}`].join(' ').trim()}
+      className={['form-item__input', `form-item__input--${type}`]
+        .join(' ')
+        .trim()}
       placeholder={placeholder}
       type={type}
       onChange={handleChange}
       aria-label={label}
-      {...value ? `value="${value}"` : ''}
+      {...(value ? `value="${value}"` : '')}
+      disabled={disabled}
     />
   );
 };
@@ -164,6 +176,10 @@ Input.propTypes = {
    * Input's handleChange
    */
   handleChange: PropTypes.func,
+  /**
+   * Input's disabled property
+   */
+  disabled: PropTypes.bool,
 };
 
 Input.defaultProps = {
@@ -171,6 +187,7 @@ Input.defaultProps = {
   type: 'text',
   placeholder: 'Placeholder',
   value: '',
+  disabled: false,
 };
 
 /**
@@ -183,9 +200,9 @@ Input.defaultProps = {
 const Textarea = ({ handleChange }) => (
   <textarea
     onChange={handleChange}
-    className={[
-      'form-item__input',
-      'form-item__input--textarea'].join(' ').trim()}
+    className={['form-item__input', 'form-item__input--textarea']
+      .join(' ')
+      .trim()}
   ></textarea>
 );
 
@@ -201,14 +218,18 @@ const Select = ({ options, handleChange }) => (
   <select
     onChange={handleChange}
     defaultValue={options[0]}
-    className={[
-      'form-item__input',
-      'form-item__input--select'].join(' ').trim()}
+    className={['form-item__input', 'form-item__input--select']
+      .join(' ')
+      .trim()}
   >
-    <option disabled value={options[0]}>{options[0]}</option>
-    {options.slice(1).map((item, key) =>
-      <option key={key} value={item}>{item}</option> )
-    }
+    <option disabled value={options[0]}>
+      {options[0]}
+    </option>
+    {options.slice(1).map((item, key) => (
+      <option key={key} value={item}>
+        {item}
+      </option>
+    ))}
   </select>
 );
 
