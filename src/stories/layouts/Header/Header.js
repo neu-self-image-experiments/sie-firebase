@@ -26,8 +26,8 @@ export const Header = ({ modifierClasses, leftContent, rightContent }) => {
     >
       <Constrain modifierClasses="constrain--wide">
         <div className="header__inner">
-          <div className='header__left'>{leftContent}</div>
-          <div className='header__right'>{rightContent}</div>
+          <div className="header__left">{leftContent}</div>
+          <div className="header__right">{rightContent}</div>
         </div>
       </Constrain>
     </div>

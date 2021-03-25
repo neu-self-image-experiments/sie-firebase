@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import ExperimentServices
-  from '../../../firebase/CRUDServices/experimentServices';
-
 import { FormItem } from '../../components/FormItem/FormItem';
 import { Form } from '../../components/Form/Form';
 import { Button } from '../../components/Button/Button';
 import { Modal } from '../../components/Modal/Modal';
+import { createExperiment } from '../../../firebase/api/experiments';
+import { Section } from '../../components/Section/Section';
 
 /**
  * Component for AddExperiment page.
@@ -21,106 +20,87 @@ import { Modal } from '../../components/Modal/Modal';
 export const AddExperiment = ({ buttonText }) => {
   const [error, setError] = useState('');
   const [title, setTitle] = useState('');
-  const [shortDesc, setShortDesc] = useState('');
-  const [longDesc, setLongDesc] = useState('');
-  const [qualtrics, setQualtricsEmbed] = useState('');
-  const [psychUrl, setPsychUrl] = useState('');
+  const [description, setDescription] = useState('');
+  const [consent, setConsent] = useState('');
 
-  const postExperiment = (e) => {
+  const postExperiment = async (e) => {
     e.preventDefault();
-
-    const service = ExperimentServices.getInstance();
 
     const experiment = {
       title,
-      shortDesc,
-      longDesc,
-      qualtrics,
-      psychUrl,
+      description,
+      consent,
+      // preSurveys,
+      // postSurveys,
     };
 
-    // Experiment ID currently is the title of the experiment as a single
-    // string without white spaces.
-    const experimentId = title.replace(/\s+/g, ''); // Strip out white spaces
-
-    service.postExperiment(experimentId, experiment).then((response) => {
-      if (!response) {
-        // ERROR HANDLING
-        setError(`Looks like something is missing. Please make sure that all \
-                  of the fields in the form are complete and then try again`);
-      } else {
+    // post experiment
+    await createExperiment(experiment).then((response) => {
+      if (response.data) {
         // SUCCESS CREATING EXPERIMENT
         setError('');
         setTitle('');
-        setShortDesc('');
-        setLongDesc('');
-        setQualtricsEmbed('');
-        setPsychUrl('');
-        window.alert('Experiment successfully added!');
+        setDescription('');
+        setConsent('');
+
+        // reset form
+        e.target.parentNode.reset();
+      } else {
+        // ERROR HANDLING
+        setError(`Looks like something is missing. Please make sure that all \
+          of the fields in the form are complete and then try again`);
       }
     });
   };
 
   return (
-    <Modal
-      buttonText={buttonText}
-    >
-      <h3>Add New Experiment</h3>
-      <p>Make sure all fields are filled out, submit the new experiment
-        and test it yourself.</p>
-      <Form type="experiment">
-        <FormItem
-          modifierClasses={'form-item--dark'}
-          placeholder="Title"
-          type="text"
-          showLabel={false}
-          label="Title"
-          handleChange={(e) => setTitle(e.target.value)}
-        />
-        <FormItem
-          modifierClasses={'form-item--dark'}
-          placeholder="Short Description"
-          type="text"
-          showLabel={false}
-          label="Short Description"
-          handleChange={(e) => setShortDesc(e.target.value)}
-        />
-        <FormItem
-          modifierClasses={'form-item--dark'}
-          placeholder="Long Description"
-          type="text"
-          showLabel={false}
-          label="Long Description"
-          handleChange={(e) => setLongDesc(e.target.value)}
-        />
-        <FormItem
-          modifierClasses={'form-item--dark'}
-          placeholder="Qualtrics Embeds"
-          type="text"
-          showLabel={false}
-          label="Qualtrics Embeds"
-          handleChange={(e) => setQualtricsEmbed(e.target.value)}
-        />
-        <FormItem
-          modifierClasses={'form-item--dark'}
-          placeholder="PsychJS URL"
-          type="text"
-          showLabel={false}
-          label="PsychJS URL"
-          handleChange={(e) => setPsychUrl(e.target.value)}
-        />
-        { error &&
-          <div className="form__msg">
-            <p>{error}</p>
-          </div>
-        }
-        <Button
-          text="Add Experiment"
-          modifierClasses="button--tertiary"
-          isButton={true}
-          onClick={postExperiment}
-        />
-      </Form>
+    <Modal buttonText={buttonText}>
+      <Section titleEl='h3' title='Add New Experiment'>
+        <p>Make sure all fields are filled out, submit the new experiment
+          and test it yourself.</p>
+        <Form>
+          <FormItem
+            placeholder="Title of the study"
+            type="text"
+            showLabel={false}
+            label="Study Title"
+            handleChange={(e) => setTitle(e.target.value)
+            }
+          />
+          <FormItem
+            type="textarea"
+            showLabel={true}
+            label="Description of the study"
+            handleChange={(e) => setDescription(e.target.value)}
+          />
+          <FormItem
+            placeholder="URL to Consent Form"
+            type="text"
+            showLabel={false}
+            label="Consent Form"
+            handleChange={(e) => setConsent(e.target.value)}
+          />
+          <h5>Pre-Survey Questionnaires</h5>
+          <FormItem
+            placeholder="URL to Consent Form"
+            type="text"
+            showLabel={false}
+            label="Questionnaire URL"
+            handleChange={(e) => setConsent(e.target.value)}
+          />
+          { error &&
+            <div className="form__msg">
+              <p>{error}</p>
+            </div>
+          }
+          <Button
+            text="Add Experiment"
+            modifierClasses="button--tertiary"
+            isButton={true}
+            onClick={postExperiment}
+          />
+        </Form>
+      </Section>
     </Modal>
   );
 };

@@ -38,7 +38,6 @@ export const Signup = ({ isDarkTheme }) => {
     'Select a role',
     'Administrator',
     'Researcher',
-    'Participant',
   ];
 
   const postUser = (e) => {
@@ -79,11 +78,10 @@ export const Signup = ({ isDarkTheme }) => {
         <SplitGradient
           modifierClasses={!isDarkTheme ? 'split-gradient--light' : ''}
           leftContent={
-            <Section titleEl='h1'
-              title='Welcome'
-              content={'To participate to an experiment, ' +
-                'create an account and login onto the platform.'}
-            />
+            <Section titleEl='h1' title='Welcome'>
+              <p>To participate to an experiment, create an account
+                and login onto the platform.</p>
+            </Section>
           }
           rightContent={
             <Form type='signup'>

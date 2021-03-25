@@ -13,6 +13,9 @@
     font-family: $base-font-family;
     font-size: $base-font-size;
     opacity: 1;
+    :focus {
+      color: red;
+    }
   }
 
   @include bp-tablet {
@@ -131,7 +134,9 @@
 }
 
 .form-item__input--textarea {
+  font-family: $base-font-family;
   height: rem(300px);
+  line-height: $line-height-loose;
   padding-bottom: $spacing-2;
   padding-top: $spacing-2;
 

@@ -4,7 +4,6 @@
 // Form
 
 .form {
-  text-align: right;
   width: 100%;
 }
 
@@ -15,6 +14,8 @@
 
 .form--signup,
 .form--login {
+  text-align: right;
+
   > * {
     @include fade-in-up;
 

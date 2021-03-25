@@ -1,7 +1,6 @@
-import './styles.scss';
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 
 import { Header } from '../../layouts/Header/Header';
 import { Main } from '../../layouts/Main/Main';
@@ -12,6 +11,7 @@ import { QualtricsEmbed } from '../../components/QualtricsEmbed/QualtricsEmbed';
 import { Section } from '../../components/Section/Section';
 import { ImageSelectionTask }
   from '../../components/ImageSelectionTask/ImageSelectionTask';
+import { getExperimentById } from '../../../firebase/api/experiments';
 
 /**
  * Component for experiment page.
@@ -19,7 +19,7 @@ import { ImageSelectionTask }
  * @component
  * @param {string} title experiment's title
  * @param {string} description experiment's description
- * @param {array} consentForms experiment's conset forms
+ * @param {array} consent experiment's conset forms
  * @param {string} url experiment's description
  * @param {string} preSurveys experiment's pre-survey questionnaires
  * @param {string} postSurveys experiment's post-survey questionnaires
@@ -29,8 +29,20 @@ import { ImageSelectionTask }
  */
 
 export const Experiment = ({
-  title, description, consentForms, url, preSurveys, postSurveys,
+  preSurveys, postSurveys,
 }) => {
+  const { experimentId } = useParams();
+  const [experiment, setExperiment] = useState({});
+  useEffect(() => {
+    const id = experimentId ?
+      experimentId :
+      'Pl3WJYa7vQ1ALVt0rHRV'; // default experiment id
+    getExperimentById(id).then((res) => {
+      setExperiment(res.data);
+    });
+  }, []);
+
+  const HEADING = 'h3';
   const steps = [
     'Introduction',
     'Consent form',
@@ -40,67 +52,56 @@ export const Experiment = ({
     'Post-Survey',
     'Debriefing',
   ];
-  const HEADING = 'h3';
 
   return (
     <Main>
       <Header
-        leftContent={<h5>{title}</h5>}
+        leftContent={<h5>{experiment.title}</h5>}
       />
       <div className="experiment">
         <Constrain>
           <Wizard labels={steps}>
-            <div className="step-1">
-              <Section titleEl={HEADING} title='Introduction'>
-                <h4>{title}</h4>
-                {description}
-              </Section>
-            </div>
-            <div className="step-2">
-              <Section titleEl={HEADING} title='Consent Form'>
-                <p>Please, complete the form below before completing the
-                  study.</p>
-                { consentForms.map((form, i) => {
-                  return <QualtricsEmbed key={i} url={form} />;
-                })
-                }
-              </Section>
-            </div>
-            <div className="step-3">
-              <Section titleEl={HEADING} title='Photo Instructions and Upload'>
-                <UploadPhoto />
-              </Section>
-            </div>
-            <div className="step-4">
-              <Section titleEl={HEADING} title='Pre-Study Questionnaire'>
-                <p>Please complete the (first/second) pre-survey below.</p>
-                { preSurveys.map((form, i) => {
-                  return <QualtricsEmbed key={i} url={form} />;
-                })
-                }
-              </Section>
-            </div>
-            <div className="step-5">
-              <Section titleEl={HEADING} title='Image Selection Task'>
-                <ImageSelectionTask url={url} />
-              </Section>
-            </div>
-            <div className="step-6">
-              <Section titleEl={HEADING} title='Post-Study Questionnaire'>
-                <p>Please complete the (first/second) post-survey below.</p>
-                { postSurveys.map((form, i) => {
-                  return <QualtricsEmbed key={i} url={form} />;
-                })
-                }
-              </Section>
-            </div>
-            <div className="step-7">
-              <Section titleEl={HEADING} title='Debriefing'>
-                <p>Thank you for participating in the study!
-                  Please complete the debriefing below to be credited
-                  for your participation.</p>
-              </Section>
-            </div>
+            {/* Step 1 */}
+            <Section titleEl={HEADING} title='Introduction'>
+              <h4>{experiment.title}</h4>
+              {experiment.description}
+            </Section>
+            {/* Step 2 */}
+            <Section titleEl={HEADING} title='Consent Form'>
+              <p>Please, complete the form below before completing the
+                study.</p>
+              <QualtricsEmbed url={experiment.consent} />
+            </Section>
+            {/* Step 3 */}
+            <Section titleEl={HEADING} title='Photo Instructions and Upload'>
+              <UploadPhoto />
+            </Section>
+            {/* Step 4 */}
+            <Section titleEl={HEADING} title='Pre-Study Questionnaire'>
+              <p>Please complete the (first/second) pre-survey below.</p>
+              { preSurveys.map((form, i) => {
+                return <QualtricsEmbed key={i} url={form} />;
+              })
+              }
+            </Section>
+            {/* Step 5 */}
+            <Section titleEl={HEADING} title='Image Selection Task'>
+              <ImageSelectionTask />
+            </Section>
+            {/* Step 6 */}
+            <Section titleEl={HEADING} title='Post-Study Questionnaire'>
+              <p>Please complete the (first/second) post-survey below.</p>
+              { postSurveys.map((form, i) => {
+                return <QualtricsEmbed key={i} url={form} />;
+              })
+              }
+            </Section>
+            {/* Step 7 */}
+            <Section titleEl={HEADING} title='Debriefing'>
+              <p>Thank you for participating in the study!
+                Please complete the debriefing below to be credited
+                for your participation.</p>
+            </Section>
           </Wizard>
         </Constrain>
       </div>
@@ -124,22 +125,22 @@ Experiment.propTypes = {
   /**
    * Experiment's consent forms
    */
-  consentForms: PropTypes.string.isRequired,
+  consent: PropTypes.string.isRequired,
   /**
    * Experiment's pre-survey forms
    */
-  preSurveys: PropTypes.string.isRequired,
+  preSurveys: PropTypes.array.isRequired,
   /**
    * Experiment's post-survey forms
    */
-  postSurveys: PropTypes.string.isRequired,
+  postSurveys: PropTypes.array.isRequired,
 };
 
 Experiment.defaultProps = {
   title: '',
   description: '',
   url: '',
-  consentForms: [],
+  consent: '',
   preSurveys: [],
   postSurveys: [],
 };
