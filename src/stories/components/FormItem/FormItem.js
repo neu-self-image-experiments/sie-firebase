@@ -104,7 +104,7 @@ FormItem.propTypes = {
   /**
    * FormItem's disabled property
    */
-  diabled: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 FormItem.defaultProps = {
@@ -179,7 +179,7 @@ Input.propTypes = {
   /**
    * Input's disabled property
    */
-  handleChange: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 Input.defaultProps = {

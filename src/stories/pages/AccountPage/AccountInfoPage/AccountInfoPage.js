@@ -64,13 +64,13 @@ export const AccountInfoPage = () => {
         <img
           className="account-info__personal__horizontal-rule"
           src={HorizontalRuleDark}
-        ></img>
+        />
         <h5 className="account-info__header-text">PERSONAL INFO</h5>
         <img
           className="account-info__edit"
           src={Edit}
           onClick={() => updateUserInfo()}
-        ></img>
+        />
       </div>
       <Form type="account">
         <FormItem

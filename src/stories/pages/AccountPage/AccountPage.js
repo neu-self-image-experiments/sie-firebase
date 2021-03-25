@@ -28,7 +28,7 @@ export const AccountPage = () => {
           'check reports and analyze real-time data.'
         }
       ></HorizontalTitle>
-      <AccountInfoPage></AccountInfoPage>
+      <AccountInfoPage />
       <Button
         className="account-page__delete"
         modifierClasses="button--small"
@@ -36,7 +36,7 @@ export const AccountPage = () => {
         text="Delete My Account"
       ></Button>
       <Modal buttonText="Reset Password">
-        <ResetPasswordForm></ResetPasswordForm>
+        <ResetPasswordForm />
       </Modal>
     </div>
   );
