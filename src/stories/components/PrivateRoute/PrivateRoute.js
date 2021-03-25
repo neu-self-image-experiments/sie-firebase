@@ -23,7 +23,7 @@ PrivateRoute.propTypes = {
   /**
    * The component to render
    */
-  component: PropTypes.node,
+  component: PropTypes.func || PropTypes.node,
   /**
    * Previous location
    */
