@@ -135,7 +135,6 @@ export const generateUserDoc = async (userAuth, userData) => {
  * @return {User} user document
  */
 export const getUser = async (uid) => {
-  console.log('getUser');
   if (!uid) {
     return null;
   }

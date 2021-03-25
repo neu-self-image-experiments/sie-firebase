@@ -21,7 +21,7 @@ import { AuthContext } from '../../../../contexts/auth-provider';
  * )
  */
 export const AccountInfoPage = () => {
-  const user = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const [editInfo, setEditInfo] = useState(true);
   const [firstName, setFirstName] = useState(user.firstName);
@@ -47,7 +47,6 @@ export const AccountInfoPage = () => {
         email,
         role,
       });
-      console.log(result);
       if (result.status === StatusCodes.OK) {
       } else {
         // TODO: how do we handle this
