@@ -8,7 +8,7 @@ import { Button } from '../Button/Button';
 import { ImageGuidelines } from '../ImageGuidelines/ImageGuidelines';
 import { ToggleCamera } from '../ToggleCamera/ToggleCamera';
 import { FileUpload } from '../FileUpload/FileUpload';
-import { uploadSelfImage, observeStimuliCompletion, unsubscribe }
+import { uploadSelfImage, unsubscribe }
   from '../../../firebase/api/gcp-utils';
 import { Loader } from '../Loader/Loader';
 import { StatusCodes } from 'http-status-codes';
@@ -28,19 +28,12 @@ export const UploadPhoto = () => {
   const [error, setError] = useState(false);
   const webcamRef = React.useRef(null);
   const [loading, setLoading] = useState(false);
-  const [urls, setUrls] = useState([]);
   const [complete, setComplete] = useState(false);
+  // TODO: define urls state
 
-  // image URLs handler
-  const imageUrlsHandler = (urlArray) => {
-    setUrls(urlArray);
-  };
+  // TODO: image URLs handler
 
-  // image error handler
-  const errorHandler = (errorMessage) => {
-    // display user message
-    setComplete(false);
-  };
+  // TODO: image error handler
 
   // toggle device camera
   const toggleCamera = () => {
@@ -63,18 +56,14 @@ export const UploadPhoto = () => {
 
   // listen for stimuli completion
   useEffect(() => {
-    // TODO: get userId and experimentId here
-    observeStimuliCompletion('3xOn8cXslDdqjv5ewcQOliuGB0D2', '001',
-      imageUrlsHandler, errorHandler);
+    // TODO: call observeStimuliCompletion here with timer to avoid
+    // long open listeners, should be around 4000ms;
     return () => {
       unsubscribe();
     };
   }, [loading]);
 
-  // check if all urls are fetched
-  useEffect(() => {
-    checkStimuli();
-  }, [urls]);
+  // TODO: useEffect({}, [urls]) to check if all urls are fetched
 
   // check if stimuli generation is successful
   const checkStimuli = () => {
@@ -108,6 +97,8 @@ export const UploadPhoto = () => {
       switch (response.status) {
       case StatusCodes.CREATED:
         setLoading(true);
+        // TODO: move this line to useEffect
+        checkStimuli();
         return;
       case StatusCodes.INTERNAL_SERVER_ERROR:
         setError(true);
