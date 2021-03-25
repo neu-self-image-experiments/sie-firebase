@@ -38,7 +38,6 @@ export const Signup = ({ isDarkTheme }) => {
     'Select a role',
     'Administrator',
     'Researcher',
-    'Participant',
   ];
 
   const postUser = (e) => {

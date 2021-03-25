@@ -33,7 +33,6 @@ export const AnonymousLogin = () => {
     // call user service
     // define new user object
 
-    console.log(experimentId); // eslint-disable-line no-console
     if (fullName) {
       let participantId = new Date().toISOString();
       participantId = participantId.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
@@ -56,7 +55,8 @@ export const AnonymousLogin = () => {
           leftContent={
             <Section titleEl='h1' title='Welcome'>
               <p>Welcome to the SIE Platform. In order to participate to this
-                study, tell us your name and some basic information.
+                study, tell us your name and some basic information about you.
+                All information will anonimized and confidential.
               </p>
             </Section>
           }

@@ -11,7 +11,7 @@ export default {
 };
 const Template = (args) => {
   return (
-    <MemoryRouter>
+    <MemoryRouter initialEntries={['/study/Pl3WJYa7vQ1ALVt0rHRV']}>
       <AnonymousLogin />
     </MemoryRouter>
   );
