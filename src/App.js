@@ -11,14 +11,35 @@ import {
 import { AuthContext } from './contexts/auth-provider';
 import { useContext } from 'react';
 import { AccountPage } from './stories/pages/AccountPage/AccountPage';
+import { PrivateRoute } from './stories/components/PrivateRoute/PrivateRoute';
 
 function App() {
   const user = useContext(AuthContext);
   return (
     <BrowserRouter>
       <Switch>
+        <PrivateRoute exact path="/dashboard">
+          <Dashboard>
+            <DashboardContent />
+          </Dashboard>
+        </PrivateRoute>
+        <PrivateRoute exact path="/account">
+          <Dashboard>
+            <AccountPage></AccountPage>
+          </Dashboard>
+        </PrivateRoute>
+        <PrivateRoute exact path="/experiments">
+          <Dashboard>
+            <ExperimentContent />
+          </Dashboard>
+        </PrivateRoute>
+        <Route exact path="/signup">
+          <Signup isDarkTheme={false} />
+        </Route>
+        <Route exact path="/login">
+          <Login />
+        </Route>
         <Route
-          exact
           path="/"
           render={() => {
             return user ? (
@@ -28,27 +49,6 @@ function App() {
             );
           }}
         ></Route>
-        <Route exact path="/login">
-          <Login />
-        </Route>
-        <Route path="/signup">
-          <Signup isDarkTheme={false} />
-        </Route>
-        <Route exact path="/dashboard">
-          <Dashboard>
-            <DashboardContent />
-          </Dashboard>
-        </Route>
-        <Route exact path="/account">
-          <Dashboard>
-            <AccountPage />
-          </Dashboard>
-        </Route>
-        <Route exact path="/experiments">
-          <Dashboard>
-            <ExperimentContent />
-          </Dashboard>
-        </Route>
       </Switch>
     </BrowserRouter>
   );
