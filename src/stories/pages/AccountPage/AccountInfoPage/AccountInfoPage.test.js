@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { UserContext } from '../AccountPage';
+import { AuthContext } from '../../../../contexts/auth-provider';
 import { AccountInfoPage } from './AccountInfoPage';
 
 describe('<AccountInfoPage />', () => {
@@ -7,9 +7,9 @@ describe('<AccountInfoPage />', () => {
   // with UserContext.Provider
   const renderWithContext = (user) => {
     render(
-      <UserContext.Provider value={user}>
+      <AuthContext.Provider value={user}>
         <AccountInfoPage />
-      </UserContext.Provider>,
+      </AuthContext.Provider>,
     );
   };
 
