@@ -1,6 +1,6 @@
 import './styles.scss';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Webcam from 'react-webcam';
 
 import { PhotoInstructions } from '../PhotoInstructions/PhotoInstructions';
@@ -8,9 +8,10 @@ import { Button } from '../Button/Button';
 import { ImageGuidelines } from '../ImageGuidelines/ImageGuidelines';
 import { ToggleCamera } from '../ToggleCamera/ToggleCamera';
 import { FileUpload } from '../FileUpload/FileUpload';
-import { uploadSelfImage, observeStimuliCompletion }
+import { uploadSelfImage, observeStimuliCompletion, unsubscribe }
   from '../../../firebase/api/gcp-utils';
 import { Loader } from '../Loader/Loader';
+import { StatusCodes } from 'http-status-codes';
 
 /**
  * Component for webcam controls element.
@@ -31,12 +32,13 @@ export const UploadPhoto = () => {
   const [complete, setComplete] = useState(false);
 
   // image URLs handler
-  const imageHandler = (urlArray) => {
+  const imageUrlsHandler = (urlArray) => {
     setUrls(urlArray);
   };
 
   // image error handler
   const errorHandler = (errorMessage) => {
+    // display user message
     setComplete(false);
   };
 
@@ -59,15 +61,29 @@ export const UploadPhoto = () => {
     setImage('');
   };
 
-  // call gcp function to check if stimuli generation is successful
+  // listen for stimuli completion
+  useEffect(() => {
+    // TODO: get userId and experimentId here
+    observeStimuliCompletion('test', '001', imageUrlsHandler, errorHandler);
+    return () => {
+      unsubscribe();
+    };
+  }, [loading]);
+
+  // check if all urls are fetched 
+  useEffect(() => {
+    checkStimuli();
+  }, [urls]);
+
+  // check if stimuli generation is successful
   const checkStimuli = () => {
-    observeStimuliCompletion(imageHandler, errorHandler);
     if (urls.length > 0) {
       setComplete(true);
+      setLoading(false);
+      setError(false);
     } else {
       setError(true);
     }
-    setLoading(false);
   };
 
   // upload photo to the server to generate stimuli
@@ -85,14 +101,14 @@ export const UploadPhoto = () => {
     }
     // call gcp util function
     uploadSelfImage(
-      userId, experimentId, file, 'sie-raw-images',
+      userId, experimentId, file,
     ).then((response) => {
       // REMOVE EVENTUALLY
       switch (response.status) {
-      case '201':
-        checkStimuli();
+      case StatusCodes.CREATED:
+        setLoading(true);
         return;
-      case '500':
+      case StatusCodes.INTERNAL_SERVER_ERROR:
         setError(true);
         return;
       default:
