@@ -42,6 +42,38 @@ export const signUp = async (email, password, userData) => {
 };
 
 /**
+ * Sign in user.
+ * @param {string} email user email
+ * @param {string} password user password
+ * @return {JSON} user auth object or error code
+ */
+export const signIn = async (email, password) => {
+  try {
+    const userAuth = await auth
+      .signInWithEmailAndPassword(email, password);
+    return {
+      status: StatusCodes.OK,
+      data: userAuth,
+      error: null,
+    };
+  } catch (error) {
+    if (error.code === 'auth/wrong-password' ||
+        error.code === 'auth/user-not-found') {
+      return {
+        status: StatusCodes.NOT_FOUND,
+        data: null,
+        error,
+      };
+    }
+    return {
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
+      data: null,
+      error,
+    };
+  }
+};
+
+/**
  * Reset a user password
  * @param {string} newPassword valid password
  * @return {JSON} user auth object or error code
@@ -85,7 +117,8 @@ export const generateUserDoc = async (userAuth, userData) => {
   const userRef = firestore.doc(`${collections.USER}/${userAuth.uid}`);
 
   const snapshot = await userRef.get();
-  if (!snapshot.exists) { // if user doesn't already exists
+  if (!snapshot.exists) {
+    // if user doesn't already exists
     const { email } = userAuth;
     const createdAt = new Date();
 
@@ -116,12 +149,13 @@ export const getUser = async (uid) => {
   }
 
   try {
-    const userDoc = await firestore.doc(`${collections.USER}/${uid}`);
+    const userDoc = firestore.doc(`${collections.USER}/${uid}`);
+    const user = await userDoc.get();
     return {
       status: StatusCodes.OK,
       data: {
         uid,
-        ...userDoc.data(),
+        ...user.data(),
       },
       error: null,
     };
@@ -172,38 +206,6 @@ export const updateUserData = async (updatedData) => {
   } catch (error) {
     return {
       status: StatusCodes.NOT_MODIFIED,
-      data: null,
-      error,
-    };
-  }
-};
-
-/**
- * Sign in user.
- * @param {String} email email of user.
- * @param {String} password password of user.
- * @return {user} authenticated user object.
- */
-export const signIn = async (email, password) => {
-  try {
-    const userAuth = await auth
-      .signInWithEmailAndPassword(email, password);
-    return {
-      status: StatusCodes.OK,
-      data: userAuth,
-      error: null,
-    };
-  } catch (error) {
-    if (error.code === 'auth/wrong-password' ||
-        error.code === 'auth/user-not-found') {
-      return {
-        status: StatusCodes.NOT_FOUND,
-        data: null,
-        error,
-      };
-    }
-    return {
-      status: StatusCodes.INTERNAL_SERVER_ERROR,
       data: null,
       error,
     };

@@ -4,12 +4,13 @@ import React, { useState } from 'react';
 import Webcam from 'react-webcam';
 
 import { PhotoInstructions } from '../PhotoInstructions/PhotoInstructions';
-import { Constrain } from '../../layouts/Constrain/Constrain';
 import { Button } from '../Button/Button';
 import { ImageGuidelines } from '../ImageGuidelines/ImageGuidelines';
 import { ToggleCamera } from '../ToggleCamera/ToggleCamera';
 import { FileUpload } from '../FileUpload/FileUpload';
-import { uploadImageToStorage } from '../../../firebase/api/gcp-utils';
+import { uploadSelfImage, observeStimuliCompletion }
+  from '../../../firebase/api/gcp-utils';
+import { Loader } from '../Loader/Loader';
 
 /**
  * Component for webcam controls element.
@@ -25,6 +26,19 @@ export const UploadPhoto = () => {
   const [image, setImage] = useState('');
   const [error, setError] = useState(false);
   const webcamRef = React.useRef(null);
+  const [loading, setLoading] = useState(false);
+  const [urls, setUrls] = useState([]);
+  const [complete, setComplete] = useState(false);
+
+  // image URLs handler
+  const imageHandler = (urlArray) => {
+    setUrls(urlArray);
+  };
+
+  // image error handler
+  const errorHandler = (errorMessage) => {
+    setComplete(false);
+  };
 
   // toggle device camera
   const toggleCamera = () => {
@@ -45,6 +59,17 @@ export const UploadPhoto = () => {
     setImage('');
   };
 
+  // call gcp function to check if stimuli generation is successful
+  const checkStimuli = () => {
+    observeStimuliCompletion(imageHandler, errorHandler);
+    if (urls.length > 0) {
+      setComplete(true);
+    } else {
+      setError(true);
+    }
+    setLoading(false);
+  };
+
   // upload photo to the server to generate stimuli
   const uploadPhoto = () => {
     // REMOVE EVENTUALLY
@@ -59,13 +84,13 @@ export const UploadPhoto = () => {
         });
     }
     // call gcp util function
-    uploadImageToStorage(
+    uploadSelfImage(
       userId, experimentId, file, 'sie-raw-images',
     ).then((response) => {
       // REMOVE EVENTUALLY
       switch (response.status) {
       case '201':
-        // UPDATE WITH BETTER RESPONSE EVENTUALLY
+        checkStimuli();
         return;
       case '500':
         setError(true);
@@ -76,12 +101,18 @@ export const UploadPhoto = () => {
     });
   };
 
-  return (
+  return loading ? (
+    <Loader
+      text="Please wait! Your photo is being processed..."
+    />
+  ) : complete ? (
+    <div>
+      { urls }
+    </div>
+  ) : (
     <div className="upload-photo">
-      <Constrain modifierClasses="constrain--narrow">
-        <PhotoInstructions />
-        <ToggleCamera onClick={() => toggleCamera()} />
-      </Constrain>
+      <PhotoInstructions />
+      <ToggleCamera onClick={() => toggleCamera()} />
       <div className="upload-photo__images">
         <div className="upload-photo__item">
           <ImageGuidelines content={ cameraIsOn &&
@@ -106,22 +137,20 @@ export const UploadPhoto = () => {
           <p>Your photo will appear here.</p>
         </div>
       </div>
-      <Constrain modifierClasses="constrain--narrow">
-        <FileUpload onChange={(e) => uploadFile(e.target)} />
-        <div className="upload-photo__submit">
-          <p>Once you are ready. You can upload your photo here.</p>
-          <Button
-            isButton={true}
-            modifierClasses="upload-photo__btn button--small"
-            text="Upload"
-            onClick={() => uploadPhoto()} />
-          { error &&
-            <p className="upload-photo__err">
-              Something went wrong and your photo could not be uploaded.
-              Please, try again.</p>
-          }
-        </div>
-      </Constrain>
+      <FileUpload onChange={(e) => uploadFile(e.target)} />
+      <div className="upload-photo__submit">
+        <p>Once you are ready. You can upload your photo here.</p>
+        <Button
+          isButton={true}
+          modifierClasses="upload-photo__btn button--small"
+          text="Upload"
+          onClick={() => uploadPhoto()} />
+        { error &&
+          <p className="upload-photo__err">
+            Something went wrong and your photo could not be uploaded.
+            Please, try again.</p>
+        }
+      </div>
     </div>
   );
 };
