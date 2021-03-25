@@ -1,13 +1,14 @@
 import './App.scss';
 
+import { useContext } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+
 import { Login } from './stories/pages/Login/Login';
 import { Signup } from './stories/pages/Signup/Signup';
 import { Dashboard } from './stories/pages/Dashboard/Dashboard';
 import { Experiment } from './stories/pages/Experiment/Experiment';
 import { AnonymousLogin } from './stories/pages/AnonymousLogin/AnonymousLogin';
 import { AuthContext } from './contexts/auth-provider';
-import { useContext } from 'react';
 
 
 function App() {

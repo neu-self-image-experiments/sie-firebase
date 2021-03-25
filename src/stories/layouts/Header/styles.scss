@@ -13,6 +13,15 @@
   width: 100%;
   z-index: 10;
 
+}
+
+.header__inner {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header__left {
   h1,
   h2,
   h3,
@@ -21,12 +30,6 @@
   h6 {
     margin-bottom: 0;
   }
-}
-
-.header__inner {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
 }
 
 .header--no-border {

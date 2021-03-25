@@ -35,17 +35,14 @@ export const Modal = ({ children, buttonText }) => {
         onClick={toggleModal}
         text={buttonText}
         isButton={true}/>
-      <div
-        hidden={!modalOpen}
+      <div hidden={!modalOpen}
         id='modalPop'
         className="modal"
       >
-        <div
-          className={
-            (modalOpen) ?
-              'modal__content modal--open' :
-              'modal__content'}
-        >
+        <div className={
+          (modalOpen) ?
+            'modal__content modal--open' :
+            'modal__content'}>
           <button
             className='modal__content--close'
             onClick={toggleModal}

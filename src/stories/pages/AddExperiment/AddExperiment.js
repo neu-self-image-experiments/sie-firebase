@@ -80,7 +80,7 @@ export const AddExperiment = ({ buttonText }) => {
             label="Consent Form"
             handleChange={(e) => setConsent(e.target.value)}
           />
-          <h5>Pre-Survey Questionnaires.</h5>
+          <h5>Pre-Survey Questionnaires</h5>
           <FormItem
             placeholder="URL to Consent Form"
             type="text"
