@@ -70,7 +70,7 @@ export const UploadPhoto = () => {
     };
   }, [loading]);
 
-  // check if all urls are fetched 
+  // check if all urls are fetched
   useEffect(() => {
     checkStimuli();
   }, [urls]);
