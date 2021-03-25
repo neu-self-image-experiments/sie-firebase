@@ -80,16 +80,6 @@ export const observeStimuliCompletion =
       });
   };
 
-
-/**
- * Detach the listener to the user doc, stop listening to changes.
- */
-export const unsubscribe = firestore.collection(firestoreCollections.USER)
-  .onSnapshot(() => {
-    return;
-  });
-
-
 /**
  * Get all stimuli image urls from bucket to display in img tags.
  * @param {String} userId user id
