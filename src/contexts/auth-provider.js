@@ -8,6 +8,7 @@ const AuthContext = React.createContext();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [trigger, setTrigger] = useState(false);
 
@@ -18,6 +19,7 @@ const AuthProvider = ({ children }) => {
       if (auth) {
         const user = await getUser(auth.uid);
         setUser(user.data);
+        setIsAuthenticated(true);
       }
       setLoaded(true);
     } catch (err) {
@@ -26,7 +28,9 @@ const AuthProvider = ({ children }) => {
   }, [trigger]);
 
   return loaded ? (
-    <AuthContext.Provider value={{ user, trigger, setTrigger }}>
+    <AuthContext.Provider
+      value={{ user, isAuthenticated, trigger, setTrigger }}
+    >
       {children}
     </AuthContext.Provider>
   ) : (

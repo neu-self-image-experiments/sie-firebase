@@ -11,39 +11,28 @@ import {
 import { AuthContext } from './contexts/auth-provider';
 import { useContext } from 'react';
 import { AccountPage } from './stories/pages/AccountPage/AccountPage';
+import { PrivateRoute } from './stories/components/PrivateRoute/PrivateRoute';
 
 function App() {
   const { user } = useContext(AuthContext);
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/dashboard">
-          {user ? (
-            <Dashboard>
-              <DashboardContent />
-            </Dashboard>
-          ) : (
-            <Redirect to="/login" />
-          )}
-        </Route>
-        <Route exact path="/account">
-          {user ? (
-            <Dashboard>
-              <AccountPage />
-            </Dashboard>
-          ) : (
-            <Redirect to="/login" />
-          )}
-        </Route>
-        <Route exact path="/experiments">
-          {user ? (
-            <Dashboard>
-              <ExperimentContent />
-            </Dashboard>
-          ) : (
-            <Redirect to="/login" />
-          )}
-        </Route>
+        <PrivateRoute exact path="/dashboard">
+          <Dashboard>
+            <DashboardContent />
+          </Dashboard>
+        </PrivateRoute>
+        <PrivateRoute exact path="/account">
+          <Dashboard>
+            <AccountPage />
+          </Dashboard>
+        </PrivateRoute>
+        <PrivateRoute exact path="/experiments">
+          <Dashboard>
+            <ExperimentContent />
+          </Dashboard>
+        </PrivateRoute>
         <Route exact path="/login">
           {user ? <Redirect to="/dashboard" /> : <Login />}
         </Route>

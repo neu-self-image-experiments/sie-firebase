@@ -1,15 +1,16 @@
-/* eslint-disable no-console */
-/* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import { Redirect, Route } from 'react-router';
+import { AuthContext } from '../../../contexts/auth-provider';
 
-export const PrivateRoute = ({ children, user, ...rest }) => {
+export const PrivateRoute = ({ component: Component, ...rest }) => {
+  const { isAuthenticated } = useContext(AuthContext);
   return (
     <Route
       {...rest}
       render={(props) =>
-        user ? (
-          <React.Fragment>{children}</React.Fragment>
+        isAuthenticated ? (
+          <Component />
         ) : (
           <Redirect
             to={{ pathname: '/login', state: { from: props.location } }}
@@ -18,4 +19,15 @@ export const PrivateRoute = ({ children, user, ...rest }) => {
       }
     />
   );
+};
+
+PrivateRoute.propTypes = {
+  /**
+   * The component to render
+   */
+  component: PropTypes.node.isRequired,
+  /**
+   * Previous location
+   */
+  location: PropTypes.string,
 };

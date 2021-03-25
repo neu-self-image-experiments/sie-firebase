@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { firestore, auth } from '../firebase.js';
 import { StatusCodes } from 'http-status-codes';
 
