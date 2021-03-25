@@ -11,7 +11,7 @@ import { StatusCodes } from 'http-status-codes';
  * @return {JSON}
  */
 export const uploadSelfImage = async (userId, experimentId, image) => {
-  return await uploadImageToStorage(userId, experimentId,
+  return uploadImageToStorage(userId, experimentId,
     image, storageBuckets.SIE_RAW_IMGS);
 };
 
@@ -46,47 +46,76 @@ const uploadImageToStorage = async (
 };
 
 /**
- * Subscribes to pubsub to signal stimuli generation completion
+ * Listen to user document for the signal of stimuli generation completion
  * @param {String} userId userId
  * @param {String} experimentId experimentId
  * @param {Function} imageUrlsHandler react hook function for imageUrls
  * @param {Function} errorHandler react hook function for error.
  */
 export const observeStimuliCompletion =
- async (userId, experimentId, imageUrlsHandler, errorHandler) => {
-   // TODO: refactor for multiple experiments inside user doc
-   firestore.collection(firestoreCollections.USER).doc(userId)
-     .onSnapshot((doc) => {
-       const userDoc = doc.data();
-       const stimuliStatus = userDoc.sie_stimuli_generation_status;
-       if (stimuliStatus === 'completed') {
-         // call getFileUrlsFromBucket once ready to display stimuli
-         getFileUrlsFromBucket(userId, experimentId).then((results) => {
-           const status = results.status;
-           if (status === StatusCodes.NOT_FOUND) {
-           // one of the image url is unable to fetch
-             errorHandler(results.message);
-           } else {
-             // successfully get all image urls
-             const imageUrls = results.data;
-             imageUrlsHandler(imageUrls);
-           }
-         });
-       } else {
-         // “face_missing”, “failed”
-         // call setError() for image processing status, display on frontend
-         errorHandler(status);
-       }
-     });
- };
+  async (userId, experimentId, imageUrlsHandler, errorHandler) => {
+    // TODO: refactor for multiple experiments inside user doc
+    firestore.collection(firestoreCollections.USER).doc(userId)
+      .onSnapshot(async (doc) => {
+        const userDoc = doc.data();
+        const stimuliStatus = userDoc.sie_stimuli_generation_status;
+        if (stimuliStatus === 'completed') {
+        // call getFileUrlsFromBucket once ready to display stimuli
+          await getSieStimuliFromBucket(userId, experimentId)
+            .then((results) => {
+              console.log(results);
+              const status = results.status;
+              if (status === StatusCodes.OK) {
+              // successfully get all image urls
+                // return results;
+                imageUrlsHandler(results.data);
+              } else {
+              // one of the image url is unable to fetch
+                errorHandler(results.message);
+              }
+            });
+        } else {
+          // “face_missing”, “failed”
+          // call setError() for image processing status, display on frontend
+          errorHandler(stimuliStatus);
+        }
+      });
+  };
+
 
 /**
- * Get all file urls from bucket to display in img tags
- * @param {String} userId user id
- * @param {String} experimentId experiment id
+ * Detach the listener to the user doc, stop listening to changes.
+ */
+export const unsubscribe = firestore.collection(firestoreCollections.USER)
+  .onSnapshot(() => {
+    return;
+  });
+
+
+/**
+ * Get all stimuli image urls from bucket to display in img tags.
+ * @param {*} userId user id
+ * @param {*} experimentId experiment id
  * @return {JSON} JSON object including array of processed self image urls
  */
-const getFileUrlsFromBucket = async (userId, experimentId) => {
+const getSieStimuliFromBucket = (userId, experimentId) => {
+  const imageFilterFunction = (url) => {
+    const urlObj = new URL(url);
+    const pathName = urlObj.pathname.split('/').pop();
+    return pathName.split('.')[1] === 'jpg';
+  };
+
+  return getFileUrlsFromBucket(userId, experimentId, imageFilterFunction);
+};
+
+/**
+ * Get all file urls from bucket
+ * @param {String} userId user id
+ * @param {String} experimentId experiment id
+ * @param {Function} filterFunction function for filtering the results
+ * @return {JSON} JSON object including array of urls
+ */
+const getFileUrlsFromBucket = async (userId, experimentId, filterFunction) => {
   const bucketPrefix = `${userId}-${experimentId}`;
   const bucketRef = app.storage(storageBuckets.SIE_STIMULI_IMGS).ref();
   const stimuliImagesRef = bucketRef.child(bucketPrefix);
@@ -98,7 +127,13 @@ const getFileUrlsFromBucket = async (userId, experimentId) => {
     return {
       status: StatusCodes.OK,
       message: 'Stimuli image urls fetched',
-      data: fileUrls,
+      data: fileUrls.filter(filterFunction),
+    };
+  }).catch((error) => {
+    return {
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
+      message: 'Unable to get stimuli image downloadable urls',
+      data: error,
     };
   });
 };
