@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { AuthContext } from '../../../contexts/auth-provider';
 import { Header } from '../../layouts/Header/Header';
@@ -8,8 +6,8 @@ import { Branding } from '../../components/Branding/Branding';
 import { Main } from '../../layouts/Main/Main';
 import { Sidebar } from '../../layouts/Sidebar/Sidebar';
 import { MainMenu } from '../../components/MainMenu/MainMenu';
-import { HorizontalTitle }
-  from '../../components/HorizontalTitle/HorizontalTitle';
+import { HorizontalTitle } from
+  '../../components/HorizontalTitle/HorizontalTitle';
 import { Constrain } from '../../layouts/Constrain/Constrain';
 import { AddExperiment } from '../AddExperiment/AddExperiment';
 
@@ -26,8 +24,6 @@ import { AddExperiment } from '../AddExperiment/AddExperiment';
 export const Dashboard = ({ children }) => {
   const { user } = useContext(AuthContext);
   const isAdmin = user?.role === 'Administrator';
-
-  console.log(user);
 
   return (
     <Main>

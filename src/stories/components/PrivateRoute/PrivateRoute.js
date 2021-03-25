@@ -1,10 +1,8 @@
-/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, Route } from 'react-router';
 
 export const PrivateRoute = ({ component: Component, user, ...rest }) => {
-  console.log(user);
   return (
     <Route
       {...rest}

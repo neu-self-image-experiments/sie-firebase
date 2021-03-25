@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
 import './App.scss';
 import { useContext } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
@@ -18,7 +16,6 @@ import { PrivateRoute } from './stories/components/PrivateRoute/PrivateRoute';
 
 function App() {
   const { user } = useContext(AuthContext);
-  console.log(user);
   return (
     <BrowserRouter>
       <Switch>
