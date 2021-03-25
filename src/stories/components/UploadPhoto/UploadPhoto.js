@@ -64,7 +64,8 @@ export const UploadPhoto = () => {
   // listen for stimuli completion
   useEffect(() => {
     // TODO: get userId and experimentId here
-    observeStimuliCompletion('test', '001', imageUrlsHandler, errorHandler);
+    observeStimuliCompletion('3xOn8cXslDdqjv5ewcQOliuGB0D2', '001',
+      imageUrlsHandler, errorHandler);
     return () => {
       unsubscribe();
     };

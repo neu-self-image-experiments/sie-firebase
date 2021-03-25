@@ -55,8 +55,8 @@ const uploadImageToStorage = async (
 export const observeStimuliCompletion =
   async (userId, experimentId, imageUrlsHandler, errorHandler) => {
     // TODO: refactor for multiple experiments inside user doc
-    firestore.collection(firestoreCollections.USER).doc(userId)
-      .onSnapshot(async (doc) => {
+    const subscribe = firestore.collection(firestoreCollections.USER)
+      .doc(userId).onSnapshot(async (doc) => {
         const userDoc = doc.data();
         const stimuliStatus = userDoc.sie_stimuli_generation_status;
         if (stimuliStatus === 'completed') {
@@ -78,6 +78,9 @@ export const observeStimuliCompletion =
           errorHandler(stimuliStatus);
         }
       });
+    setTimeout(() => {
+      subscribe();
+    }, 4000);
   };
 
 
