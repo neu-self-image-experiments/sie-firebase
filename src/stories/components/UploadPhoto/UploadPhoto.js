@@ -8,7 +8,9 @@ import { Button } from '../Button/Button';
 import { ImageGuidelines } from '../ImageGuidelines/ImageGuidelines';
 import { ToggleCamera } from '../ToggleCamera/ToggleCamera';
 import { FileUpload } from '../FileUpload/FileUpload';
-import { uploadSelfImage } from '../../../firebase/api/gcp-utils';
+import { uploadSelfImage, observeStimuliCompletion }
+  from '../../../firebase/api/gcp-utils';
+import { Loader } from '../Loader/Loader';
 
 /**
  * Component for webcam controls element.
@@ -24,6 +26,19 @@ export const UploadPhoto = () => {
   const [image, setImage] = useState('');
   const [error, setError] = useState(false);
   const webcamRef = React.useRef(null);
+  const [loading, setLoading] = useState(false);
+  const [urls, setUrls] = useState([]);
+  const [complete, setComplete] = useState(false);
+
+  // image URLs handler
+  const imageHandler = (urlArray) => {
+    setUrls(urlArray);
+  };
+
+  // image error handler
+  const errorHandler = (errorMessage) => {
+    setComplete(false);
+  };
 
   // toggle device camera
   const toggleCamera = () => {
@@ -42,6 +57,17 @@ export const UploadPhoto = () => {
     setFile(target.files.item(0));
     // reset image
     setImage('');
+  };
+
+  // call gcp function to check if stimuli generation is successful
+  const checkStimuli = () => {
+    observeStimuliCompletion(imageHandler, errorHandler);
+    if (urls.length > 0) {
+      setComplete(true);
+    } else {
+      setError(true);
+    }
+    setLoading(false);
   };
 
   // upload photo to the server to generate stimuli
@@ -64,7 +90,7 @@ export const UploadPhoto = () => {
       // REMOVE EVENTUALLY
       switch (response.status) {
       case '201':
-        // UPDATE WITH BETTER RESPONSE EVENTUALLY
+        checkStimuli();
         return;
       case '500':
         setError(true);
@@ -75,7 +101,15 @@ export const UploadPhoto = () => {
     });
   };
 
-  return (
+  return loading ? (
+    <Loader
+      text="Please wait! Your photo is being processed..."
+    />
+  ) : complete ? (
+    <div>
+      { urls }
+    </div>
+  ) : (
     <div className="upload-photo">
       <PhotoInstructions />
       <ToggleCamera onClick={() => toggleCamera()} />
