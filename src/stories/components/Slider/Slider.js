@@ -37,7 +37,7 @@ export const Slider = ({ children }) => {
   const nextButtonDisabled = isAtEnd ? 'slider__button--disabled' : '';
 
   return (
-    <div>
+    <div className="slider">
       {/* Slider itself */}
       <Swiper
         spaceBetween={30}

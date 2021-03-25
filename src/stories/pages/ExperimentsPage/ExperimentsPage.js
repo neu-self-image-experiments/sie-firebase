@@ -4,9 +4,6 @@
     #2: Revise experiment information fields displayed in cards of slider.
     #3: Divide fetched experiments into 'ongoing' and 'inactive'.
 */
-
-import './styles.scss';
-
 import React, { useEffect, useState } from 'react';
 import { Slider } from '../../components/Slider/Slider';
 import { Card } from '../../components/Card/Card';
@@ -120,52 +117,49 @@ export const ExperimentsPage = () => {
     <div>{error.errorCode + ': ' + error.errorMessage}</div>
   ) : logInState.isLoggedIn ? (
     <UserContext.Provider value={logInState.user}>
+      <HorizontalTitle
+        modifierClasses="horizontal-title--medium"
+        eyebrow={'Overview'}
+        title={'Experiments'}
+        content={
+          'Here\'s an overview of what\'s going on your application. ' +
+          'You can review your active experiments, ' +
+          'check reports and analyze real-time data.'
+        }
+      />
+
+      {/* Ongoing experiments */}
+      <HorizontalTitle
+        modifierClasses="horizontal-title--small"
+        titleEl="h6"
+        title={'Ongoing Experiments'}
+        content={<AddExperiment buttonText={'Add New Study'}
+          buttonModifierClasses={'button--circular-small'} />
+        }
+      />
+      {ongoingExperimentsSlides ?
+        <Slider>
+          {ongoingExperimentsSlides}
+        </Slider> :
+        <Card
+          modifierClasses='card--teaser'
+          body='No current ongoing experiments. Click the + above to
+          create one.'
+        />
+      }
+
+      {/* Inactive experiments */}
       <div>
         <HorizontalTitle
-          eyebrow={'Overview'}
-          title={'Experiments'}
-          content={
-            'Here\'s an overview of what\'s going on your application. ' +
-            'You can review your active experiments, ' +
-            'check reports and analyze real-time data.'
-          }
+          modifierClasses="horizontal-title--small"
+          titleEl="h6"
+          title={'Inactive Experiments'}
         />
-
-        {/* Ongoing experiments */}
-        <div className='experiments__ongoing-section'>
-          <div>
-            <h6 className='experiments__section-header'>
-              ONGOING EXPERIMENTS
-            </h6>
-            <AddExperiment buttonText={'+'}
-              buttonModifierClasses={'button--circular-small'} />
-          </div>
-          {ongoingExperimentsSlides ?
-            <Slider>
-              {ongoingExperimentsSlides}
-            </Slider> :
-            <Card
-              modifierClasses='card--teaser'
-              body='No current ongoing experiments. Click the + above to
-              create one.'
-            />
-          }
-        </div>
-
-        {/* Inactive experiments */}
-        <div>
-          <div>
-            <h6>
-              INACTIVE EXPERIMENTS
-            </h6>
-          </div>
-          {/* TODO #3.4(fernandowinfield): Add ternary operator and content to
-          display when there are no inactive experiments */}
-          <Slider>
-            {inactiveExperimentsSlides}
-          </Slider>
-        </div>
-
+        {/* TODO #3.4(fernandowinfield): Add ternary operator and content to
+        display when there are no inactive experiments */}
+        <Slider>
+          {inactiveExperimentsSlides}
+        </Slider>
       </div>
     </UserContext.Provider>
   ) : (

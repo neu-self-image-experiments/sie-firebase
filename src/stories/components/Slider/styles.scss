@@ -6,6 +6,18 @@
 $text-arrow-distance: 1.5rem;
 $text-text-distance: 1rem;
 
+.slider {
+  margin: $spacing-3 0 $spacing-12;
+
+  .swiper-wrapper {
+    padding: $spacing-3 0;
+  }
+
+  .swiper-slide {
+    height: auto;
+  }
+}
+
 .slider__button {
   @include button-clear;
   background-repeat: no-repeat;
@@ -35,6 +47,6 @@ $text-text-distance: 1rem;
 }
 
 .slider__controls {
-  float: right;
   margin-top: $spacing-4;
+  text-align: right;
 }

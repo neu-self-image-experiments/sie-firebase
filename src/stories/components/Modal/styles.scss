@@ -51,9 +51,20 @@
 
 /* Custom button used in ExperimentsPage */
 .button--circular-small {
+  @include image-replace(rem(35px), rem(35px));
+  @include svg-background(icon-close);
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 15px;
   border-radius: 100%;
-  min-width: rem(25px);
-  padding: 0 0;
-  font-weight: 200;
-  font-family: $base-font-family;
+  min-width: rem(35px);
+  padding: 0;
+  transform: rotate(45deg);
+
+  &:hover,
+  &:focus {
+    background-color: $teal-light;
+    border-radius: 100%;
+  }
 }
