@@ -1,6 +1,6 @@
 import './styles.scss';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Webcam from 'react-webcam';
 
 import { PhotoInstructions } from '../PhotoInstructions/PhotoInstructions';
@@ -8,7 +8,7 @@ import { Button } from '../Button/Button';
 import { ImageGuidelines } from '../ImageGuidelines/ImageGuidelines';
 import { ToggleCamera } from '../ToggleCamera/ToggleCamera';
 import { FileUpload } from '../FileUpload/FileUpload';
-import { uploadSelfImage, unsubscribe }
+import { uploadSelfImage }
   from '../../../firebase/api/gcp-utils';
 import { Loader } from '../Loader/Loader';
 import { StatusCodes } from 'http-status-codes';
@@ -54,14 +54,9 @@ export const UploadPhoto = () => {
     setImage('');
   };
 
-  // listen for stimuli completion
-  useEffect(() => {
-    // TODO: call observeStimuliCompletion here with timer to avoid
-    // long open listeners, should be around 4000ms;
-    return () => {
-      unsubscribe();
-    };
-  }, [loading]);
+  // TODO call useEffect() to listen for stimuli completion
+  // TODO: call observeStimuliCompletion here with timer to avoid
+  // long open listeners, should be around 4000ms;
 
   // TODO: useEffect({}, [urls]) to check if all urls are fetched
 
