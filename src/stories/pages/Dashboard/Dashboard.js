@@ -39,7 +39,9 @@ export const Dashboard = () => {
       <div className="dashboard">
         <Header
           leftContent={<Branding text="SIE" />}
-          rightContent={isAdmin && <AddExperiment buttonText="New Study" />}
+          rightContent={isAdmin &&
+            <AddExperiment buttonText="Create New Study" />
+          }
         />
         <Sidebar leftContent={<Navigation />} rightContent={<MainContent />} />
       </div>
