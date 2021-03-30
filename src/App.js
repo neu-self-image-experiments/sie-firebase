@@ -9,9 +9,9 @@ import { AuthContext } from './contexts/auth-provider';
 import {
   Dashboard,
   DashboardContent,
-  ExperimentContent,
 } from './stories/pages/Dashboard/Dashboard';
 import { AccountPage } from './stories/pages/AccountPage/AccountPage';
+import { ExperimentsPage } from './stories/pages/ExperimentsPage/ExperimentsPage';
 import { PrivateRoute } from './stories/components/PrivateRoute/PrivateRoute';
 
 function App() {
@@ -45,7 +45,7 @@ function App() {
           user={user}
           component={() => (
             <Dashboard>
-              <ExperimentContent />
+              <ExperimentsPage />
             </Dashboard>
           )}
         ></PrivateRoute>

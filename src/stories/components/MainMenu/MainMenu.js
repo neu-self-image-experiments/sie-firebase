@@ -2,6 +2,7 @@ import './styles.scss';
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+// import { NavLink, useHistory, Link } from 'react-router-dom';
 import { ReactComponent as DashboardIcon } from
   '../../../images/icon-dashboard.svg';
 import { ReactComponent as ExperimentsIcon } from
@@ -45,7 +46,7 @@ export const MainMenu = () => {
           return (
             <li className="main-menu__item" key={icon}>
               <NavLink
-                to={icon}
+                to={'/' + icon}
                 className={'menu-item__link'}>
                 <span className='menu-item__icon'>{getIcon(icon)}</span>
                 {icon.charAt(0).toUpperCase() + icon.slice(1)}
