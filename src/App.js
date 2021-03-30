@@ -11,7 +11,8 @@ import {
   DashboardContent,
 } from './stories/pages/Dashboard/Dashboard';
 import { AccountPage } from './stories/pages/AccountPage/AccountPage';
-import { ExperimentsPage } from './stories/pages/ExperimentsPage/ExperimentsPage';
+import { ExperimentsPage }
+  from './stories/pages/ExperimentsPage/ExperimentsPage';
 import { PrivateRoute } from './stories/components/PrivateRoute/PrivateRoute';
 
 function App() {
