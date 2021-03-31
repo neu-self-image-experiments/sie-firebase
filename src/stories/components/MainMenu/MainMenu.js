@@ -2,7 +2,6 @@ import './styles.scss';
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-// import { NavLink, useHistory, Link } from 'react-router-dom';
 import { ReactComponent as DashboardIcon } from
   '../../../images/icon-dashboard.svg';
 import { ReactComponent as ExperimentsIcon } from
