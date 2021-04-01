@@ -10,7 +10,7 @@ configure({ adapter: new Adapter() });
 describe('<AddExperiment />', () => {
   // Test header text is rendered and button shows up
   it('renders correctly', () => {
-    const { getAllByText, getByRole } = render(<AddExperiment />);
+    const { getAllByText } = render(<AddExperiment />);
     expect(getAllByText(/Add New Experiment/i)).toHaveLength(2);
   });
 });
