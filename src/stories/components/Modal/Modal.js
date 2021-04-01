@@ -48,7 +48,7 @@ export const Modal = ({ children, buttonText, buttonModifierClasses }) => {
         }
         onClick={toggleModal}
         text={buttonText}
-        isButton={true}/>
+        isButton={true} />
       <div className="modal" ref={modalRef}>
         <div className="modal__content">
           <button

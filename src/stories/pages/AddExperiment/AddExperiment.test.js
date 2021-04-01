@@ -12,6 +12,5 @@ describe('<AddExperiment />', () => {
   it('renders correctly', () => {
     const { getAllByText, getByRole } = render(<AddExperiment />);
     expect(getAllByText(/Add New Experiment/i)).toHaveLength(2);
-    expect(getByRole('button')).toBeInTheDocument();
   });
 });
