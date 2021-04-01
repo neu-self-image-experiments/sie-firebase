@@ -176,7 +176,11 @@ export const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
       unsubscribe();
-      resolve(userAuth);
+      if (userAuth && (userAuth.emailVerified || userAuth.isAnonymous)) {
+        resolve(userAuth);
+      } else {
+        resolve(null);
+      }
     }, reject);
   });
 };
