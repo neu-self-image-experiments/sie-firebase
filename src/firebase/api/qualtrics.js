@@ -1,8 +1,7 @@
 import { firestore } from '../firebase.js';
 import { StatusCodes } from 'http-status-codes';
 import {
-  firestoreCollections as collections,
-  message
+  firestoreCollections as collections, message
 } from '../constants.js';
 
 /**
@@ -28,5 +27,5 @@ export const getConsentResult = async (uid, experimentId) => {
       message: error.message,
       data: null,
     };
-  }
+  };
 };
