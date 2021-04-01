@@ -26,14 +26,13 @@ export const AnonymousLogin = () => {
   const history = useHistory();
   // define user fields
   const [error, setError] = useState('');
-  const [fullName, setFullName] = useState('');
 
   const goToExperiment = (e) => {
     e.preventDefault();
     // call user service
     // define new user object
 
-    if (fullName) {
+    if (participantId) {
       // redirect to login page
       history.push(`/${experimentId}/${participantId}`);
     } else {
@@ -66,7 +65,6 @@ export const AnonymousLogin = () => {
                 type='text'
                 disabled={true}
                 placeholder={participantId}
-                handleChange={(e) => setFullName(e.target.value)}
               />
               { error &&
                 <div className="form__msg">

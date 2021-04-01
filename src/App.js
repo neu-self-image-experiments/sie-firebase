@@ -57,7 +57,7 @@ function App() {
           {user ? <Redirect to="/dashboard" /> : <Login />}
         </Route>
         <Route exact path="/signup">
-          {user ? <Redirect to="/dashboard" /> : <Signup isDarkTheme={false} />}
+          {user ? <Redirect to="/dashboard" /> : <Signup isDarkTheme={true} />}
         </Route>
         <Route
           path="/"
