@@ -1,11 +1,12 @@
 import './styles.scss';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { Fragment } from 'react';
 import { Button } from '../Button/Button';
 import { Constrain } from '../../layouts/Constrain/Constrain';
+import { fadeIn, fadeOut } from '../../../utils/utils';
 
 /**
  * Component for Modal element.
@@ -23,10 +24,19 @@ import { Constrain } from '../../layouts/Constrain/Constrain';
  */
 export const Modal = ({ children, buttonText, buttonModifierClasses }) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const modalRef = useRef(null);
   // const [modalClasses, setModalClasses] = useState('modal--content');
   const toggleModal = () => {
     setModalOpen(!modalOpen);
   };
+
+  useEffect(() => {
+    if (modalOpen) {
+      fadeIn(modalRef.current);
+    } else {
+      fadeOut(modalRef.current);
+    }
+  }, [modalOpen]);
 
   return (
     <Fragment>
@@ -39,14 +49,8 @@ export const Modal = ({ children, buttonText, buttonModifierClasses }) => {
         onClick={toggleModal}
         text={buttonText}
         isButton={true}/>
-      <div hidden={!modalOpen}
-        id='modalPop'
-        className="modal"
-      >
-        <div className={
-          (modalOpen) ?
-            'modal__content modal--open' :
-            'modal__content'}>
+      <div className="modal" ref={modalRef}>
+        <div className="modal__content">
           <button
             className='modal__content--close'
             onClick={toggleModal}
