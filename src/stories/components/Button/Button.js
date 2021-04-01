@@ -3,6 +3,7 @@ import './styles.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 
 /**
  * Component for button element.
@@ -26,7 +27,7 @@ export const Button = ({ modifierClasses, url, text, isButton, onClick }) => {
         <button role="button" className={classes} onClick={onClick}>
           {text}
         </button> :
-        <a href={url} className={classes}>{text}</a>
+        <Link to={url} className={classes}>{text}</Link>
       }
     </Fragment>
   );
@@ -57,6 +58,6 @@ Button.propTypes = {
 
 Button.defaultProps = {
   modifierClasses: '',
-  isButton: false,
+  isButton: true,
   onClick: null,
 };

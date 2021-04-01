@@ -5,12 +5,15 @@
 
 .horizontal-title {
   &--medium {
+    margin-bottom: $spacing-3;
+
     .horizontal-title__content {
       font-size: $font-size-lg;
     }
   }
 
   &--large {
+    margin-bottom: $spacing-5;
     .horizontal-title__content {
       font-size: rem(24px);
     }
