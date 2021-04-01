@@ -14,6 +14,7 @@ import { AccountPage } from './stories/pages/AccountPage/AccountPage';
 import { ExperimentsPage }
   from './stories/pages/ExperimentsPage/ExperimentsPage';
 import { PrivateRoute } from './stories/components/PrivateRoute/PrivateRoute';
+import { JsPsych } from './stories/components/JsPsych/JsPsych';
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -61,6 +62,9 @@ function App() {
         </Route>
         <Route exact path="/signup">
           {user ? <Redirect to="/dashboard" /> : <Signup isDarkTheme={false} />}
+        </Route>
+        <Route exact path="/jspsych">
+          <JsPsych />
         </Route>
         <Route
           path="/"
