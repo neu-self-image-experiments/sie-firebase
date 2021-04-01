@@ -20,6 +20,8 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
+        {/* TO DO: update the Router paths for AnonymousLogin and Experiment
+        before final deployment based on the generated Experiment URL */}
         <Route path="/study/:experimentId/user/:participantId">
           <AnonymousLogin />
         </Route>
