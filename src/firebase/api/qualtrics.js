@@ -2,6 +2,7 @@ import { firestore } from '../firebase.js';
 import { StatusCodes } from 'http-status-codes';
 import {
   firestoreCollections as collections,
+  message
 } from '../constants.js';
 
 /**
@@ -15,10 +16,11 @@ export const getConsentResult = async (uid, experimentId) => {
     const collectionRef = firestore.collection(`${collections.USER}`)
       .doc(uid).collection(`${collections.EXPERIMENT}`).doc(experimentId);
     const snapshot = await collectionRef.get();
+    const exists = snapshot.exists;
     return {
-      status: snapshot.exists ? StatusCodes.OK : StatusCodes.NOT_FOUND,
-      message: snapshot.exists ? 'sucesss' : 'not found',
-      data: snapshot.exists ? snapshot.data() : null,
+      status: exists ? StatusCodes.OK : StatusCodes.NOT_FOUND,
+      message: exists ? message.OK : message.NOT_FOUND,
+      data: exists ? snapshot.data() : null,
     };
   } catch (error) {
     return {
