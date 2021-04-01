@@ -15,7 +15,7 @@ export const JsPsych = () => {
   // Load 'jspsych-html-keyboard-response' plugin script
   useEffect(() => {
     const script = document.createElement('script');
-    script.src = "../../../public/jspsych-6.3.0/plugins/jspsych-html-keyboard-response";
+    script.src = "../../../jspsych-6.3.0/plugins/jspsych-html-keyboard-response.js";
     script.async = true;
     document.body.appendChild(script);
   
@@ -24,16 +24,21 @@ export const JsPsych = () => {
     }
   }, []);
 
-  // Trial of experiment consists of "Hello World" disappearing when a 
-  // keyboard key is pressed.
-  const hello_trial = {
-    type: 'html-keyboard-response',
-    stimulus: 'Hello world!'
-  }
+  // Have to wait for the plugin script to be loaded asynchronously before
+  // running the experiment; otherwise it crashes.
+  setTimeout(() => {
+    // Trial of experiment consists of "Hello World" disappearing when a 
+    // keyboard key is pressed.
+    const hello_trial = {
+      type: 'html-keyboard-response',
+      stimulus: 'Hello world!'
+    }
 
-  jsPsych.init({
-    timeline: [hello_trial]
-  })
+    jsPsych.init({
+      timeline: [hello_trial]
+    });
+  }, 1000);
+
 
   return (
     <React.Fragment/>
