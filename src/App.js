@@ -20,6 +20,12 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
+        <Route path="/study/:experimentId/user/:participantId">
+          <AnonymousLogin />
+        </Route>
+        <Route path="/:experimentId/:participantId">
+          <Experiment />
+        </Route>
         <PrivateRoute
           exact
           path="/dashboard"
@@ -28,8 +34,7 @@ function App() {
             <Dashboard>
               <DashboardContent />
             </Dashboard>
-          )}
-        ></PrivateRoute>
+          )} />
         <PrivateRoute
           exact
           path="/account"
@@ -38,8 +43,7 @@ function App() {
             <Dashboard>
               <AccountPage />
             </Dashboard>
-          )}
-        ></PrivateRoute>
+          )} />
         <PrivateRoute
           exact
           path="/experiments"
@@ -48,14 +52,7 @@ function App() {
             <Dashboard>
               <ExperimentsPage />
             </Dashboard>
-          )}
-        ></PrivateRoute>
-        <Route path="/study/:experimentId">
-          <AnonymousLogin />
-        </Route>
-        <Route path="/user/:participantId/study/:experimentId">
-          <Experiment />
-        </Route>
+          )} />
         <Route exact path="/login">
           {user ? <Redirect to="/dashboard" /> : <Login />}
         </Route>

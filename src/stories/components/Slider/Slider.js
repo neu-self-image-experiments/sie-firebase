@@ -6,6 +6,7 @@ import 'swiper/swiper.scss'; // Swiper styles
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Constrain } from '../../layouts/Constrain/Constrain';
 
 
 /**
@@ -40,6 +41,7 @@ export const Slider = ({ children }) => {
     <div className="slider">
       {/* Slider itself */}
       <Swiper
+        className="slider__swiper"
         spaceBetween={30}
         freeMode={true}
         scrollbar={{ draggable: true }}
@@ -87,24 +89,26 @@ export const Slider = ({ children }) => {
       </Swiper>
 
       {/* Slider control buttons */}
-      <div className="slider__controls">
-        <button
-          className=
-            {`slider__button slider__button--back ${backButtonDisabled}`}
-          onClick={() => {
-            swiper.slidePrev();
-          }}
-        >
-          BACK
-        </button>
-        <button
-          className=
-            {`slider__button slider__button--next ${nextButtonDisabled}`}
-          onClick={() => swiper.slideNext()}
-        >
-          NEXT
-        </button>
-      </div>
+      <Constrain>
+        <div className="slider__controls">
+          <button
+            className=
+              {`slider__button slider__button--back ${backButtonDisabled}`}
+            onClick={() => {
+              swiper.slidePrev();
+            }}
+          >
+            BACK
+          </button>
+          <button
+            className=
+              {`slider__button slider__button--next ${nextButtonDisabled}`}
+            onClick={() => swiper.slideNext()}
+          >
+            NEXT
+          </button>
+        </div>
+      </Constrain>
     </div>
   );
 };

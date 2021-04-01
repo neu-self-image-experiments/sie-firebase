@@ -21,7 +21,7 @@ import { Footer } from '../../layouts/Footer/Footer';
  */
 
 export const AnonymousLogin = () => {
-  const { experimentId } = useParams();
+  const { experimentId, participantId } = useParams();
   const isDarkTheme = false;
   const history = useHistory();
   // define user fields
@@ -34,10 +34,8 @@ export const AnonymousLogin = () => {
     // define new user object
 
     if (fullName) {
-      let participantId = new Date().toISOString();
-      participantId = participantId.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
       // redirect to login page
-      history.push(`/user/${participantId}/study/${experimentId}`);
+      history.push(`/${experimentId}/${participantId}`);
     } else {
       setError('Please, fill out all fields.');
     }
@@ -66,7 +64,8 @@ export const AnonymousLogin = () => {
                 modifierClasses={isDarkTheme ? 'form-item--light' : ''}
                 label='Full Name'
                 type='text'
-                placeholder='Full Name'
+                disabled={true}
+                placeholder={participantId}
                 handleChange={(e) => setFullName(e.target.value)}
               />
               { error &&
