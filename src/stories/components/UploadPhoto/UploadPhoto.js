@@ -98,10 +98,6 @@ export const UploadPhoto = () => {
 
   // upload photo to the server to generate stimuli
   const uploadPhoto = () => {
-    // REMOVE EVENTUALLY
-    const userId = 'test';
-    const experimentId = '001';
-
     if (image) {
       fetch(image).then((response) => response.blob())
         .then((blob) => {
@@ -111,7 +107,7 @@ export const UploadPhoto = () => {
     }
     // call gcp util function
     uploadSelfImage(
-      userId, experimentId, file,
+      participantId, experimentId, file,
     ).then((response) => {
       // REMOVE EVENTUALLY
       switch (response.status) {
