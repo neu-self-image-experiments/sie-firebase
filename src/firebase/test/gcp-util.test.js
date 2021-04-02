@@ -1,26 +1,27 @@
-import { uploadSelfImage, observeStimuliCompletion } from '../api/gcp-utils';
-import { useState } from 'react';
+import { getSieStimuliFromBucket } from '../api/gcp-utils';
+// disregard uploadSelfImage function as unit tests can cause too much
+// burden on cloud storage.
 
-test('upload self image', () => {
-  const userId = 'test';
-  const experimentId = '001';
-  const image = new File('../../../../testImages/test01.jpeg');
-  expect(uploadSelfImage(userId, experimentId, image)).toEqual({
-    status: StatusCodes.CREATED,
-    message: 'image successfully uploaded',
-    data: null,
+// test observe image stimuli generation completion.
+test('get 400 stimuli image urls from bucket', async () => {
+  const userId = '3xOn8cXslDdqjv5ewcQOliuGB0D2';
+  const experimentId = '002';
+
+  // if the user-experiment folder exists, it shall have length of 400
+  // otherwise it shall return an empty array
+  return getSieStimuliFromBucket(userId, experimentId).then((res) => {
+    try {
+      expect(res.data).toHaveLength(400);
+      expect(res.status).toBe(200);
+    } catch {
+      try {
+        // got empty array when the user has not uploaded a photo yet
+        expect(res.data).toHaveLength(0);
+        expect(res.status).toBe(204);
+      } catch {
+        // error while fetching image urls
+        expect(res.status).toBe(500);
+      }
+    }
   });
-});
-
-test('observe stimuli completion', async () => {
-  const userId = 'test';
-  const experimentId = '001';
-  const [urls, setUrls] = useState([]);
-  const [error, setError] = useState('');
-  const imageUrlsHandler = (urls) => setUrls(urls);
-  const errorHandler = (error) => setError(error);
-  await observeStimuliCompletion(userId, experimentId,
-    imageUrlsHandler, errorHandler);
-  expect(urls).toHaveLength(400);
-  expect(error).toBe('');
 });
