@@ -1,3 +1,4 @@
+/* eslint-disable */
 /*
  * Example plugin template
  */

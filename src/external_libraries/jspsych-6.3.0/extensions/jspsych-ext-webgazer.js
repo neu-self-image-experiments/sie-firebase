@@ -1,3 +1,4 @@
+/* eslint-disable */
 jsPsych.extensions['webgazer'] = (function () {
 
   var extension = {};

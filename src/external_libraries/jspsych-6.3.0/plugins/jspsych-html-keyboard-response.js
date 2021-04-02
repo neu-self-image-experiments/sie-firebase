@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * jspsych-html-keyboard-response
  * Josh de Leeuw
