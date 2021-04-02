@@ -1,6 +1,7 @@
 import './styles.scss';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import Webcam from 'react-webcam';
 
 import { PhotoInstructions } from '../PhotoInstructions/PhotoInstructions';
@@ -8,7 +9,7 @@ import { Button } from '../Button/Button';
 import { ImageGuidelines } from '../ImageGuidelines/ImageGuidelines';
 import { ToggleCamera } from '../ToggleCamera/ToggleCamera';
 import { FileUpload } from '../FileUpload/FileUpload';
-import { uploadSelfImage }
+import { uploadSelfImage, observeStimuliCompletion }
   from '../../../firebase/api/gcp-utils';
 import { Loader } from '../Loader/Loader';
 import { StatusCodes } from 'http-status-codes';
@@ -22,6 +23,8 @@ import { StatusCodes } from 'http-status-codes';
  * )
  */
 export const UploadPhoto = () => {
+  const { experimentId, participantId } = useParams();
+
   const [cameraIsOn, setWebcamOn] = useState(false);
   const [file, setFile] = useState('');
   const [image, setImage] = useState('');
@@ -29,11 +32,39 @@ export const UploadPhoto = () => {
   const webcamRef = React.useRef(null);
   const [loading, setLoading] = useState(false);
   const [complete, setComplete] = useState(false);
-  // TODO: define urls state
+  const [stimuliUrls, setStimuliUrls] = useState([]);
+
+  // TODO call useEffect() to listen for stimuli completion
+  // TODO: call observeStimuliCompletion here with timer to avoid
+  // long open listeners, should be around 4000ms;
+  useEffect(() => {
+    setTimeout(() => {
+      observeStimuliCompletion(
+        participantId,
+        experimentId,
+        setStimuliUrls,
+        stimuliReadyFailed,
+      );
+    }, 4000);
+  }, []);
+
+  // TODO: useEffect({}, [urls]) to check if all urls are fetched
+  useEffect(() => {
+    checkStimuli();
+    stimuliReady();
+  }, [stimuliUrls]);
 
   // TODO: image URLs handler
+  const stimuliReady = () => {
+    // Probably call custom hook here to save stimuli urls in state
+    // Maybe also enable 'next' button
+    window.alert('Stimuli URLs are ready!');
+  };
 
   // TODO: image error handler
+  const stimuliReadyFailed = (errorCode) => {
+    window.alert('Stimuli fetching failed: ' + errorCode);
+  };
 
   // toggle device camera
   const toggleCamera = () => {
@@ -54,15 +85,9 @@ export const UploadPhoto = () => {
     setImage('');
   };
 
-  // TODO call useEffect() to listen for stimuli completion
-  // TODO: call observeStimuliCompletion here with timer to avoid
-  // long open listeners, should be around 4000ms;
-
-  // TODO: useEffect({}, [urls]) to check if all urls are fetched
-
   // check if stimuli generation is successful
   const checkStimuli = () => {
-    if (urls.length > 0) {
+    if (stimuliUrls.length > 0) {
       setComplete(true);
       setLoading(false);
       setError(false);
@@ -92,8 +117,6 @@ export const UploadPhoto = () => {
       switch (response.status) {
       case StatusCodes.CREATED:
         setLoading(true);
-        // TODO: move this line to useEffect
-        checkStimuli();
         return;
       case StatusCodes.INTERNAL_SERVER_ERROR:
         setError(true);
