@@ -16,10 +16,19 @@ export const getConsentResult = async (uid, experimentId) => {
       .doc(uid).collection(`${collections.EXPERIMENT}`).doc(experimentId);
     const snapshot = await collectionRef.get();
     const exists = snapshot.exists;
+    let consent = null;
+    if (exists) {
+      const res = snapshot.data();
+      consent = {
+        response: res.response,
+        lastname: res.lastname,
+        firstname: res.firstname,
+      };
+    }
     return {
       status: exists ? StatusCodes.OK : StatusCodes.NOT_FOUND,
       message: exists ? message.OK : message.NOT_FOUND,
-      data: exists ? snapshot.data() : null,
+      data: consent,
     };
   } catch (error) {
     return {
