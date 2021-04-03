@@ -1,6 +1,6 @@
-import { firestore, auth } from '../firebase.js';
+import { firestore, auth } from '../firebase';
 import { StatusCodes } from 'http-status-codes';
-import { firestoreCollections as collections } from '../constants.js';
+import { firestoreCollections as collections } from '../constants';
 
 // ============ SIGN UP =============
 // How to sign up a user:
