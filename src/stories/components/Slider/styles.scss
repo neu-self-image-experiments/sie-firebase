@@ -6,8 +6,23 @@
 $text-arrow-distance: 1.5rem;
 $text-text-distance: 1rem;
 
+.swiper-container--layout {
+  padding: 0 0 $spacing-2 $spacing-6;
+  position: relative !important;
+}
+
 .slider {
   margin: $spacing-3 0 $spacing-12;
+  padding-left: 2rem !important;
+  width: 100%;
+
+  // @include bp-tablet-lg {
+  //   max-width: calc(100% - #{rem(325px)});
+  // }
+
+  // @include bp-desktop {
+  //   max-width: calc(100% - #{rem(350px)});
+  // }
 
   .swiper-wrapper {
     padding: $spacing-3 0;
