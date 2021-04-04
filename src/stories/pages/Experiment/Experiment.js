@@ -31,7 +31,9 @@ import { getExperimentById } from '../../../firebase/api/experiments';
 export const Experiment = ({
   preSurveys, postSurveys,
 }) => {
-  // const { experimentId, participantId } = useParams();
+  // TODO (fernandowinfield): Once Qualtrics is ready to be fully integrated
+  // into the experiment flow, use both `experimentId` and `participantId`
+  // on the line below. Also uncomment the <QualtricsEmbed /> component.
   const { experimentId } = useParams();
   const [experiment, setExperiment] = useState({});
 
