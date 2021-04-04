@@ -38,31 +38,37 @@ export const UploadPhoto = () => {
   // TODO: call observeStimuliCompletion here with timer to avoid
   // long open listeners, should be around 4000ms;
   useEffect(() => {
-    setTimeout(() => {
-      observeStimuliCompletion(
-        participantId,
-        experimentId,
-        setStimuliUrls,
-        stimuliReadyFailed,
-      );
-    }, 4000);
-  }, []);
+    if (loading) {
+      setTimeout(() => {
+        observeStimuliCompletion(
+          participantId,
+          experimentId,
+          setStimuliUrls,
+          stimuliFailed,
+        );
+      }, 4000);
+    }
+  }, [loading]);
 
   // TODO: useEffect({}, [urls]) to check if all urls are fetched
   useEffect(() => {
-    checkStimuli();
-    stimuliReady();
+    if (stimuliUrls.length > 0) {
+      checkStimuli();
+      if (complete) {
+        stimuliReady();
+      }
+    }
   }, [stimuliUrls]);
 
   // TODO: image URLs handler
   const stimuliReady = () => {
-    // Probably call custom hook here to save stimuli urls in state
-    // Maybe also enable 'next' button
+    // Probably call custom hook here to save stimuli urls in state.
+    // Maybe also enable 'Next' button
     window.alert('Stimuli URLs are ready!');
   };
 
   // TODO: image error handler
-  const stimuliReadyFailed = (errorCode) => {
+  const stimuliFailed = (errorCode) => {
     window.alert('Stimuli fetching failed: ' + errorCode);
   };
 
@@ -101,27 +107,46 @@ export const UploadPhoto = () => {
     if (image) {
       fetch(image).then((response) => response.blob())
         .then((blob) => {
-          const file = new File([blob], 'photo', { type: 'image/jpeg' });
-          setFile(file);
+          const imageFile = new File([blob], 'photo', { type: 'image/jpeg' });
+          setFile(imageFile);
+          // call gcp util function
+          uploadSelfImage(
+            participantId, experimentId, imageFile,
+          ).then((response) => {
+            // REMOVE EVENTUALLY
+            switch (response.status) {
+            case StatusCodes.CREATED:
+              setLoading(true);
+              return;
+            case StatusCodes.INTERNAL_SERVER_ERROR:
+              setError(true);
+              return;
+            default:
+              return;
+            }
+          });
         });
+    } else if (file) {
+      uploadSelfImage(
+        participantId, experimentId, file,
+      ).then((response) => {
+        // REMOVE EVENTUALLY
+        switch (response.status) {
+        case StatusCodes.CREATED:
+          setLoading(true);
+          return;
+        case StatusCodes.INTERNAL_SERVER_ERROR:
+          setError(true);
+          return;
+        default:
+          return;
+        }
+      });
     }
-    // call gcp util function
-    uploadSelfImage(
-      participantId, experimentId, file,
-    ).then((response) => {
-      // REMOVE EVENTUALLY
-      switch (response.status) {
-      case StatusCodes.CREATED:
-        setLoading(true);
-        return;
-      case StatusCodes.INTERNAL_SERVER_ERROR:
-        setError(true);
-        return;
-      default:
-        return;
-      }
-    });
   };
+
+  // To preview photos that come from <FileUpload />
+  const imageSrc = file ? URL.createObjectURL(file) : image;
 
   return loading ? (
     <Loader
@@ -155,7 +180,7 @@ export const UploadPhoto = () => {
           }
         </div>
         <div className="upload-photo__item">
-          <ImageGuidelines content={ <img src={image} /> } />
+          <ImageGuidelines content={ <img src={imageSrc} /> } />
           <p>Your photo will appear here.</p>
         </div>
       </div>
