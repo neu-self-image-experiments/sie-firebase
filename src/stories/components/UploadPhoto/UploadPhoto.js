@@ -174,55 +174,48 @@ export const UploadPhoto = () => {
     URL.createObjectURL(file) :
     image;
 
-  const loader = loading ?
+  return loading ?
     <Loader text="Please wait! Your photo is being processed..." /> :
-    null;
-
-  return (
-    <div>
-      {loader}
-      <div className="upload-photo">
-        <PhotoInstructions />
-        <ToggleCamera onClick={() => toggleCamera()} />
-        <div className="upload-photo__images">
-          <div className="upload-photo__item">
-            <ImageGuidelines content={ cameraIsOn &&
-              <Webcam screenshotFormat='image/jpeg'
-                height={240} width={320} ref={webcamRef}
-              />
-            } />
-            <p>Align your face with the guiding lines.</p>
-            { cameraIsOn &&
-              <Button
-                modifierClasses="button--small button--secondary"
-                isButton={true}
-                text="Take a photo"
-                onClick={() => {
-                  capturePhoto();
-                }}
-              />
-            }
-          </div>
-          <div className="upload-photo__item">
-            <ImageGuidelines content={ <img src={imageSrc} /> } />
-            <p>Your photo will appear here.</p>
-          </div>
-        </div>
-        <FileUpload onChange={(e) => uploadFile(e.target)} />
-        <div className="upload-photo__submit">
-          <p>Once you are ready. You can upload your photo here.</p>
-          <Button
-            isButton={true}
-            modifierClasses="upload-photo__btn button--small"
-            text="Upload"
-            onClick={() => uploadPhoto()} />
-          { error &&
-            <p className="upload-photo__err">
-              Something went wrong and your photo could not be uploaded.
-              Please, try again.</p>
+    <div className="upload-photo">
+      <PhotoInstructions />
+      <ToggleCamera onClick={() => toggleCamera()} />
+      <div className="upload-photo__images">
+        <div className="upload-photo__item">
+          <ImageGuidelines content={ cameraIsOn &&
+            <Webcam screenshotFormat='image/jpeg'
+              height={240} width={320} ref={webcamRef}
+            />
+          } />
+          <p>Align your face with the guiding lines.</p>
+          { cameraIsOn &&
+            <Button
+              modifierClasses="button--small button--secondary"
+              isButton={true}
+              text="Take a photo"
+              onClick={() => {
+                capturePhoto();
+              }}
+            />
           }
         </div>
+        <div className="upload-photo__item">
+          <ImageGuidelines content={ <img src={imageSrc} /> } />
+          <p>Your photo will appear here.</p>
+        </div>
       </div>
-    </div>
-  );
+      <FileUpload onChange={(e) => uploadFile(e.target)} />
+      <div className="upload-photo__submit">
+        <p>Once you are ready. You can upload your photo here.</p>
+        <Button
+          isButton={true}
+          modifierClasses="upload-photo__btn button--small"
+          text="Upload"
+          onClick={() => uploadPhoto()} />
+        { error &&
+          <p className="upload-photo__err">
+            Something went wrong and your photo could not be uploaded.
+            Please, try again.</p>
+        }
+      </div>
+    </div>;
 };
