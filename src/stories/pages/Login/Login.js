@@ -57,11 +57,9 @@ export const Login = ({ isDarkTheme }) => {
         <SplitGradient
           modifierClasses={!isDarkTheme ? 'split-gradient--light' : ''}
           leftContent={
-            <Section
-              titleEl="h1"
-              title="Welcome back."
-              content="Login into your account to access your user dashboard."
-            />
+            <Section titleEl="h1" title="Welcome back.">
+              <p>Login into your account to access your user dashboard.</p>
+            </Section>
           }
           rightContent={
             <Form type="login">

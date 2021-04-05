@@ -31,8 +31,9 @@ import { getExperimentById } from '../../../firebase/api/experiments';
 export const Experiment = ({
   preSurveys, postSurveys,
 }) => {
-  const { experimentId } = useParams();
+  const { experimentId, participantId } = useParams();
   const [experiment, setExperiment] = useState({});
+
   useEffect(() => {
     const id = experimentId ?
       experimentId :
@@ -70,7 +71,9 @@ export const Experiment = ({
             <Section titleEl={HEADING} title='Consent Form'>
               <p>Please, complete the form below before completing the
                 study.</p>
-              <QualtricsEmbed url={experiment.consent} />
+              <QualtricsEmbed url={`${experiment.consent}?
+                participant_id=${participantId}&
+                experiment_id=${experimentId}}`} />
             </Section>
             {/* Step 3 */}
             <Section titleEl={HEADING} title='Photo Instructions and Upload'>

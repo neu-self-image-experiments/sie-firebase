@@ -13,14 +13,15 @@ import { HorizontalTitle } from '../../components/HorizontalTitle/HorizontalTitl
 import { getAllExperiments } from '../../../firebase/api/experiments';
 // TODO #1.1(fernandowinfield): remove the import below.
 import UserServices from '../../../firebase/CRUDServices/userServices';
+import { Constrain } from '../../layouts/Constrain/Constrain';
 
 const PLACEHOLDER_EXPERIMENTS = [
-  { title: 'Title 1', shortDesc: 'Short description' },
-  { title: 'Title 2', shortDesc: 'Short description' },
-  { title: 'Title 3', shortDesc: 'Short description' },
-  { title: 'Title 4', shortDesc: 'Short description' },
-  { title: 'Title 5', shortDesc: 'Short description' },
-  { title: 'Title 6', shortDesc: 'Short description' },
+  { title: 'Title 1', description: 'Short description' },
+  { title: 'Title 2', description: 'Short description' },
+  { title: 'Title 3', description: 'Short description' },
+  { title: 'Title 4', description: 'Short description' },
+  { title: 'Title 5', description: 'Short description' },
+  { title: 'Title 6', description: 'Short description' },
 ];
 
 // TODO #1.2(fernandowinfield): replace this context with the new auth context.
@@ -69,7 +70,7 @@ export const ExperimentsPage = () => {
       (
         // TODO #2.1(fernandowinfield): add/remove fields below as needed.
         { title = 'Title of Experiment',
-          shortDesc = 'Short description of experiment',
+          description = 'Short description of experiment',
           opened = 'mm-dd-yyyy',
           admin = 'Admin name',
           researchers = ['Researcher Name'],
@@ -79,7 +80,7 @@ export const ExperimentsPage = () => {
         <Card
           modifierClasses='card--active'
           title={title}
-          body= {shortDesc}
+          body= {description}
           opened={opened}
           admin={admin}
           researchers={researchers.join(', ')}
@@ -96,7 +97,7 @@ export const ExperimentsPage = () => {
       // TODO #2.2(fernandowinfield): here too, add/remove fields below as
       // needed.
       { title = 'Title of Experiment',
-        shortDesc = 'Short description of experiment',
+        description = 'Short description of experiment',
         opened = 'mm-dd-yyyy',
         admin = 'Admin name',
         researchers = ['Researcher Name'],
@@ -106,7 +107,7 @@ export const ExperimentsPage = () => {
       <Card
         modifierClasses='card--inactive'
         title={title}
-        body= {shortDesc}
+        body= {description}
         opened={opened}
         admin={admin}
         researchers={researchers.join(', ')}
@@ -117,26 +118,28 @@ export const ExperimentsPage = () => {
     <div>{error.errorCode + ': ' + error.errorMessage}</div>
   ) : logInState.isLoggedIn ? (
     <UserContext.Provider value={logInState.user}>
-      <HorizontalTitle
-        modifierClasses="horizontal-title--medium"
-        eyebrow={'Overview'}
-        title={'Experiments'}
-        content={
-          'Here\'s an overview of what\'s going on your application. ' +
-          'You can review your active experiments, ' +
-          'check reports and analyze real-time data.'
-        }
-      />
+      <Constrain>
+        <HorizontalTitle
+          modifierClasses="horizontal-title--medium"
+          eyebrow={'View All'}
+          title={'Experiments'}
+          content={
+            'Here\'s an overview of what\'s going on your application. ' +
+            'You can review your active experiments, ' +
+            'check reports and analyze real-time data.'
+          }
+        />
+        {/* Ongoing experiments */}
+        <HorizontalTitle
+          modifierClasses="horizontal-title--small"
+          titleEl="h6"
+          title={'Ongoing Experiments'}
+          content={<AddExperiment buttonText={'Add New Study'}
+            buttonModifierClasses={'button--circular-small'} />
+          }
+        />
+      </Constrain>
 
-      {/* Ongoing experiments */}
-      <HorizontalTitle
-        modifierClasses="horizontal-title--small"
-        titleEl="h6"
-        title={'Ongoing Experiments'}
-        content={<AddExperiment buttonText={'Add New Study'}
-          buttonModifierClasses={'button--circular-small'} />
-        }
-      />
       {ongoingExperimentsSlides ?
         <Slider>
           {ongoingExperimentsSlides}
@@ -149,18 +152,18 @@ export const ExperimentsPage = () => {
       }
 
       {/* Inactive experiments */}
-      <div>
+      <Constrain>
         <HorizontalTitle
           modifierClasses="horizontal-title--small"
           titleEl="h6"
           title={'Inactive Experiments'}
         />
-        {/* TODO #3.4(fernandowinfield): Add ternary operator and content to
-        display when there are no inactive experiments */}
-        <Slider>
-          {inactiveExperimentsSlides}
-        </Slider>
-      </div>
+      </Constrain>
+      {/* TODO #3.4(fernandowinfield): Add ternary operator and content to
+      display when there are no inactive experiments */}
+      <Slider>
+        {inactiveExperimentsSlides}
+      </Slider>
     </UserContext.Provider>
   ) : (
     <div>{'No logged in user'}</div>

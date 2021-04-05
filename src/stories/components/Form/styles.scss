@@ -12,6 +12,7 @@
   text-align: left;
 }
 
+.form--account,
 .form--signup,
 .form--login {
   text-align: right;
@@ -34,6 +35,6 @@
 }
 
 .form--account {
+  margin: $spacing-3 0 0;
   text-align: left;
-  padding: $spacing-2;
 }

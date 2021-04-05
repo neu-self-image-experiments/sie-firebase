@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import StepWizard from 'react-step-wizard';
 import { Steps } from '../../components/Steps/Steps';
 import { Constrain } from '../Constrain/Constrain';
+import { Link, useParams } from 'react-router-dom';
 
 /**
  * Component for Wizard layout element.
@@ -19,13 +20,22 @@ import { Constrain } from '../Constrain/Constrain';
  */
 /* eslint react/prop-types: 0 */
 export const Wizard = ({ children, labels }) => {
+  const { experimentId } = useParams();
   const [state, updateState] = useState({
     form: {},
   });
+  const [step, setStep] = useState(1);
 
-  // Do something on step change
+  // update step value
   const onStepChange = (stats) => {
-    // might need later on
+    setStep(WizInstance.currentStep);
+    window.setTimeout(function() {
+      window.scrollTo({
+        top: 0,
+        // left: 0,
+        behavior: 'smooth',
+      });
+    }, 800);
   };
 
   const setInstance = (WizInstance) => updateState({
@@ -49,7 +59,8 @@ export const Wizard = ({ children, labels }) => {
           {children}
         </StepWizard>
         {
-          WizInstance && <Controls WizInstance={WizInstance} />
+          WizInstance && <Controls currentStep={step}
+            WizInstance={WizInstance} experimentId={experimentId} />
         }
       </Fragment>
     );
@@ -74,15 +85,22 @@ export const Wizard = ({ children, labels }) => {
  *   <Fragment WizInstance={WizInstance} />
  * )
  */
-const Controls = ({ WizInstance }) => (
+const Controls = ({ experimentId, currentStep, WizInstance }) => (
   <Fragment>
     <div className="wizard__controls">
-      <button className={'wizard__button button--link'}
-        onClick={WizInstance.previousStep}
-      >Go Back</button>
-      <button className={'wizard__button button button--tertiary'}
-        onClick={WizInstance.nextStep}
-      >Next</button>
+      {currentStep !== 1 &&
+        <button className={'wizard__button button--link'}
+          onClick={WizInstance.previousStep}
+        >Go Back</button>
+      }
+      {currentStep !== WizInstance.totalSteps ?
+        <button className={'wizard__button button button--tertiary'}
+          onClick={WizInstance.nextStep}
+        >Next</button> :
+        <Link className={'wizard__button button button--tertiary'}
+          to={`/study/${experimentId}/user/123`}
+        >Completet Study</Link>
+      }
     </div>
   </Fragment>
 );
