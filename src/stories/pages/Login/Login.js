@@ -30,19 +30,19 @@ export const Login = ({ isDarkTheme }) => {
 
   const history = useHistory();
 
-  const { trigger, setTrigger } = useContext(AuthContext);
+  const { reloadAuthProvider } = useContext(AuthContext);
 
-  const getUser = (e) => {
+  const login = (e) => {
     e.preventDefault();
-
     signIn(email, password).then((response) => {
       if (response.data) {
-        // REDIRECT TO DASHBOARD
-        // ERROR HANDLING
-        setTrigger(!trigger);
+        // Reload authProvider so it knows someone has logged in
+        reloadAuthProvider();
         history.push('/dashboard');
+      } else if (response.error) {
+        setError(response.error.message);
       } else {
-        setError(response.errorMessage);
+        setError('Server not responding');
       }
     });
   };
@@ -93,7 +93,7 @@ export const Login = ({ isDarkTheme }) => {
                 disabled={true}
                 isButton={true}
                 text="Login"
-                onClick={(e) => getUser(e)}
+                onClick={(e) => login(e)}
               />
             </Form>
           }

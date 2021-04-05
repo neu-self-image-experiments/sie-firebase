@@ -11,10 +11,9 @@ configure({ adapter: new Adapter() });
 // Login test suite
 describe('<Login />', () => {
   it('renders correctly', () => {
-    const trigger = jest.fn();
-    const setTrigger = jest.fn();
+    const reloadAuthProvider = jest.fn();
     const { getByText, getByRole } = render(
-      <AuthContext.Provider value={{ trigger, setTrigger }}>
+      <AuthContext.Provider value={{ reloadAuthProvider }}>
         <Router>
           <Login />
         </Router>
@@ -27,10 +26,9 @@ describe('<Login />', () => {
   // test state change
   it('should update email state on change', () => {
     const changeState = jest.fn();
-    const trigger = jest.fn();
-    const setTrigger = jest.fn();
+    const reloadAuthProvider = jest.fn();
     const wrapper = mount(
-      <AuthContext.Provider value={(trigger, setTrigger)}>
+      <AuthContext.Provider value={{ reloadAuthProvider }}>
         <Router>
           <Login onChange={changeState} />
         </Router>
@@ -45,10 +43,9 @@ describe('<Login />', () => {
   // test password state change
   it('should update password state on change', () => {
     const changeState = jest.fn();
-    const trigger = jest.fn();
-    const setTrigger = jest.fn();
+    const reloadAuthProvider = jest.fn();
     const wrapper = mount(
-      <AuthContext.Provider value={(trigger, setTrigger)}>
+      <AuthContext.Provider value={{ reloadAuthProvider }}>
         <Router>
           <Login onChange={changeState} />
         </Router>

@@ -11,6 +11,11 @@ const AuthProvider = ({ children }) => {
   const [loaded, setLoaded] = useState(false);
   const [trigger, setTrigger] = useState(false);
 
+  const reloadAuthProvider = () => {
+    setTrigger(!trigger);
+    setLoaded(false);
+  };
+
   useEffect(async () => {
     try {
       const auth = await getCurrentUser();
@@ -26,9 +31,7 @@ const AuthProvider = ({ children }) => {
   }, [trigger]);
 
   return loaded ? (
-    <AuthContext.Provider
-      value={{ user, isAuthenticated, trigger, setTrigger }}
-    >
+    <AuthContext.Provider value={{ user, isAuthenticated, reloadAuthProvider }}>
       {children}
     </AuthContext.Provider>
   ) : (
