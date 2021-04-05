@@ -11,3 +11,8 @@ export const storageBuckets = {
 export const pubsub = {
   SIE_RESULT: 'projects/cs6510-spr2021/topics/sie-image-processing-result-test',
 };
+
+export const message = {
+  OK: 'Request succeed ',
+  NOT_FOUND: 'requested data not found',
+};
