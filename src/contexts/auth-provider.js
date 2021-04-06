@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { getCurrentUser, getUser } from '../firebase/api/users';
 import { Loader } from '../stories/components/Loader/Loader';
@@ -46,4 +46,12 @@ AuthProvider.propTypes = {
   children: PropTypes.node,
 };
 
-export { AuthProvider, AuthContext };
+const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('undefined');
+  }
+  return context;
+};
+
+export { AuthProvider, AuthContext, useAuth };

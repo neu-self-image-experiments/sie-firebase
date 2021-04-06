@@ -1,15 +1,32 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { render } from '@testing-library/react';
+import {
+  act,
+  findByText,
+  getByText,
+  render,
+  screen,
+} from '@testing-library/react';
 import { mount, configure } from 'enzyme';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import { Login } from './Login';
 import { AuthContext } from '../../../contexts/auth-provider';
+import * as users from '../../../firebase/api/users';
+import { StatusCodes } from 'http-status-codes';
+import userEvent from '@testing-library/user-event';
 
 configure({ adapter: new Adapter() });
 
 // Login test suite
 describe('<Login />', () => {
+  const waitForComponentToPaint = async (wrapper) => {
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      wrapper.update();
+    });
+  };
+
+  afterEach(() => jest.clearAllMocks());
   it('renders correctly', () => {
     const reloadAuthProvider = jest.fn();
     const { getByText, getByRole } = render(
@@ -55,5 +72,27 @@ describe('<Login />', () => {
     handleClick.mockImplementation((password) => [password, setPassword]);
     wrapper.find('.form-item__input--password').simulate('change');
     expect(changeState).toBeTruthy();
+  });
+
+  it('should show error message if bad inputs', async () => {
+    const reloadAuthProvider = jest.fn();
+
+    const mockSignIn = jest.spyOn(users, 'signIn');
+    mockSignIn.mockResolvedValue({
+      status: StatusCodes.NOT_FOUND,
+      data: null,
+      error: { code: 'auth/code', message: 'an error message' },
+    });
+
+    const wrapper = mount(
+      <AuthContext.Provider value={{ reloadAuthProvider }}>
+        <Router>
+          <Login />
+        </Router>
+      </AuthContext.Provider>,
+    );
+    wrapper.find('.button--small').simulate('click');
+    await waitForComponentToPaint(wrapper);
+    expect(wrapper.exists('.form__msg')).toBeTruthy();
   });
 });
