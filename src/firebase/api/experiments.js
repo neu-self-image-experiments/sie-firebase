@@ -150,30 +150,37 @@ export const deleteExperiment = async (experimentId) => {
  */
 export const storeExperimentResult = async (userId, experimentId,
   resultData) => {
-  try {
-    // locate the specific experiment id of the user
-    const userRef = firestore
-      .collection(collections.USER)
-      .doc(userId);
-
-    const expRef = userRef.collection(collections.EXPERIMENT)
-      .doc(experimentId);
-
-    const snapshot = await expRef.get();
-    if (snapshot.exists) {
-      expRef.update(...resultData);
-    }
-
+  // locate the specific experiment id of the user
+  const userRef = firestore
+    .collection(collections.USER)
+    .doc(userId);
+  const userSnapshot = await userRef.get();
+  if (!userSnapshot.exists) {
     return {
-      status: snapshot.exists ? StatusCodes.OK : StatusCodes.NOT_FOUND,
+      status: StatusCodes.NOT_FOUND,
       data: null,
-      error: null,
-    };
-  } catch (error) {
-    return {
-      status: StatusCodes.INTERNAL_SERVER_ERROR,
-      data: null,
-      error,
+      error: `user ${userId} is not found`,
     };
   }
+
+  const expRef = userRef.collection(collections.EXPERIMENT)
+    .doc(experimentId);
+  // update the experiment document under user's experiments collection
+  // will create if not exists
+
+  expRef.set(resultData,
+    { merge: true })
+    .then(() => {
+      return {
+        status: StatusCodes.OK,
+        data: null,
+        error: null,
+      };
+    }).catch((error) => {
+      return {
+        status: StatusCodes.INTERNAL_SERVER_ERROR,
+        data: null,
+        error,
+      };
+    });
 };
