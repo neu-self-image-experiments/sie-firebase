@@ -2,10 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import {
   act,
-  findByText,
-  getByText,
   render,
-  screen,
 } from '@testing-library/react';
 import { mount, configure } from 'enzyme';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
@@ -13,7 +10,6 @@ import { Login } from './Login';
 import { AuthContext } from '../../../contexts/auth-provider';
 import * as users from '../../../firebase/api/users';
 import { StatusCodes } from 'http-status-codes';
-import userEvent from '@testing-library/user-event';
 
 configure({ adapter: new Adapter() });
 
