@@ -1,6 +1,6 @@
-import { firestore, auth } from '../firebase.js';
+import { firestore, auth } from '../firebase';
 import { StatusCodes } from 'http-status-codes';
-import { firestoreCollections as collections } from '../constants.js';
+import { firestoreCollections as collections } from '../constants';
 
 // ============ SIGN UP =============
 // How to sign up a user:
@@ -203,7 +203,13 @@ export const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
       unsubscribe();
-      resolve(userAuth);
+      // Authticate user if user verified its email or is an anonymous user.
+      if (userAuth && (userAuth.emailVerified || userAuth.isAnonymous)) {
+        resolve(userAuth);
+      } else {
+        // Null if user didn't verify it's email and isn't an anonymous user.
+        resolve(null);
+      }
     }, reject);
   });
 };
