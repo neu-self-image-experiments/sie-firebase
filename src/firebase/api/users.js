@@ -74,6 +74,33 @@ export const signIn = async (email, password) => {
 };
 
 /**
+ * Send a reset password confirmation email to
+ * user with its email.
+ * @param {string} email valid email in firestore
+ * @return {JSON} HTTP status code
+ * Errors (only list relevant ones):
+ *  Invalid email
+ *  user not found
+ */
+export const sendResetPasswordEmail = async (email) => {
+  const auth = firebase.auth();
+  try {
+    await auth.sendResetPasswordEmail(email);
+    return {
+      status: StatusCodes.OK,
+      data: null,
+      error: null,
+    };
+  } catch (error) {
+    return {
+      status: StatusCodes.NOT_MODIFIED,
+      data: null,
+      error,
+    };
+  }
+};
+
+/**
  * Reset a user password
  * @param {string} newPassword valid password
  * @return {JSON} user auth object or error code
