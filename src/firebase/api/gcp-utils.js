@@ -33,14 +33,14 @@ const uploadImageToStorage = async (
   return await newImageRef.put(image).then(() => {
     return {
       status: StatusCodes.CREATED,
-      message: 'image successfully uploaded',
       data: null,
+      error: null,
     };
   }).catch((error) => {
     return {
       status: StatusCodes.UNAUTHORIZED,
-      message: `user not authenticated ${error.code}`,
       data: null,
+      error: `user not authenticated ${error.code}`,
     };
   });
 };
@@ -115,21 +115,21 @@ const getFileUrlsFromBucket = async (userId, experimentId, filterFunction) => {
     if (fileUrls.length === 0) {
       return {
         status: StatusCodes.NO_CONTENT,
-        message: 'No Stimuli image urls available',
         data: fileUrls.filter(filterFunction),
+        error: 'No Stimuli image urls available',
       };
     } else {
       return {
         status: StatusCodes.OK,
-        message: 'Stimuli image urls fetched',
         data: fileUrls.filter(filterFunction),
+        error: null,
       };
     }
   }).catch((error) => {
     return {
       status: StatusCodes.INTERNAL_SERVER_ERROR,
-      message: 'Unable to get stimuli image downloadable urls',
-      data: error,
+      data: null,
+      error: `Unable to get stimuli image downloadable urls ${error}`,
     };
   });
 };
