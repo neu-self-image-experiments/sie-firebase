@@ -1,5 +1,5 @@
-import { firestore, app } from '../firebase.js';
-import { firestoreCollections, storageBuckets } from '../constants.js';
+import { firestore, app } from '../firebase';
+import { firestoreCollections, storageBuckets } from '../constants';
 import { StatusCodes } from 'http-status-codes';
 
 /**
@@ -86,7 +86,7 @@ export const observeStimuliCompletion =
  * @param {String} experimentId experiment id
  * @return {JSON} JSON object including array of processed self image urls
  */
-const getSieStimuliFromBucket = (userId, experimentId) => {
+export const getSieStimuliFromBucket = (userId, experimentId) => {
   const imageFilterFunction = (url) => {
     const urlObj = new URL(url);
     const pathName = urlObj.pathname.split('/').pop();
@@ -112,11 +112,19 @@ const getFileUrlsFromBucket = async (userId, experimentId, filterFunction) => {
   return await Promise.all(itemRefs.map(async (itemRef) => {
     return await itemRef.getDownloadURL();
   })).then((fileUrls) => {
-    return {
-      status: StatusCodes.OK,
-      message: 'Stimuli image urls fetched',
-      data: fileUrls.filter(filterFunction),
-    };
+    if (fileUrls.length === 0) {
+      return {
+        status: StatusCodes.NO_CONTENT,
+        message: 'No Stimuli image urls available',
+        data: fileUrls.filter(filterFunction),
+      };
+    } else {
+      return {
+        status: StatusCodes.OK,
+        message: 'Stimuli image urls fetched',
+        data: fileUrls.filter(filterFunction),
+      };
+    }
   }).catch((error) => {
     return {
       status: StatusCodes.INTERNAL_SERVER_ERROR,
