@@ -74,6 +74,33 @@ export const signIn = async (email, password) => {
 };
 
 /**
+ * Send a reset password confirmation email to
+ * user with its email.
+ * @param {string} email valid email in firestore
+ * @return {JSON} HTTP status code
+ * Errors (only list relevant ones):
+ *  Invalid email
+ *  user not found
+ */
+export const sendResetPasswordEmail = async (email) => {
+  const auth = firebase.auth();
+  try {
+    await auth.sendResetPasswordEmail(email);
+    return {
+      status: StatusCodes.OK,
+      data: null,
+      error: null,
+    };
+  } catch (error) {
+    return {
+      status: StatusCodes.NOT_MODIFIED,
+      data: null,
+      error,
+    };
+  }
+};
+
+/**
  * Reset a user password
  * @param {string} newPassword valid password
  * @return {JSON} user auth object or error code
@@ -176,7 +203,13 @@ export const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
       unsubscribe();
-      resolve(userAuth);
+      // Authticate user if user verified its email or is an anonymous user.
+      if (userAuth && (userAuth.emailVerified || userAuth.isAnonymous)) {
+        resolve(userAuth);
+      } else {
+        // Null if user didn't verify it's email and isn't an anonymous user.
+        resolve(null);
+      }
     }, reject);
   });
 };
