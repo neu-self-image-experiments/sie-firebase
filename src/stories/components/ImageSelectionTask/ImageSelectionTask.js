@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Fragment } from 'react';
+import { JsPsych } from '../JsPsych/JsPsych';
 
 /**
  * Component for consent form element.
@@ -17,21 +18,29 @@ import { Fragment } from 'react';
 export const ImageSelectionTask = ({ url }) => {
   return (
     <Fragment>
-      <p>In the following computer task, you will complete a series of
-        trials where you will be asked to make a split-second
-        choice between two images of yourself.</p>
-      <p>Each image is based on an actual photograph of you, but there is noise/
-        static on top of the photo that may alter its appearance.
-        The differences between the two images may be quite subtle,
-        so we ask that you go with your gut.</p>
-      <p>Two pictures will appear side by side on the screen.
-        For each pair of pictures, we would like you to select the picture that
-        is most like you. To select the image on the left side press the E key;
-        to select the image on the right press the I key.</p>
-      <p>This task is timed and will take approximately 20 minutes to complete.
-        There are no wrong answers, so GO AS FAST AS YOU CAN.
-        Responses that are too slow will not be recorded.</p>
-      <p>To get started, <a href={url}>click here</a>.</p>
+      {/* <p>In the following computer task, you will complete a series of*/}
+      {/*  trials where you will be asked to make a split-second*/}
+      {/*  choice between two images of yourself.</p>*/}
+      {/* <p>Each image is based on an actual photograph of you, but there */}
+      {/*  is noise/*/}
+      {/*  static on top of the photo that may alter its appearance.*/}
+      {/*  The differences between the two images may be quite subtle,*/}
+      {/*  so we ask that you go with your gut.</p>*/}
+      {/* <p>Two pictures will appear side by side on the screen.*/}
+      {/*  For each pair of pictures, we would like you to select the */}
+      {/*  picture that*/}
+      {/*  is most like you. To select the image on the left side press the */}
+      {/* E key;*/}
+      {/*  to select the image on the right press the I key.</p>*/}
+      {/* <p>This task is timed and will take approximately 20 minutes to */}
+      {/* complete.*/}
+      {/*  There are no wrong answers, so GO AS FAST AS YOU CAN.*/}
+      {/*  Responses that are too slow will not be recorded.</p>*/}
+      {/* <p>To get started, <a href={url}>click here</a>.</p>*/}
+
+      {/* TODO: Integrate JsPsych component into ImageSelectionTask to load on click when user ready,
+                potentially via ScreenTakeover once button is clicked. */}
+      <JsPsych/>
     </Fragment>
   );
 };
