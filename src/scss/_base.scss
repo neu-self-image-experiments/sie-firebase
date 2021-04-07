@@ -19,6 +19,10 @@ body {
   padding: 0;
   transition: background-color 1s ease-in-out;
   word-wrap: break-word;
+
+  &.no-overflow {
+    overflow: hidden;
+  }
 }
 
 %hN {
