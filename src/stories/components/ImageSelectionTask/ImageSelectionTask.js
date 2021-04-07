@@ -38,8 +38,9 @@ export const ImageSelectionTask = ({ url }) => {
       {/*  Responses that are too slow will not be recorded.</p>*/}
       {/* <p>To get started, <a href={url}>click here</a>.</p>*/}
 
-      {/* TODO: Integrate JsPsych component into ImageSelectionTask to load on click when user ready,
-                potentially via ScreenTakeover once button is clicked. */}
+      {/* TODO: Integrate JsPsych component into ImageSelectionTask to load on
+             click when user ready,
+             potentially via ScreenTakeover once button is clicked. */}
       <JsPsych/>
     </Fragment>
   );
