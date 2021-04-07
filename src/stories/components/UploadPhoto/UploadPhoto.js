@@ -42,7 +42,7 @@ export const UploadPhoto = () => {
   // Check for stimuli generation completion; 1st try.
   useEffect(() => {
     if (loading) {
-      // Wait 40 seconds for the stimuli to be generated
+      // Wait for the stimuli to be generated
       setTimeout(() => {
         observeStimuliCompletion(
           participantId,
@@ -57,31 +57,19 @@ export const UploadPhoto = () => {
   // Check if stimuli URLs have been fetched
   useEffect(() => {
     if (stimuliUrls.length > 0) {
-      checkStimuli();
+      setComplete(true);
+      setLoading(false);
+      setError(false);
     }
   }, [stimuliUrls]);
 
   // Check if photo uploading step is complete
   useEffect(() => {
     if (complete) {
-      // TODO (fernandowinfield): save stimuli URLs to state and enable 'Next'
-      // button.
+      // TODO (fernandowinfield): enable 'Next' button.
       window.alert('Stimuli URLs are ready!');
     }
   }, [complete]);
-
-  // Check if stimuli generation was successful
-  const checkStimuli = () => {
-    if (stimuliUrls.length > 0) {
-      setComplete(true);
-      setLoading(false);
-      setError(false);
-      return true;
-    } else {
-      setError(true);
-    }
-    return false;
-  };
 
   // ===== STIMULI FETCHING RETRY HANDLERS ====================================
   // Error handler that checks for stimuli generation completion; 2nd try.
