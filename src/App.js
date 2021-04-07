@@ -14,7 +14,7 @@ import { AccountPage } from './stories/pages/AccountPage/AccountPage';
 import { ExperimentsPage }
   from './stories/pages/ExperimentsPage/ExperimentsPage';
 import { PrivateRoute } from './stories/components/PrivateRoute/PrivateRoute';
-
+import { Logout } from './stories/pages/Logout/Logout';
 function App() {
   const { user } = useContext(AuthContext);
   return (
@@ -55,11 +55,23 @@ function App() {
               <ExperimentsPage />
             </Dashboard>
           )} />
+        <PrivateRoute
+          exact
+          path="/logout"
+          user={user}
+          component={() => (
+            <Dashboard>
+              <Logout />
+            </Dashboard>
+          )} />
         <Route exact path="/login">
           {user ? <Redirect to="/dashboard" /> : <Login />}
         </Route>
         <Route exact path="/signup">
           {user ? <Redirect to="/dashboard" /> : <Signup isDarkTheme={true} />}
+        </Route>
+        <Route exact path="/logout">
+          {user ? <Redirect to="/logout" /> : <Redirect to="/login" />}
         </Route>
         <Route
           path="/"
