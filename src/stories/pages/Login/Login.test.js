@@ -1,9 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import {
-  act,
-  render,
-} from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import { mount, configure } from 'enzyme';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import { Login } from './Login';
@@ -70,7 +67,7 @@ describe('<Login />', () => {
     expect(changeState).toBeTruthy();
   });
 
-  it('should show error message if bad inputs', async () => {
+  it('should show error message if no inputs', async () => {
     const reloadAuthProvider = jest.fn();
 
     const mockSignIn = jest.spyOn(users, 'signIn');
@@ -89,6 +86,8 @@ describe('<Login />', () => {
     );
     wrapper.find('.button--small').simulate('click');
     await waitForComponentToPaint(wrapper);
-    expect(wrapper.exists('.form__msg')).toBeTruthy();
+    const errorDiv = wrapper.find('.form__msg');
+    expect(errorDiv.exists()).toBeTruthy();
+    expect(errorDiv.text()).toBe('an error message');
   });
 });
