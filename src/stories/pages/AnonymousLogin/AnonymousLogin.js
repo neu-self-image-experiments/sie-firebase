@@ -21,23 +21,20 @@ import { Footer } from '../../layouts/Footer/Footer';
  */
 
 export const AnonymousLogin = () => {
-  const { experimentId } = useParams();
+  const { experimentId, participantId } = useParams();
   const isDarkTheme = false;
   const history = useHistory();
   // define user fields
   const [error, setError] = useState('');
-  const [fullName, setFullName] = useState('');
 
   const goToExperiment = (e) => {
     e.preventDefault();
     // call user service
     // define new user object
 
-    if (fullName) {
-      let participantId = new Date().toISOString();
-      participantId = participantId.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
+    if (participantId) {
       // redirect to login page
-      history.push(`/user/${participantId}/study/${experimentId}`);
+      history.push(`/${experimentId}/${participantId}`);
     } else {
       setError('Please, fill out all fields.');
     }
@@ -66,8 +63,8 @@ export const AnonymousLogin = () => {
                 modifierClasses={isDarkTheme ? 'form-item--light' : ''}
                 label='Full Name'
                 type='text'
-                placeholder='Full Name'
-                handleChange={(e) => setFullName(e.target.value)}
+                disabled={true}
+                placeholder={participantId}
               />
               { error &&
                 <div className="form__msg">

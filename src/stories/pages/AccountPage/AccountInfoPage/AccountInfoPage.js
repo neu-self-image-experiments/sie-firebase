@@ -6,7 +6,7 @@ import React, { useContext, useState } from 'react';
 import { Form } from '../../../components/Form/Form';
 import { FormItem } from '../../../components/FormItem/FormItem';
 import Edit from '../../../../images/icon-edit.svg';
-import HorizontalRuleDark from '../../../../images/icon-horizontal-rule-dark.svg';
+import Done from '../../../../images/icon-done.svg';
 import { updateUserData } from '../../../../firebase/api/users';
 import { StatusCodes } from 'http-status-codes';
 import { isEmpty } from '../../../../utils/utils';
@@ -61,16 +61,11 @@ export const AccountInfoPage = () => {
   return (
     <div className="account-info">
       <div className="account-info__section-header">
-        <img
-          className="account-info__personal__horizontal-rule"
-          src={HorizontalRuleDark}
-        />
-        <h5 className="account-info__header-text">PERSONAL INFO</h5>
-        <img
-          className="account-info__edit"
-          src={Edit}
-          onClick={() => updateUserInfo()}
-        />
+        <h6 className="account-info__header-text">Account Info</h6>
+        <button className="account-info__edit"
+          onClick={() => updateUserInfo()}>
+          <img src={editInfo ? Edit : Done} />
+        </button>
       </div>
       <Form type="account">
         <FormItem
@@ -93,7 +88,7 @@ export const AccountInfoPage = () => {
         ></FormItem>
         <FormItem
           modifierClasses="form-item--inline"
-          label={'Email Address'}
+          label={'Email'}
           placeholder={email}
           showLabel={true}
           value={email}
@@ -107,6 +102,7 @@ export const AccountInfoPage = () => {
           placeholder={role}
           showLabel={true}
           value={role}
+          disabled={true}
           handleChange={(e) => setRole(e.target.value)}
         ></FormItem>
       </Form>

@@ -1,4 +1,4 @@
-import { firestore } from '../firebase.js';
+import { firestore } from '../firebase';
 import { StatusCodes } from 'http-status-codes';
 
 import {
@@ -139,4 +139,48 @@ export const deleteExperiment = async (experimentId) => {
       error,
     };
   }
+};
+
+/**
+ * Store experiment data into specific experiment document of the user.
+ * @param {String} userId user id
+ * @param {String} experimentId experiment id
+ * @param {JSON} resultData json object such as {'jsPsych': data}
+ * @return {JSON} response
+ */
+export const storeExperimentResult = async (userId, experimentId,
+  resultData) => {
+  // locate the specific experiment id of the user
+  const userRef = firestore
+    .collection(collections.USER)
+    .doc(userId);
+  const userSnapshot = await userRef.get();
+  if (!userSnapshot.exists) {
+    return {
+      status: StatusCodes.NOT_FOUND,
+      data: null,
+      error: `user ${userId} is not found`,
+    };
+  }
+
+  const expRef = userRef.collection(collections.EXPERIMENT)
+    .doc(experimentId);
+  // update the experiment document under user's experiments collection
+  // will create if not exists
+
+  expRef.set(resultData,
+    { merge: true })
+    .then(() => {
+      return {
+        status: StatusCodes.OK,
+        data: null,
+        error: null,
+      };
+    }).catch((error) => {
+      return {
+        status: StatusCodes.INTERNAL_SERVER_ERROR,
+        data: null,
+        error,
+      };
+    });
 };
