@@ -4,7 +4,7 @@ import { getSieStimuliFromBucket } from '../api/gcp-utils';
 
 // test observe image stimuli generation completion.
 test('get 400 stimuli image urls from bucket', async () => {
-  const userId = '3xOn8cXslDdqjv5ewcQOliuGB0D2';
+  const userId = 'testuser';
   const experimentId = '002';
 
   // if the user-experiment folder exists, it shall have length of 400
