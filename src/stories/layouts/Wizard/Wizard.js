@@ -142,4 +142,6 @@ Wizard.defaultProps = {
     'Step 3',
     'Step 4',
   ],
+  showNext: true,
+  stepHandler: (step) => step,
 };
