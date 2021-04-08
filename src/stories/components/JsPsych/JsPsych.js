@@ -3,8 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { observeStimuliCompletion } from '../../../firebase/api/gcp-utils';
 import { storeExperimentResult } from '../../../firebase/api/experiments';
-import example1 from '../../../images/example1.png';
-import example2 from '../../../images/example2.png';
 
 /**
  * Component to load jsPsych's "Self Image Experiment".
@@ -75,6 +73,11 @@ export const JsPsych = () => {
     // NOTE: Adjust line below to shorten the number of trials. 199 will go through all 200 iterations.
     const NUMBER_OF_TRIALS = 5;
 
+    const exampleImageOne = 'https://firebasestorage.googleapis.com/v0/b/cs6510-spr2021.appspot.com/o/example-' +
+      'stimuli-images%2Fexample1.png?alt=media&token=8a6ee16a-0700-40ef-a7cf-5c3e380b5b3f'
+    const exampleImageTwo = 'https://firebasestorage.googleapis.com/v0/b/cs6510-spr2021.appspot.com/o/example-' +
+      'stimuli-images%2Fexample2.png?alt=media&token=fb0a7373-add3-4187-9449-2f206fd08ae3'
+
     /* define instructions */
     const instructions = {
       type: 'html-keyboard-response',
@@ -86,11 +89,9 @@ export const JsPsych = () => {
             "<p>Press the letter <strong>I</strong> on the keyboard to select the image on the right.</p> " +
             "<p></p>" +
             "<div style='width: 900px; margin: auto;'>" +
-            // TODO: Figure out how to properly render example images. Both implementations below do not render local images.
-            //        We are able to render via HTTPs URLs but having issues with loading images locally.
-            "<div style='float: left;'><img width='300' src={require('../../../images/example1.png')} alt='Error loading example 1'></img>" +
+            "<div style='float: left;'><img width='300' src='" + exampleImageOne + "' alt='Error loading example 1'/>" +
             "<p class='small'><strong>Press the E key</strong></p></div>" +
-            "<div class='float: right;'><img width='300' src={ example2 } alt='Error loading example 2'></img>" +
+            "<div class='float: right;'><img width='300' src='" + exampleImageTwo + "' alt='Error loading example 2'/>" +
             "<p class='small'><strong>Press the I key</strong></p></div>" +
             "</div>" +
             "<p></p>" +
