@@ -19,7 +19,7 @@ import { Link, useParams } from 'react-router-dom';
  * )
  */
 /* eslint react/prop-types: 0 */
-export const Wizard = ({ children, labels }) => {
+export const Wizard = ({ children, labels, showNext }) => {
   const { experimentId } = useParams();
   const [state, updateState] = useState({
     form: {},
@@ -60,7 +60,9 @@ export const Wizard = ({ children, labels }) => {
         </StepWizard>
         {
           WizInstance && <Controls currentStep={step}
-            WizInstance={WizInstance} experimentId={experimentId} />
+            WizInstance={WizInstance}
+            experimentId={experimentId}
+            showNext={showNext} />
         }
       </Fragment>
     );
@@ -85,7 +87,7 @@ export const Wizard = ({ children, labels }) => {
  *   <Fragment WizInstance={WizInstance} />
  * )
  */
-const Controls = ({ experimentId, currentStep, WizInstance }) => (
+const Controls = ({ experimentId, currentStep, WizInstance, showNext }) => (
   <Fragment>
     <div className="wizard__controls">
       {currentStep !== 1 &&
@@ -93,13 +95,15 @@ const Controls = ({ experimentId, currentStep, WizInstance }) => (
           onClick={WizInstance.previousStep}
         >Go Back</button>
       }
-      {currentStep !== WizInstance.totalSteps ?
+      {(currentStep !== WizInstance.totalSteps && showNext) ?
         <button className={'wizard__button button button--tertiary'}
           onClick={WizInstance.nextStep}
-        >Next</button> :
-        <Link className={'wizard__button button button--tertiary'}
-          to={`/study/${experimentId}/user/123`}
-        >Completet Study</Link>
+        >Next</button> : currentStep === WizInstance.totalSteps ?
+          <Link className={'wizard__button button button--tertiary'}
+            to={`/study/${experimentId}/user/123`}
+          >Complete Study</Link> :
+          <button className={'wizard__button button button--tertiary disabled'}
+          >Next</button>
       }
     </div>
   </Fragment>
@@ -114,6 +118,10 @@ Wizard.propTypes = {
      * Wizard's labels
      */
   labels: PropTypes.array,
+  /**
+     * Wizard's 'Next' button condition
+     */
+  showNext: PropTypes.bool,
 };
 
 Wizard.defaultProps = {

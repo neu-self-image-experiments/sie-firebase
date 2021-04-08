@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
@@ -12,6 +13,7 @@ import { Section } from '../../components/Section/Section';
 import { ImageSelectionTask }
   from '../../components/ImageSelectionTask/ImageSelectionTask';
 import { getExperimentById } from '../../../firebase/api/experiments';
+import { getConsentResult } from '../../../firebase/api/qualtrics';
 
 /**
  * Component for experiment page.
@@ -33,6 +35,7 @@ export const Experiment = ({
 }) => {
   const { experimentId, participantId } = useParams();
   const [experiment, setExperiment] = useState({});
+  const [showNext, setShowNext] = useState(true);
 
   useEffect(() => {
     const id = experimentId ?
@@ -42,6 +45,17 @@ export const Experiment = ({
       setExperiment(res.data);
     });
   }, []);
+
+  // useEffect(async () => {
+  //   if (experiment) {
+  //     const consentResult = await getConsentResult(participantId, experimentId);
+  //     if (consentResult.data.response) {
+  //       setShowNext(true);
+  //     } else {
+  //       window.alert('Couldn\'t get consent response');
+  //     }
+  //   }
+  // }, [experiment]);
 
   const HEADING = 'h3';
   const steps = [
@@ -61,7 +75,7 @@ export const Experiment = ({
       />
       <div className="experiment">
         <Constrain>
-          <Wizard labels={steps}>
+          <Wizard labels={steps} showNext={showNext}>
             {/* Step 1 */}
             <Section titleEl={HEADING} title='Introduction'>
               <h4>{experiment.title}</h4>
