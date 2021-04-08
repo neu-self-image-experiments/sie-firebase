@@ -42,26 +42,26 @@ export const Logout = () => {
     <Constrain>
       <HorizontalTitle
         modifierClasses="horizontal-title--medium"
-        eyebrow="Logout"
-        title="You sure?"
-        content={<>
-          <Button
-            modifierClasses={'button--small button--secondary'}
-            disabled={true}
-            isButton={true}
-            text="Yes"
-            onClick={(e) => logUserOut(e)}
-          />
-          <Button
-            modifierClasses={'button--small button--quaternary'}
-            disabled={true}
-            isButton={true}
-            text="No"
-            onClick={(e) => cancelLogout(e)}
-          />
-        </>
-        }
+        eyebrow="Confirm"
+        title="Logout"
+        content={'Are you sure you want to logout?'}
       />
+      <Constrain>
+        <Button
+          modifierClasses={'button--small button--secondary'}
+          disabled={true}
+          isButton={true}
+          text="Yes"
+          onClick={(e) => logUserOut(e)}
+        />
+        <Button
+          modifierClasses={'button--small button--quaternary'}
+          disabled={true}
+          isButton={true}
+          text="No"
+          onClick={(e) => cancelLogout(e)}
+        />
+      </Constrain>
     </Constrain>
   );
 };

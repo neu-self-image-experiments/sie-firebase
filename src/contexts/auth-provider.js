@@ -15,7 +15,6 @@ const AuthProvider = ({ children }) => {
     setTrigger(false);
     setUser();
     setIsAuthenticated(false);
-    setLoaded(false);
   };
 
   useEffect(async () => {
