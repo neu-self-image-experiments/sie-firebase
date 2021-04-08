@@ -12,8 +12,10 @@ import { Link, useParams } from 'react-router-dom';
  * Component for Wizard layout element.
  * @param {node} children of the component
  * @param {array} labels of steps
+ * @param {bool} showNext Whether to enable the 'Next' button or not
+ * @param {func} stepHandler React hook to share the current step of the Wizard
  * @return {object} (
- *   <Wizard labels={labels}>
+ *   <Wizard labels={labels} showNext={showNext} stepHandler={stepHandler}>
  *       {children}
  *   <Wizard />
  * )
@@ -103,7 +105,10 @@ const Controls = ({ experimentId, currentStep, WizInstance, showNext }) => (
           <Link className={'wizard__button button button--tertiary'}
             to={`/study/${experimentId}/user/123`}
           >Complete Study</Link> :
-          <button className={'wizard__button button button--tertiary disabled'}
+          <button className={'wizard__button ' +
+            'button ' +
+            'button--tertiary ' +
+            'button--disabled'}
           >Next</button>
       }
     </div>

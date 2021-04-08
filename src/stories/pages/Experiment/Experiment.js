@@ -33,9 +33,16 @@ export const Experiment = ({
   preSurveys, postSurveys,
 }) => {
   const { experimentId, participantId } = useParams();
+  // Experiment metadata
   const [experiment, setExperiment] = useState({});
+  // Enable/disable 'Next' button of Wizard
   const [showNext, setShowNext] = useState(true);
+  // Track the step the Wizard is at
   const [wizardStep, setWizardStep] = useState(1);
+  // Keep track of already completed steps
+  // TODO: 3, 4, 5, and 6 should be removed once respective step is fully
+  // integrated.
+  const [completedSteps, setCompletedSteps] = useState([1, 3, 4, 5, 6]);
   const [consentResponse, setConsentResponse] = useState(null);
 
   useEffect(() => {
@@ -48,27 +55,22 @@ export const Experiment = ({
   }, []);
 
   useEffect(() => {
-    if (wizardStep === 2) {
+    let show = false;
+    if (completedSteps.includes(wizardStep)) {
+      show = true;
+    } else if (wizardStep === 2) {
       getConsentResult(participantId, experimentId, setConsentResponse);
-    } else if (wizardStep === 3) {
-      setShowNext(true);
-    } else if (wizardStep === 4) {
-      setShowNext(true);
-    } else if (wizardStep === 5) {
-      setShowNext(true);
-    } else if (wizardStep === 6) {
-      setShowNext(true);
-    } else if (wizardStep !== 1) {
-      setShowNext(false);
     }
+    setShowNext(show);
   }, [wizardStep]);
 
   useEffect(() => {
-    if (consentResponse) {
+    if (consentResponse && consentResponse.data) {
       if (consentResponse.data.response === 'Agree') {
         setShowNext(true);
+        setCompletedSteps((prevState) => [...prevState, 2]);
       } else if (consentResponse.data.response === 'Disagree') {
-        // What do we do if participant doesn't give consent?
+        // TODO: What do we do if participant doesn't give consent?
       }
     }
   }, [consentResponse]);
