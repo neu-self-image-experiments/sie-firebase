@@ -40,6 +40,10 @@
   @include bp-tablet {
     font-size: $font-size-md;
   }
+
+  & + .button {
+    margin-left: $spacing-2;
+  }
 }
 
 .button--small {

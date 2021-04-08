@@ -67,6 +67,7 @@
 }
 
 .form-item__label {
+  font-family: $header-font-family;
   font-weight: 700;
   margin: 0 0 $spacing-1;
   order: -1;
@@ -106,6 +107,14 @@
   &:invalid {
     border-color: $red-dark;
     box-shadow: none;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+
+    ~ .form-item__label {
+      opacity: 0.75;
+    }
   }
 }
 

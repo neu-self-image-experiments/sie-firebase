@@ -4,31 +4,31 @@
 // Account Page
 
 .account-info__section-header {
-  display: inline-flex;
-  vertical-align: middle;
+  align-items: center;
+  display: flex;
 }
 
 .account-info__header-text {
-  margin-right: rem(8px);
-  margin-bottom: 0;
-}
+  margin: 0 $spacing-1 0 0;
+  padding-left: $spacing-4;
+  position: relative;
 
-.account-info {
-  max-width: rem(600px);
-
-  > * {
-    @include fade-in-up;
-
-    @for $i from 1 through 10 {
-      &:nth-child(#{$i}n) {
-        animation-delay: #{$i * 0.1}s;
-      }
-    }
+  &::before {
+    background-color: $teal;
+    border-radius: 5px;
+    content: '';
+    display: block;
+    height: 5px;
+    left: 0;
+    position: absolute;
+    top: calc((100% - 5px) / 2);
+    width: $spacing-3;
   }
 }
 
 .account-info__edit {
-  cursor: pointer;
+  @include button-clear();
+
 }
 
 .account-page__delete {

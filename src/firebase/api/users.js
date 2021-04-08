@@ -1,6 +1,6 @@
-import { firestore, auth } from '../firebase.js';
+import { firestore, auth } from '../firebase';
 import { StatusCodes } from 'http-status-codes';
-import { firestoreCollections as collections } from '../constants.js';
+import { firestoreCollections as collections } from '../constants';
 
 // ============ SIGN UP =============
 // How to sign up a user:
@@ -67,6 +67,33 @@ export const signIn = async (email, password) => {
     }
     return {
       status: StatusCodes.INTERNAL_SERVER_ERROR,
+      data: null,
+      error,
+    };
+  }
+};
+
+/**
+ * Send a reset password confirmation email to
+ * user with its email.
+ * @param {string} email valid email in firestore
+ * @return {JSON} HTTP status code
+ * Errors (only list relevant ones):
+ *  Invalid email
+ *  user not found
+ */
+export const sendResetPasswordEmail = async (email) => {
+  const auth = firebase.auth();
+  try {
+    await auth.sendResetPasswordEmail(email);
+    return {
+      status: StatusCodes.OK,
+      data: null,
+      error: null,
+    };
+  } catch (error) {
+    return {
+      status: StatusCodes.NOT_MODIFIED,
       data: null,
       error,
     };

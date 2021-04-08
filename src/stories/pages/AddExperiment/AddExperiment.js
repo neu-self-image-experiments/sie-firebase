@@ -30,10 +30,18 @@ export const AddExperiment = ({ buttonText, buttonModifierClasses }) => {
   const postExperiment = async (e) => {
     e.preventDefault();
 
+    // date the experiment was created
+    const date = (new Date()).toLocaleString('default', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+
     const experiment = {
       title,
       description,
       consent,
+      date,
       // preSurveys,
       // postSurveys,
     };
