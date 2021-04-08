@@ -1,4 +1,3 @@
-/*eslint-disable*/
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
@@ -36,6 +35,8 @@ export const Experiment = ({
   const { experimentId, participantId } = useParams();
   const [experiment, setExperiment] = useState({});
   const [showNext, setShowNext] = useState(true);
+  const [wizardStep, setWizardStep] = useState(1);
+  const [consentResponse, setConsentResponse] = useState(null);
 
   useEffect(() => {
     const id = experimentId ?
@@ -46,16 +47,31 @@ export const Experiment = ({
     });
   }, []);
 
-  // useEffect(async () => {
-  //   if (experiment) {
-  //     const consentResult = await getConsentResult(participantId, experimentId);
-  //     if (consentResult.data.response) {
-  //       setShowNext(true);
-  //     } else {
-  //       window.alert('Couldn\'t get consent response');
-  //     }
-  //   }
-  // }, [experiment]);
+  useEffect(() => {
+    if (wizardStep === 2) {
+      getConsentResult(participantId, experimentId, setConsentResponse);
+    } else if (wizardStep === 3) {
+      setShowNext(true);
+    } else if (wizardStep === 4) {
+      setShowNext(true);
+    } else if (wizardStep === 5) {
+      setShowNext(true);
+    } else if (wizardStep === 6) {
+      setShowNext(true);
+    } else if (wizardStep !== 1) {
+      setShowNext(false);
+    }
+  }, [wizardStep]);
+
+  useEffect(() => {
+    if (consentResponse) {
+      if (consentResponse.data.response === 'Agree') {
+        setShowNext(true);
+      } else if (consentResponse.data.response === 'Disagree') {
+        // What do we do if participant doesn't give consent?
+      }
+    }
+  }, [consentResponse]);
 
   const HEADING = 'h3';
   const steps = [
@@ -75,7 +91,10 @@ export const Experiment = ({
       />
       <div className="experiment">
         <Constrain>
-          <Wizard labels={steps} showNext={showNext}>
+          <Wizard labels={steps}
+            showNext={showNext}
+            stepHandler={setWizardStep}
+          >
             {/* Step 1 */}
             <Section titleEl={HEADING} title='Introduction'>
               <h4>{experiment.title}</h4>
@@ -85,9 +104,9 @@ export const Experiment = ({
             <Section titleEl={HEADING} title='Consent Form'>
               <p>Please, complete the form below before completing the
                 study.</p>
-              <QualtricsEmbed url={`${experiment.consent}?
-                participant_id=${participantId}&
-                experiment_id=${experimentId}}`} />
+              <QualtricsEmbed url={`${experiment.consent}`+
+                `?participant_id=${participantId}` +
+                `&experiment_id=${experimentId}`} />
             </Section>
             {/* Step 3 */}
             <Section titleEl={HEADING} title='Photo Instructions and Upload'>

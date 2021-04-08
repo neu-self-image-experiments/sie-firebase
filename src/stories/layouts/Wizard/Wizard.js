@@ -19,7 +19,7 @@ import { Link, useParams } from 'react-router-dom';
  * )
  */
 /* eslint react/prop-types: 0 */
-export const Wizard = ({ children, labels, showNext }) => {
+export const Wizard = ({ children, labels, showNext, stepHandler }) => {
   const { experimentId } = useParams();
   const [state, updateState] = useState({
     form: {},
@@ -29,6 +29,7 @@ export const Wizard = ({ children, labels, showNext }) => {
   // update step value
   const onStepChange = (stats) => {
     setStep(WizInstance.currentStep);
+    stepHandler(WizInstance.currentStep);
     window.setTimeout(function() {
       window.scrollTo({
         top: 0,
@@ -119,9 +120,13 @@ Wizard.propTypes = {
      */
   labels: PropTypes.array,
   /**
-     * Wizard's 'Next' button condition
+     * Wizard's 'Next' button condition (whether to show it or not)
      */
   showNext: PropTypes.bool,
+  /**
+     * React hook to share the current step of the Wizard
+     */
+  stepHandler: PropTypes.func,
 };
 
 Wizard.defaultProps = {
