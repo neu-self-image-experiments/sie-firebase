@@ -7,6 +7,7 @@ const AuthContext = React.createContext();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
+  const [error, setError] = useState();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [trigger, setTrigger] = useState(false);
@@ -23,15 +24,20 @@ const AuthProvider = ({ children }) => {
         const user = await getUser(auth.uid);
         setUser(user.data);
         setIsAuthenticated(true);
+      } else {
+        setError('User email is not verified');
       }
-      setLoaded(true);
     } catch (err) {
-      // setError(err);
+      setError(err);
+    } finally {
+      setLoaded(true);
     }
   }, [trigger]);
 
   return loaded ? (
-    <AuthContext.Provider value={{ user, isAuthenticated, reloadAuthProvider }}>
+    <AuthContext.Provider
+      value={{ user, error, isAuthenticated, reloadAuthProvider }}
+    >
       {children}
     </AuthContext.Provider>
   ) : (

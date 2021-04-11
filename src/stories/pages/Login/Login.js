@@ -24,25 +24,29 @@ import { AuthContext } from '../../../contexts/auth-provider';
  * )
  */
 export const Login = ({ isDarkTheme }) => {
-  const [error, setError] = useState('');
+  const [loginError, setLoginError] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const history = useHistory();
 
-  const { reloadAuthProvider } = useContext(AuthContext);
+  const { error, reloadAuthProvider } = useContext(AuthContext);
 
   const login = (e) => {
     e.preventDefault();
     signIn(email, password).then((response) => {
       if (response.data) {
         // Reload authProvider so it knows someone has logged in
-        reloadAuthProvider();
-        history.push('/dashboard');
+        if (!response.data.user.emailVerified) {
+          setLoginError(error);
+        } else {
+          reloadAuthProvider();
+          history.push('/dashboard');
+        }
       } else if (response.error) {
-        setError(response.error.message);
+        setLoginError(response.error.message);
       } else {
-        setError('Server not responding');
+        setLoginError('Server not responding');
       }
     });
   };
@@ -79,7 +83,7 @@ export const Login = ({ isDarkTheme }) => {
                 label="Password"
                 handleChange={(e) => setPassword(e.target.value)}
               />
-              {error && (
+              {loginError && (
                 <div className="form__msg">
                   <p>{error}</p>
                 </div>
