@@ -85,7 +85,7 @@ export const Login = ({ isDarkTheme }) => {
               />
               {loginError && (
                 <div className="form__msg">
-                  <p>{error}</p>
+                  <p>{loginError}</p>
                 </div>
               )}
               <Button
