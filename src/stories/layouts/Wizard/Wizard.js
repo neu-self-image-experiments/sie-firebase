@@ -90,30 +90,31 @@ export const Wizard = ({ children, labels, showNext, stepHandler }) => {
  *   <Fragment WizInstance={WizInstance} />
  * )
  */
-const Controls = ({ experimentId, currentStep, WizInstance, showNext }) => (
-  <Fragment>
-    <div className="wizard__controls">
-      {currentStep !== 1 &&
-        <button className={'wizard__button button--link'}
-          onClick={WizInstance.previousStep}
-        >Go Back</button>
-      }
-      {(currentStep !== WizInstance.totalSteps && showNext) ?
-        <button className={'wizard__button button button--tertiary'}
-          onClick={WizInstance.nextStep}
-        >Next</button> : currentStep === WizInstance.totalSteps ?
+const Controls = ({ experimentId, currentStep, WizInstance, showNext }) => {
+  const nextButtonDisabledClass = showNext ? '' : ' button--disabled';
+
+  return (
+    <Fragment>
+      <div className="wizard__controls">
+        {currentStep !== 1 &&
+          <button className={'wizard__button button--link'}
+            onClick={WizInstance.previousStep}
+          >Go Back</button>
+        }
+        {currentStep === WizInstance.totalSteps ?
           <Link className={'wizard__button button button--tertiary'}
             to={`/study/${experimentId}/user/123`}
           >Complete Study</Link> :
-          <button className={'wizard__button ' +
-            'button ' +
-            'button--tertiary ' +
-            'button--disabled'}
+          <button onClick={WizInstance.nextStep}
+            disabled={!showNext}
+            className={'wizard__button button button--tertiary' +
+              nextButtonDisabledClass}
           >Next</button>
-      }
-    </div>
-  </Fragment>
-);
+        }
+      </div>
+    </Fragment>
+  );
+};
 
 Wizard.propTypes = {
   /**
