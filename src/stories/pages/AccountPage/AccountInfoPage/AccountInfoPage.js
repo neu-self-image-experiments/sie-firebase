@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable max-len */
 import '../styles.scss';
 
 import React, { useContext, useState } from 'react';
