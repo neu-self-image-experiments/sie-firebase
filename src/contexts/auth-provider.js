@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { getCurrentUser, getUser } from '../firebase/api/users';
 import { Loader } from '../stories/components/Loader/Loader';
@@ -7,6 +7,7 @@ const AuthContext = React.createContext();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
+  const [error, setError] = useState();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [trigger, setTrigger] = useState(false);
@@ -15,6 +16,11 @@ const AuthProvider = ({ children }) => {
     setTrigger(false);
     setUser();
     setIsAuthenticated(false);
+  }
+    
+  const reloadAuthProvider = () => {
+    setTrigger(!trigger);
+    setLoaded(false
   };
 
   useEffect(async () => {
@@ -24,16 +30,19 @@ const AuthProvider = ({ children }) => {
         const user = await getUser(auth.uid);
         setUser(user.data);
         setIsAuthenticated(true);
+      } else {
+        setError('User email is not verified');
       }
-      setLoaded(true);
     } catch (err) {
-      // setError(err);
+      setError(err);
+    } finally {
+      setLoaded(true);
     }
   }, [trigger]);
 
   return loaded ? (
     <AuthContext.Provider
-      value={{ user, isAuthenticated, trigger, setTrigger, resetUserData }}
+      value={{ user, isAuthenticated, trigger, setTrigger, resetUserData, reloadAuthProvider }}
     >
       {children}
     </AuthContext.Provider>
@@ -49,4 +58,12 @@ AuthProvider.propTypes = {
   children: PropTypes.node,
 };
 
-export { AuthProvider, AuthContext };
+const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('undefined');
+  }
+  return context;
+};
+
+export { AuthProvider, AuthContext, useAuth };
