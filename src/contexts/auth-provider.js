@@ -13,14 +13,14 @@ const AuthProvider = ({ children }) => {
   const [trigger, setTrigger] = useState(false);
 
   const resetUserData = () => {
-    setTrigger(false);
+    setTrigger(!trigger);
     setUser();
     setIsAuthenticated(false);
-  }
-    
+  };
+
   const reloadAuthProvider = () => {
     setTrigger(!trigger);
-    setLoaded(false
+    setLoaded(false);
   };
 
   useEffect(async () => {
@@ -42,7 +42,15 @@ const AuthProvider = ({ children }) => {
 
   return loaded ? (
     <AuthContext.Provider
-      value={{ user, isAuthenticated, trigger, setTrigger, resetUserData, reloadAuthProvider }}
+      value={{
+        user,
+        isAuthenticated,
+        trigger,
+        setTrigger,
+        resetUserData,
+        reloadAuthProvider,
+        error,
+      }}
     >
       {children}
     </AuthContext.Provider>
