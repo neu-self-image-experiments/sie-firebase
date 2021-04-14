@@ -24,25 +24,29 @@ import { AuthContext } from '../../../contexts/auth-provider';
  * )
  */
 export const Login = ({ isDarkTheme }) => {
-  const [error, setError] = useState('');
+  const [loginError, setLoginError] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const history = useHistory();
 
-  const { trigger, setTrigger } = useContext(AuthContext);
+  const { error, reloadAuthProvider } = useContext(AuthContext);
 
-  const getUser = (e) => {
+  const login = (e) => {
     e.preventDefault();
-
     signIn(email, password).then((response) => {
       if (response.data) {
-        // REDIRECT TO DASHBOARD
-        // ERROR HANDLING
-        setTrigger(!trigger);
-        history.push('/dashboard');
+        // Reload authProvider so it knows someone has logged in
+        if (!response.data.user.emailVerified) {
+          setLoginError(error);
+        } else {
+          reloadAuthProvider();
+          history.push('/dashboard');
+        }
+      } else if (response.error) {
+        setLoginError(response.error.message);
       } else {
-        setError(response.errorMessage);
+        setLoginError('Server not responding');
       }
     });
   };
@@ -79,9 +83,9 @@ export const Login = ({ isDarkTheme }) => {
                 label="Password"
                 handleChange={(e) => setPassword(e.target.value)}
               />
-              {error && (
+              {loginError && (
                 <div className="form__msg">
-                  <p>{error}</p>
+                  <p>{loginError}</p>
                 </div>
               )}
               <Button
@@ -93,7 +97,7 @@ export const Login = ({ isDarkTheme }) => {
                 disabled={true}
                 isButton={true}
                 text="Login"
-                onClick={(e) => getUser(e)}
+                onClick={(e) => login(e)}
               />
             </Form>
           }
