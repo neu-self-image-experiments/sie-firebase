@@ -90,7 +90,7 @@ export const Wizard = ({ children, labels, showNext, stepHandler }) => {
  *   <Fragment WizInstance={WizInstance} />
  * )
  */
-const Controls = ({ experimentId, currentStep, WizInstance, showNext }) => (
+const Controls = ({ experimentId, currentStep, WizInstance, showNext }) =>
   <Fragment>
     <div className="wizard__controls">
       {currentStep !== 1 &&
@@ -102,13 +102,13 @@ const Controls = ({ experimentId, currentStep, WizInstance, showNext }) => (
         <Link className={'wizard__button button button--tertiary'}
           to={`/study/${experimentId}/user/123`}
         >Complete Study</Link> :
-        <button className={'wizard__button button button--tertiary'}
-          onClick={WizInstance.nextStep} disabled={!showNext}
+        <button onClick={WizInstance.nextStep}
+          disabled={!showNext}
+          className={'wizard__button button button--tertiary'}
         >Next</button>
       }
     </div>
-  </Fragment>
-);
+  </Fragment>;
 
 Wizard.propTypes = {
   /**

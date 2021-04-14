@@ -72,10 +72,4 @@
       font-size: $font-size-md;
     }
   }
-
-  &.button--disabled {
-    opacity: 0.15;
-    pointer-events: none;
-    background-color: $gray-3;
-  }
 }

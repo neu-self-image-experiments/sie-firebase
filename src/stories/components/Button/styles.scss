@@ -37,6 +37,12 @@
     color: $white;
   }
 
+  &:disabled {
+    opacity: 0.15;
+    pointer-events: none;
+    background-color: $gray-3 !important;
+  }
+
   @include bp-tablet {
     font-size: $font-size-md;
   }
