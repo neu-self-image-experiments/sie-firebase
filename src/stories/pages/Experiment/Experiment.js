@@ -12,6 +12,7 @@ import { Section } from '../../components/Section/Section';
 import { ImageSelectionTask }
   from '../../components/ImageSelectionTask/ImageSelectionTask';
 import { getExperimentById } from '../../../firebase/api/experiments';
+import { getConsentResult } from '../../../firebase/api/qualtrics';
 
 /**
  * Component for experiment page.
@@ -32,7 +33,17 @@ export const Experiment = ({
   preSurveys, postSurveys,
 }) => {
   const { experimentId, participantId } = useParams();
+  // Experiment metadata
   const [experiment, setExperiment] = useState({});
+  // Enable/disable 'Next' button of Wizard
+  const [showNext, setShowNext] = useState(true);
+  // Track the step the Wizard is at
+  const [wizardStep, setWizardStep] = useState(1);
+  // Keep track of already completed steps
+  // TODO: 3, 4, 5, and 6 should be removed once respective step is fully
+  // integrated.
+  const [completedSteps, setCompletedSteps] = useState([1, 3, 4, 5, 6]);
+  const [consentResponse, setConsentResponse] = useState(null);
 
   useEffect(() => {
     const id = experimentId ?
@@ -42,6 +53,29 @@ export const Experiment = ({
       setExperiment(res.data);
     });
   }, []);
+
+  useEffect(() => {
+    let show = false;
+    if (completedSteps.includes(wizardStep)) {
+      show = true;
+    } else if (wizardStep === 2) {
+      getConsentResult(participantId, experimentId, setConsentResponse);
+      /* eslint-disable */
+      console.log(consentResponse);
+    }
+    setShowNext(show);
+  }, [wizardStep]);
+
+  useEffect(() => {
+    if (consentResponse && consentResponse.data) {
+      if (consentResponse.data.response === 'Agree') {
+        setShowNext(true);
+        setCompletedSteps((prevState) => [...prevState, 2]);
+      } else if (consentResponse.data.response === 'Disagree') {
+        // TODO: What do we do if participant doesn't give consent?
+      }
+    }
+  }, [consentResponse]);
 
   const HEADING = 'h3';
   const steps = [
@@ -61,7 +95,10 @@ export const Experiment = ({
       />
       <div className="experiment">
         <Constrain>
-          <Wizard labels={steps}>
+          <Wizard labels={steps}
+            showNext={showNext}
+            stepHandler={setWizardStep}
+          >
             {/* Step 1 */}
             <Section titleEl={HEADING} title='Introduction'>
               <h4>{experiment.title}</h4>
@@ -71,9 +108,9 @@ export const Experiment = ({
             <Section titleEl={HEADING} title='Consent Form'>
               <p>Please, complete the form below before completing the
                 study.</p>
-              <QualtricsEmbed url={`${experiment.consent}?
-                participant_id=${participantId}&
-                experiment_id=${experimentId}}`} />
+              <QualtricsEmbed url={`${experiment.consent}`+
+                `?participant_id=${participantId}` +
+                `&experiment_id=${experimentId}`} />
             </Section>
             {/* Step 3 */}
             <Section titleEl={HEADING} title='Photo Instructions and Upload'>
