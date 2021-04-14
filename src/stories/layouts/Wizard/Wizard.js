@@ -98,18 +98,13 @@ const Controls = ({ experimentId, currentStep, WizInstance, showNext }) => (
           onClick={WizInstance.previousStep}
         >Go Back</button>
       }
-      {(currentStep !== WizInstance.totalSteps && showNext) ?
+      {currentStep === WizInstance.totalSteps ?
+        <Link className={'wizard__button button button--tertiary'}
+          to={`/study/${experimentId}/user/123`}
+        >Complete Study</Link> :
         <button className={'wizard__button button button--tertiary'}
-          onClick={WizInstance.nextStep}
-        >Next</button> : currentStep === WizInstance.totalSteps ?
-          <Link className={'wizard__button button button--tertiary'}
-            to={`/study/${experimentId}/user/123`}
-          >Complete Study</Link> :
-          <button className={'wizard__button ' +
-            'button ' +
-            'button--tertiary ' +
-            'button--disabled'}
-          >Next</button>
+          onClick={WizInstance.nextStep} disabled={!showNext}
+        >Next</button>
       }
     </div>
   </Fragment>

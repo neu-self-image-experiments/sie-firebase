@@ -60,6 +60,8 @@ export const Experiment = ({
       show = true;
     } else if (wizardStep === 2) {
       getConsentResult(participantId, experimentId, setConsentResponse);
+      /* eslint-disable */
+      console.log(consentResponse);
     }
     setShowNext(show);
   }, [wizardStep]);
