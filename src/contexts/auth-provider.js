@@ -12,6 +12,12 @@ const AuthProvider = ({ children }) => {
   const [loaded, setLoaded] = useState(false);
   const [trigger, setTrigger] = useState(false);
 
+  const resetUserData = () => {
+    setTrigger(!trigger);
+    setUser();
+    setIsAuthenticated(false);
+  };
+
   const reloadAuthProvider = () => {
     setTrigger(!trigger);
     setLoaded(false);
@@ -36,7 +42,15 @@ const AuthProvider = ({ children }) => {
 
   return loaded ? (
     <AuthContext.Provider
-      value={{ user, error, isAuthenticated, reloadAuthProvider }}
+      value={{
+        user,
+        isAuthenticated,
+        trigger,
+        setTrigger,
+        resetUserData,
+        reloadAuthProvider,
+        error,
+      }}
     >
       {children}
     </AuthContext.Provider>
