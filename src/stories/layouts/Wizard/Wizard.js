@@ -12,14 +12,16 @@ import { Link, useParams } from 'react-router-dom';
  * Component for Wizard layout element.
  * @param {node} children of the component
  * @param {array} labels of steps
+ * @param {bool} showNext Whether to enable the 'Next' button or not
+ * @param {func} stepHandler React hook to share the current step of the Wizard
  * @return {object} (
- *   <Wizard labels={labels}>
+ *   <Wizard labels={labels} showNext={showNext} stepHandler={stepHandler}>
  *       {children}
  *   <Wizard />
  * )
  */
 /* eslint react/prop-types: 0 */
-export const Wizard = ({ children, labels }) => {
+export const Wizard = ({ children, labels, showNext, stepHandler }) => {
   const { experimentId } = useParams();
   const [state, updateState] = useState({
     form: {},
@@ -29,6 +31,7 @@ export const Wizard = ({ children, labels }) => {
   // update step value
   const onStepChange = (stats) => {
     setStep(WizInstance.currentStep);
+    stepHandler(WizInstance.currentStep);
     window.setTimeout(function() {
       window.scrollTo({
         top: 0,
@@ -60,7 +63,9 @@ export const Wizard = ({ children, labels }) => {
         </StepWizard>
         {
           WizInstance && <Controls currentStep={step}
-            WizInstance={WizInstance} experimentId={experimentId} />
+            WizInstance={WizInstance}
+            experimentId={experimentId}
+            showNext={showNext} />
         }
       </Fragment>
     );
@@ -85,7 +90,7 @@ export const Wizard = ({ children, labels }) => {
  *   <Fragment WizInstance={WizInstance} />
  * )
  */
-const Controls = ({ experimentId, currentStep, WizInstance }) => (
+const Controls = ({ experimentId, currentStep, WizInstance, showNext }) =>
   <Fragment>
     <div className="wizard__controls">
       {currentStep !== 1 &&
@@ -93,17 +98,17 @@ const Controls = ({ experimentId, currentStep, WizInstance }) => (
           onClick={WizInstance.previousStep}
         >Go Back</button>
       }
-      {currentStep !== WizInstance.totalSteps ?
-        <button className={'wizard__button button button--tertiary'}
-          onClick={WizInstance.nextStep}
-        >Next</button> :
+      {currentStep === WizInstance.totalSteps ?
         <Link className={'wizard__button button button--tertiary'}
           to={`/study/${experimentId}/user/123`}
-        >Completet Study</Link>
+        >Complete Study</Link> :
+        <button onClick={WizInstance.nextStep}
+          disabled={!showNext}
+          className={'wizard__button button button--tertiary'}
+        >Next</button>
       }
     </div>
-  </Fragment>
-);
+  </Fragment>;
 
 Wizard.propTypes = {
   /**
@@ -114,6 +119,14 @@ Wizard.propTypes = {
      * Wizard's labels
      */
   labels: PropTypes.array,
+  /**
+     * Wizard's 'Next' button condition (whether to show it or not)
+     */
+  showNext: PropTypes.bool,
+  /**
+     * React hook to share the current step of the Wizard
+     */
+  stepHandler: PropTypes.func,
 };
 
 Wizard.defaultProps = {
@@ -124,4 +137,6 @@ Wizard.defaultProps = {
     'Step 3',
     'Step 4',
   ],
+  showNext: true,
+  stepHandler: (step) => step,
 };
