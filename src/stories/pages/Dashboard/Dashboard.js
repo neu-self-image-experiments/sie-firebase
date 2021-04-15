@@ -73,9 +73,3 @@ export const DashboardContent = () => {
     </Constrain>
   );
 };
-
-export const ExperimentContent = () => {
-  return (
-    <HorizontalTitle eyebrow="Overview" title="Experiments" content={content} />
-  );
-};

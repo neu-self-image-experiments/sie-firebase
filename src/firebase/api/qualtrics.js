@@ -39,11 +39,12 @@ export const getConsentResult = async (uid, experimentId, consentHandler) => {
         }
       });
   } catch (error) {
-    return {
+    const res = {
       status: StatusCodes.INTERNAL_SERVER_ERROR,
       message: error.message,
       data: null,
     };
+    consentHandler(res);
   };
 };
 
@@ -51,36 +52,45 @@ export const getConsentResult = async (uid, experimentId, consentHandler) => {
  * Fetch the result of pre-survey.
  * @param {String} uid participant's id
  * @param {String} experimentId experiemtn id of the consent form
+ * @param {Function} surveyHandler callback when pre-survey result is present
  * @return {Object} response including error or data
  */
-export const getPreSurvey = async (uid, experimentId) => {
+export const getPreSurvey = async (uid, experimentId, surveyHandler) => {
   try {
-    const collectionRef = firestore.collection(`${collections.USER}`)
-      .doc(uid).collection(`${collections.EXPERIMENT}`).doc(experimentId);
-    const snapshot = await collectionRef.get();
-    const exists = snapshot.exists;
-    let preSurvey = null;
-    if (exists && snapshot.data().age) {
-      const res = snapshot.data();
-      preSurvey = {
-        age: res.age,
-        gender: res.gender,
-        genderImportance: res.genderImportance,
-        ethnic: res.ethnic,
-        selfEsteem: res.selfEsteem,
-      };
-    }
-    return {
-      status: exists ? StatusCodes.OK : StatusCodes.NOT_FOUND,
-      message: exists ? message.OK : message.NOT_FOUND,
-      data: preSurvey,
-    };
+    await firestore.collection(`${collections.USER}`)
+      .doc(uid).collection(`${collections.EXPERIMENT}`).doc(experimentId)
+      .onSnapshot( (doc) => {
+        const data = doc.data();
+        if (data && data.age) {
+          const preSurvey = {
+            age: res.age,
+            gender: res.gender,
+            genderImportance: res.genderImportance,
+            ethnic: res.ethnic,
+            selfEsteem: res.selfEsteem,
+          };
+          const res = {
+            status: StatusCodes.OK,
+            message: message.OK,
+            data: preSurvey,
+          };
+          surveyHandler(res);
+        } else {
+          const res = {
+            status: StatusCodes.NOT_FOUND,
+            message: message.NOT_FOUND,
+            data: null,
+          };
+          surveyHandler(res);
+        }
+      });
   } catch (error) {
-    return {
+    const res = {
       status: StatusCodes.INTERNAL_SERVER_ERROR,
       message: error.message,
       data: null,
     };
+    surveyHandler(res);
   };
 };
 
@@ -88,40 +98,49 @@ export const getPreSurvey = async (uid, experimentId) => {
  * Fetch the result of post-survey
  * @param {String} uid participant's id
  * @param {String} experimentId experiemtn id of the consent form
+ * @param {Function} surveyHandler callback when post-survey result is present
  * @return {Object} response including error or data
  */
-export const getPostSurvey = async (uid, experimentId) => {
+export const getPostSurvey = async (uid, experimentId, surveyHandler) => {
   try {
-    const collectionRef = firestore.collection(`${collections.USER}`)
-      .doc(uid).collection(`${collections.EXPERIMENT}`).doc(experimentId);
-    const snapshot = await collectionRef.get();
-    const exists = snapshot.exists;
-    let postSurvey = null;
-    if (exists && snapshot.data().capable) {
-      const res = snapshot.data();
-      postSurvey = {
-        capable: res.capable,
-        selfConfident: res.selfConfident,
-        competent: res.competent,
-        friendly: res.friendly,
-        likeable: res.likeable,
-        warm: res.warm,
-        ambitious: res.ambitious,
-        assertive: res.assertive,
-        efficient: res.efficient,
-      };
-    }
-    return {
-      status: exists ? StatusCodes.OK : StatusCodes.NOT_FOUND,
-      message: exists ? message.OK : message.NOT_FOUND,
-      data: postSurvey,
-    };
+    await firestore.collection(`${collections.USER}`)
+      .doc(uid).collection(`${collections.EXPERIMENT}`).doc(experimentId)
+      .onSnapshot( (doc) => {
+        const data = doc.data();
+        if (data && data.age) {
+          const postSurvey = {
+            capable: res.capable,
+            selfConfident: res.selfConfident,
+            competent: res.competent,
+            friendly: res.friendly,
+            likeable: res.likeable,
+            warm: res.warm,
+            ambitious: res.ambitious,
+            assertive: res.assertive,
+            efficient: res.efficient,
+          };
+          const res = {
+            status: StatusCodes.OK,
+            message: message.OK,
+            data: postSurvey,
+          };
+          surveyHandler(res);
+        } else {
+          const res = {
+            status: StatusCodes.NOT_FOUND,
+            message: message.NOT_FOUND,
+            data: null,
+          };
+          surveyHandler(res);
+        }
+      });
   } catch (error) {
-    return {
+    const res = {
       status: StatusCodes.INTERNAL_SERVER_ERROR,
       message: error.message,
       data: null,
     };
+    surveyHandler(res);
   };
 };
 
