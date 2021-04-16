@@ -13,10 +13,13 @@ import { uploadSelfImage, observeStimuliCompletion }
   from '../../../firebase/api/gcp-utils';
 import { Loader } from '../Loader/Loader';
 import { StatusCodes } from 'http-status-codes';
+import { firestore } from '../../../firebase/firebase';
+import { firestoreCollections } from '../../../firebase/constants';
 
 // Milliseconds to wait before attempting to fetch generated stimuli URLs
 const STIMULI_GENERATION_WAIT_1 = 40000;
 const STIMULI_GENERATION_WAIT_2 = 10000;
+const FACIAL_DETECTION_TIMEOUT = 1000;
 
 /**
  * Component for webcam controls and photo uploading.
@@ -33,6 +36,11 @@ export const UploadPhoto = () => {
   const [file, setFile] = useState(''); // For photos uploaded through form
   const [image, setImage] = useState(''); // For photos taken with webcam
   const [error, setError] = useState(false);
+
+  const [imageFeedback, setImageFeedback] =
+    useState('Once you are ready. You can upload your photo here.');
+  const [isImageSatisfied, setIsImageSatisfied] = useState(false);
+
   const webcamRef = React.useRef(null);
   const [loading, setLoading] = useState(false);
   const [complete, setComplete] = useState(false);
@@ -142,18 +150,45 @@ export const UploadPhoto = () => {
     }
   };
 
+  const observeFacialDetectionStatus = async (userId, experimentId) => {
+    firestore
+      .collection(firestoreCollections.USER)
+      .doc(userId)
+      .collection(firestoreCollections.EXPERIMENT)
+      .doc(experimentId)
+      .onSnapshot(async (doc) => {
+        const userDoc = doc.data();
+        // TODO: should check if userDoc exists here
+        const facialDetectionStatus = userDoc['facial_detection_status'];
+        if (facialDetectionStatus === 'completed') {
+          setImageFeedback('Photo requirements passed!');
+          setIsImageSatisfied(true);
+        } else {
+          setImageFeedback(facialDetectionStatus);
+          setIsImageSatisfied(false);
+        }
+      });
+    setLoading(false);
+  };
+
   // Check if photo was uploaded successfully to the server
   const handleUploadSelfImage = (response) => {
     switch (response.status) {
     case StatusCodes.CREATED:
       setLoading(true);
-      return;
+      setTimeout(() => {
+        observeFacialDetectionStatus(
+          participantId,
+          experimentId,
+        );
+      }, FACIAL_DETECTION_TIMEOUT);
+      break;
     case StatusCodes.INTERNAL_SERVER_ERROR:
       setError(true);
-      return;
+      break;
     default:
-      return;
-    }
+      break;
+    };
   };
 
   // ===== RENDERING ==========================================================
@@ -185,6 +220,7 @@ export const UploadPhoto = () => {
               }}
             />
           }
+          <p>{imageFeedback}</p>
         </div>
         <div className="upload-photo__item">
           <ImageGuidelines content={ <img src={imageSrc} /> } />
@@ -193,11 +229,12 @@ export const UploadPhoto = () => {
       </div>
       <FileUpload onChange={(e) => uploadFile(e.target)} />
       <div className="upload-photo__submit">
-        <p>Once you are ready. You can upload your photo here.</p>
+        <p>{imageFeedback}</p>
         <Button
           isButton={true}
           modifierClasses="upload-photo__btn button--small"
           text="Upload"
+          disabled={!isImageSatisfied}
           onClick={() => uploadPhoto()} />
         { error &&
           <p className="upload-photo__err">

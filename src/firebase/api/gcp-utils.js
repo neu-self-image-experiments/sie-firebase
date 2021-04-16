@@ -45,6 +45,7 @@ const uploadImageToStorage = async (
   });
 };
 
+
 /**
  * Listen to user document for the signal of stimuli generation completion
  * @param {String} userId userId
@@ -60,7 +61,6 @@ export const observeStimuliCompletion =
         const userDoc = doc.data();
         const stimuliStatus = userDoc.sie_stimuli_generation_status;
         if (stimuliStatus === 'completed') {
-        // call getFileUrlsFromBucket once ready to display stimuli
           await getSieStimuliFromBucket(userId, experimentId)
             .then((results) => {
               const status = results.status;

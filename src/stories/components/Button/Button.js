@@ -18,13 +18,19 @@ import { Link } from 'react-router-dom';
  *   <Button modifierClasses={modifierClasses} url={url} text={text} />
  * )
  */
-export const Button = ({ modifierClasses, url, text, isButton, onClick }) => {
+export const Button =
+({ modifierClasses, url, text, isButton, onClick, disabled }) => {
   const classes = ['button', `${modifierClasses}`].join(' ').trim();
 
   return (
     <Fragment>
       {isButton ?
-        <button role="button" className={classes} onClick={onClick}>
+        <button
+          role="button"
+          className={classes}
+          onClick={onClick}
+          disabled={disabled}
+        >
           {text}
         </button> :
         <Link to={url} className={classes}>{text}</Link>
@@ -54,10 +60,12 @@ Button.propTypes = {
      * Button's onClick
      */
   onClick: PropTypes.func,
+  disabled: PropTypes.bool,
 };
 
 Button.defaultProps = {
   modifierClasses: '',
   isButton: true,
   onClick: null,
+  disabled: true,
 };
