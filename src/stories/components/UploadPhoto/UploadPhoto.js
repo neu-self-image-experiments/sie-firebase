@@ -232,9 +232,12 @@ export const UploadPhoto = () => {
         <p>{imageFeedback}</p>
         <Button
           isButton={true}
-          modifierClasses="upload-photo__btn button--small"
+          modifierClasses= {
+            isImageSatisfied ?
+              'upload-photo__btn button--small' :
+              'upload-photo__btn button--small disabled'
+          }
           text="Upload"
-          disabled={!isImageSatisfied}
           onClick={() => uploadPhoto()} />
         { error &&
           <p className="upload-photo__err">

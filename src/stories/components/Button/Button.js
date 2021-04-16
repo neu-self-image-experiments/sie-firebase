@@ -19,7 +19,7 @@ import { Link } from 'react-router-dom';
  * )
  */
 export const Button =
-({ modifierClasses, url, text, isButton, onClick, disabled }) => {
+({ modifierClasses, url, text, isButton, onClick }) => {
   const classes = ['button', `${modifierClasses}`].join(' ').trim();
 
   return (
@@ -29,7 +29,6 @@ export const Button =
           role="button"
           className={classes}
           onClick={onClick}
-          disabled={disabled}
         >
           {text}
         </button> :
@@ -60,12 +59,10 @@ Button.propTypes = {
      * Button's onClick
      */
   onClick: PropTypes.func,
-  disabled: PropTypes.bool,
 };
 
 Button.defaultProps = {
   modifierClasses: '',
   isButton: true,
   onClick: null,
-  disabled: true,
 };
