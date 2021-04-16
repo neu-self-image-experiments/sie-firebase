@@ -167,8 +167,8 @@ export const UploadPhoto = () => {
           setImageFeedback(facialDetectionStatus);
           setIsImageSatisfied(false);
         }
+        setLoading(false);
       });
-    setLoading(false);
   };
 
   // Check if photo was uploaded successfully to the server
