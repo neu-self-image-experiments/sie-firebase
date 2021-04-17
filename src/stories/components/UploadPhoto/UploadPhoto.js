@@ -3,23 +3,20 @@ import './styles.scss';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Webcam from 'react-webcam';
+import PropTypes from 'prop-types';
 
 import { PhotoInstructions } from '../PhotoInstructions/PhotoInstructions';
 import { Button } from '../Button/Button';
 import { ImageGuidelines } from '../ImageGuidelines/ImageGuidelines';
 import { ToggleCamera } from '../ToggleCamera/ToggleCamera';
 import { FileUpload } from '../FileUpload/FileUpload';
-import { uploadSelfImage, observeStimuliCompletion }
+import { uploadSelfImage, observeFacialDetectionStatus }
   from '../../../firebase/api/gcp-utils';
 import { Loader } from '../Loader/Loader';
 import { StatusCodes } from 'http-status-codes';
-import { firestore } from '../../../firebase/firebase';
-import { firestoreCollections } from '../../../firebase/constants';
 
-// Milliseconds to wait before attempting to fetch generated stimuli URLs
-const STIMULI_GENERATION_WAIT_1 = 40000;
-const STIMULI_GENERATION_WAIT_2 = 10000;
-const FACIAL_DETECTION_TIMEOUT = 1000;
+// Milliseconds to wait before checking for the facial detection scan result
+const FACIAL_DETECTION_WAIT = 10000;
 
 /**
  * Component for webcam controls and photo uploading.
@@ -29,81 +26,40 @@ const FACIAL_DETECTION_TIMEOUT = 1000;
  *   <UploadPhoto />
  * )
  */
-export const UploadPhoto = () => {
+export const UploadPhoto = ({ photoUploadCompletionHandler }) => {
   // ===== STATE ==============================================================
   const { experimentId, participantId } = useParams(); // Parse URL params
   const [cameraIsOn, setWebcamOn] = useState(false);
   const [file, setFile] = useState(''); // For photos uploaded through form
   const [image, setImage] = useState(''); // For photos taken with webcam
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-
   const [imageFeedback, setImageFeedback] =
     useState('Once you are ready. You can upload your photo here.');
-  const [isImageSatisfied, setIsImageSatisfied] = useState(false);
-
   const webcamRef = React.useRef(null);
-  const [loading, setLoading] = useState(false);
-  const [complete, setComplete] = useState(false);
-  const [stimuliUrls, setStimuliUrls] = useState([]);
 
   // ===== STATUS CHECKS ======================================================
-  // Check for stimuli generation completion; 1st try.
+  // Check for status of facial detection scan
   useEffect(() => {
     if (loading) {
-      // Wait for the stimuli to be generated
+      // Wait for facial detection to execute
       setTimeout(() => {
-        observeStimuliCompletion(
+        observeFacialDetectionStatus(
           participantId,
           experimentId,
-          setStimuliUrls,
-          stimuliFetchingFirstTryFailed,
+          setImageFeedback,
         );
-      }, STIMULI_GENERATION_WAIT_1);
+      }, FACIAL_DETECTION_WAIT);
     }
   }, [loading]);
 
-  // Check if stimuli URLs have been fetched
-  useEffect(() => {
-    if (stimuliUrls.length > 0) {
-      setComplete(true);
-      setLoading(false);
-      setError(false);
-    }
-  }, [stimuliUrls]);
-
   // Check if photo uploading step is complete
   useEffect(() => {
-    if (complete) {
-      // TODO (fernandowinfield): enable 'Next' button.
-      window.alert('Stimuli URLs are ready!');
+    if (imageFeedback === 'Photo requirements passed!') {
+      photoUploadCompletionHandler(true);
     }
-  }, [complete]);
-
-  // ===== STIMULI FETCHING RETRY HANDLERS ====================================
-  // Error handler that checks for stimuli generation completion; 2nd try.
-  const stimuliFetchingFirstTryFailed = (errorCode) => {
-    // TODO (fernandowinfield): handle based on `errorCode`. Currently
-    // `errorCode` is always undefined.
-    setTimeout(() => {
-      observeStimuliCompletion(
-        participantId,
-        experimentId,
-        setStimuliUrls,
-        stimuliFetchingSecondTryFailed,
-      );
-    }, STIMULI_GENERATION_WAIT_2);
-  };
-
-  // Error handler that prompts the participant to retake/reupload.
-  const stimuliFetchingSecondTryFailed = (errorCode) => {
-    // TODO (fernandowinfield): handle based on `errorCode`. Currently
-    // `errorCode` is always undefined.
-
-    // TODO (fernandowinfield): Replace the browser's alert with our own Alert
-    // component.
-    window.alert('Something went wrong. Please use your webcam to retake ' +
-                 'your photo or use the form to upload your photo again');
-  };
+    setLoading(false);
+  }, [imageFeedback]);
 
   // ===== WEBCAM FUNCTIONALITY ===============================================
   // Toggle device camera on/off
@@ -114,6 +70,7 @@ export const UploadPhoto = () => {
   // Take a photo via webcam
   const capturePhoto = React.useCallback(() => {
     setImage(webcamRef.current.getScreenshot());
+    setFile('');
     document.getElementById('fileName').innerHTML = 'No file selected.';
   }, [webcamRef]);
 
@@ -150,38 +107,11 @@ export const UploadPhoto = () => {
     }
   };
 
-  const observeFacialDetectionStatus = async (userId, experimentId) => {
-    firestore
-      .collection(firestoreCollections.USER)
-      .doc(userId)
-      .collection(firestoreCollections.EXPERIMENT)
-      .doc(experimentId)
-      .onSnapshot(async (doc) => {
-        const userDoc = doc.data();
-        // TODO: should check if userDoc exists here
-        const facialDetectionStatus = userDoc['facial_detection_status'];
-        if (facialDetectionStatus === 'completed') {
-          setImageFeedback('Photo requirements passed!');
-          setIsImageSatisfied(true);
-        } else {
-          setImageFeedback(facialDetectionStatus);
-          setIsImageSatisfied(false);
-        }
-        setLoading(false);
-      });
-  };
-
   // Check if photo was uploaded successfully to the server
   const handleUploadSelfImage = (response) => {
     switch (response.status) {
     case StatusCodes.CREATED:
       setLoading(true);
-      setTimeout(() => {
-        observeFacialDetectionStatus(
-          participantId,
-          experimentId,
-        );
-      }, FACIAL_DETECTION_TIMEOUT);
       break;
     case StatusCodes.INTERNAL_SERVER_ERROR:
       setError(true);
@@ -220,7 +150,6 @@ export const UploadPhoto = () => {
               }}
             />
           }
-          <p>{imageFeedback}</p>
         </div>
         <div className="upload-photo__item">
           <ImageGuidelines content={ <img src={imageSrc} /> } />
@@ -228,22 +157,27 @@ export const UploadPhoto = () => {
         </div>
       </div>
       <FileUpload onChange={(e) => uploadFile(e.target)} />
-      <div className="upload-photo__submit">
-        <p>{imageFeedback}</p>
-        <Button
-          isButton={true}
-          modifierClasses= {
-            isImageSatisfied ?
-              'upload-photo__btn button--small' :
-              'upload-photo__btn button--small disabled'
+      {(image || file) &&
+        <div className="upload-photo__submit">
+          <p>{imageFeedback}</p>
+          <Button
+            isButton={true}
+            modifierClasses="upload-photo__btn button--small"
+            text="Upload"
+            onClick={() => uploadPhoto()} />
+          { error &&
+            <p className="upload-photo__err">
+              Something went wrong and your photo could not be uploaded.
+              Please, try again.</p>
           }
-          text="Upload"
-          onClick={() => uploadPhoto()} />
-        { error &&
-          <p className="upload-photo__err">
-            Something went wrong and your photo could not be uploaded.
-            Please, try again.</p>
-        }
-      </div>
+        </div>
+      }
     </div>;
+};
+
+UploadPhoto.propTypes = {
+  /**
+   * React hook to signal completion of the photo uploading step
+   */
+  photoUploadCompletionHandler: PropTypes.func,
 };

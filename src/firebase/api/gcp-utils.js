@@ -45,6 +45,27 @@ const uploadImageToStorage = async (
   });
 };
 
+/**
+ * Listen to user document for the status of facial detection process
+ * @param {String} userId userId
+ * @param {String} experimentId experimentId
+ * @param {Function} imageFeedbackHandler react hook function for imageFeedback
+ */
+export const observeFacialDetectionStatus =
+  async (userId, experimentId, imageFeedbackHandler) => {
+    firestore.collection(firestoreCollections.USER)
+      .doc(userId).collection(firestoreCollections.EXPERIMENT)
+      .doc(experimentId).onSnapshot(async (doc) => {
+        const userDoc = doc.data();
+        // TODO: should check if userDoc exists here
+        const facialDetectionStatus = userDoc['facial_detection_status'];
+        if (facialDetectionStatus === 'completed') {
+          imageFeedbackHandler('Photo requirements passed!');
+        } else {
+          imageFeedbackHandler(facialDetectionStatus);
+        }
+      });
+  };
 
 /**
  * Listen to user document for the signal of stimuli generation completion
