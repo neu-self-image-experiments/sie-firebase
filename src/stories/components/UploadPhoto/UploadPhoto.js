@@ -6,6 +6,7 @@ import Webcam from 'react-webcam';
 
 import { PhotoInstructions } from '../PhotoInstructions/PhotoInstructions';
 import { Button } from '../Button/Button';
+import { Alert } from '../Alert/Alert';
 import { ImageGuidelines } from '../ImageGuidelines/ImageGuidelines';
 import { ToggleCamera } from '../ToggleCamera/ToggleCamera';
 import { FileUpload } from '../FileUpload/FileUpload';
@@ -17,6 +18,9 @@ import { StatusCodes } from 'http-status-codes';
 // Milliseconds to wait before attempting to fetch generated stimuli URLs
 const STIMULI_GENERATION_WAIT_1 = 40000;
 const STIMULI_GENERATION_WAIT_2 = 10000;
+
+// Milliseconds to display alert for image upload
+const DISPLAY_ALERT_TIME = 5000;
 
 /**
  * Component for webcam controls and photo uploading.
@@ -33,6 +37,8 @@ export const UploadPhoto = () => {
   const [file, setFile] = useState(''); // For photos uploaded through form
   const [image, setImage] = useState(''); // For photos taken with webcam
   const [error, setError] = useState(false);
+  const [displayAlert, setDisplayAlert] = useState(false);
+  const [alertType, setAlertType] = useState('');
   const webcamRef = React.useRef(null);
   const [loading, setLoading] = useState(false);
   const [complete, setComplete] = useState(false);
@@ -67,7 +73,23 @@ export const UploadPhoto = () => {
   useEffect(() => {
     if (complete) {
       // TODO (fernandowinfield): enable 'Next' button.
-      window.alert('Stimuli URLs are ready!');
+      setDisplayAlert(true);
+    }
+  }, [complete]);
+
+  useEffect(() => {
+    if (displayAlert) {
+      if (complete) {
+        setAlertType('success');
+        setTimeout(() => {
+          setAlertType('');
+        }, DISPLAY_ALERT_TIME);
+      } else {
+        setAlertType('fail');
+        setTimeout(() => {
+          setAlertType('');
+        }, DISPLAY_ALERT_TIME);
+      }
     }
   }, [complete]);
 
@@ -91,10 +113,7 @@ export const UploadPhoto = () => {
     // TODO (fernandowinfield): handle based on `errorCode`. Currently
     // `errorCode` is always undefined.
 
-    // TODO (fernandowinfield): Replace the browser's alert with our own Alert
-    // component.
-    window.alert('Something went wrong. Please use your webcam to retake ' +
-                 'your photo or use the form to upload your photo again');
+    setDisplayAlert(true);
   };
 
   // ===== WEBCAM FUNCTIONALITY ===============================================
@@ -162,48 +181,66 @@ export const UploadPhoto = () => {
     URL.createObjectURL(file) :
     image;
 
-  return loading ?
-    <Loader text="Please wait! Your photo is being processed..." /> :
-    <div className="upload-photo">
-      <PhotoInstructions />
-      <ToggleCamera onClick={() => toggleCamera()} />
-      <div className="upload-photo__images">
-        <div className="upload-photo__item">
-          <ImageGuidelines content={ cameraIsOn &&
-            <Webcam screenshotFormat='image/jpeg'
-              height={240} width={320} ref={webcamRef}
-            />
-          } />
-          <p>Align your face with the guiding lines.</p>
-          { cameraIsOn &&
-            <Button
-              modifierClasses="button--small button--secondary"
-              isButton={true}
-              text="Take a photo"
-              onClick={() => {
-                capturePhoto();
-              }}
-            />
-          }
-        </div>
-        <div className="upload-photo__item">
-          <ImageGuidelines content={ <img src={imageSrc} /> } />
-          <p>Your photo will appear here.</p>
-        </div>
-      </div>
-      <FileUpload onChange={(e) => uploadFile(e.target)} />
-      <div className="upload-photo__submit">
-        <p>Once you are ready. You can upload your photo here.</p>
-        <Button
-          isButton={true}
-          modifierClasses="upload-photo__btn button--small"
-          text="Upload"
-          onClick={() => uploadPhoto()} />
-        { error &&
-          <p className="upload-photo__err">
-            Something went wrong and your photo could not be uploaded.
-            Please, try again.</p>
+  return (
+    loading ?
+      <Loader text="Please wait! Your photo is being processed..." /> :
+      <div>
+        { alertType === 'success' ?
+          <Alert
+            modifierClasses="success"
+            title="SUCCESS"
+            content="Your photo has been accepted" /> :
+          alertType === 'fail' ?
+            <Alert
+              modifierClasses="error"
+              title="ERROR"
+              content={'Something went wrong. Please use your webcam to ' +
+                'retake your photo or use the form to upload your photo ' +
+                'again'} /> :
+            null
         }
+        <div className="upload-photo">
+          <PhotoInstructions />
+          <ToggleCamera onClick={() => toggleCamera()} />
+          <div className="upload-photo__images">
+            <div className="upload-photo__item">
+              <ImageGuidelines content={ cameraIsOn &&
+                <Webcam screenshotFormat='image/jpeg'
+                  height={240} width={320} ref={webcamRef}
+                />
+              } />
+              <p>Align your face with the guiding lines.</p>
+              { cameraIsOn &&
+                <Button
+                  modifierClasses="button--small button--secondary"
+                  isButton={true}
+                  text="Take a photo"
+                  onClick={() => {
+                    capturePhoto();
+                  }}
+                />
+              }
+            </div>
+            <div className="upload-photo__item">
+              <ImageGuidelines content={ <img src={imageSrc} /> } />
+              <p>Your photo will appear here.</p>
+            </div>
+          </div>
+          <FileUpload onChange={(e) => uploadFile(e.target)} />
+          <div className="upload-photo__submit">
+            <p>Once you are ready. You can upload your photo here.</p>
+            <Button
+              isButton={true}
+              modifierClasses="upload-photo__btn button--small"
+              text="Upload"
+              onClick={() => uploadPhoto()} />
+            { error &&
+              <p className="upload-photo__err">
+                Something went wrong and your photo could not be uploaded.
+                Please, try again.</p>
+            }
+          </div>
+        </div>
       </div>
-    </div>;
+  );
 };
