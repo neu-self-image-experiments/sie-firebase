@@ -27,6 +27,9 @@ const FACIAL_DETECTION_WAIT = 10000;
  * )
  */
 export const UploadPhoto = ({ photoUploadCompletionHandler }) => {
+  const INITIAL_STATE = {
+    imageFeedback: 'Once you are ready. You can upload your photo here.',
+  };
   // ===== STATE ==============================================================
   const { experimentId, participantId } = useParams(); // Parse URL params
   const [cameraIsOn, setWebcamOn] = useState(false);
@@ -35,7 +38,7 @@ export const UploadPhoto = ({ photoUploadCompletionHandler }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [imageFeedback, setImageFeedback] =
-    useState('Once you are ready. You can upload your photo here.');
+      useState(INITIAL_STATE.imageFeedback);
   const webcamRef = React.useRef(null);
 
   // ===== STATUS CHECKS ======================================================
@@ -85,6 +88,7 @@ export const UploadPhoto = ({ photoUploadCompletionHandler }) => {
   // ===== UPLOAD TO SERVER FUNCTIONALITY =====================================
   // Upload photo to the server to generate stimuli
   const uploadPhoto = () => {
+    setImageFeedback(INITIAL_STATE.imageFeedback);
     if (image) {
       // Case 1: photo was taken with the webcam
       fetch(image).then((response) => response.blob())
