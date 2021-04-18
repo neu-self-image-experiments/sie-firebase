@@ -60,8 +60,6 @@ export const Experiment = ({
       show = true;
     } else if (wizardStep === 2) {
       getConsentResult(participantId, experimentId, setConsentResponse);
-      /* eslint-disable */
-      console.log(consentResponse);
     }
     setShowNext(show);
   }, [wizardStep]);
@@ -103,6 +101,7 @@ export const Experiment = ({
             <Section titleEl={HEADING} title='Introduction'>
               <h4>{experiment.title}</h4>
               {experiment.description}
+              <ImageSelectionTask/>
             </Section>
             {/* Step 2 */}
             <Section titleEl={HEADING} title='Consent Form'>
