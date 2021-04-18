@@ -1,10 +1,14 @@
+/* eslint-disable no-unused-vars */
 import './styles.scss';
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { Fragment } from 'react';
 import { JsPsych } from '../JsPsych/JsPsych';
+import { ScreenTakeover } from '../../layouts/ScreenTakeover/ScreenTakeover';
+import { Button } from '../../components/Button/Button';
+import { Modal } from '../../components/Modal/Modal';
 
 /**
  * Component for consent form element.
@@ -16,6 +20,7 @@ import { JsPsych } from '../JsPsych/JsPsych';
  * )
  */
 export const ImageSelectionTask = ({ url }) => {
+  const [hideTask, setHideTask] = useState(true);
   return (
     <Fragment>
       {/* <p>In the following computer task, you will complete a series of*/}
@@ -38,10 +43,16 @@ export const ImageSelectionTask = ({ url }) => {
       {/*  Responses that are too slow will not be recorded.</p>*/}
       {/* <p>To get started, <a href={url}>click here</a>.</p>*/}
 
-      {/* TODO: Integrate JsPsych component into ImageSelectionTask to load on
-             click when user ready,
-             potentially via ScreenTakeover once button is clicked. */}
-      <JsPsych/>
+      {/* <Button
+        isButton={true}
+        onClick={() => setHideTask(false)}
+        text="Start Experiment"
+      />
+      <ScreenTakeover isHidden={hideTask}> */}
+      <Modal buttonText="Start Experiment">
+        <JsPsych />
+      </Modal>
+      {/* </ScreenTakeover> */}
     </Fragment>
   );
 };

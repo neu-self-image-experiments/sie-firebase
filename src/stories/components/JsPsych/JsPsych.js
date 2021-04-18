@@ -16,6 +16,7 @@ export const JsPsych = () => {
   const { experimentId, participantId } = useParams(); // Parse URL params
   const [stimuliUrls, setStimuliUrls] = useState([]);
   const [ready, setReady] = useState(false);
+  const [complete, setComplete] = useState(false);
 
   useEffect(async () => {
     // Load participantId, experimentId, and 400 stimuli urls
@@ -23,7 +24,7 @@ export const JsPsych = () => {
       participantId,
       experimentId,
       setStimuliUrls,
-      errorLoadingJsPsych
+      errorLoadingJsPsych,
     );
   }, []);
 
@@ -32,7 +33,6 @@ export const JsPsych = () => {
       setReady(true);
     }
   }, [stimuliUrls]);
-
 
   useEffect(() => {
     if (ready) {
@@ -81,50 +81,57 @@ export const JsPsych = () => {
         };
         timeline.push(instructions);
 
+        // Preload images for experiment
+        var preload = {
+          type: 'preload',
+          images: stimuliUrls,
+        };
+
+        timeline.push(preload);
+
         /* generate trials with number of trials */
         function generateTrials(numberOfTrial) {
           const trials = [];
           for (let i = 0; i <= numberOfTrial; i++) {
             const invFilePath = stimuliUrls[i];
             const oriFilePath = stimuliUrls[i + 1];
-            // TODO: Figure out how to render two images at the same time.
-            //    Currently there is a pattern of the invFilePath image rendering before oriFilePath image renders.
             const twoStimulusHtml =
               // For the first 200 images that are rendered, show original on left & show inverted on right
               i < numberOfTrial / 2
                 ? "<div style='width: 900px; margin: auto;'>" +
-                "<div class='float: left;'><img width='300' src='" +
-                oriFilePath +
-                "'/>" +
-                '</div>' +
-                "<div style='float: left; width: 300px; height: 300px;'>" +
-                "<div style='font-size: 60px; width:300px height: 30px; margin-top: 135px; margin-bottom: 135px;'>+</div>" +
-                '</div>' +
-                "<div class='float: left;'><img width='300' src='" +
-                invFilePath +
-                "'/>" +
-                '</div>' +
-                '</div>'
+                  "<div class='float: left;'><img width='300' src='" +
+                  oriFilePath +
+                  "'/>" +
+                  '</div>' +
+                  "<div style='float: left; width: 300px; height: 300px;'>" +
+                  "<div style='font-size: 60px; width:300px height: 30px; margin-top: 135px; margin-bottom: 135px;'>+</div>" +
+                  '</div>' +
+                  "<div class='float: left;'><img width='300' src='" +
+                  invFilePath +
+                  "'/>" +
+                  '</div>' +
+                  '</div>'
                 : // For the last 200 images that are rendered, show inverted on left & show original on right
-                "<div style='width: 900px; margin: auto;'>" +
-                "<div class='float: left;'><img width='300' src='" +
-                invFilePath +
-                "'/>" +
-                '</div>' +
-                "<div style='float: left; width: 300px; height: 300px;'>" +
-                "<div style='font-size: 60px; width:300px height: 30px; margin-top: 135px; margin-bottom: 135px;'>+</div>" +
-                '</div>' +
-                "<div class='float: left;'><img width='300' src='" +
-                oriFilePath +
-                "'/>" +
-                '</div>' +
-                '</div>';
+                  "<div style='width: 900px; margin: auto;'>" +
+                  "<div class='float: left;'><img width='300' src='" +
+                  invFilePath +
+                  "'/>" +
+                  '</div>' +
+                  "<div style='float: left; width: 300px; height: 300px;'>" +
+                  "<div style='font-size: 60px; width:300px height: 30px; margin-top: 135px; margin-bottom: 135px;'>+</div>" +
+                  '</div>' +
+                  "<div class='float: left;'><img width='300' src='" +
+                  oriFilePath +
+                  "'/>" +
+                  '</div>' +
+                  '</div>';
 
             const newStimuli = {
               stimulus: twoStimulusHtml,
               data: { label: 'trial', trial_num: i },
             };
             trials.push(newStimuli);
+            console.log(trials);
           }
           return trials;
         }
@@ -176,6 +183,7 @@ export const JsPsych = () => {
             experimentId,
             newExperimentResult,
           );
+          setComplete(true);
         }
 
         const trialProcedure = {
@@ -237,8 +245,8 @@ export const JsPsych = () => {
   const errorLoadingJsPsych = (errorCode) => {
     window.alert(
       'Something went wrong. Please click on experiment again.' +
-      ' Error code: ' +
-      errorCode,
+        ' Error code: ' +
+        errorCode,
     );
   };
 
