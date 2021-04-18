@@ -46,6 +46,28 @@ const uploadImageToStorage = async (
 };
 
 /**
+ * Listen to user document for the status of facial detection process
+ * @param {String} userId userId
+ * @param {String} experimentId experimentId
+ * @param {Function} imageFeedbackHandler react hook function for imageFeedback
+ */
+export const observeFacialDetectionStatus =
+  async (userId, experimentId, imageFeedbackHandler) => {
+    firestore.collection(firestoreCollections.USER)
+      .doc(userId).collection(firestoreCollections.EXPERIMENT)
+      .doc(experimentId).onSnapshot(async (doc) => {
+        const userDoc = doc.data();
+        // TODO: should check if userDoc exists here
+        const facialDetectionStatus = userDoc['facial_detection_status'];
+        if (facialDetectionStatus === 'completed') {
+          imageFeedbackHandler('Photo requirements passed!');
+        } else {
+          imageFeedbackHandler(facialDetectionStatus);
+        }
+      });
+  };
+
+/**
  * Listen to user document for the signal of stimuli generation completion
  * @param {String} userId userId
  * @param {String} experimentId experimentId
@@ -60,7 +82,6 @@ export const observeStimuliCompletion =
         const userDoc = doc.data();
         const stimuliStatus = userDoc.sie_stimuli_generation_status;
         if (stimuliStatus === 'completed') {
-        // call getFileUrlsFromBucket once ready to display stimuli
           await getSieStimuliFromBucket(userId, experimentId)
             .then((results) => {
               const status = results.status;
