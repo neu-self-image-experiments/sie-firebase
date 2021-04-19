@@ -42,8 +42,9 @@ export const Experiment = ({
   // Keep track of already completed steps
   // TODO: 3, 4, 5, and 6 should be removed once respective step is fully
   // integrated.
-  const [completedSteps, setCompletedSteps] = useState([1, 3, 4, 5, 6]);
+  const [completedSteps, setCompletedSteps] = useState([1, 4, 5, 6]);
   const [consentResponse, setConsentResponse] = useState(null);
+  const [photoStepCompleted, setPhotoStepCompleted] = useState(false);
 
   useEffect(() => {
     const id = experimentId ?
@@ -74,6 +75,13 @@ export const Experiment = ({
       }
     }
   }, [consentResponse]);
+
+  useEffect(() => {
+    if (photoStepCompleted) {
+      setShowNext(true);
+      setCompletedSteps((prevState) => [...prevState, 3]);
+    }
+  }, [photoStepCompleted]);
 
   const HEADING = 'h3';
   const steps = [
@@ -113,7 +121,8 @@ export const Experiment = ({
             </Section>
             {/* Step 3 */}
             <Section titleEl={HEADING} title='Photo Instructions and Upload'>
-              <UploadPhoto />
+              <UploadPhoto
+                photoUploadCompletionHandler={setPhotoStepCompleted}/>
             </Section>
             {/* Step 4 */}
             <Section titleEl={HEADING} title='Pre-Study Questionnaire'>

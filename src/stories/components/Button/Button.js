@@ -18,13 +18,18 @@ import { Link } from 'react-router-dom';
  *   <Button modifierClasses={modifierClasses} url={url} text={text} />
  * )
  */
-export const Button = ({ modifierClasses, url, text, isButton, onClick }) => {
+export const Button =
+({ modifierClasses, url, text, isButton, onClick }) => {
   const classes = ['button', `${modifierClasses}`].join(' ').trim();
 
   return (
     <Fragment>
       {isButton ?
-        <button role="button" className={classes} onClick={onClick}>
+        <button
+          role="button"
+          className={classes}
+          onClick={onClick}
+        >
           {text}
         </button> :
         <Link to={url} className={classes}>{text}</Link>
