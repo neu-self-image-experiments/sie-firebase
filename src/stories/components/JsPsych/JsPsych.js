@@ -130,7 +130,6 @@ export const JsPsych = ({ selectionTaskCompletionHandler }) => {
               data: { label: 'trial', trial_num: i },
             };
             trials.push(newStimuli);
-            console.log(trials);
           }
           return trials;
         }
@@ -248,9 +247,6 @@ export const JsPsych = ({ selectionTaskCompletionHandler }) => {
         errorCode,
     );
   };
-
-  // Have to wait for the plugin scripts to be loaded asynchronously before
-  // running the experiment; otherwise it crashes.
 
   return (
     <div>

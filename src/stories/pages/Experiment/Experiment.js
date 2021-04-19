@@ -113,7 +113,6 @@ export const Experiment = ({ preSurveys, postSurveys }) => {
             <Section titleEl={HEADING} title="Introduction">
               <h4>{experiment.title}</h4>
               {experiment.description}
-              <ImageSelectionTask />
             </Section>
             {/* Step 2 */}
             <Section titleEl={HEADING} title="Consent Form">
