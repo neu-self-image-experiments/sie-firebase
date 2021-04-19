@@ -42,7 +42,7 @@ export const AddExperiment = ({ buttonText, buttonModifierClasses }) => {
       description,
       consent,
       date,
-      // preSurveys,
+      // preSurvey,
       // postSurveys,
     };
 

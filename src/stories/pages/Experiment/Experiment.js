@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 
 import { Header } from '../../layouts/Header/Header';
@@ -12,26 +11,21 @@ import { Section } from '../../components/Section/Section';
 import { ImageSelectionTask }
   from '../../components/ImageSelectionTask/ImageSelectionTask';
 import { getExperimentById } from '../../../firebase/api/experiments';
-import { getConsentResult } from '../../../firebase/api/qualtrics';
+import {
+  getConsentResult,
+  getPreSurvey,
+} from '../../../firebase/api/qualtrics';
 
 /**
  * Component for experiment page.
  *
  * @component
- * @param {string} title experiment's title
- * @param {string} description experiment's description
- * @param {array} consent experiment's conset forms
- * @param {string} url experiment's description
- * @param {string} preSurveys experiment's pre-survey questionnaires
- * @param {string} postSurveys experiment's post-survey questionnaires
  * @return {object} (
- *   <Experiment title={title} description={description} />
+ *   <Experiment />
  * )
  */
 
-export const Experiment = ({
-  preSurveys, postSurveys,
-}) => {
+export const Experiment = () => {
   const { experimentId, participantId } = useParams();
   // Experiment metadata
   const [experiment, setExperiment] = useState({});
@@ -42,8 +36,9 @@ export const Experiment = ({
   // Keep track of already completed steps
   // TODO: 3, 4, 5, and 6 should be removed once respective step is fully
   // integrated.
-  const [completedSteps, setCompletedSteps] = useState([1, 3, 4, 5, 6]);
+  const [completedSteps, setCompletedSteps] = useState([1, 3, 5, 6]);
   const [consentResponse, setConsentResponse] = useState(null);
+  const [preSurvey, setPreSurvey] = useState(null);
 
   useEffect(() => {
     const id = experimentId ?
@@ -58,13 +53,29 @@ export const Experiment = ({
     let show = false;
     if (completedSteps.includes(wizardStep)) {
       show = true;
-    } else if (wizardStep === 2) {
-      getConsentResult(participantId, experimentId, setConsentResponse);
-      /* eslint-disable */
-      console.log(consentResponse);
+    } else {
+      switch (wizardStep) {
+      case 2:
+        getConsentResult(participantId, experimentId, setConsentResponse);
+        break;
+      case 4:
+        getPreSurvey(participantId, experimentId, setPreSurvey);
+        break;
+      default:
+        break;
+      }
     }
     setShowNext(show);
   }, [wizardStep]);
+
+  useEffect(() => {
+    if (experiment.preSurvey) {
+      if (preSurvey.status === 200) {
+        setShowNext(true);
+        setCompletedSteps((prevState) => [...prevState, 4]);
+      }
+    }
+  }, [preSurvey]);
 
   useEffect(() => {
     if (consentResponse && consentResponse.data) {
@@ -77,7 +88,6 @@ export const Experiment = ({
     }
   }, [consentResponse]);
 
-  const HEADING = 'h3';
   const steps = [
     'Introduction',
     'Consent form',
@@ -87,6 +97,7 @@ export const Experiment = ({
     'Post-Survey',
     'Debriefing',
   ];
+  const HEADING = 'h3';
 
   return (
     <Main>
@@ -118,11 +129,10 @@ export const Experiment = ({
             </Section>
             {/* Step 4 */}
             <Section titleEl={HEADING} title='Pre-Study Questionnaire'>
-              <p>Please complete the (first/second) pre-survey below.</p>
-              { preSurveys.map((form, i) => {
-                return <QualtricsEmbed key={i} url={form} />;
-              })
-              }
+              <p>Please complete the pre-survey below.</p>
+              <QualtricsEmbed url={`${experiment.preSurvey}`+
+                `?participant_id=${participantId}` +
+                `&experiment_id=${experimentId}`} />
             </Section>
             {/* Step 5 */}
             <Section titleEl={HEADING} title='Image Selection Task'>
@@ -131,10 +141,9 @@ export const Experiment = ({
             {/* Step 6 */}
             <Section titleEl={HEADING} title='Post-Study Questionnaire'>
               <p>Please complete the (first/second) post-survey below.</p>
-              { postSurveys.map((form, i) => {
-                return <QualtricsEmbed key={i} url={form} />;
-              })
-              }
+              <QualtricsEmbed url={`${experiment.postSurvey}`+
+                `?participant_id=${participantId}` +
+                `&experiment_id=${experimentId}`} />
             </Section>
             {/* Step 7 */}
             <Section titleEl={HEADING} title='Debriefing'>
@@ -147,40 +156,4 @@ export const Experiment = ({
       </div>
     </Main>
   );
-};
-
-Experiment.propTypes = {
-  /**
-   * Experiment's title
-   */
-  title: PropTypes.string,
-  /**
-   * Experiment's description
-   */
-  description: PropTypes.string,
-  /**
-   * Experiment's url
-   */
-  url: PropTypes.string.isRequired,
-  /**
-   * Experiment's consent forms
-   */
-  consent: PropTypes.string.isRequired,
-  /**
-   * Experiment's pre-survey forms
-   */
-  preSurveys: PropTypes.array.isRequired,
-  /**
-   * Experiment's post-survey forms
-   */
-  postSurveys: PropTypes.array.isRequired,
-};
-
-Experiment.defaultProps = {
-  title: '',
-  description: '',
-  url: '',
-  consent: '',
-  preSurveys: [],
-  postSurveys: [],
 };

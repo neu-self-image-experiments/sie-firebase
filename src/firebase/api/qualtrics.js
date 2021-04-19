@@ -61,25 +61,26 @@ export const getPreSurvey = async (uid, experimentId, surveyHandler) => {
       .doc(uid).collection(`${collections.EXPERIMENT}`).doc(experimentId)
       .onSnapshot( (doc) => {
         const data = doc.data();
-        if (data && data.age) {
-          const preSurvey = {
-            age: res.age,
-            gender: res.gender,
-            genderImportance: res.genderImportance,
-            ethnic: res.ethnic,
-            selfEsteem: res.selfEsteem,
-          };
+        if (data) {
+        // if (data && data.age) {
+          // const preSurvey = {
+          //   age: res.age,
+          //   gender: res.gender,
+          //   genderImportance: res.genderImportance,
+          //   ethnic: res.ethnic,
+          //   selfEsteem: res.selfEsteem,
+          // };
           const res = {
             status: StatusCodes.OK,
             message: message.OK,
-            data: preSurvey,
+            // data: preSurvey,
           };
           surveyHandler(res);
         } else {
           const res = {
             status: StatusCodes.NOT_FOUND,
             message: message.NOT_FOUND,
-            data: null,
+            // data: null,
           };
           surveyHandler(res);
         }
@@ -108,6 +109,7 @@ export const getPostSurvey = async (uid, experimentId, surveyHandler) => {
       .onSnapshot( (doc) => {
         const data = doc.data();
         if (data && data.age) {
+        // if (data && data.age) {
           const postSurvey = {
             capable: res.capable,
             selfConfident: res.selfConfident,
