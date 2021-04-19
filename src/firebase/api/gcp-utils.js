@@ -46,6 +46,60 @@ const uploadImageToStorage = async (
 };
 
 /**
+ * Convert user selection result json array into csv
+ * than upload to storage bucket.
+ * @param {String} userId userId
+ * @param {String} experimentId experimentId
+ * @param {Array} selectionResult user selection result JSON Array
+ *
+ * @return {JSON}
+ */
+export const uploadSelectionResult = async (
+  userId, experimentId, selectionResult) => {
+  const csvPath = `${userId}-${experimentId}/result.csv`;
+  // convert json to csv
+  const csvStr = jsonArray2CSV(selectionResult);
+  const csvBlob = new Blob([csvStr], { type: 'text/csv;charset=utf-8;' });
+  const userSelectionBucketRef = app.storage(
+    storageBuckets.SIE_USER_SELECTIONS).ref();
+
+  const csvRef = userSelectionBucketRef.child(csvPath);
+  return await csvRef.put(csvBlob).then(() => {
+    return {
+      status: StatusCodes.CREATED,
+      data: null,
+      error: null,
+    };
+  }).catch((error) => {
+    return {
+      status: StatusCodes.UNAUTHORIZED,
+      data: null,
+      error: `user not authenticated ${error.code}`,
+    };
+  });
+};
+
+/**
+ * Convert json array into csv string
+ * @param {Array} jsonArray
+ * @return {String}
+ */
+const jsonArray2CSV = (jsonArray) => {
+  // handle null values
+  const replacer = (_, value) => value === null ? '' : value;
+  const header = Object.keys(jsonArray[0]);
+  // convert each json object into csv row
+  let csv = jsonArray.slice(1).map((json) =>
+    header.map((fieldName) => JSON.stringify(json[fieldName], replacer))
+      .join(','));
+  // move to the top
+  csv.unshift(header.join(','));
+  csv = csv.join('\r\n');
+
+  return csv;
+};
+
+/**
  * Listen to user document for the status of facial detection process
  * @param {String} userId userId
  * @param {String} experimentId experimentId

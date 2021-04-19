@@ -6,6 +6,8 @@ export const firestoreCollections = {
 export const storageBuckets = {
   SIE_RAW_IMGS: 'sie-raw-images',
   SIE_STIMULI_IMGS: 'sie-stimuli-images',
+  SIE_USER_SELECTIONS: 'sie-user-selections',
+  SIE_CI_IMAGES: 'sie-ci-images',
 };
 
 export const pubsub = {
