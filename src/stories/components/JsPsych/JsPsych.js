@@ -12,11 +12,10 @@ import { storeExperimentResult } from '../../../firebase/api/experiments';
  *   <React.Fragment />
  * )
  */
-export const JsPsych = () => {
+export const JsPsych = ({ selectionTaskCompletionHandler }) => {
   const { experimentId, participantId } = useParams(); // Parse URL params
   const [stimuliUrls, setStimuliUrls] = useState([]);
   const [ready, setReady] = useState(false);
-  const [complete, setComplete] = useState(false);
 
   useEffect(async () => {
     // Load participantId, experimentId, and 400 stimuli urls
@@ -183,7 +182,7 @@ export const JsPsych = () => {
             experimentId,
             newExperimentResult,
           );
-          setComplete(true);
+          selectionTaskCompletionHandler(true);
         }
 
         const trialProcedure = {

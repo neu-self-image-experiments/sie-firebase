@@ -6,8 +6,6 @@ import PropTypes from 'prop-types';
 
 import { Fragment } from 'react';
 import { JsPsych } from '../JsPsych/JsPsych';
-import { ScreenTakeover } from '../../layouts/ScreenTakeover/ScreenTakeover';
-import { Button } from '../../components/Button/Button';
 import { Modal } from '../../components/Modal/Modal';
 
 /**
@@ -15,11 +13,12 @@ import { Modal } from '../../components/Modal/Modal';
  *
  * @component
  * @param {string} url of the component.
+ * @param {func} selectionTaskCompletionHandler sets the tasks as complete
  * @return {object}
  *   <ImageSelectionTask url={url} />
  * )
  */
-export const ImageSelectionTask = ({ url }) => {
+export const ImageSelectionTask = ({ url, selectionTaskCompletionHandler }) => {
   const [hideTask, setHideTask] = useState(true);
   return (
     <Fragment>
@@ -50,7 +49,9 @@ export const ImageSelectionTask = ({ url }) => {
       />
       <ScreenTakeover isHidden={hideTask}> */}
       <Modal buttonText="Start Experiment">
-        <JsPsych />
+        <JsPsych
+          selectionTaskCompletionHandler={selectionTaskCompletionHandler}
+        />
       </Modal>
       {/* </ScreenTakeover> */}
     </Fragment>
@@ -62,6 +63,10 @@ ImageSelectionTask.propTypes = {
    * ImageSelectionTask's url
    */
   url: PropTypes.string.isRequired,
+  /**
+   * ImageSelectionTask's completion handler
+   */
+  selectionTaskCompletionHandler: PropTypes.func,
 };
 
 ImageSelectionTask.defaultProps = {
