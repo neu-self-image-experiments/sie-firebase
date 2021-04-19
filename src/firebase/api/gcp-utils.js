@@ -89,7 +89,7 @@ const jsonArray2CSV = (jsonArray) => {
   const replacer = (_, value) => value === null ? '' : value;
   const header = Object.keys(jsonArray[0]);
   // convert each json object into csv row
-  let csv = jsonArray.map((json) =>
+  let csv = jsonArray.slice(1).map((json) =>
     header.map((fieldName) => JSON.stringify(json[fieldName], replacer))
       .join(','));
   // move to the top
