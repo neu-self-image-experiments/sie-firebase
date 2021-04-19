@@ -13,6 +13,7 @@ import { ImageSelectionTask }
 import { getExperimentById } from '../../../firebase/api/experiments';
 import {
   getConsentResult,
+  getPostSurvey,
   getPreSurvey,
 } from '../../../firebase/api/qualtrics';
 
@@ -36,9 +37,10 @@ export const Experiment = () => {
   // Keep track of already completed steps
   // TODO: 3, 4, 5, and 6 should be removed once respective step is fully
   // integrated.
-  const [completedSteps, setCompletedSteps] = useState([1, 5, 6]);
+  const [completedSteps, setCompletedSteps] = useState([1, 3, 5]);
   const [consentResponse, setConsentResponse] = useState(null);
   const [preSurvey, setPreSurvey] = useState(null);
+  const [postSurvey, setPostSurvey] = useState(null);
   const [photoStepCompleted, setPhotoStepCompleted] = useState(false);
 
   useEffect(() => {
@@ -62,6 +64,9 @@ export const Experiment = () => {
       case 4:
         getPreSurvey(participantId, experimentId, setPreSurvey);
         break;
+      case 6:
+        getPostSurvey(participantId, experimentId, setPostSurvey);
+        break;
       default:
         break;
       }
@@ -77,6 +82,15 @@ export const Experiment = () => {
       }
     }
   }, [preSurvey]);
+
+  useEffect(() => {
+    if (experiment.postSurvey) {
+      if (postSurvey.status === 200) {
+        setShowNext(true);
+        setCompletedSteps((prevState) => [...prevState, 6]);
+      }
+    }
+  }, [postSurvey]);
 
   useEffect(() => {
     if (consentResponse && consentResponse.data) {
@@ -149,7 +163,7 @@ export const Experiment = () => {
             </Section>
             {/* Step 6 */}
             <Section titleEl={HEADING} title='Post-Study Questionnaire'>
-              <p>Please complete the (first/second) post-survey below.</p>
+              <p>Please complete the post-survey below.</p>
               <QualtricsEmbed url={`${experiment.postSurvey}`+
                 `?participant_id=${participantId}` +
                 `&experiment_id=${experimentId}`} />
