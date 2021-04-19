@@ -14,7 +14,7 @@ import { AccountPage } from './stories/pages/AccountPage/AccountPage';
 import { ExperimentsPage }
   from './stories/pages/ExperimentsPage/ExperimentsPage';
 import { PrivateRoute } from './stories/components/PrivateRoute/PrivateRoute';
-
+import { Logout } from './stories/pages/Logout/Logout';
 function App() {
   const { user } = useContext(AuthContext);
   return (
@@ -53,6 +53,15 @@ function App() {
           component={() => (
             <Dashboard>
               <ExperimentsPage />
+            </Dashboard>
+          )} />
+        <PrivateRoute
+          exact
+          path="/logout"
+          user={user}
+          component={() => (
+            <Dashboard>
+              <Logout />
             </Dashboard>
           )} />
         <Route exact path="/login">
