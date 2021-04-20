@@ -13,7 +13,7 @@ import {
  */
 export const getConsentResult = async (uid, experimentId, consentHandler) => {
   try {
-    await firestore.collection(`${collections.USER}`)
+    const unsubscribe = firestore.collection(`${collections.USER}`)
       .doc(uid).collection(`${collections.EXPERIMENT}`).doc(experimentId)
       .onSnapshot( (doc) => {
         const data = doc.data();
@@ -29,6 +29,7 @@ export const getConsentResult = async (uid, experimentId, consentHandler) => {
             data: consentData,
           };
           consentHandler(res);
+          unsubscribe();
         } else {
           const res = {
             status: StatusCodes.NOT_FOUND,

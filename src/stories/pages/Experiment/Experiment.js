@@ -34,7 +34,7 @@ export const Experiment = ({ preSurveys, postSurveys }) => {
   // Experiment metadata
   const [experiment, setExperiment] = useState({});
   // Enable/disable 'Next' button of Wizard
-  const [showNext, setShowNext] = useState(true);
+  const [showNext, setShowNext] = useState(false);
   // Track the step the Wizard is at
   const [wizardStep, setWizardStep] = useState(1);
   // Keep track of already completed steps
@@ -85,6 +85,20 @@ export const Experiment = ({ preSurveys, postSurveys }) => {
     if (photoStepCompleted) {
       setShowNext(true);
       setCompletedSteps((prevState) => [...prevState, 3]);
+    } else if (completedSteps.includes(3)) {
+      // In the case that the participant's photo has passed face detection but
+      // later on uploads another photo that doesn't pass, we need to disable
+      // the 'Next' button again.
+      setShowNext(false);
+      setCompletedSteps((prevState) => {
+        // Remove `3` from the completed steps array
+        const prevCompletedSteps = [...prevState];
+        const index = prevCompletedSteps.indexOf(3);
+        if (index > -1) {
+          prevCompletedSteps.splice(index, 1);
+        }
+        return prevCompletedSteps;
+      });
     }
   }, [photoStepCompleted]);
 
