@@ -21,10 +21,6 @@ const Template = (args) => {
 // Default
 export const Default = Template.bind({});
 Default.args = {
-  preSurveys: [
-    'https://neu.co1.qualtrics.com/jfe/form/SV_56LysMCx8JpZgWO',
-  ],
-  postSurveys: [
-    'https://neu.co1.qualtrics.com/jfe/form/SV_56LysMCx8JpZgWO',
-  ],
+  preSurvey: 'https://neu.co1.qualtrics.com/jfe/form/SV_56LysMCx8JpZgWO',
+  postSurvey: 'https://neu.co1.qualtrics.com/jfe/form/SV_56LysMCx8JpZgWO',
 };

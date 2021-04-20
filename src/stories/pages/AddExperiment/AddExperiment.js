@@ -23,37 +23,37 @@ import { Section } from '../../components/Section/Section';
 
 export const AddExperiment = ({ buttonText, buttonModifierClasses }) => {
   const [error, setError] = useState('');
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [consent, setConsent] = useState('');
+  const [experiment, setExperiment] = useState({
+    title: '',
+    description: '',
+    date: (new Date()).toLocaleString('default', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }),
+    consent: '',
+    preSurvey: '',
+    postSurvey: '',
+  });
 
   const postExperiment = async (e) => {
     e.preventDefault();
 
-    // date the experiment was created
-    const date = (new Date()).toLocaleString('default', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-
-    const experiment = {
-      title,
-      description,
-      consent,
-      date,
-      // preSurveys,
-      // postSurveys,
-    };
-
     // post experiment
     await createExperiment(experiment).then((response) => {
       if (response.data) {
-        // SUCCESS CREATING EXPERIMENT
-        setError('');
-        setTitle('');
-        setDescription('');
-        setConsent('');
+        setExperiment({
+          title: '',
+          description: '',
+          date: (new Date()).toLocaleString('default', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          }),
+          consent: '',
+          preSurvey: '',
+          postSurvey: '',
+        });
 
         // reset form
         e.target.parentNode.reset();
@@ -79,14 +79,20 @@ export const AddExperiment = ({ buttonText, buttonModifierClasses }) => {
             type="text"
             showLabel={false}
             label="Study Title"
-            handleChange={(e) => setTitle(e.target.value)
+            handleChange={(e) => setExperiment({
+              ...experiment,
+              title: e.target.value,
+            })
             }
           />
           <FormItem
             type="textarea"
             showLabel={true}
             label="Description of the study"
-            handleChange={(e) => setDescription(e.target.value)}
+            handleChange={(e) => setExperiment({
+              ...experiment,
+              description: e.target.value,
+            })}
           />
           <h5>Consent Form</h5>
           <FormItem
@@ -94,15 +100,30 @@ export const AddExperiment = ({ buttonText, buttonModifierClasses }) => {
             type="text"
             showLabel={false}
             label="Consent Form"
-            handleChange={(e) => setConsent(e.target.value)}
+            handleChange={(e) => setExperiment({
+              ...experiment,
+              consent: e.target.value,
+            })}
           />
-          <h5>Pre-Survey Questionnaires</h5>
           <FormItem
-            placeholder="URL to Pre-Survey Questionnaires"
+            placeholder="URL to Pre-Survey Questionnaire"
             type="text"
             showLabel={false}
             label="Questionnaire URL"
-            handleChange={(e) => setConsent(e.target.value)}
+            handleChange={(e) => setExperiment({
+              ...experiment,
+              preSurvey: e.target.value,
+            })}
+          />
+          <FormItem
+            placeholder="URL to Post-Survey Questionnaire"
+            type="text"
+            showLabel={false}
+            label="Questionnaire URL"
+            handleChange={(e) => setExperiment({
+              ...experiment,
+              postSurvey: e.target.value,
+            })}
           />
           { error &&
             <div className="form__msg">
