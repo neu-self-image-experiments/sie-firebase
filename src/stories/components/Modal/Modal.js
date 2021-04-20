@@ -16,17 +16,26 @@ import { fadeIn, fadeOut } from '../../../utils/utils';
  * @param {string} buttonText Text to appear on the modal's open button.
  * @param {string} buttonModifierClasses Class modifiers of the modal's open
  * button.
+ * @param {func} onClose cleanup method to be ran when the modal is closed
  * @return {object} (
  *   <Modal>
  *      {children}
  *   </Modal>
  * )
  */
-export const Modal = ({ children, buttonText, buttonModifierClasses }) => {
+export const Modal = ({
+  children,
+  buttonText,
+  buttonModifierClasses,
+  onClose,
+}) => {
   const [modalOpen, setModalOpen] = useState(false);
   const modalRef = useRef(null);
   // const [modalClasses, setModalClasses] = useState('modal--content');
   const toggleModal = () => {
+    if (onClose && modalOpen) {
+      onClose();
+    }
     setModalOpen(!modalOpen);
   };
 
@@ -44,20 +53,18 @@ export const Modal = ({ children, buttonText, buttonModifierClasses }) => {
         modifierClasses={[
           'button--small',
           'button--tertiary',
-          buttonModifierClasses].join(' ').trim()
-        }
+          buttonModifierClasses,
+        ]
+          .join(' ')
+          .trim()}
         onClick={toggleModal}
         text={buttonText}
-        isButton={true} />
+        isButton={true}
+      />
       <div className="modal" ref={modalRef}>
         <div className="modal__content">
-          <button
-            className='modal__content--close'
-            onClick={toggleModal}
-          />
-          <Constrain modifierClasses="constrain--narrow">
-            {children}
-          </Constrain>
+          <button className="modal__content--close" onClick={toggleModal} />
+          <Constrain modifierClasses="constrain--narrow">{children}</Constrain>
         </div>
       </div>
     </Fragment>
@@ -66,21 +73,24 @@ export const Modal = ({ children, buttonText, buttonModifierClasses }) => {
 
 Modal.propTypes = {
   /**
-     * Modal's node children
-     */
+   * Modal's node children
+   */
   children: PropTypes.node,
   /**
-    * Button's Text
-    */
+   * Button's Text
+   */
   buttonText: PropTypes.string.isRequired,
   /**
-    * Button's modifier classes
-    */
+   * Button's modifier classes
+   */
   buttonModifierClasses: PropTypes.string,
+  /**
+   * Button's onClose cleanup
+   */
+  onClose: PropTypes.func,
 };
 
 Modal.defaultProps = {
   buttonText: 'Open Modal',
+  onClose: null,
 };
-
-
