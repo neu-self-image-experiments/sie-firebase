@@ -1,8 +1,10 @@
 /* eslint-disable */
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { observeStimuliCompletion } from '../../../firebase/api/gcp-utils';
-import { storeExperimentResult } from '../../../firebase/api/experiments';
+import {
+  observeStimuliCompletion,
+  uploadSelectionResult
+} from '../../../firebase/api/gcp-utils';
 
 /**
  * Component to load jsPsych's "Self Image Experiment".
@@ -12,7 +14,7 @@ import { storeExperimentResult } from '../../../firebase/api/experiments';
  *   <React.Fragment />
  * )
  */
-export const JsPsych = () => {
+export const JsPsych = ({ selectionTaskCompletionHandler }) => {
   const { experimentId, participantId } = useParams(); // Parse URL params
   const [stimuliUrls, setStimuliUrls] = useState([]);
   const [ready, setReady] = useState(false);
@@ -23,7 +25,7 @@ export const JsPsych = () => {
       participantId,
       experimentId,
       setStimuliUrls,
-      errorLoadingJsPsych
+      errorLoadingJsPsych,
     );
   }, []);
 
@@ -32,7 +34,6 @@ export const JsPsych = () => {
       setReady(true);
     }
   }, [stimuliUrls]);
-
 
   useEffect(() => {
     if (ready) {
@@ -44,7 +45,8 @@ export const JsPsych = () => {
         /* number of trials */
         // TODO: Adjust NUMBER_OF_TRIALS back to 199
         // NOTE: Adjust line below to shorten the number of trials. 199 will go through all 200 iterations.
-        const NUMBER_OF_TRIALS = 5;
+        // NUMBER_OF_TRIALS = 199, means a total of 200 trials (0-indexed)
+        const NUMBER_OF_TRIALS = 7;
 
         const exampleImageOne =
           'https://firebasestorage.googleapis.com/v0/b/cs6510-spr2021.appspot.com/o/example-' +
@@ -81,44 +83,50 @@ export const JsPsych = () => {
         };
         timeline.push(instructions);
 
+        // Preload images for experiment
+        var preload = {
+          type: 'preload',
+          images: stimuliUrls,
+        };
+
+        timeline.push(preload);
+
         /* generate trials with number of trials */
         function generateTrials(numberOfTrial) {
           const trials = [];
           for (let i = 0; i <= numberOfTrial; i++) {
             const invFilePath = stimuliUrls[i];
             const oriFilePath = stimuliUrls[i + 1];
-            // TODO: Figure out how to render two images at the same time.
-            //    Currently there is a pattern of the invFilePath image rendering before oriFilePath image renders.
             const twoStimulusHtml =
               // For the first 200 images that are rendered, show original on left & show inverted on right
-              i < numberOfTrial / 2
+              i <= numberOfTrial / 2
                 ? "<div style='width: 900px; margin: auto;'>" +
-                "<div class='float: left;'><img width='300' src='" +
-                oriFilePath +
-                "'/>" +
-                '</div>' +
-                "<div style='float: left; width: 300px; height: 300px;'>" +
-                "<div style='font-size: 60px; width:300px height: 30px; margin-top: 135px; margin-bottom: 135px;'>+</div>" +
-                '</div>' +
-                "<div class='float: left;'><img width='300' src='" +
-                invFilePath +
-                "'/>" +
-                '</div>' +
-                '</div>'
+                  "<div class='float: left;'><img width='300' src='" +
+                  oriFilePath +
+                  "'/>" +
+                  '</div>' +
+                  "<div style='float: left; width: 300px; height: 300px;'>" +
+                  "<div style='font-size: 60px; width:300px height: 30px; margin-top: 135px; margin-bottom: 135px;'>+</div>" +
+                  '</div>' +
+                  "<div class='float: left;'><img width='300' src='" +
+                  invFilePath +
+                  "'/>" +
+                  '</div>' +
+                  '</div>'
                 : // For the last 200 images that are rendered, show inverted on left & show original on right
-                "<div style='width: 900px; margin: auto;'>" +
-                "<div class='float: left;'><img width='300' src='" +
-                invFilePath +
-                "'/>" +
-                '</div>' +
-                "<div style='float: left; width: 300px; height: 300px;'>" +
-                "<div style='font-size: 60px; width:300px height: 30px; margin-top: 135px; margin-bottom: 135px;'>+</div>" +
-                '</div>' +
-                "<div class='float: left;'><img width='300' src='" +
-                oriFilePath +
-                "'/>" +
-                '</div>' +
-                '</div>';
+                  "<div style='width: 900px; margin: auto;'>" +
+                  "<div class='float: left;'><img width='300' src='" +
+                  invFilePath +
+                  "'/>" +
+                  '</div>' +
+                  "<div style='float: left; width: 300px; height: 300px;'>" +
+                  "<div style='font-size: 60px; width:300px height: 30px; margin-top: 135px; margin-bottom: 135px;'>+</div>" +
+                  '</div>' +
+                  "<div class='float: left;'><img width='300' src='" +
+                  oriFilePath +
+                  "'/>" +
+                  '</div>' +
+                  '</div>';
 
             const newStimuli = {
               stimulus: twoStimulusHtml,
@@ -165,17 +173,49 @@ export const JsPsych = () => {
           data: { label: 'post-fixation' },
         };
 
+        // Transforms the experimental data from JsPsych to follow the back end JSON scheme
+        function transformExperimentData() {
+          let trialSelections = jsPsych.data.get().filter({label: 'trial'}).select('selection').values;
+          let newData = [];
+          let columnHeaders = {
+            stimulus: 'trial number',
+            response: 'trial response is whether or not the user chose the original image; 1 = correct, -1 = incorrect',
+            trait: 'untrustworthy by default',
+            subject: 'trial subject is the placement of original image; 1 = left, 2 = right',
+          }
+          newData.push(columnHeaders);
+          for (let trialNumber = 0; trialNumber < trialSelections.length; trialNumber++) {
+            let trialResponse;
+            let trialSubject;
+            // If the user doesn't make a selection, we are counting it as '-1'; an untrustworthy trial.
+            if (trialNumber <= NUMBER_OF_TRIALS / 2) {
+              // For the first half trials, original image on left.
+              trialResponse = trialSelections[trialNumber] === 'left' ? 1 : -1
+              trialSubject = 1;
+            } else {
+              // For the second half trials, original image on right.
+              trialResponse = trialSelections[trialNumber] === 'right' ? 1 : -1
+              trialSubject = 2;
+            }
+            let trialRow = {
+              stimulus: trialNumber + 1,
+              response: trialResponse,
+              trait: 'untrustworthy',
+              subject: trialSubject,
+            }
+            newData.push(trialRow);
+          }
+          return newData;
+        }
+
         // Call backend api storeExperimentResult to connect with FireBase and update Users Collection with experiment data.
-        async function saveExperimentData(experimentData) {
-          // TODO: update newExperimentResult data to match example csv file to match back end inputs
-          const newExperimentResult = {
-            experimentId: experimentData.get().json('pretty'),
-          };
-          storeExperimentResult(
+        function saveExperimentData(experimentData) {
+          uploadSelectionResult(
             participantId,
             experimentId,
-            newExperimentResult,
+            experimentData,
           );
+          selectionTaskCompletionHandler(true);
         }
 
         const trialProcedure = {
@@ -222,9 +262,10 @@ export const JsPsych = () => {
             timeline: timeline,
             display_element: 'jspsych-target',
             on_finish: function () {
-              // TODO: can remove displayData() once we find a home for JsPsych
-              jsPsych.data.displayData();
-              saveExperimentData(jsPsych.data);
+              // Filter out data to only show 'trial' data via label
+              let experimentalData = transformExperimentData(jsPsych.data.get()
+                .filter({label: 'trial'}).json('pretty'));
+              saveExperimentData(experimentalData);
             },
           });
         }
@@ -237,13 +278,10 @@ export const JsPsych = () => {
   const errorLoadingJsPsych = (errorCode) => {
     window.alert(
       'Something went wrong. Please click on experiment again.' +
-      ' Error code: ' +
-      errorCode,
+        ' Error code: ' +
+        errorCode,
     );
   };
-
-  // Have to wait for the plugin scripts to be loaded asynchronously before
-  // running the experiment; otherwise it crashes.
 
   return (
     <div>
