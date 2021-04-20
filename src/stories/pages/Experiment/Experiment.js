@@ -29,27 +29,25 @@ import { getConsentResult } from '../../../firebase/api/qualtrics';
  * )
  */
 
-export const Experiment = ({
-  preSurveys, postSurveys,
-}) => {
+export const Experiment = ({ preSurveys, postSurveys }) => {
   const { experimentId, participantId } = useParams();
   // Experiment metadata
   const [experiment, setExperiment] = useState({});
   // Enable/disable 'Next' button of Wizard
-  const [showNext, setShowNext] = useState(true);
+  const [showNext, setShowNext] = useState(false);
   // Track the step the Wizard is at
   const [wizardStep, setWizardStep] = useState(1);
   // Keep track of already completed steps
   // TODO: 3, 4, 5, and 6 should be removed once respective step is fully
   // integrated.
-  const [completedSteps, setCompletedSteps] = useState([1, 4, 5, 6]);
+  const [completedSteps, setCompletedSteps] = useState([1, 4, 6]);
   const [consentResponse, setConsentResponse] = useState(null);
   const [photoStepCompleted, setPhotoStepCompleted] = useState(false);
+  const [selectionTaskCompleted, setSelectionTaskCompleted] = useState(false);
 
   useEffect(() => {
-    const id = experimentId ?
-      experimentId :
-      'Pl3WJYa7vQ1ALVt0rHRV'; // default experiment id
+    // default experiment id
+    const id = experimentId ? experimentId : 'Pl3WJYa7vQ1ALVt0rHRV';
     getExperimentById(id).then((res) => {
       setExperiment(res.data);
     });
@@ -61,8 +59,6 @@ export const Experiment = ({
       show = true;
     } else if (wizardStep === 2) {
       getConsentResult(participantId, experimentId, setConsentResponse);
-      /* eslint-disable */
-      console.log(consentResponse);
     }
     setShowNext(show);
   }, [wizardStep]);
@@ -79,9 +75,30 @@ export const Experiment = ({
   }, [consentResponse]);
 
   useEffect(() => {
+    if (selectionTaskCompleted) {
+      setShowNext(true);
+      setCompletedSteps((prevState) => [...prevState, 5]);
+    }
+  }, [selectionTaskCompleted]);
+
+  useEffect(() => {
     if (photoStepCompleted) {
       setShowNext(true);
       setCompletedSteps((prevState) => [...prevState, 3]);
+    } else if (completedSteps.includes(3)) {
+      // In the case that the participant's photo has passed face detection but
+      // later on uploads another photo that doesn't pass, we need to disable
+      // the 'Next' button again.
+      setShowNext(false);
+      setCompletedSteps((prevState) => {
+        // Remove `3` from the completed steps array
+        const prevCompletedSteps = [...prevState];
+        const index = prevCompletedSteps.indexOf(3);
+        if (index > -1) {
+          prevCompletedSteps.splice(index, 1);
+        }
+        return prevCompletedSteps;
+      });
     }
   }, [photoStepCompleted]);
 
@@ -98,58 +115,64 @@ export const Experiment = ({
 
   return (
     <Main>
-      <Header
-        leftContent={<h5>{experiment.title}</h5>}
-      />
+      <Header leftContent={<h5>{experiment.title}</h5>} />
       <div className="experiment">
         <Constrain>
-          <Wizard labels={steps}
+          <Wizard
+            labels={steps}
             showNext={showNext}
             stepHandler={setWizardStep}
           >
             {/* Step 1 */}
-            <Section titleEl={HEADING} title='Introduction'>
+            <Section titleEl={HEADING} title="Introduction">
               <h4>{experiment.title}</h4>
               {experiment.description}
             </Section>
             {/* Step 2 */}
-            <Section titleEl={HEADING} title='Consent Form'>
-              <p>Please, complete the form below before completing the
-                study.</p>
-              <QualtricsEmbed url={`${experiment.consent}`+
-                `?participant_id=${participantId}` +
-                `&experiment_id=${experimentId}`} />
+            <Section titleEl={HEADING} title="Consent Form">
+              <p>
+                Please, complete the form below before completing the study.
+              </p>
+              <QualtricsEmbed
+                url={
+                  `${experiment.consent}` +
+                  `?participant_id=${participantId}` +
+                  `&experiment_id=${experimentId}`
+                }
+              />
             </Section>
             {/* Step 3 */}
-            <Section titleEl={HEADING} title='Photo Instructions and Upload'>
+            <Section titleEl={HEADING} title="Photo Instructions and Upload">
               <UploadPhoto
-                photoUploadCompletionHandler={setPhotoStepCompleted}/>
+                photoUploadCompletionHandler={setPhotoStepCompleted}
+              />
             </Section>
             {/* Step 4 */}
-            <Section titleEl={HEADING} title='Pre-Study Questionnaire'>
+            <Section titleEl={HEADING} title="Pre-Study Questionnaire">
               <p>Please complete the (first/second) pre-survey below.</p>
-              { preSurveys.map((form, i) => {
+              {preSurveys.map((form, i) => {
                 return <QualtricsEmbed key={i} url={form} />;
-              })
-              }
+              })}
             </Section>
             {/* Step 5 */}
-            <Section titleEl={HEADING} title='Image Selection Task'>
-              <ImageSelectionTask />
+            <Section titleEl={HEADING} title="Image Selection Task">
+              <ImageSelectionTask
+                selectionTaskCompletionHandler={setSelectionTaskCompleted}
+              />
             </Section>
             {/* Step 6 */}
-            <Section titleEl={HEADING} title='Post-Study Questionnaire'>
+            <Section titleEl={HEADING} title="Post-Study Questionnaire">
               <p>Please complete the (first/second) post-survey below.</p>
-              { postSurveys.map((form, i) => {
+              {postSurveys.map((form, i) => {
                 return <QualtricsEmbed key={i} url={form} />;
-              })
-              }
+              })}
             </Section>
             {/* Step 7 */}
-            <Section titleEl={HEADING} title='Debriefing'>
-              <p>Thank you for participating in the study!
-                Please complete the debriefing below to be credited
-                for your participation.</p>
+            <Section titleEl={HEADING} title="Debriefing">
+              <p>
+                Thank you for participating in the study! Please complete the
+                debriefing below to be credited for your participation.
+              </p>
             </Section>
           </Wizard>
         </Constrain>
