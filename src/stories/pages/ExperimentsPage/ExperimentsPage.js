@@ -15,7 +15,7 @@ import { getAllExperiments } from '../../../firebase/api/experiments';
 import UserServices from '../../../firebase/CRUDServices/userServices';
 import { Constrain } from '../../layouts/Constrain/Constrain';
 
-const MAX_DESCRIPTION_LENGTH = 37;
+const MAX_DESCRIPTION_LENGTH = 100;
 
 const PLACEHOLDER_EXPERIMENTS = [
   { title: 'Title 1', description: 'Short description' },
