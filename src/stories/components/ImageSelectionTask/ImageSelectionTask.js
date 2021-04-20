@@ -18,8 +18,11 @@ import { Modal } from '../../components/Modal/Modal';
  *   <ImageSelectionTask url={url} />
  * )
  */
-export const ImageSelectionTask = ({ url, selectionTaskCompletionHandler }) => {
-  const [hideTask, setHideTask] = useState(true);
+export const ImageSelectionTask = ({
+  url,
+  selectionTaskCompleted,
+  selectionTaskCompletionHandler,
+}) => {
   return (
     <Fragment>
       {/* <p>In the following computer task, you will complete a series of*/}
@@ -41,14 +44,7 @@ export const ImageSelectionTask = ({ url, selectionTaskCompletionHandler }) => {
       {/*  There are no wrong answers, so GO AS FAST AS YOU CAN.*/}
       {/*  Responses that are too slow will not be recorded.</p>*/}
       {/* <p>To get started, <a href={url}>click here</a>.</p>*/}
-
-      {/* <Button
-        isButton={true}
-        onClick={() => setHideTask(false)}
-        text="Start Experiment"
-      />
-      <ScreenTakeover isHidden={hideTask}> */}
-      <Modal buttonText="Start Experiment">
+      <Modal buttonText="Start Experiment" canClose={selectionTaskCompleted}>
         <JsPsych
           selectionTaskCompletionHandler={selectionTaskCompletionHandler}
         />
@@ -63,6 +59,10 @@ ImageSelectionTask.propTypes = {
    * ImageSelectionTask's url
    */
   url: PropTypes.string.isRequired,
+  /**
+   * ImageSelectionTask's prop to know if the task is complete
+   */
+  selectionTaskCompleted: PropTypes.bool,
   /**
    * ImageSelectionTask's completion handler
    */

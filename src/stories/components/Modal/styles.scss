@@ -50,6 +50,10 @@
   position: absolute;
   top: $spacing-9;
   width: 24px;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
 /* Custom button used in ExperimentsPage */
