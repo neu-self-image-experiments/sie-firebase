@@ -56,7 +56,7 @@ const uploadImageToStorage = async (
  */
 export const uploadSelectionResult = async (
   userId, experimentId, selectionResult) => {
-  const csvPath = `${userId}-${experimentId}/result.csv`;
+  const csvPath = `${userId}-${experimentId}/user_selection.csv`;
   // convert json to csv
   const csvStr = jsonArray2CSV(selectionResult);
   const csvBlob = new Blob([csvStr], { type: 'text/csv;charset=utf-8;' });
