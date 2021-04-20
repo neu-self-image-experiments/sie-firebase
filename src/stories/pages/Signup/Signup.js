@@ -50,6 +50,12 @@ export const Signup = ({ isDarkTheme }) => {
     } else if (lastName === '') {
       setError('Please enter a last name');
       isError = true;
+    } else if (email === '') {
+      setError('Please enter a valid email address');
+      isError = true;
+    } else if (password === '') {
+      setError('Please enter a password that is 6 characters long or more');
+      isError = true;
     } else if (role === '') {
       setError('Please select a role');
       isError = true;
