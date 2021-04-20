@@ -62,25 +62,16 @@ export const getPreSurvey = async (uid, experimentId, surveyHandler) => {
       .doc(uid).collection(`${collections.EXPERIMENT}`).doc(experimentId)
       .onSnapshot( (doc) => {
         const data = doc.data();
-        if (data && data.age) {
-          const preSurvey = {
-            age: res.age,
-            gender: res.gender,
-            genderImportance: res.genderImportance,
-            ethnic: res.ethnic,
-            selfEsteem: res.selfEsteem,
-          };
+        if (data) {
           const res = {
             status: StatusCodes.OK,
             message: message.OK,
-            data: preSurvey,
           };
           surveyHandler(res);
         } else {
           const res = {
             status: StatusCodes.NOT_FOUND,
             message: message.NOT_FOUND,
-            data: null,
           };
           surveyHandler(res);
         }
@@ -89,7 +80,6 @@ export const getPreSurvey = async (uid, experimentId, surveyHandler) => {
     const res = {
       status: StatusCodes.INTERNAL_SERVER_ERROR,
       message: error.message,
-      data: null,
     };
     surveyHandler(res);
   };
@@ -108,29 +98,16 @@ export const getPostSurvey = async (uid, experimentId, surveyHandler) => {
       .doc(uid).collection(`${collections.EXPERIMENT}`).doc(experimentId)
       .onSnapshot( (doc) => {
         const data = doc.data();
-        if (data && data.age) {
-          const postSurvey = {
-            capable: res.capable,
-            selfConfident: res.selfConfident,
-            competent: res.competent,
-            friendly: res.friendly,
-            likeable: res.likeable,
-            warm: res.warm,
-            ambitious: res.ambitious,
-            assertive: res.assertive,
-            efficient: res.efficient,
-          };
+        if (data) {
           const res = {
             status: StatusCodes.OK,
             message: message.OK,
-            data: postSurvey,
           };
           surveyHandler(res);
         } else {
           const res = {
             status: StatusCodes.NOT_FOUND,
             message: message.NOT_FOUND,
-            data: null,
           };
           surveyHandler(res);
         }
@@ -139,7 +116,6 @@ export const getPostSurvey = async (uid, experimentId, surveyHandler) => {
     const res = {
       status: StatusCodes.INTERNAL_SERVER_ERROR,
       message: error.message,
-      data: null,
     };
     surveyHandler(res);
   };
