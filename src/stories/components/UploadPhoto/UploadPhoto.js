@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import './styles.scss';
 
 import React, { useState, useEffect } from 'react';
