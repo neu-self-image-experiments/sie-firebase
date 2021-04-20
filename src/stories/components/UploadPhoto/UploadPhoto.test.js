@@ -21,6 +21,8 @@ describe('<UploadPhoto />', () => {
     }),
   }));
 
+  const mockphotoUploadCompletionHandler = jest.fn((value) => value);
+
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -28,7 +30,8 @@ describe('<UploadPhoto />', () => {
   it('renders correctly', () => {
     const wrapper = mount(
       <StaticRouter>
-        <UploadPhoto />
+        <UploadPhoto
+          photoUploadCompletionHandler={mockphotoUploadCompletionHandler}/>
       </StaticRouter>);
     expect(wrapper.find('.toggle-camera__icon')).toBeTruthy();
     expect(wrapper.find(<ImageGuidelines />)).toBeTruthy();
@@ -37,7 +40,8 @@ describe('<UploadPhoto />', () => {
   it('should not include webcam on initial rendering', () => {
     const wrapper = mount(
       <StaticRouter>
-        <UploadPhoto />
+        <UploadPhoto
+          photoUploadCompletionHandler={mockphotoUploadCompletionHandler}/>
       </StaticRouter>);
     expect(wrapper.contains(<Webcam />)).toBe(false);
   });
