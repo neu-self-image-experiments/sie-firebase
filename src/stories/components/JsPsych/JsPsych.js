@@ -1,8 +1,10 @@
 /* eslint-disable */
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { observeStimuliCompletion } from '../../../firebase/api/gcp-utils';
-import { storeExperimentResult } from '../../../firebase/api/experiments';
+import {
+  observeStimuliCompletion,
+  uploadSelectionResult
+} from '../../../firebase/api/gcp-utils';
 
 /**
  * Component to load jsPsych's "Self Image Experiment".
@@ -43,7 +45,8 @@ export const JsPsych = ({ selectionTaskCompletionHandler }) => {
         /* number of trials */
         // TODO: Adjust NUMBER_OF_TRIALS back to 199
         // NOTE: Adjust line below to shorten the number of trials. 199 will go through all 200 iterations.
-        const NUMBER_OF_TRIALS = 5;
+        // NUMBER_OF_TRIALS = 199, means a total of 200 trials (0-indexed)
+        const NUMBER_OF_TRIALS = 7;
 
         const exampleImageOne =
           'https://firebasestorage.googleapis.com/v0/b/cs6510-spr2021.appspot.com/o/example-' +
@@ -96,7 +99,7 @@ export const JsPsych = ({ selectionTaskCompletionHandler }) => {
             const oriFilePath = stimuliUrls[i + 1];
             const twoStimulusHtml =
               // For the first 200 images that are rendered, show original on left & show inverted on right
-              i < numberOfTrial / 2
+              i <= numberOfTrial / 2
                 ? "<div style='width: 900px; margin: auto;'>" +
                   "<div class='float: left;'><img width='300' src='" +
                   oriFilePath +
@@ -170,16 +173,47 @@ export const JsPsych = ({ selectionTaskCompletionHandler }) => {
           data: { label: 'post-fixation' },
         };
 
+        // Transforms the experimental data from JsPsych to follow the back end JSON scheme
+        function transformExperimentData() {
+          let trialSelections = jsPsych.data.get().filter({label: 'trial'}).select('selection').values;
+          let newData = [];
+          let columnHeaders = {
+            stimulus: 'trial number',
+            response: 'trial response is whether or not the user chose the original image; 1 = correct, -1 = incorrect',
+            trait: 'untrustworthy by default',
+            subject: 'trial subject is the placement of original image; 1 = left, 2 = right',
+          }
+          newData.push(columnHeaders);
+          for (let trialNumber = 0; trialNumber < trialSelections.length; trialNumber++) {
+            let trialResponse;
+            let trialSubject;
+            // If the user doesn't make a selection, we are counting it as '-1'; an untrustworthy trial.
+            if (trialNumber <= NUMBER_OF_TRIALS / 2) {
+              // For the first half trials, original image on left.
+              trialResponse = trialSelections[trialNumber] === 'left' ? 1 : -1
+              trialSubject = 1;
+            } else {
+              // For the second half trials, original image on right.
+              trialResponse = trialSelections[trialNumber] === 'right' ? 1 : -1
+              trialSubject = 2;
+            }
+            let trialRow = {
+              stimulus: trialNumber + 1,
+              response: trialResponse,
+              trait: 'untrustworthy',
+              subject: trialSubject,
+            }
+            newData.push(trialRow);
+          }
+          return newData;
+        }
+
         // Call backend api storeExperimentResult to connect with FireBase and update Users Collection with experiment data.
-        async function saveExperimentData(experimentData) {
-          // TODO: update newExperimentResult data to match example csv file to match back end inputs
-          const newExperimentResult = {
-            experimentId: experimentData.get().json('pretty'),
-          };
-          storeExperimentResult(
+        function saveExperimentData(experimentData) {
+          uploadSelectionResult(
             participantId,
             experimentId,
-            newExperimentResult,
+            experimentData,
           );
           selectionTaskCompletionHandler(true);
         }
@@ -228,9 +262,10 @@ export const JsPsych = ({ selectionTaskCompletionHandler }) => {
             timeline: timeline,
             display_element: 'jspsych-target',
             on_finish: function () {
-              // TODO: can remove displayData() once we find a home for JsPsych
-              jsPsych.data.displayData();
-              saveExperimentData(jsPsych.data);
+              // Filter out data to only show 'trial' data via label
+              let experimentalData = transformExperimentData(jsPsych.data.get()
+                .filter({label: 'trial'}).json('pretty'));
+              saveExperimentData(experimentalData);
             },
           });
         }
