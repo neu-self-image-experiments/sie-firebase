@@ -73,6 +73,7 @@ export const AddExperiment = ({ buttonText, buttonModifierClasses }) => {
         <p>Make sure all fields are filled out, submit the new experiment
           and test it yourself.</p>
         <Form>
+          <h5>Title</h5>
           <FormItem
             placeholder="Title of the study"
             type="text"
@@ -93,6 +94,7 @@ export const AddExperiment = ({ buttonText, buttonModifierClasses }) => {
               description: e.target.value,
             })}
           />
+          <h5>Consent Form</h5>
           <FormItem
             placeholder="URL to Consent Form"
             type="text"
