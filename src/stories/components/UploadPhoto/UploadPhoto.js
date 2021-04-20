@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import './styles.scss';
 
 import React, { useState, useEffect } from 'react';
@@ -18,6 +19,10 @@ import { StatusCodes } from 'http-status-codes';
 // Milliseconds to wait before checking for the facial detection scan result
 const FACIAL_DETECTION_WAIT = 10000;
 
+const INITIAL_STATE = {
+  imageFeedback: 'Once you are ready. You can upload your photo here.',
+};
+
 /**
  * Component for webcam controls and photo uploading.
  *
@@ -27,9 +32,6 @@ const FACIAL_DETECTION_WAIT = 10000;
  * )
  */
 export const UploadPhoto = ({ photoUploadCompletionHandler }) => {
-  const INITIAL_STATE = {
-    imageFeedback: 'Once you are ready. You can upload your photo here.',
-  };
   // ===== STATE ==============================================================
   const { experimentId, participantId } = useParams(); // Parse URL params
   const [cameraIsOn, setWebcamOn] = useState(false);
@@ -60,6 +62,8 @@ export const UploadPhoto = ({ photoUploadCompletionHandler }) => {
   useEffect(() => {
     if (imageFeedback === 'Photo requirements passed!') {
       photoUploadCompletionHandler(true);
+    } else {
+      photoUploadCompletionHandler(false);
     }
     setLoading(false);
   }, [imageFeedback]);
