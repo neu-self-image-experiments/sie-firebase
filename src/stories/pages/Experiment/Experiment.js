@@ -157,6 +157,7 @@ export const Experiment = ({ preSurveys, postSurveys }) => {
             {/* Step 5 */}
             <Section titleEl={HEADING} title="Image Selection Task">
               <ImageSelectionTask
+                selectionTaskCompleted={selectionTaskCompleted}
                 selectionTaskCompletionHandler={setSelectionTaskCompleted}
               />
             </Section>

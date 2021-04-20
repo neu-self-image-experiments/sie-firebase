@@ -40,32 +40,60 @@ export const Signup = ({ isDarkTheme }) => {
     'Researcher',
   ];
 
+  const validate = () => {
+    setError('');
+    let isError = false;
+
+    if (firstName === '') {
+      setError('Please enter a first name');
+      isError = true;
+    } else if (lastName === '') {
+      setError('Please enter a last name');
+      isError = true;
+    } else if (email === '') {
+      setError('Please enter a valid email address');
+      isError = true;
+    } else if (password === '') {
+      setError('Please enter a password that is 6 characters long or more');
+      isError = true;
+    } else if (role === '') {
+      setError('Please select a role');
+      isError = true;
+    }
+
+    return isError;
+  };
+
   const postUser = (e) => {
     e.preventDefault();
     // call user service
     // define new user object
-    const user = {
-      firstName,
-      lastName,
-      email,
-      password,
-      role,
-    };
+    const isError = validate();
 
-    const userData = {
-      firstName,
-      lastName,
-      role,
-    };
+    if (!isError) {
+      const user = {
+        firstName,
+        lastName,
+        email,
+        password,
+        role,
+      };
 
-    signUp(user.email, user.password, userData).then((response) => {
-      if (response.status === StatusCodes.CREATED) {
-        // redirect to login page
-        history.push('/login');
-      } else {
-        setError(response.errorMessage);
-      }
-    });
+      const userData = {
+        firstName,
+        lastName,
+        role,
+      };
+
+      signUp(user.email, user.password, userData).then((response) => {
+        if (response.status === StatusCodes.CREATED) {
+          // redirect to login page
+          history.push('/login');
+        } else {
+          setError(response.error.message);
+        }
+      });
+    }
   };
 
   return (
