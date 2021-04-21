@@ -209,3 +209,40 @@ const getFileUrlsFromBucket = async (userId, experimentId, filterFunction) => {
   });
 };
 
+/**
+ * Get CI images from bucket storage.
+ * @param {String} userId user's id.
+ * @param {String} experimentId experiment's id.
+ * @return {Object} response including error or data
+ */
+export const getCIImage = async (userId, experimentId) => {
+  const bucketPrefix = `${userId}-${experimentId}`;
+  const bucketRef = app.storage(storageBuckets.SIE_CI_IMAGES).ref();
+  const stimuliImagesRef = bucketRef.child(bucketPrefix);
+
+  const itemRefs = await stimuliImagesRef.listAll().then((res) => res.items);
+  return await Promise.all(itemRefs.map(async (itemRef) => {
+    return await itemRef.getDownloadURL();
+  })).then((fileUrls) => {
+    if (fileUrls.length === 0) {
+      return {
+        status: StatusCodes.NO_CONTENT,
+        data: fileUrls,
+        error: 'No Stimuli image urls available',
+      };
+    } else {
+      return {
+        status: StatusCodes.OK,
+        data: fileUrls,
+        error: null,
+      };
+    }
+  }).catch((error) => {
+    return {
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
+      data: null,
+      error: `Unable to get stimuli image downloadable urls ${error}`,
+    };
+  });
+};
+
