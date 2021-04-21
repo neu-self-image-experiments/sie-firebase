@@ -16,7 +16,8 @@ import { fadeIn, fadeOut } from '../../../utils/utils';
  * @param {string} buttonText Text to appear on the modal's open button.
  * @param {string} buttonModifierClasses Class modifiers of the modal's open
  * button.
- * @param {bool} selectionTaskComplete bool to denote whether modal is closable
+ * @param {bool} canOpen bool to denote whether modal is closable
+ * @param {bool} canClose bool to denote whether modal is closable
  * @param {func} onClose cleanup method to be ran when the modal is closed
  * @return {object} (
  *   <Modal>
@@ -28,7 +29,8 @@ export const Modal = ({
   children,
   buttonText,
   buttonModifierClasses,
-  selectionTaskComplete,
+  canOpen,
+  canClose,
   onClose,
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -62,14 +64,14 @@ export const Modal = ({
         onClick={toggleModal}
         text={buttonText}
         isButton={true}
-        disableBtn={selectionTaskComplete}
+        disableBtn={!canOpen}
       />
       <div className="modal" ref={modalRef}>
         <div className="modal__content">
           <button
             className="modal__content--close"
             onClick={toggleModal}
-            disabled={!selectionTaskComplete}
+            disabled={!canClose}
           />
           <Constrain modifierClasses="constrain--narrow">{children}</Constrain>
         </div>
@@ -92,9 +94,13 @@ Modal.propTypes = {
    */
   buttonModifierClasses: PropTypes.string,
   /**
-   * Buttons selectionTaskComplete value
+   * Button's canOpen
    */
-  selectionTaskComplete: PropTypes.bool,
+  canOpen: PropTypes.bool,
+  /**
+   * Button's canClose
+   */
+  canClose: PropTypes.bool,
   /**
    * Button's onClose cleanup
    */
@@ -102,8 +108,8 @@ Modal.propTypes = {
 };
 
 Modal.defaultProps = {
-  buttonText: 'Open Modal',
-  selectionTaskComplete: false,
+  buttonText: 'Open',
+  canOpen: true,
+  canClose: true,
   onClose: null,
-  disableBtn: false,
 };

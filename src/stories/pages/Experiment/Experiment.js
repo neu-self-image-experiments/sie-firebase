@@ -175,11 +175,15 @@ export const Experiment = () => {
               />
             </Section>
             {/* Step 4 */}
-            <Section titleEl={HEADING} title='Pre-Study Questionnaire'>
+            <Section titleEl={HEADING} title="Pre-Study Questionnaire">
               <p>Please complete the pre-survey below.</p>
-              <QualtricsEmbed url={`${experiment.preSurvey}`+
-                `?participant_id=${participantId}` +
-                `&experiment_id=${experimentId}`} />
+              <QualtricsEmbed
+                url={
+                  `${experiment.preSurvey}` +
+                  `?participant_id=${participantId}` +
+                  `&experiment_id=${experimentId}`
+                }
+              />
             </Section>
             {/* Step 5 */}
             <Section titleEl={HEADING} title="Image Selection Task">
@@ -189,11 +193,15 @@ export const Experiment = () => {
               />
             </Section>
             {/* Step 6 */}
-            <Section titleEl={HEADING} title='Post-Study Questionnaire'>
+            <Section titleEl={HEADING} title="Post-Study Questionnaire">
               <p>Please complete the post-survey below.</p>
-              <QualtricsEmbed url={`${experiment.postSurvey}`+
-                `?participant_id=${participantId}` +
-                `&experiment_id=${experimentId}`} />
+              <QualtricsEmbed
+                url={
+                  `${experiment.postSurvey}` +
+                  `?participant_id=${participantId}` +
+                  `&experiment_id=${experimentId}`
+                }
+              />
             </Section>
             {/* Step 7 */}
             <Section titleEl={HEADING} title="Debriefing">
