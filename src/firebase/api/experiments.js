@@ -40,9 +40,7 @@ export const getAllExperiments = async () => {
     const res = [];
     if (!snapshot.empty) {
       snapshot.forEach((doc) => {
-        // TODO(qhoang) let's not send back all information but
-        // only those necessary for frontend
-        res.push(doc.data());
+        res.push({ ...doc.data(), experimentId: doc.id });
       });
     }
 

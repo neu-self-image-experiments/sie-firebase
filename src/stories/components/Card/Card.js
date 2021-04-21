@@ -1,6 +1,6 @@
 import './styles.scss';
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '../Button/Button';
 
@@ -9,29 +9,52 @@ import { Button } from '../Button/Button';
  *
  * @component
  * @param {string} modifierClasses Class modifiers of the component.
- * @param {sting} title Text found for the title of the card
- * @param {string} body Text found in the body of the card
- * @param {string} opened Date the experiment will be opened
- * @param {string} admin The admin for the experiment
- * @param {string} researchers The researchers for the experiment
+ * @param {object} experimentInfo The metadata of an experiment
  * @return {object}
  *   <Card
  *      modifierClasses={modifierClasses}
- *      title={text}
- *      text={text}
- *      opened={opened}
- *      admin={admin}
- *      researchesr={researchers} />
+ *      experimentInfo={experimentInfo} />
  * )
  */
 export const Card = ({
   modifierClasses,
-  title,
-  body,
-  opened,
-  admin,
-  researchers,
+  experimentInfo,
 }) => {
+  const {
+    title,
+    body,
+    opened,
+    creator,
+    consentForm,
+    preSurvey,
+    postSurvey,
+    experimentUrl,
+  } = experimentInfo;
+
+  const [showDetails, setShowDetails] = useState(false);
+
+  // To show/hide experiment details
+  const toggleDetails = () => {
+    setShowDetails((prevState) => !prevState);
+  };
+
+  const cardDetails = showDetails ?
+    <React.Fragment>
+      <hr/>
+      <p>Consent form Qualtrics survey:</p>
+      <p>{consentForm}</p>
+      <hr/>
+      <p>Pre-experiment Qualtrics survey:</p>
+      <p>{preSurvey}</p>
+      <hr/>
+      <p>Post-experiment Qualtrics survey:</p>
+      <p>{postSurvey}</p>
+      <hr/>
+      <p>Experiment URL:</p>
+      <p>{experimentUrl}</p>
+    </React.Fragment> :
+    null;
+
   return (
     <div className={['card', `${modifierClasses}`].join(' ').trim()}>
       <div className="card__container">
@@ -41,13 +64,23 @@ export const Card = ({
         </div>
         <div className="card__extra">
           <p>Opened: {opened}</p>
-          <p>Admin: {admin}</p>
-          <p>Researchers: {researchers}</p>
+          <p>Creator: {creator}</p>
+          {cardDetails}
         </div>
-        <Button
-          text="View Details"
-          modifierClasses="button--small card__button"
-        ></Button>
+        {showDetails ?
+          <Button
+            text="Hide Details"
+            modifierClasses="button--small card__button"
+            isButton={true}
+            onClick={toggleDetails}
+          ></Button> :
+          <Button
+            text="View Details"
+            modifierClasses="button--small card__button"
+            isButton={true}
+            onClick={toggleDetails}
+          ></Button>
+        }
       </div>
     </div>
   );
@@ -59,25 +92,9 @@ Card.propTypes = {
      */
   modifierClasses: PropTypes.string,
   /**
-     * Card's title
+     * The experiment's metadata to be displayed in the card
      */
-  title: PropTypes.string.isRequired,
-  /**
-     * Card's body
-     */
-  body: PropTypes.string,
-  /**
-     * The open date
-     */
-  opened: PropTypes.string.isRequired,
-  /**
-     * The admin
-     */
-  admin: PropTypes.string.isRequired,
-  /**
-     * The researchers
-     */
-  researchers: PropTypes.string.isRequired,
+  experimentInfo: PropTypes.object.isRequired,
 };
 
 Card.defaultProps = {

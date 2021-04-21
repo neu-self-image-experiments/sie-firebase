@@ -1,9 +1,3 @@
-/*
-  TODOs
-    #1: Replace old user context with new auth context.
-    #2: Revise experiment information fields displayed in cards of slider.
-    #3: Divide fetched experiments into 'ongoing' and 'inactive'.
-*/
 import React, { useEffect, useState } from 'react';
 import { Slider } from '../../components/Slider/Slider';
 import { Card } from '../../components/Card/Card';
@@ -11,9 +5,8 @@ import { AddExperiment } from '../AddExperiment/AddExperiment';
 // eslint-disable-next-line max-len
 import { HorizontalTitle } from '../../components/HorizontalTitle/HorizontalTitle';
 import { getAllExperiments } from '../../../firebase/api/experiments';
-// TODO #1.1(fernandowinfield): remove the import below.
-import UserServices from '../../../firebase/CRUDServices/userServices';
 import { Constrain } from '../../layouts/Constrain/Constrain';
+import { useAuth } from '../../../contexts/auth-provider';
 
 const MAX_DESCRIPTION_LENGTH = 100;
 
@@ -26,9 +19,6 @@ const PLACEHOLDER_EXPERIMENTS = [
   { title: 'Title 6', description: 'Short description' },
 ];
 
-// TODO #1.2(fernandowinfield): replace this context with the new auth context.
-export const UserContext = React.createContext();
-
 /**
  * Component for Experiments page.
  *
@@ -38,92 +28,87 @@ export const UserContext = React.createContext();
  * )
  */
 export const ExperimentsPage = () => {
-  const [logInState, setLogInState] = useState({ isLoggedIn: true });
-  const [allExperiments, setAllExperiments] = useState(PLACEHOLDER_EXPERIMENTS);
+  const { user } = useAuth();
+  const [ongoingExperiments, setOngoingExperiments] =
+    useState(PLACEHOLDER_EXPERIMENTS);
+  const [inactiveExperiments, setInactiveExperiments] =
+    useState(PLACEHOLDER_EXPERIMENTS);
   const [error, setError] = useState();
-
-  // TODO #1.3(fernandowinfield): remove the service below.
-  const userService = UserServices.getInstance();
-
-  // TODO #1.4(fernandowinfield): adjust `useEffect()` implementation below to
-  // use new auth context.
-  useEffect(() => {
-    userService.getCurrentUser(setLogInState).catch((e) => {
-      setLogInState({ isLoggedIn: false });
-      setError(e);
-    });
-  }, [logInState.isLoggedIn]);
 
   useEffect(() => {
     getAllExperiments().then((response) => {
       if (response.status === 200) {
-        // TODO #3.1(fernandowinfield): Filter ongoing and inactive experiments
-        // and set state for both instead of setting state for all.
-        setAllExperiments(response.data);
+        const ongoingExperiments = response.data.filter((experiment) =>
+          experiment.isOngoing);
+        const inactiveExperiments = response.data.filter((experiment) =>
+          !experiment.isOngoing);
+        setOngoingExperiments(ongoingExperiments);
+        setInactiveExperiments(inactiveExperiments);
       } else {
         setError(response.error);
       }
     });
   }, []);
 
-  // TODO #3.2(fernandowinfield): Map ongoingExperiments instead of all.
-  const ongoingExperimentsSlides = allExperiments ?
-    allExperiments.map(
-      (
-        // TODO #2.1(fernandowinfield): add/remove fields below as needed.
-        { title = 'Title of Experiment',
-          description = 'Short description of experiment',
-          opened = 'mm-dd-yyyy',
-          admin = 'Admin name',
-          researchers = ['Researcher Name'],
-        },
-        i,
-      ) =>
+  // Generate slider's slides for ongoing experiments (if any)
+  const ongoingExperimentsSlides = (ongoingExperiments &&
+    ongoingExperiments.length > 0) ?
+    ongoingExperiments.map((exp, i) => {
+      const experimentInfo = {
+        title: exp.title,
+        body: exp.description.length > MAX_DESCRIPTION_LENGTH ?
+          exp.description.substring(0, MAX_DESCRIPTION_LENGTH) + '...' :
+          exp.description,
+        opened: exp.date,
+        creator: exp.creator,
+        consentForm: exp.consent,
+        preSurvey: exp.preSurvey,
+        postSurvey: exp.postSurvey,
+        experimentUrl:
+          `http://localhost:3000/${exp.experimentId}/<participantID>`,
+      };
+
+      return (
         <Card
           modifierClasses='card--active'
-          title={title}
-          body= {description.length > MAX_DESCRIPTION_LENGTH ?
-            description.substring(0, MAX_DESCRIPTION_LENGTH) + '...' :
-            description}
-          opened={opened}
-          admin={admin}
-          researchers={researchers.join(', ')}
+          experimentInfo={experimentInfo}
           key={i}
-        />,
-    ) :
+        />
+      );
+    }) :
     null;
 
-  // TODO #3.3(fernandowinfield): Map inactiveExperiments instead of all and
-  // add ternary operator like in the ongoingExperiments mapping (to handle
-  // the case when there are no inactive experiments).
-  const inactiveExperimentsSlides = PLACEHOLDER_EXPERIMENTS.map(
-    (
-      // TODO #2.2(fernandowinfield): here too, add/remove fields below as
-      // needed.
-      { title = 'Title of Experiment',
-        description = 'Short description of experiment',
-        opened = 'mm-dd-yyyy',
-        admin = 'Admin name',
-        researchers = ['Researcher Name'],
-      },
-      i,
-    ) =>
-      <Card
-        modifierClasses='card--inactive'
-        title={title}
-        body= {description.length > MAX_DESCRIPTION_LENGTH ?
-          description.substring(0, MAX_DESCRIPTION_LENGTH) + '...' :
-          description}
-        opened={opened}
-        admin={admin}
-        researchers={researchers.join(', ')}
-        key={i}
-      />);
+  // Generate slider's slides for inactive experiments (if any)
+  const inactiveExperimentsSlides = (inactiveExperiments &&
+    inactiveExperiments.length > 0) ?
+    inactiveExperiments.map((exp, i) => {
+      const experimentInfo = {
+        title: exp.title,
+        body: exp.description.length > MAX_DESCRIPTION_LENGTH ?
+          exp.description.substring(0, MAX_DESCRIPTION_LENGTH) + '...' :
+          exp.description,
+        opened: exp.date,
+        creator: exp.creator,
+        consentForm: exp.consent,
+        preSurvey: exp.preSurvey,
+        postSurvey: exp.postSurvey,
+        experimentUrl: exp.experimentUrl,
+      };
+
+      return (
+        <Card
+          modifierClasses='card--inactive'
+          experimentInfo={experimentInfo}
+          key={i}
+        />
+      );
+    }) :
+    null;
 
   return error ? (
     <div>{error.errorCode + ': ' + error.errorMessage}</div>
-  ) : logInState.isLoggedIn ? (
-    <UserContext.Provider value={logInState.user}>
+  ) : user ? (
+    <div>
       <Constrain>
         <HorizontalTitle
           modifierClasses="horizontal-title--medium"
@@ -152,8 +137,10 @@ export const ExperimentsPage = () => {
         </Slider> :
         <Card
           modifierClasses='card--teaser'
-          body='No current ongoing experiments. Click the + above to
-          create one.'
+          experimentInfo={{
+            body: 'No current ongoing experiments. Click the ' +
+              '+ above to create one.',
+          }}
         />
       }
 
@@ -165,12 +152,19 @@ export const ExperimentsPage = () => {
           title={'Inactive Experiments'}
         />
       </Constrain>
-      {/* TODO #3.4(fernandowinfield): Add ternary operator and content to
-      display when there are no inactive experiments */}
-      <Slider>
-        {inactiveExperimentsSlides}
-      </Slider>
-    </UserContext.Provider>
+
+      {inactiveExperimentsSlides ?
+        <Slider>
+          {inactiveExperimentsSlides}
+        </Slider> :
+        <Card
+          modifierClasses='card--teaser'
+          experimentInfo={{
+            body: 'No experiments are currently inactive.',
+          }}
+        />
+      }
+    </div>
   ) : (
     <div>{'No logged in user'}</div>
   );
