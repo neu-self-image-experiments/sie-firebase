@@ -16,7 +16,8 @@ import { fadeIn, fadeOut } from '../../../utils/utils';
  * @param {string} buttonText Text to appear on the modal's open button.
  * @param {string} buttonModifierClasses Class modifiers of the modal's open
  * button.
- * @param {bool} canClose bool to denote whether the modal is closable
+ * @param {bool} canOpen bool to denote whether modal is closable
+ * @param {bool} canClose bool to denote whether modal is closable
  * @param {func} onClose cleanup method to be ran when the modal is closed
  * @return {object} (
  *   <Modal>
@@ -28,6 +29,7 @@ export const Modal = ({
   children,
   buttonText,
   buttonModifierClasses,
+  canOpen,
   canClose,
   onClose,
 }) => {
@@ -62,6 +64,7 @@ export const Modal = ({
         onClick={toggleModal}
         text={buttonText}
         isButton={true}
+        disableBtn={!canOpen}
       />
       <div className="modal" ref={modalRef}>
         <div className="modal__content">
@@ -91,7 +94,11 @@ Modal.propTypes = {
    */
   buttonModifierClasses: PropTypes.string,
   /**
-   * Buttons canClose value
+   * Button's canOpen
+   */
+  canOpen: PropTypes.bool,
+  /**
+   * Button's canClose
    */
   canClose: PropTypes.bool,
   /**
@@ -101,7 +108,8 @@ Modal.propTypes = {
 };
 
 Modal.defaultProps = {
-  buttonText: 'Open Modal',
+  buttonText: 'Open',
+  canOpen: true,
   canClose: true,
   onClose: null,
 };

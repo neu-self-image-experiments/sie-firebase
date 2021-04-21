@@ -48,7 +48,11 @@ export const ImageSelectionTask = ({
         too slow will not be recorded.
       </p>
       <p>To get started</p>
-      <Modal buttonText="Start Experiment" canClose={selectionTaskCompleted}>
+      <Modal
+        buttonText="Start Experiment"
+        canOpen={!selectionTaskCompleted}
+        canClose={selectionTaskCompleted}
+      >
         <JsPsych
           selectionTaskCompletionHandler={selectionTaskCompletionHandler}
         />

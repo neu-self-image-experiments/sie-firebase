@@ -218,10 +218,8 @@ export const JsPsych = ({ selectionTaskCompletionHandler }) => {
 
         // Call backend api storeExperimentResult to connect with FireBase and update Users Collection with experiment data.
         function saveExperimentData(experimentData) {
-          console.log('Save data');
           uploadSelectionResult(participantId, experimentId, experimentData);
           selectionTaskCompletionHandler(true);
-          console.log('Can Close set');
         }
 
         const trialProcedure = {
@@ -295,10 +293,12 @@ export const JsPsych = ({ selectionTaskCompletionHandler }) => {
       {/* Including necessary JsPsych plugin classes & button cues */}
       <h4 id="title">Which one do you pick?</h4>
       <div id="instruction">
-        <div class="key-instruction">E</div>
+        <div class="key-instruction">E - select image on left</div>
         <div id="between" />
-        <div class="key-instruction">I</div>
+        <div class="key-instruction">I - select image on right</div>
       </div>
+      <p/>
+      <h5 id="note">Note: close experiment window when finished</h5>
       <div id="jspsych-target"></div>
     </div>
   );
