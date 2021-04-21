@@ -218,10 +218,8 @@ export const JsPsych = ({ selectionTaskCompletionHandler }) => {
 
         // Call backend api storeExperimentResult to connect with FireBase and update Users Collection with experiment data.
         function saveExperimentData(experimentData) {
-          console.log('Save data');
           uploadSelectionResult(participantId, experimentId, experimentData);
           selectionTaskCompletionHandler(true);
-          console.log('Can Close set');
         }
 
         const trialProcedure = {
