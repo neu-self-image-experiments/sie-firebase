@@ -47,16 +47,19 @@ export const Slider = ({ children }) => {
         scrollbar={{ draggable: true }}
         breakpoints={{
           // tablet
-          640: {
-            slidesPerView: 2,
+          880: {
+            slidesPerView: 1,
+            width: 500,
           },
           // desktop
-          1024: {
-            slidesPerView: 3,
+          1100: {
+            slidesPerView: 2,
+            width: 800,
           },
           // widescreen
-          1400: {
-            slidesPerView: 4,
+          1500: {
+            slidesPerView: 3,
+            width: 1100,
           },
         }}
 

@@ -15,6 +15,8 @@ import { getAllExperiments } from '../../../firebase/api/experiments';
 import UserServices from '../../../firebase/CRUDServices/userServices';
 import { Constrain } from '../../layouts/Constrain/Constrain';
 
+const MAX_DESCRIPTION_LENGTH = 100;
+
 const PLACEHOLDER_EXPERIMENTS = [
   { title: 'Title 1', description: 'Short description' },
   { title: 'Title 2', description: 'Short description' },
@@ -80,7 +82,9 @@ export const ExperimentsPage = () => {
         <Card
           modifierClasses='card--active'
           title={title}
-          body= {description}
+          body= {description.length > MAX_DESCRIPTION_LENGTH ?
+            description.substring(0, MAX_DESCRIPTION_LENGTH) + '...' :
+            description}
           opened={opened}
           admin={admin}
           researchers={researchers.join(', ')}
@@ -107,7 +111,9 @@ export const ExperimentsPage = () => {
       <Card
         modifierClasses='card--inactive'
         title={title}
-        body= {description}
+        body= {description.length > MAX_DESCRIPTION_LENGTH ?
+          description.substring(0, MAX_DESCRIPTION_LENGTH) + '...' :
+          description}
         opened={opened}
         admin={admin}
         researchers={researchers.join(', ')}
