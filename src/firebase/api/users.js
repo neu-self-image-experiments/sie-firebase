@@ -275,9 +275,8 @@ export const logOut = async () => {
 export const signInAnonymousUser = async (userData) => {
   try {
     const userAuth = await auth.signInAnonymously();
-    await generateUserDoc(userAuth.user, userData);
     return {
-      status: StatusCodes.CREATED,
+      status: StatusCodes.OK,
       data: userAuth,
       error,
     };

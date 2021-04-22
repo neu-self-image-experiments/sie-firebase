@@ -16,6 +16,8 @@ import {
   getPostSurvey,
   getPreSurvey,
 } from '../../../firebase/api/qualtrics';
+import { useAuth } from '../../../contexts/auth-provider';
+import { signInAnonymousUser } from '../../../firebase/api/users';
 
 /**
  * Component for experiment page.
@@ -41,13 +43,18 @@ export const Experiment = () => {
   const [postSurvey, setPostSurvey] = useState(null);
   const [photoStepCompleted, setPhotoStepCompleted] = useState(false);
   const [selectionTaskCompleted, setSelectionTaskCompleted] = useState(false);
+  const authContext = useAuth();
 
   useEffect(() => {
-    // default experiment id
-    const id = experimentId ? experimentId : 'Pl3WJYa7vQ1ALVt0rHRV';
-    getExperimentById(id).then((res) => {
-      setExperiment(res.data);
-    });
+    if (!authContext.isAuthenticated) {
+      signInAnonymousUser();
+      authContext.reloadAuthProvider();
+    } else {
+      const id = experimentId ? experimentId : 'Pl3WJYa7vQ1ALVt0rHRV';
+      getExperimentById(id).then((res) => {
+        setExperiment(res.data);
+      });
+    }
   }, []);
 
   useEffect(() => {
