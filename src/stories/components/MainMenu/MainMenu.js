@@ -2,8 +2,6 @@ import './styles.scss';
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { ReactComponent as DashboardIcon } from
-  '../../../images/icon-dashboard.svg';
 import { ReactComponent as ExperimentsIcon } from
   '../../../images/icon-experiments.svg';
 import { ReactComponent as AccountIcon } from
@@ -22,13 +20,11 @@ import { ReactComponent as LogoutIcon } from
 
 export const MainMenu = () => {
   // List of button links/icons we currently support
-  const icons = ['dashboard', 'experiments', 'account', 'logout'];
+  const icons = ['experiments', 'account', 'logout'];
 
   // Returns SVG react component based on icon name
   const getIcon = (icon) => {
     switch (icon) {
-    case ('dashboard'):
-      return (<DashboardIcon/>);
     case ('experiments'):
       return (<ExperimentsIcon/>);
     case ('account'):
