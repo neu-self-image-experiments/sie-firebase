@@ -65,15 +65,19 @@ function App() {
             </Dashboard>
           )} />
         <Route exact path="/login">
-          {user ? <Redirect to="/dashboard" /> : <Login />}
+          {user.email ? <Redirect to="/dashboard" /> : <Login />}
         </Route>
         <Route exact path="/signup">
-          {user ? <Redirect to="/dashboard" /> : <Signup isDarkTheme={true} />}
+          {user.email ? (
+            <Redirect to="/dashboard" />
+          ) : (
+            <Signup isDarkTheme={true} />
+          )}
         </Route>
         <Route
           path="/"
           render={() => {
-            return user ? (
+            return user.email ? (
               <Redirect to="/dashboard" />
             ) : (
               <Redirect to="/login" />
