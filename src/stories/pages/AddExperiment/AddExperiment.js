@@ -99,6 +99,7 @@ export const AddExperiment = ({ buttonText, buttonModifierClasses }) => {
               consent: e.target.value,
             })}
           />
+          <h5>Pre-experiment survey</h5>
           <FormItem
             placeholder="URL to Pre-Survey Questionnaire"
             type="text"
@@ -109,6 +110,7 @@ export const AddExperiment = ({ buttonText, buttonModifierClasses }) => {
               preSurvey: e.target.value,
             })}
           />
+          <h5>Post-experiment survey</h5>
           <FormItem
             placeholder="URL to Post-Survey Questionnaire"
             type="text"

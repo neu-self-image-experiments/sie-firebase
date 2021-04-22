@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Slider } from '../../components/Slider/Slider';
 import { Card } from '../../components/Card/Card';
 import { AddExperiment } from '../AddExperiment/AddExperiment';
-// eslint-disable-next-line max-len
-import { HorizontalTitle } from '../../components/HorizontalTitle/HorizontalTitle';
+import { HorizontalTitle }
+  from '../../components/HorizontalTitle/HorizontalTitle';
 import { getAllExperiments } from '../../../firebase/api/experiments';
 import { Constrain } from '../../layouts/Constrain/Constrain';
 import { useAuth } from '../../../contexts/auth-provider';
 
-const MAX_DESCRIPTION_LENGTH = 100;
 
 const PLACEHOLDER_EXPERIMENTS = [
   { title: 'Title 1', description: 'Short description' },
@@ -56,9 +55,7 @@ export const ExperimentsPage = () => {
     ongoingExperiments.map((exp, i) => {
       const experimentInfo = {
         title: exp.title,
-        body: exp.description.length > MAX_DESCRIPTION_LENGTH ?
-          exp.description.substring(0, MAX_DESCRIPTION_LENGTH) + '...' :
-          exp.description,
+        body: exp.description,
         opened: exp.date,
         creator: exp.creator,
         consentForm: exp.consent,
@@ -84,9 +81,7 @@ export const ExperimentsPage = () => {
     inactiveExperiments.map((exp, i) => {
       const experimentInfo = {
         title: exp.title,
-        body: exp.description.length > MAX_DESCRIPTION_LENGTH ?
-          exp.description.substring(0, MAX_DESCRIPTION_LENGTH) + '...' :
-          exp.description,
+        body: exp.description,
         opened: exp.date,
         creator: exp.creator,
         consentForm: exp.consent,

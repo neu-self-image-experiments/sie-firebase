@@ -41,16 +41,16 @@ export const Card = ({
   const cardDetails = showDetails ?
     <React.Fragment>
       <hr/>
-      <p>Consent form Qualtrics survey:</p>
+      <h5>Consent form Qualtrics survey:</h5>
       <p>{consentForm}</p>
       <hr/>
-      <p>Pre-experiment Qualtrics survey:</p>
+      <h5>Pre-experiment Qualtrics survey:</h5>
       <p>{preSurvey}</p>
       <hr/>
-      <p>Post-experiment Qualtrics survey:</p>
+      <h5>Post-experiment Qualtrics survey:</h5>
       <p>{postSurvey}</p>
       <hr/>
-      <p>Experiment URL:</p>
+      <h5>Experiment URL:</h5>
       <p>{experimentUrl}</p>
     </React.Fragment> :
     null;
