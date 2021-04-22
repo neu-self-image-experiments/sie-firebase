@@ -107,18 +107,22 @@ const jsonArray2CSV = (jsonArray) => {
  */
 export const observeFacialDetectionStatus =
   async (userId, experimentId, imageFeedbackHandler) => {
-    firestore.collection(firestoreCollections.USER)
-      .doc(userId).collection(firestoreCollections.EXPERIMENT)
-      .doc(experimentId).onSnapshot(async (doc) => {
-        const userDoc = doc.data();
-        // TODO: should check if userDoc exists here
-        const facialDetectionStatus = userDoc['facial_detection_status'];
-        if (facialDetectionStatus === 'completed') {
-          imageFeedbackHandler('Photo requirements passed!');
-        } else {
-          imageFeedbackHandler(facialDetectionStatus);
-        }
-      });
+    try {
+      firestore.collection(firestoreCollections.USER)
+        .doc(userId).collection(firestoreCollections.EXPERIMENT)
+        .doc(experimentId).onSnapshot(async (doc) => {
+          const userDoc = doc.data();
+          // TODO: should check if userDoc exists here
+          const facialDetectionStatus = userDoc['facial_detection_status'];
+          if (facialDetectionStatus === 'completed') {
+            imageFeedbackHandler('Photo requirements passed!');
+          } else {
+            imageFeedbackHandler(facialDetectionStatus);
+          }
+        });
+    } catch (error) {
+      imageFeedbackHandler(error);
+    }
   };
 
 /**
@@ -167,7 +171,6 @@ export const getSieStimuliFromBucket = (userId, experimentId) => {
     const pathName = urlObj.pathname.split('/').pop();
     return pathName.split('.')[1] === 'jpg';
   };
-
   return getFileUrlsFromBucket(userId, experimentId, imageFilterFunction);
 };
 
@@ -209,3 +212,77 @@ const getFileUrlsFromBucket = async (userId, experimentId, filterFunction) => {
   });
 };
 
+/**
+ * Get CI images from bucket storage.
+ * @param {String} userId user's id.
+ * @param {String} experimentId experiment's id.
+ * @return {Object} response including error or data
+ */
+const getCIImage = async (userId, experimentId) => {
+  const bucketPrefix = `${userId}-${experimentId}`;
+  const bucketRef = app.storage(storageBuckets.SIE_CI_IMAGES).ref();
+  const stimuliImagesRef = bucketRef.child(bucketPrefix);
+
+  const itemRefs = await stimuliImagesRef.listAll().then((res) => res.items);
+  return await Promise.all(itemRefs.map(async (itemRef) => {
+    return await itemRef.getDownloadURL();
+  })).then((fileUrls) => {
+    if (fileUrls.length === 0) {
+      return {
+        status: StatusCodes.NO_CONTENT,
+        data: fileUrls,
+        error: 'No Stimuli image urls available',
+      };
+    } else {
+      return {
+        status: StatusCodes.OK,
+        data: fileUrls,
+        error: null,
+      };
+    }
+  }).catch((error) => {
+    return {
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
+      data: null,
+      error: `Unable to get stimuli image downloadable urls ${error}`,
+    };
+  });
+};
+
+
+/**
+ * Listen to user document for the signal of CI image completion
+ * @param {String} userId userId
+ * @param {String} experimentId experimentId
+ * @param {Function} imageUrlsHandler react hook function for imageUrls
+ * @param {Function} errorHandler react hook function for error.
+ */
+export const observeCIImageCompletion =
+  async (userId, experimentId, imageUrlsHandler, errorHandler) => {
+    try {
+      firestore.collection(firestoreCollections.USER)
+        .doc(userId).onSnapshot(async (doc) => {
+          const userDoc = doc.data();
+          const CIStatus = userDoc.sie_ci_generation_status;
+          if (CIStatus === 'completed') {
+            await getCIImage(userId, experimentId)
+              .then((results) => {
+                const status = results.status;
+                if (status === StatusCodes.OK) {
+                // successfully get all image urls
+                  imageUrlsHandler(results.data);
+                } else {
+                // one of the image url is unable to fetch
+                  errorHandler(results.message);
+                }
+              });
+          } else {
+            // “face_missing”, “failed”
+            // call setError() for image processing status, display on frontend
+            errorHandler(CIStatus);
+          }
+        });
+    } catch (error) {
+      errorHandler(CIStatus);
+    }
+  };
