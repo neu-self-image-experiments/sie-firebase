@@ -43,10 +43,9 @@ export const JsPsych = ({ selectionTaskCompletionHandler }) => {
         const timeline = [];
 
         /* number of trials */
-        // TODO: Adjust NUMBER_OF_TRIALS back to 199
         // NOTE: Adjust line below to shorten the number of trials. 199 will go through all 200 iterations.
         // NUMBER_OF_TRIALS = 199, means a total of 200 trials (0-indexed)
-        const NUMBER_OF_TRIALS = 7;
+        const NUMBER_OF_TRIALS = 199;
 
         const exampleImageOne =
           'https://firebasestorage.googleapis.com/v0/b/cs6510-spr2021.appspot.com/o/example-' +

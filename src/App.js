@@ -6,10 +6,7 @@ import { Signup } from './stories/pages/Signup/Signup';
 import { Experiment } from './stories/pages/Experiment/Experiment';
 import { AnonymousLogin } from './stories/pages/AnonymousLogin/AnonymousLogin';
 import { AuthContext } from './contexts/auth-provider';
-import {
-  Dashboard,
-  DashboardContent,
-} from './stories/pages/Dashboard/Dashboard';
+import { Dashboard } from './stories/pages/Dashboard/Dashboard';
 import { AccountPage } from './stories/pages/AccountPage/AccountPage';
 import { ExperimentsPage }
   from './stories/pages/ExperimentsPage/ExperimentsPage';
@@ -28,15 +25,6 @@ function App() {
         <Route path="/:experimentId/:participantId">
           <Experiment />
         </Route>
-        <PrivateRoute
-          exact
-          path="/dashboard"
-          user={user}
-          component={() => (
-            <Dashboard>
-              <DashboardContent />
-            </Dashboard>
-          )} />
         <PrivateRoute
           exact
           path="/account"
@@ -65,16 +53,22 @@ function App() {
             </Dashboard>
           )} />
         <Route exact path="/login">
-          {user ? <Redirect to="/dashboard" /> : <Login />}
+          {user?.email ?
+            <Redirect to="/experiments" /> :
+            <Login />
+          }
         </Route>
         <Route exact path="/signup">
-          {user ? <Redirect to="/dashboard" /> : <Signup isDarkTheme={true} />}
+          {user?.email ?
+            <Redirect to="/experiments" /> :
+            <Signup isDarkTheme={true} />
+          }
         </Route>
         <Route
           path="/"
           render={() => {
-            return user ? (
-              <Redirect to="/dashboard" />
+            return user?.email ? (
+              <Redirect to="/experiments" />
             ) : (
               <Redirect to="/login" />
             );
