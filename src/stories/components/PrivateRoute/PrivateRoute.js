@@ -7,7 +7,7 @@ export const PrivateRoute = ({ component: Component, user, ...rest }) => {
     <Route
       {...rest}
       render={(props) =>
-        user.email ? (
+        user?.email ? (
           <Component />
         ) : (
           <Redirect
