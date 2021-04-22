@@ -107,18 +107,22 @@ const jsonArray2CSV = (jsonArray) => {
  */
 export const observeFacialDetectionStatus =
   async (userId, experimentId, imageFeedbackHandler) => {
-    firestore.collection(firestoreCollections.USER)
-      .doc(userId).collection(firestoreCollections.EXPERIMENT)
-      .doc(experimentId).onSnapshot(async (doc) => {
-        const userDoc = doc.data();
-        // TODO: should check if userDoc exists here
-        const facialDetectionStatus = userDoc['facial_detection_status'];
-        if (facialDetectionStatus === 'completed') {
-          imageFeedbackHandler('Photo requirements passed!');
-        } else {
-          imageFeedbackHandler(facialDetectionStatus);
-        }
-      });
+    try {
+      firestore.collection(firestoreCollections.USER)
+        .doc(userId).collection(firestoreCollections.EXPERIMENT)
+        .doc(experimentId).onSnapshot(async (doc) => {
+          const userDoc = doc.data();
+          // TODO: should check if userDoc exists here
+          const facialDetectionStatus = userDoc['facial_detection_status'];
+          if (facialDetectionStatus === 'completed') {
+            imageFeedbackHandler('Photo requirements passed!');
+          } else {
+            imageFeedbackHandler(facialDetectionStatus);
+          }
+        });
+    } catch (error) {
+      imageFeedbackHandler(error);
+    }
   };
 
 /**
@@ -167,7 +171,6 @@ export const getSieStimuliFromBucket = (userId, experimentId) => {
     const pathName = urlObj.pathname.split('/').pop();
     return pathName.split('.')[1] === 'jpg';
   };
-
   return getFileUrlsFromBucket(userId, experimentId, imageFilterFunction);
 };
 
@@ -215,7 +218,7 @@ const getFileUrlsFromBucket = async (userId, experimentId, filterFunction) => {
  * @param {String} experimentId experiment's id.
  * @return {Object} response including error or data
  */
-export const getCIImage = async (userId, experimentId) => {
+const getCIImage = async (userId, experimentId) => {
   const bucketPrefix = `${userId}-${experimentId}`;
   const bucketRef = app.storage(storageBuckets.SIE_CI_IMAGES).ref();
   const stimuliImagesRef = bucketRef.child(bucketPrefix);
@@ -246,3 +249,40 @@ export const getCIImage = async (userId, experimentId) => {
   });
 };
 
+
+/**
+ * Listen to user document for the signal of CI image completion
+ * @param {String} userId userId
+ * @param {String} experimentId experimentId
+ * @param {Function} imageUrlsHandler react hook function for imageUrls
+ * @param {Function} errorHandler react hook function for error.
+ */
+export const observeCIImageCompletion =
+  async (userId, experimentId, imageUrlsHandler, errorHandler) => {
+    try {
+      firestore.collection(firestoreCollections.USER)
+        .doc(userId).onSnapshot(async (doc) => {
+          const userDoc = doc.data();
+          const CIStatus = userDoc.sie_ci_generation_status;
+          if (CIStatus === 'completed') {
+            await getCIImage(userId, experimentId)
+              .then((results) => {
+                const status = results.status;
+                if (status === StatusCodes.OK) {
+                // successfully get all image urls
+                  imageUrlsHandler(results.data);
+                } else {
+                // one of the image url is unable to fetch
+                  errorHandler(results.message);
+                }
+              });
+          } else {
+            // “face_missing”, “failed”
+            // call setError() for image processing status, display on frontend
+            errorHandler(CIStatus);
+          }
+        });
+    } catch (error) {
+      errorHandler(CIStatus);
+    }
+  };
